@@ -1,0 +1,395 @@
+{
+    "Andorra": {
+      "countryCode": "AD",
+      "tax_id_code": "ad_nrt"
+    },
+    "Argentina": {
+      "countryCode": "AR",
+      "tax_id_code": "ar_cuit"
+    },
+    "Australia_ABN": {
+      "countryCode": "AU",
+      "tax_id_code": "au_abn"
+    },
+    "Australia_ARN": {
+      "countryCode": "AU",
+      "tax_id_code": "au_arn"
+    },
+    "Austria": {
+      "countryCode": "AT",
+      "tax_id_code": "eu_vat"
+    },
+    "Bahrain": {
+      "countryCode": "BH",
+      "tax_id_code": "bh_vat"
+    },
+    "Belgium": {
+      "countryCode": "BE",
+      "tax_id_code": "eu_vat"
+    },
+    "Bolivia": {
+      "countryCode": "BO",
+      "tax_id_code": "bo_tin"
+    },
+    "Brazil_CNPJ": {
+      "countryCode": "BR",
+      "tax_id_code": "br_cnpj"
+    },
+    "Brazil_CPF": {
+      "countryCode": "BR",
+      "tax_id_code": "br_cpf"
+    },
+    "Bulgaria_UIC": {
+      "countryCode": "BG",
+      "tax_id_code": "bg_uic"
+    },
+    "Bulgaria_VAT": {
+      "countryCode": "BG",
+      "tax_id_code": "eu_vat"
+    },
+    "Canada_BN": {
+      "countryCode": "CA",
+      "tax_id_code": "ca_bn"
+    },
+    "Canada_GST_HST": {
+      "countryCode": "CA",
+      "tax_id_code": "ca_gst_hst"
+    },
+    "Canada_PST_BC": {
+      "countryCode": "CA",
+      "tax_id_code": "ca_pst_bc"
+    },
+    "Canada_PST_MB": {
+      "countryCode": "CA",
+      "tax_id_code": "ca_pst_mb"
+    },
+    "Canada_PST_SK": {
+      "countryCode": "CA",
+      "tax_id_code": "ca_pst_sk"
+    },
+    "Canada_QST": {
+      "countryCode": "CA",
+      "tax_id_code": "ca_qst"
+    },
+    "Chile": {
+      "countryCode": "CL",
+      "tax_id_code": "cl_tin"
+    },
+    "China": {
+      "countryCode": "CN",
+      "tax_id_code": "cn_tin"
+    },
+    "Colombia": {
+      "countryCode": "CO",
+      "tax_id_code": "co_nit"
+    },
+    "Costa Rica": {
+      "countryCode": "CR",
+      "tax_id_code": "cr_tin"
+    },
+    "Croatia": {
+      "countryCode": "HR",
+      "tax_id_code": "eu_vat"
+    },
+    "Cyprus": {
+      "countryCode": "CY",
+      "tax_id_code": "eu_vat"
+    },
+    "Czech Republic": {
+      "countryCode": "CZ",
+      "tax_id_code": "eu_vat"
+    },
+    "Denmark": {
+      "countryCode": "DK",
+      "tax_id_code": "eu_vat"
+    },
+    "Dominican Republic": {
+      "countryCode": "DO",
+      "tax_id_code": "do_rcn"
+    },
+    "Ecuador": {
+      "countryCode": "EC",
+      "tax_id_code": "ec_ruc"
+    },
+    "Egypt": {
+      "countryCode": "EG",
+      "tax_id_code": "eg_tin"
+    },
+    "El Salvador": {
+      "countryCode": "SV",
+      "tax_id_code": "sv_nit"
+    },
+    "Estonia": {
+      "countryCode": "EE",
+      "tax_id_code": "eu_vat"
+    },
+    "EU": {
+      "countryCode": "EU",
+      "tax_id_code": "eu_oss_vat"
+    },
+    "Finland": {
+      "countryCode": "FI",
+      "tax_id_code": "eu_vat"
+    },
+    "France": {
+      "countryCode": "FR",
+      "tax_id_code": "eu_vat"
+    },
+    "Georgia": {
+      "countryCode": "GE",
+      "tax_id_code": "ge_vat"
+    },
+    "Germany": {
+      "countryCode": "DE",
+      "tax_id_code": "eu_vat"
+    },
+    "Greece": {
+      "countryCode": "GR",
+      "tax_id_code": "eu_vat"
+    },
+    "Hong Kong": {
+      "countryCode": "HK",
+      "tax_id_code": "hk_br"
+    },
+    "Hungary_VAT": {
+      "countryCode": "HU",
+      "tax_id_code": "eu_vat"
+    },
+    "Hungary_TIN": {
+      "countryCode": "HU",
+      "tax_id_code": "hu_tin"
+    },
+    "Iceland": {
+      "countryCode": "IS",
+      "tax_id_code": "is_vat"
+    },
+    "India": {
+      "countryCode": "IN",
+      "tax_id_code": "in_gst"
+    },
+    "Indonesia": {
+      "countryCode": "ID",
+      "tax_id_code": "id_npwp"
+    },
+    "Ireland": {
+      "countryCode": "IE",
+      "tax_id_code": "eu_vat"
+    },
+    "Israel": {
+      "countryCode": "IL",
+      "tax_id_code": "il_vat"
+    },
+    "Italy": {
+      "countryCode": "IT",
+      "tax_id_code": "eu_vat"
+    },
+    "Japan_CN": {
+      "countryCode": "JP",
+      "tax_id_code": "jp_cn"
+    },
+    "Japan_RN": {
+      "countryCode": "JP",
+      "tax_id_code": "jp_rn"
+    },
+    "Japan_TRN": {
+      "countryCode": "JP",
+      "tax_id_code": "jp_trn"
+    },
+    "Kazakhstan": {
+      "countryCode": "KZ",
+      "tax_id_code": "kz_bin"
+    },
+    "Kenya": {
+      "countryCode": "KE",
+      "tax_id_code": "ke_pin"
+    },
+    "Latvia": {
+      "countryCode": "LV",
+      "tax_id_code": "eu_vat"
+    },
+    "Liechtenstein": {
+      "countryCode": "LI",
+      "tax_id_code": "li_uid"
+    },
+    "Lithuania": {
+      "countryCode": "LT",
+      "tax_id_code": "eu_vat"
+    },
+    "Luxembourg": {
+      "countryCode": "LU",
+      "tax_id_code": "eu_vat"
+    },
+    "Malaysia_FRP": {
+      "countryCode": "MY",
+      "tax_id_code": "my_frp"
+    },
+    "Malaysia_ITN": {
+      "countryCode": "MY",
+      "tax_id_code": "my_itn"
+    },
+    "Malaysia_SST": {
+      "countryCode": "MY",
+      "tax_id_code": "my_sst"
+    },
+    "Malta": {
+      "countryCode": "MT",
+      "tax_id_code": "eu_vat"
+    },
+    "Mexico": {
+      "countryCode": "MX",
+      "tax_id_code": "mx_rfc"
+    },
+    "Netherlands": {
+      "countryCode": "NL",
+      "tax_id_code": "eu_vat"
+    },
+    "New Zealand": {
+      "countryCode": "NZ",
+      "tax_id_code": "nz_gst"
+    },
+    "Nigeria": {
+      "countryCode": "NG",
+      "tax_id_code": "ng_tin"
+    },
+    "Norway_VAT": {
+      "countryCode": "NO",
+      "tax_id_code": "no_vat"
+    },
+    "Norway_VOEC": {
+      "countryCode": "NO",
+      "tax_id_code": "no_voec"
+    },
+    "Oman": {
+      "countryCode": "OM",
+      "tax_id_code": "om_vat"
+    },
+    "Peru": {
+      "countryCode": "PE",
+      "tax_id_code": "pe_ruc"
+    },
+    "Philippines": {
+      "countryCode": "PH",
+      "tax_id_code": "ph_tin"
+    },
+    "Poland": {
+      "countryCode": "PL",
+      "tax_id_code": "eu_vat"
+    },
+    "Portugal": {
+      "countryCode": "PT",
+      "tax_id_code": "eu_vat"
+    },
+    "Romania_VAT": {
+      "countryCode": "RO",
+      "tax_id_code": "eu_vat"
+    },
+    "Romania_TIN": {
+      "countryCode": "RO",
+      "tax_id_code": "ro_tin"
+    },
+    "Russia_INN": {
+      "countryCode": "RU",
+      "tax_id_code": "ru_inn"
+    },
+    "Russia_KPP": {
+      "countryCode": "RU",
+      "tax_id_code": "ru_kpp"
+    },
+    "Saudi Arabia": {
+      "countryCode": "SA",
+      "tax_id_code": "sa_vat"
+    },
+    "Serbia": {
+      "countryCode": "RS",
+      "tax_id_code": "rs_pib"
+    },
+    "Singapore_GST": {
+      "countryCode": "SG",
+      "tax_id_code": "sg_gst"
+    },
+    "Singapore_UEN": {
+      "countryCode": "SG",
+      "tax_id_code": "sg_uen"
+    },
+    "Slovakia": {
+      "countryCode": "SK",
+      "tax_id_code": "eu_vat"
+    },
+    "Slovenia_VAT": {
+      "countryCode": "SI",
+      "tax_id_code": "eu_vat"
+    },
+    "Slovenia_TIN": {
+      "countryCode": "SI",
+      "tax_id_code": "si_tin"
+    },
+    "South Africa": {
+      "countryCode": "ZA",
+      "tax_id_code": "za_vat"
+    },
+    "South Korea": {
+      "countryCode": "KR",
+      "tax_id_code": "kr_brn"
+    },
+    "Spain_CIF": {
+      "countryCode": "ES",
+      "tax_id_code": "es_cif"
+    },
+    "Spain_VAT": {
+      "countryCode": "ES",
+      "tax_id_code": "eu_vat"
+    },
+    "Sweden": {
+      "countryCode": "SE",
+      "tax_id_code": "eu_vat"
+    },
+    "Switzerland": {
+      "countryCode": "CH",
+      "tax_id_code": "ch_vat"
+    },
+    "Taiwan": {
+      "countryCode": "TW",
+      "tax_id_code": "tw_vat"
+    },
+    "Thailand": {
+      "countryCode": "TH",
+      "tax_id_code": "th_vat"
+    },
+    "Turkey": {
+      "countryCode": "TR",
+      "tax_id_code": "tr_tin"
+    },
+    "Ukraine": {
+      "countryCode": "UA",
+      "tax_id_code": "ua_vat"
+    },
+    "United Arab Emirates": {
+      "countryCode": "AE",
+      "tax_id_code": "ae_trn"
+    },
+    "United Kingdom_VAT": {
+      "countryCode": "GB",
+      "tax_id_code": "gb_vat"
+    },
+    "United Kingdom_NI_VAT": {
+      "countryCode": "GB",
+      "tax_id_code": "eu_vat"
+    },
+    "United States": {
+      "countryCode": "US",
+      "tax_id_code": "us_ein"
+    },
+    "Uruguay": {
+      "countryCode": "UY",
+      "tax_id_code": "uy_ruc"
+    },
+    "Venezuela": {
+      "countryCode": "VE",
+      "tax_id_code": "ve_rif"
+    },
+    "Vietnam": {
+      "countryCode": "VN",
+      "tax_id_code": "vn_tin"
+    }
+  }
+  
