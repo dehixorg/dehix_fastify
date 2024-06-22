@@ -1,21 +1,21 @@
-// import { UserModel } from './user.entity';
 import { Model } from "mongoose";
-import { BusinessModel } from "./business.entity";
-import { ProjectModel } from "./project.entity";
-import { FreelancerModel } from "./freelancer.entity";
-import { BidModel } from "./bid.entity";
+import { FreelancerModel, IFreelancer } from "./freelancer.entity";
+import { BusinessModel, IBusiness } from "./business.entity";
+import { ProjectModel, IProject } from "./project.entity";
+import { BidModel, IBid } from "./bid.entity";
 
 export interface DBModels {
-  // UserModel?: ModelDefined<any, any>;
-  FreelancerModel?: Model<typeof FreelancerModel>;
-  BusinessModel?: Model<typeof BusinessModel>;
-  ProjectModel?: Model<typeof ProjectModel>;
-  BidModel?: Model<typeof BidModel>;
+  FreelancerModel?: Model<IFreelancer>;
+  BusinessModel?: Model<IBusiness>;
+  ProjectModel?: Model<IProject>;
+  BidModel?: Model<IBid>;
 }
 
-export default {
-  BidModel,
+const models: DBModels = {
   FreelancerModel,
   BusinessModel,
   ProjectModel,
+  BidModel,
 };
+
+export default models;

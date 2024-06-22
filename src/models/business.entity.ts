@@ -1,109 +1,105 @@
-import { Sequelize, DataTypes, Model } from 'sequelize';
+import mongoose, { Schema, Document, Model } from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 
-export const BusinessModel = (sequelize: Sequelize) => {
-  class Business extends Model {
-    public id!: string;
-    public firstName!: string;
-    public lastName!: string;
-    public companyName!: string;
-    public companySize!: string;
-    public password!: string;
-    public Email!: string;
-    public phone!: string;
-    public Position?: string;
-    public Refer?: string;
-    public verified?: any;
-    public isVerified!: boolean;
-    public Linkdin?: string;
-    public personalWebsite?: string;
-    public isBusiness!: boolean;
-    public connects!: number;
-    public otp?: string;
-    public otpverified?: string;
-  }
-
-  Business.init({
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true
-    },
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    companyName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    companySize: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    Email: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    phone: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    Position: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    Refer: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    verified: {
-      type: DataTypes.JSONB,
-      allowNull: true
-    },
-    isVerified: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
-    },
-    Linkdin: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    personalWebsite: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    isBusiness: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: true,
-      allowNull: false
-    },
-    connects: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0
-    },
-    otp: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    otpverified: {
-      type: DataTypes.STRING,
-      allowNull: true
-    }
-  }, {
-    sequelize,
-    tableName: "business_data",
-    timestamps: true,
-    underscored: true,
-    paranoid: true,
-  });
-
-  return Business;
+export interface IBusiness extends Document {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  companyName: string;
+  companySize: string;
+  password: string;
+  email: string;
+  phone: string;
+  position?: string;
+  refer?: string;
+  verified?: any;
+  isVerified: boolean;
+  linkedin?: string;
+  personalWebsite?: string;
+  isBusiness: boolean;
+  connects: number;
+  otp?: string;
+  otpverified?: string;
 }
+
+const BusinessSchema: Schema<IBusiness> = new Schema({
+  _id: {
+    type: String,
+    default: uuidv4,
+  },
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  },
+  companyName: {
+    type: String,
+    required: true,
+  },
+  companySize: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: String,
+    required: true,
+  },
+  position: {
+    type: String,
+    required: false,
+  },
+  refer: {
+    type: String,
+    required: false,
+  },
+  verified: {
+    type: Schema.Types.Mixed,
+    required: false,
+  },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  linkedin: {
+    type: String,
+    required: false,
+  },
+  personalWebsite: {
+    type: String,
+    required: false,
+  },
+  isBusiness: {
+    type: Boolean,
+    default: true,
+    required: true,
+  },
+  connects: {
+    type: Number,
+    default: 0,
+  },
+  otp: {
+    type: String,
+    required: false,
+  },
+  otpverified: {
+    type: String,
+    required: false,
+  },
+}, {
+  timestamps: true,
+  versionKey: false,
+});
+
+export const BusinessModel: Model<IBusiness> = mongoose.model<IBusiness>('Business', BusinessSchema);
+export default BusinessModel;

@@ -2,7 +2,7 @@ import { Service } from 'fastify-decorators';
 import { Model } from 'mongoose';
 import { MongoClient } from '../clients';
 import { BaseDAO } from '../common/base.dao';
-import { IBid } from '../models/freelancer.entity';
+import { IBid } from '../models/bid.entity';
 
 @Service()
 export class BidDAO extends BaseDAO {
