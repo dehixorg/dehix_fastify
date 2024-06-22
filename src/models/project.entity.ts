@@ -1,105 +1,118 @@
-import { Sequelize, DataTypes, Model } from 'sequelize';
+import mongoose, { Schema, Document, Model } from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 
-export const ProjectModel = (sequelize: Sequelize) => {
-  class Project extends Model {
-    public id!: string;
-    public projectName!: string;
-    public Description!: string;
-    public Email!: string;
-    public verified?: any;
-    public isVerified?: string;
-    public CompanyName!: string;
-    public Start?: Date;
-    public End?: Date;
-    public SkillsRequired!: string[];
-    public experience?: string;
-    public Role!: string;
-    public projectType!: string;
-    public TotalNeedOffreelancer?: {
-      category?: string;
-      needOfFreelancer?: number;
-      appliedCandidates?: string[];
-      rejected?: string[];
-      accepted?: string[];
-      status?: string;
-    }[];
-    public status?: string;
-    public team?: string[];
-  }
-
-  Project.init({
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true
-    },
-    projectName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    Description: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    Email: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    verified: {
-      type: DataTypes.JSONB,
-      allowNull: true
-    },
-    isVerified: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    CompanyName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    Start: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    End: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    SkillsRequired: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: false
-    },
-    experience: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    Role: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    projectType: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    TotalNeedOffreelancer: {
-      type: DataTypes.ARRAY(DataTypes.JSONB),
-      allowNull: true
-    },
-    status: {
-      type: DataTypes.STRING,
-      defaultValue: "Pending"
-    },
-    team: {
-      type: DataTypes.ARRAY(DataTypes.UUID),
-      allowNull: true
-    }
-  }, {
-    sequelize,
-    tableName: "project_list_by_company",
-    timestamps: true,
-    underscored: true,
-    paranoid: true,
-  });
-
-  return Project;
+// Define an interface for the Project document
+export interface IProject extends Document {
+  _id: string;
+  projectName: string;
+  description: string;
+  email: string;
+  verified?: any;
+  isVerified?: string;
+  companyName: string;
+  start?: Date;
+  end?: Date;
+  skillsRequired: string[];
+  experience?: string;
+  role: string;
+  projectType: string;
+  totalNeedOfFreelancer?: {
+    category?: string;
+    needOfFreelancer?: number;
+    appliedCandidates?: string[];
+    rejected?: string[];
+    accepted?: string[];
+    status?: string;
+  }[];
+  status?: string;
+  team?: string[];
 }
+
+// Define the Project schema
+const ProjectSchema: Schema<IProject> = new Schema({
+  _id: {
+    type: String,
+    default: uuidv4,
+  },
+  projectName: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  verified: {
+    type: Schema.Types.Mixed,
+    required: false,
+  },
+  isVerified: {
+    type: String,
+    required: false,
+  },
+  companyName: {
+    type: String,
+    required: true,
+  },
+  start: {
+    type: Date,
+    required: false,
+  },
+  end: {
+    type: Date,
+    required: false,
+  },
+  skillsRequired: {
+    type: [String],
+    required: true,
+  },
+  experience: {
+    type: String,
+    required: false,
+  },
+  role: {
+    type: String,
+    required: true,
+  },
+  projectType: {
+    type: String,
+    required: true,
+  },
+  totalNeedOfFreelancer: {
+    type: [
+      {
+        category: { type: String, required: false },
+        needOfFreelancer: { type: Number, required: false },
+        appliedCandidates: { type: [String], required: false },
+        rejected: { type: [String], required: false },
+        accepted: { type: [String], required: false },
+        status: { type: String, required: false },
+      }
+    ],
+    required: false,
+  },
+  status: {
+    type: String,
+    default: "Pending",
+  },
+  team: {
+    type: [String],
+    required: false,
+  }
+}, {
+  timestamps: true, // Add createdAt and updatedAt fields
+  versionKey: false, // Disable __v versioning field
+  paranoid: true, // Enable soft delete
+  underscored: true, // Use snake_case column names
+});
+
+// Create and export the Project model
+export const ProjectModel: Model<IProject> = mongoose.model<IProject>('Project', ProjectSchema);
+
+export default {
+  ProjectModel
+};

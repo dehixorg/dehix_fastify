@@ -18,6 +18,7 @@ export namespace MongoClient {
 
     // Iterate over Sequelize models and create corresponding Mongoose models
     Object.keys(dbModels).forEach((dbModel) => {
+      console.log(`MODEL:${dbModel}`)
       const mongooseSchema = new mongoose.Schema(dbModels[dbModel]);
       models[dbModel] = mongoose.model(dbModel, mongooseSchema);
     });

@@ -1,8 +1,9 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 
 // Define an interface for the Freelancer document
 export interface IFreelancer extends Document {
-  id: string;
+  _id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -11,7 +12,7 @@ export interface IFreelancer extends Document {
   refer?: string;
   verified?: any;
   isVerified: boolean;
-  linkdin?: string;
+  linkedin?: string;
   personalWebsite?: string;
   isFreelancer: boolean;
   connects: number;
@@ -19,10 +20,9 @@ export interface IFreelancer extends Document {
 
 // Define the Freelancer schema
 const FreelancerSchema: Schema<IFreelancer> = new Schema({
-  id: {
+  _id: {
     type: String,
-    default: () => new mongoose.Types.ObjectId().toString(),
-    primaryKey: true
+    default: uuidv4, // Use uuidv4 for generating unique IDs
   },
   firstName: {
     type: String,
@@ -57,7 +57,7 @@ const FreelancerSchema: Schema<IFreelancer> = new Schema({
     type: Boolean,
     default: false
   },
-  linkdin: {
+  linkedin: { // Corrected from linkdin to linkedin
     type: String,
     required: false
   },
