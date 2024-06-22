@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
+// Define an interface for the Business document
 export interface IBusiness extends Document {
   _id: string;
   firstName: string;
@@ -20,8 +21,15 @@ export interface IBusiness extends Document {
   connects: number;
   otp?: string;
   otpverified?: string;
+  ProjectList: Schema.Types.ObjectId[];
+  Appliedcandidates: Schema.Types.ObjectId[];
+  hirefreelancer: {
+    freelancer: Schema.Types.ObjectId;
+    status: string;
+  }[];
 }
 
+// Define the Business schema
 const BusinessSchema: Schema<IBusiness> = new Schema({
   _id: {
     type: String,
@@ -96,10 +104,29 @@ const BusinessSchema: Schema<IBusiness> = new Schema({
     type: String,
     required: false,
   },
+  ProjectList: [{
+    type: Schema.Types.ObjectId,
+    ref: 'ProjectListByCompany',
+  }],
+  Appliedcandidates: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Applicationforwork',
+  }],
+  hirefreelancer: [{
+    freelancer: {
+      type: Schema.Types.ObjectId,
+      ref: 'freelancer_data',
+    },
+    status: {
+      type: String,
+      default: 'Pending',
+    },
+  }],
 }, {
-  timestamps: true,
-  versionKey: false,
+  timestamps: true, // Add createdAt and updatedAt fields
 });
 
+// Create and export the Business model
 export const BusinessModel: Model<IBusiness> = mongoose.model<IBusiness>('Business', BusinessSchema);
+
 export default BusinessModel;

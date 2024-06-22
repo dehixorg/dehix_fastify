@@ -8,6 +8,7 @@ export const RESET_PASSWORD_ENDPOINT = '/reset-password';
 export const VENDOR_ID_ENDPOINT = '/:vendor_id';
 
 export const SUBMIT_FOR_REVIEW_ENDPOINT = '/submit-for-review';
-
+export const CREATE_PROJECT='/create_project'
+export const FREELANCER_INFO='/freelancer_info'
 export const VERIFICATION_DOMAIN = 'https://dev.findmyvenue.com/verify';
 export const RESET_PASSWORD_DOMAIN = 'https://dev.findmyvenue.com/reset-password';
