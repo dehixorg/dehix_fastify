@@ -32,6 +32,5 @@ export default class FreelancerController extends AuthController {
       data,
     });
   }
-  // @Post(CREATE_PROJECT,)
-  @GET( FREELANCER_INFO)
+  
 }
