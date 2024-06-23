@@ -178,16 +178,16 @@ class FirebaseClient {
    * @param phoneNumber
    * @returns
    */
-  async updateUser(userId: string, properties: {}): Promise<string> {
-    try {
-      const userRecord = await this.admin.auth().updateUser(userId, properties);
-      return userRecord.uid;
-    } catch (error) {
-      throw new Error(
-        `FirebaseClient-> updateUserEmailAndPhone ->Error updating  user: ${error}`,
-      );
-    }
-  }
+  // async updateUser(userId: string, properties: {}): Promise<string> {
+  //   try {
+  //     const userRecord = await this.admin.auth().updateUser(userId, properties);
+  //     return userRecord.uid;
+  //   } catch (error) {
+  //     throw new Error(
+  //       `FirebaseClient-> updateUserEmailAndPhone ->Error updating  user: ${error}`,
+  //     );
+  //   }
+  // }
 }
 
 export const firebaseClient = new FirebaseClient();

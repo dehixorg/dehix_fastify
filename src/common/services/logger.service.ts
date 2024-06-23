@@ -1,8 +1,6 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 /**
  * File: logger.service
- * Author: Unnayan K Bharadwaj
+ * Author: Akhil
  * Date: 03-05-2024
  * Description: Logger service
  */
@@ -46,11 +44,11 @@ export class Logger {
   }
 
   info(...message: any) {
-    this.logger.info(message);
+    this.logger.info(`ℹ️  INFO: ${message}`);
   }
 
   error(...error: any) {
-    this.logger.error(error);
+    this.logger.error(`❌ ERROR: ${error}`);
   }
 
   warn(...message: any) {

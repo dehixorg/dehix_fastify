@@ -1,11 +1,10 @@
 /**
  * File: ses.service.ts
- * Author: sanket.shivam
+ * Author: Akhil
  * Date: 29-04-2024
  * Description: Simple email service class file
  */
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 import {
   SESClient,
   SendEmailCommand,

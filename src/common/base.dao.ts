@@ -4,11 +4,6 @@ import { FastifyInstanceToken, Inject, Service } from "fastify-decorators";
 import mongoose, { Model, Document, Types, ClientSession } from "mongoose";
 import { logger } from "./services/logger.service";
 
-interface Query {
-  query: string;
-  bindParams?: any[];
-}
-
 @Service()
 export abstract class BaseDAO {
   @Inject(FastifyInstanceToken) fastifyInstance!: FastifyInstance;
@@ -71,16 +66,6 @@ export abstract class BaseDAO {
     return await model
       .findOneAndUpdate(condition, data, { upsert: true, new: true })
       .exec();
-  }
-
-  /**
-   * Method to execute a query with parameters
-   * @param sql
-   * @returns
-   */
-  async executeQueryWithParam(sql: Query): Promise<any> {
-    // Implement your custom logic here if needed
-    return null;
   }
 
   /**

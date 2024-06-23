@@ -3,14 +3,10 @@ import { Hook, Inject } from "fastify-decorators";
 import { BaseController } from "./base.controller";
 import { BadTokenError } from "./errors";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { RolesService } from "../services";
 import { RESPONSE_MESSAGE, STATUS_CODES } from "../common/constants";
 import { firebaseClient } from "../common/services/firebase.service";
 
 export abstract class AuthController extends BaseController {
-  @Inject(RolesService)
-  private roleService!: RolesService;
-
   @Hook("onRequest")
   async validateAuth(
     request: FastifyRequest,

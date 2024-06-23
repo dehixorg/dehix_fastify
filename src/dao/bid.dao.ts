@@ -1,6 +1,5 @@
 import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
-import { MongoClient } from "../clients";
 import { BaseDAO } from "../common/base.dao";
 import { IBid, BidModel } from "../models/bid.entity";
 

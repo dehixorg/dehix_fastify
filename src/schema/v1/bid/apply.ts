@@ -1,6 +1,6 @@
 /**
  * File: login.ts
- * Author: Ayush
+ * Author: Akhil
  * Date: 30-04-2024
  * Description:schema for API for bidding
  */

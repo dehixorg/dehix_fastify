@@ -1,6 +1,5 @@
 import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
-import { MongoClient } from "../clients";
 import { BaseDAO } from "../common/base.dao";
 import { IBusiness, BusinessModel } from "../models/business.entity";
 

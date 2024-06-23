@@ -49,7 +49,7 @@ export interface IFreelancer extends Document {
     [key: string]: {
       projectName: string;
       description: string;
-      verified: Object;
+      verified: boolean;
       githubLink: string;
       start: Date;
       end: Date;

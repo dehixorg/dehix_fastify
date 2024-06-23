@@ -7,5 +7,4 @@ export const initializeClients = async (fastify: FastifyInstance) => {
   await firebaseClient.init();
 };
 
-export * from "./cache.client";
 export * from "./mongo.client";

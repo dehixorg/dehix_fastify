@@ -1,12 +1,11 @@
 /**
  * File: get.ts
- * Author: Sanket Shivam
+ * Author: Akhil
  * Date: 22-05-2024
  * Description:schema for API to get vendor profile data
  */
 
 import { FastifySchema } from "fastify";
-import { EntityType } from "../../../common/constants";
 
 export const getFreelancerSchema: FastifySchema = {
   description: "API to get vendor profile data",

@@ -1,13 +1,12 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { Service, Inject } from "fastify-decorators";
 
-import pkg from "jsonwebtoken";
-const {
-  sign: jwtSign,
-  verify: jwtVerify,
-  TokenExpiredError,
-  JsonWebTokenError,
-} = pkg;
+// import pkg from "jsonwebtoken";
+// const {
+//   sign: jwtSign,
+//   verify: jwtVerify,
+//   TokenExpiredError,
+//   JsonWebTokenError,
+// } = pkg;
 
 import { BaseService } from "../common/base.service";
 import { NotFoundError } from "../common/errors";
