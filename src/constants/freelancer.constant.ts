@@ -1,5 +1,8 @@
 export const VENDORS_ENDPOINT = '/v1/vendors';
 
+export const FREELANCER_ENDPOINT = '/freelancer';
+export const FREELANCER_ID_ENDPOINT = '/:freelancer_id';
+
 export const REGISTRATION_ENDPOINT = '/registration';
 export const VERIFY_ENDPOINT = '/verify';
 export const LOGIN_ENDPOINT = '/login';

@@ -2,7 +2,7 @@ import { Service } from 'fastify-decorators';
 import { Model } from 'mongoose';
 import { MongoClient } from '../clients';
 import { BaseDAO } from '../common/base.dao';
-import { IBid } from '../models/bid.entity';
+import { IBid, BidModel } from '../models/bid.entity';
 
 @Service()
 export class BidDAO extends BaseDAO {
@@ -10,7 +10,7 @@ export class BidDAO extends BaseDAO {
 
   constructor() {
     super();
-    this.model = MongoClient.models.BidModel as unknown as Model<IBid>;
+    this.model = BidModel;
   }
 
   async createOne(bidder_id:string, project_id:string, domain_id:string){

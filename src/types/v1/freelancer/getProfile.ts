@@ -1,3 +1,3 @@
 export interface GetFreelancerPathParams {
-  vendor_id: string;
+  freelancer_id: string;
 }

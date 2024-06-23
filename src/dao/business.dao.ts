@@ -2,7 +2,7 @@ import { Service } from 'fastify-decorators';
 import { Model } from 'mongoose';
 import { MongoClient } from '../clients';
 import { BaseDAO } from '../common/base.dao';
-import { IBusiness } from '../models/business.entity';
+import { IBusiness, BusinessModel } from '../models/business.entity';
 
 @Service()
 export class businessDAO extends BaseDAO {
@@ -10,7 +10,7 @@ export class businessDAO extends BaseDAO {
     
     constructor() {
         super();
-        this.model = MongoClient.models.BusinessModel as unknown as Model<IBusiness>;
+        this.model = BusinessModel;
     }
 
     async getBusinessByEmail(email: string) {

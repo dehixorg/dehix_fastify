@@ -2,7 +2,7 @@ import { Service } from 'fastify-decorators';
 import { Model } from 'mongoose';
 import { MongoClient } from '../clients';
 import { BaseDAO } from '../common/base.dao';
-import { IFreelancer } from '../models/freelancer.entity';
+import { IFreelancer, FreelancerModel } from '../models/freelancer.entity';
 
 @Service()
 export class FreelancerDAO extends BaseDAO {
@@ -10,7 +10,7 @@ export class FreelancerDAO extends BaseDAO {
 
   constructor() {
     super();
-    this.model = MongoClient.models.FreelancerModel as unknown as Model<IFreelancer>;
+    this.model = FreelancerModel;
   }
 
   async getFreelancerByEmail(email: string) {
