@@ -1,4 +1,4 @@
-import { Service } from 'fastify-decorators';
+import { Service } from "fastify-decorators";
 
 @Service()
 export default class CRUDService {
@@ -36,7 +36,10 @@ export default class CRUDService {
   async update({ daoRef, request }) {
     const daoInstance = new daoRef();
 
-    const exisitingRecord = await request.em.findOneOrFail(daoInstance, request.params.id);
+    const exisitingRecord = await request.em.findOneOrFail(
+      daoInstance,
+      request.params.id,
+    );
 
     const item = await daoInstance.update({
       em: request.em,

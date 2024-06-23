@@ -1,25 +1,29 @@
-import admin from 'firebase-admin';
-import * as fs from 'fs';
-import * as path from 'path';
+import admin from "firebase-admin";
+import * as fs from "fs";
+import * as path from "path";
 
 // import { SECRETNAMES } from "../constants/secret-manager.constant";
 // import serviceAccount from '../../../config/test-service-account.json' assert { type: 'json' };
-import { ERROR_CODES } from '../constants';
-import { logger } from './logger.service';
+import { ERROR_CODES } from "../constants";
+import { logger } from "./logger.service";
 
 class FirebaseClient {
   private admin!: admin.app.App;
 
   constructor() {
-    logger.info('FirebaseClient-> constructor ->initializing firebase admin : ');
+    logger.info(
+      "FirebaseClient-> constructor ->initializing firebase admin : ",
+    );
   }
 
   async init() {
     const dirName = path.dirname(new URL(import.meta.url).pathname);
     const serviceAccountPath = path
       .join(dirName, `../../../config/firebase-${process.env.NODE_ENV}.json`)
-      .replace(/^\\([A-Za-z]:)/, '$1');
-    const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, 'utf8'));
+      .replace(/^\\([A-Za-z]:)/, "$1");
+    const serviceAccount = JSON.parse(
+      fs.readFileSync(serviceAccountPath, "utf8"),
+    );
 
     this.admin = admin.initializeApp({
       credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
@@ -39,7 +43,9 @@ class FirebaseClient {
       });
       return userRecord.uid;
     } catch (error) {
-      throw new Error(`FirebaseClient-> createFireBaseUser ->Error creating user: ${error}`);
+      throw new Error(
+        `FirebaseClient-> createFireBaseUser ->Error creating user: ${error}`,
+      );
     }
   }
 
@@ -48,11 +54,16 @@ class FirebaseClient {
    * @param uid
    * @param customClaims
    */
-  async setCustomClaims(uid: string, customClaims: { [key: string]: any }): Promise<void> {
+  async setCustomClaims(
+    uid: string,
+    customClaims: { [key: string]: any },
+  ): Promise<void> {
     try {
       await this.admin.auth().setCustomUserClaims(uid, customClaims);
     } catch (error) {
-      throw new Error(`FirebaseClient-> setCustomClaims ->Error creating user: ${error}`);
+      throw new Error(
+        `FirebaseClient-> setCustomClaims ->Error creating user: ${error}`,
+      );
     }
   }
 
@@ -63,11 +74,16 @@ class FirebaseClient {
    */
   async generateCustomToken(uid: string): Promise<string> {
     try {
-      logger.info('FirebaseClient-> generateCustomToken ->creating custom token:');
+      logger.info(
+        "FirebaseClient-> generateCustomToken ->creating custom token:",
+      );
       const customToken = await admin.auth().createCustomToken(uid);
       return customToken;
     } catch (error) {
-      logger.error('FirebaseClient-> generateCustomToken ->Error generating custom token:', error);
+      logger.error(
+        "FirebaseClient-> generateCustomToken ->Error generating custom token:",
+        error,
+      );
       throw new Error(ERROR_CODES.CUSTOM_TOKEN_GENERATION_FAILED);
     }
   }
@@ -79,12 +95,15 @@ class FirebaseClient {
    */
   async checkUserExists(uid: string): Promise<boolean> {
     try {
-      logger.info('FirebaseClient->checkUserExists-> checking if firebase user exist :', uid);
+      logger.info(
+        "FirebaseClient->checkUserExists-> checking if firebase user exist :",
+        uid,
+      );
       const user = await admin.auth().getUser(uid);
 
       return !!user; // Return true if user exists, false otherwise
     } catch (error) {
-      logger.error('FirebaseClient-> checkUserExists ->Error :', error);
+      logger.error("FirebaseClient-> checkUserExists ->Error :", error);
       // Other error occurred, throw it for handling
       return false;
     }
@@ -97,7 +116,10 @@ class FirebaseClient {
    * @param customClaims
    * @returns
    */
-  async createFireBaseUserWithCustomClaims(email: string, customClaims: { [key: string]: any }): Promise<string> {
+  async createFireBaseUserWithCustomClaims(
+    email: string,
+    customClaims: { [key: string]: any },
+  ): Promise<string> {
     try {
       logger.info(
         `FirebaseClient-> createFireBaseUserWithCustomClaims -> creating firebase user for  venue admin id :`,
@@ -107,7 +129,9 @@ class FirebaseClient {
       await this.setCustomClaims(userId, customClaims);
       return userId;
     } catch (error) {
-      logger.error(`FirebaseClient-> createFireBaseUserWithCustomClaims ->Error creating user: ${error}`);
+      logger.error(
+        `FirebaseClient-> createFireBaseUserWithCustomClaims ->Error creating user: ${error}`,
+      );
       throw error;
     }
   }
@@ -120,7 +144,9 @@ class FirebaseClient {
     try {
       await this.admin.auth().deleteUser(userId);
     } catch (error) {
-      logger.error(`FirebaseClient-> createFireBaseUserWithCustomClaims ->Error creating user: ${error}`);
+      logger.error(
+        `FirebaseClient-> createFireBaseUserWithCustomClaims ->Error creating user: ${error}`,
+      );
       throw error;
     }
   }
@@ -132,10 +158,15 @@ class FirebaseClient {
    */
   async getDecodedFirebaseToken(token: string) {
     try {
-      logger.info('`FirebaseClient-> getDecodedFirebaseToken -> decoding Firebase token');
+      logger.info(
+        "`FirebaseClient-> getDecodedFirebaseToken -> decoding Firebase token",
+      );
       return await admin.auth().verifyIdToken(token);
     } catch (error) {
-      logger.error('`FirebaseClient-> getDecodedFirebaseToken -> Error decoding Firebase token:', error);
+      logger.error(
+        "`FirebaseClient-> getDecodedFirebaseToken -> Error decoding Firebase token:",
+        error,
+      );
       throw error;
     }
   }
@@ -147,14 +178,16 @@ class FirebaseClient {
    * @param phoneNumber
    * @returns
    */
-  async updateUser(userId: string, properties: {}): Promise<string> {
-    try {
-      const userRecord = await this.admin.auth().updateUser(userId, properties);
-      return userRecord.uid;
-    } catch (error) {
-      throw new Error(`FirebaseClient-> updateUserEmailAndPhone ->Error updating  user: ${error}`);
-    }
-  }
+  // async updateUser(userId: string, properties: {}): Promise<string> {
+  //   try {
+  //     const userRecord = await this.admin.auth().updateUser(userId, properties);
+  //     return userRecord.uid;
+  //   } catch (error) {
+  //     throw new Error(
+  //       `FirebaseClient-> updateUserEmailAndPhone ->Error updating  user: ${error}`,
+  //     );
+  //   }
+  // }
 }
 
 export const firebaseClient = new FirebaseClient();

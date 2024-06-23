@@ -1,6 +1,11 @@
-import { FastifyInstanceToken, FastifyReplyToken, FastifyRequestToken, Inject } from 'fastify-decorators';
-import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
-import { Logger } from './services/logger.service';
+import {
+  FastifyInstanceToken,
+  FastifyReplyToken,
+  FastifyRequestToken,
+  Inject,
+} from "fastify-decorators";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import { Logger } from "./services/logger.service";
 
 export class BaseService {
   @Inject(FastifyInstanceToken)

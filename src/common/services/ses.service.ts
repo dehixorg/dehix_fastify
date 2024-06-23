@@ -1,13 +1,17 @@
 /**
  * File: ses.service.ts
- * Author: sanket.shivam
+ * Author: Akhil
  * Date: 29-04-2024
  * Description: Simple email service class file
  */
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { SESClient, SendEmailCommand, SendEmailCommandInput, SendEmailCommandOutput } from '@aws-sdk/client-ses';
-import { Service } from 'fastify-decorators';
+import {
+  SESClient,
+  SendEmailCommand,
+  SendEmailCommandInput,
+  SendEmailCommandOutput,
+} from "@aws-sdk/client-ses";
+import { Service } from "fastify-decorators";
 
 @Service()
 export class SESService {
