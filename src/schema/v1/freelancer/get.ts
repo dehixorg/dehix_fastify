@@ -6,7 +6,6 @@
  */
 
 import { FastifySchema } from 'fastify';
-import { EntityPlan } from '../../../constants/checkoutSession.constants';
 import { EntityType } from '../../../common/constants';
 
 export const getFreelancerSchema: FastifySchema = {
@@ -20,16 +19,7 @@ export const getFreelancerSchema: FastifySchema = {
         data: {
           type: 'object',
           properties: {
-            id: { type: 'string', format: 'uuid' },
-            full_name: { type: 'string' },
             email: { type: 'string' },
-            is_email_verified: { type: 'boolean' },
-            owner_id: { type: ['string', 'null'] },
-            created_at: { type: 'string', format: 'date-time' },
-            subscription_plan: { type: ['string', 'null'], enum: Object.values(EntityPlan) },
-            entity_type: { type: ['string', 'null'] },
-            subscription_id: { type: ['string', 'null'], enum: Object.values(EntityType) },
-            is_basic_profile_complete: { type: 'boolean' },
           },
         },
       },

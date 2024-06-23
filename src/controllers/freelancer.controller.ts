@@ -5,7 +5,7 @@ import { FreelancerService } from '../services';
 import { STATUS_CODES, ERROR_CODES, RESPONSE_MESSAGE } from '../common/constants';
 import { GetFreelancerPathParams } from '../types/v1';
 import { FREELANCER_ENDPOINT, FREELANCER_ID_ENDPOINT ,CREATE_PROJECT, FREELANCER_INFO} from '../constants/freelancer.constant';
-import { getFreelancerSchema } from '../schema/v1';
+import { getFreelancerSchema } from '../schema/v1/freelancer/get';
 import { UnAuthorisedError } from '../common/errors';
 import { AuthController } from '../common/auth.controller';
 
