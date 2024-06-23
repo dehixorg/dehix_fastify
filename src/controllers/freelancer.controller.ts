@@ -4,7 +4,7 @@ import { Controller, GET, Inject, POST } from 'fastify-decorators';
 import { FreelancerService } from '../services';
 import { STATUS_CODES, ERROR_CODES, RESPONSE_MESSAGE } from '../common/constants';
 import { GetFreelancerPathParams } from '../types/v1';
-import { VENDORS_ENDPOINT, VENDOR_ID_ENDPOINT } from '../constants/freelancer.constant';
+import { VENDORS_ENDPOINT, VENDOR_ID_ENDPOINT ,CREATE_PROJECT, FREELANCER_INFO} from '../constants/freelancer.constant';
 import { getFreelancerSchema } from '../schema/v1';
 import { UnAuthorisedError } from '../common/errors';
 import { AuthController } from '../common/auth.controller';
@@ -32,4 +32,6 @@ export default class FreelancerController extends AuthController {
       data,
     });
   }
+  // @Post(CREATE_PROJECT,)
+  @GET( FREELANCER_INFO)
 }
