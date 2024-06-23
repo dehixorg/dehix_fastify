@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import fastify from "fastify";
 import fastifyEnv from "@fastify/env";
 import { bootstrap } from "fastify-decorators";

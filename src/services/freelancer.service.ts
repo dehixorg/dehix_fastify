@@ -1,9 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { Service, Inject } from "fastify-decorators";
-import { FastifyRequest } from "fastify/types/request";
-import * as bcrypt from "bcrypt";
-
-import { v4 as uuidv4 } from "uuid";
 
 import pkg from "jsonwebtoken";
 const {
@@ -14,43 +10,12 @@ const {
 } = pkg;
 
 import { BaseService } from "../common/base.service";
-import { firebaseClient, SESService } from "../common/services";
-// import { FreelancerDAO, UserSubscriptionDAO } from '../dao';
-
-import { decrypt, encrypt, hashPassword } from "../common/utils";
-import {
-  NotFoundError,
-  BadRequestError,
-  UnAuthorisedError,
-  BadTokenError,
-} from "../common/errors";
-import {
-  ENCRYPTION_SECRET_KEY,
-  JWT_SECRET_KEY,
-  ERROR_CODES,
-  ROLES,
-  RESPONSE_MESSAGE,
-  RESET_PASSWORD_EMAIL_CONSTANTS,
-  EMAIL_VERIFICATION_EMAIL_CONSTANTS,
-  FIREBASE_USER_TYPE,
-} from "../common/constants";
-import {
-  ForgotPasswordBody,
-  ResetPasswordBody,
-  FreelancerLoginBody,
-  FreelancerRegistrationBody,
-} from "../types/v1";
-import {
-  RESET_PASSWORD_DOMAIN,
-  VERIFICATION_DOMAIN,
-} from "../constants/freelancer.constant";
+import { NotFoundError } from "../common/errors";
+import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { FreelancerDAO } from "../dao/freelancer.dao";
 
 @Service()
 export class FreelancerService extends BaseService {
-  @Inject(SESService)
-  private sesService!: SESService;
-
   @Inject(FreelancerDAO)
   private FreelancerDAO!: FreelancerDAO;
 
