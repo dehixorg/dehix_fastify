@@ -3,7 +3,7 @@ export function newLeadQuery() {
           ON DUPLICATE KEY UPDATE count = count + 1`;
 }
 export function updateLeadCount() {
-  return 'UPDATE venue_db.lead SET count = count + 1 WHERE id = ?';
+  return "UPDATE venue_db.lead SET count = count + 1 WHERE id = ?";
 }
 
 export function getAmenities() {
@@ -111,19 +111,18 @@ export function getCreateDraftQuery() {
 }
 
 export function getDrafts(ownerId, formTypes, vendorId) {
-
   const query = `WITH LatestDrafts AS (
    
     SELECT form_type, MAX(created_at) as max_created, created_by
     FROM draft
-    WHERE form_type IN ('${formTypes.join('\',\'')}') AND created_by = ? AND owner_id = ?
+    WHERE form_type IN ('${formTypes.join("','")}') AND created_by = ? AND owner_id = ?
     GROUP BY form_type, created_by
   )
   SELECT d.id, d.form_type, d.status
   FROM draft d
   JOIN LatestDrafts ld ON d.form_type = ld.form_type AND d.created_at = ld.max_created AND d.created_by = ld.created_by;`;
 
-  return { query, bindParams: [vendorId, ownerId] }
+  return { query, bindParams: [vendorId, ownerId] };
 }
 
 export function getHotelDraftsQuery(ownerId, vendorId) {
@@ -148,7 +147,5 @@ export function getHotelDraftsQuery(ownerId, vendorId) {
   ORDER BY created_at DESC
   LIMIT 1)`;
 
-  return { query, bindParams: [vendorId, ownerId, ownerId] }
+  return { query, bindParams: [vendorId, ownerId, ownerId] };
 }
-
-

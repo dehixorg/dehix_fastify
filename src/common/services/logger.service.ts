@@ -1,14 +1,12 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 /**
  * File: logger.service
- * Author: Unnayan K Bharadwaj
+ * Author: Akhil
  * Date: 03-05-2024
  * Description: Logger service
  */
 
-import { pino } from 'pino';
-import { Service } from 'fastify-decorators';
+import { pino } from "pino";
+import { Service } from "fastify-decorators";
 
 @Service()
 export class Logger {
@@ -16,15 +14,15 @@ export class Logger {
 
   constructor() {
     this.logger = pino({
-      name: 'Dehix',
-      level: 'info',
+      name: "Dehix",
+      level: "info",
       transport: {
-        target: 'pino/file',
+        target: "pino/file",
         options: {
-          ignore: 'pid,hostname,name',
+          ignore: "pid,hostname,name",
         },
       },
-      redact: ['req.headers.authorization'],
+      redact: ["req.headers.authorization"],
       serializers: {
         res(reply) {
           // The default
@@ -46,11 +44,11 @@ export class Logger {
   }
 
   info(...message: any) {
-    this.logger.info(message);
+    this.logger.info(`ℹ️  INFO: ${message}`);
   }
 
   error(...error: any) {
-    this.logger.error(error);
+    this.logger.error(`❌ ERROR: ${error}`);
   }
 
   warn(...message: any) {

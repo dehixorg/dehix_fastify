@@ -34,7 +34,7 @@ const BidSchema: Schema<IBid> = new Schema(
   {
     timestamps: true, // Add createdAt and updatedAt fields
     versionKey: false, // Disable __v versioning field
-  }
+  },
 );
 
 // Create and export the Bid model

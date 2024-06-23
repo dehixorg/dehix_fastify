@@ -6,18 +6,18 @@
 
 // export class FreelancerMiddleware extends BaseController {
 //   static checkExistance = async (request) => {
-//     const vendorId = request.decodedToken?.userId;
-//     logger.info('FreelancerMiddleware::checkExistance for id', vendorId);
+//     const freelancerId = request.decodedToken?.userId;
+//     logger.info('FreelancerMiddleware::checkExistance for id', freelancerId);
 
 //     const freelancerDAO = new FreelancerDAO();
 
-//     const vendor = await freelancerDAO.findById(freelancerDAO.model, vendorId);
+//     const freelancer = await freelancerDAO.findById(freelancerDAO.model, freelancerId);
 
-//     if (!vendor) {
-//       logger.error(`vendor not found with id: ${request.decodedToken?.userId}`);
+//     if (!freelancer) {
+//       logger.error(`freelancer not found with id: ${request.decodedToken?.userId}`);
 //       throw new NotFoundError(ERROR_CODES.VENDOR_NOT_FOUND, `${STATUS_CODES.NOT_FOUND}`);
 //     }
 
-//     request.metadata = { vendor };
+//     request.metadata = { freelancer };
 //   };
 // }

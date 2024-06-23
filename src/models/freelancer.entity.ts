@@ -1,5 +1,5 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
+import mongoose, { Schema, Document, Model } from "mongoose";
+import { v4 as uuidv4 } from "uuid";
 
 export interface IFreelancer extends Document {
   _id: string;
@@ -20,7 +20,7 @@ export interface IFreelancer extends Document {
     referencePersonContact?: string;
     githubRepoLink?: string;
     oracleAssigned?: mongoose.Types.ObjectId;
-    verificationStatus?: 'added' | 'verified' | 'rejected' | 'reapplied';
+    verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
     verificationUpdateTime?: Date;
     comments?: string;
   }[];
@@ -28,7 +28,7 @@ export interface IFreelancer extends Document {
     name: string;
     level: string;
     experience: string;
-    interviewStatus?: 'pending' | 'accepted' | 'rejected' | 'reapplied';
+    interviewStatus?: "pending" | "accepted" | "rejected" | "reapplied";
     interviewInfo?: mongoose.Types.ObjectId;
     interviewerRating?: number;
   }[];
@@ -40,7 +40,7 @@ export interface IFreelancer extends Document {
     endDate?: Date;
     grade?: string;
     oracleAssigned?: mongoose.Types.ObjectId;
-    verificationStatus?: 'added' | 'verified' | 'rejected' | 'reapplied';
+    verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
     verificationUpdateTime?: Date;
     comments?: string;
   }[];
@@ -49,7 +49,7 @@ export interface IFreelancer extends Document {
     [key: string]: {
       projectName: string;
       description: string;
-      verified: Object;
+      verified: boolean;
       githubLink: string;
       start: Date;
       end: Date;
@@ -58,7 +58,7 @@ export interface IFreelancer extends Document {
       role: string;
       projectType: string;
       oracleAssigned: mongoose.Types.ObjectId;
-      verificationStatus: 'added' | 'verified' | 'rejected' | 'reapplied';
+      verificationStatus: "added" | "verified" | "rejected" | "reapplied";
       verificationUpdateTime: Date;
       comments: string;
     };
@@ -75,9 +75,21 @@ export interface IFreelancer extends Document {
   resume?: Buffer;
   workExperience?: number;
   isFreelancer?: boolean;
-  oracleStatus?: 'notApplied' | 'applied' | 'approved' | 'failed' | 'stopped' | 'reapplied';
+  oracleStatus?:
+    | "notApplied"
+    | "applied"
+    | "approved"
+    | "failed"
+    | "stopped"
+    | "reapplied";
   consultant?: {
-    status: 'notApplied' | 'applied' | 'approved' | 'failed' | 'stopped' | 'reapplied';
+    status:
+      | "notApplied"
+      | "applied"
+      | "approved"
+      | "failed"
+      | "stopped"
+      | "reapplied";
   };
   pendingProject?: mongoose.Types.ObjectId[];
   rejectedProject?: mongoose.Types.ObjectId[];
@@ -133,8 +145,16 @@ const FreelancerSchema: Schema = new Schema(
         referencePersonName: { type: String, required: false },
         referencePersonContact: { type: String, required: false },
         githubRepoLink: { type: String, required: false },
-        oracleAssigned: { type: Schema.Types.ObjectId, ref: 'FreelancerData', required: false },
-        verificationStatus: { type: String, enum: ['added', 'verified', 'rejected', 'reapplied'], required: false },
+        oracleAssigned: {
+          type: Schema.Types.ObjectId,
+          ref: "FreelancerData",
+          required: false,
+        },
+        verificationStatus: {
+          type: String,
+          enum: ["added", "verified", "rejected", "reapplied"],
+          required: false,
+        },
         verificationUpdateTime: { type: Date, required: false },
         comments: { type: String, required: false },
       },
@@ -144,8 +164,17 @@ const FreelancerSchema: Schema = new Schema(
         name: { type: String, required: false },
         level: { type: String, required: false },
         experience: { type: String, required: false },
-        interviewStatus: { type: String, enum: ['pending', 'accepted', 'rejected', 'reapplied'], default: 'pending', required: false },
-        interviewInfo: { type: Schema.Types.ObjectId, ref: 'Interview', required: false },
+        interviewStatus: {
+          type: String,
+          enum: ["pending", "accepted", "rejected", "reapplied"],
+          default: "pending",
+          required: false,
+        },
+        interviewInfo: {
+          type: Schema.Types.ObjectId,
+          ref: "Interview",
+          required: false,
+        },
         interviewerRating: { type: Number, required: false },
       },
     ],
@@ -157,8 +186,16 @@ const FreelancerSchema: Schema = new Schema(
         startDate: { type: Date, required: false },
         endDate: { type: Date, required: false },
         grade: { type: String, required: false },
-        oracleAssigned: { type: Schema.Types.ObjectId, ref: 'FreelancerData', required: false },
-        verificationStatus: { type: String, enum: ['added', 'verified', 'rejected', 'reapplied'], required: false },
+        oracleAssigned: {
+          type: Schema.Types.ObjectId,
+          ref: "FreelancerData",
+          required: false,
+        },
+        verificationStatus: {
+          type: String,
+          enum: ["added", "verified", "rejected", "reapplied"],
+          required: false,
+        },
         verificationUpdateTime: { type: Date, required: false },
         comments: { type: String, required: false },
       },
@@ -181,12 +218,19 @@ const FreelancerSchema: Schema = new Schema(
           techUsed: [{ type: String, required: true }],
           role: { type: String, required: true },
           projectType: { type: String },
-          oracleAssigned: { type: Schema.Types.ObjectId, ref: 'freelancer_data' },
-          verificationStatus: { type: String, enum: ['added', 'verified', 'rejected', 'reapplied'], default: 'added' },
+          oracleAssigned: {
+            type: Schema.Types.ObjectId,
+            ref: "freelancer_data",
+          },
+          verificationStatus: {
+            type: String,
+            enum: ["added", "verified", "rejected", "reapplied"],
+            default: "added",
+          },
           verificationUpdateTime: { type: Date },
           comments: { type: String },
         },
-        { _id: false }
+        { _id: false },
       ),
     },
     refer: {
@@ -201,24 +245,62 @@ const FreelancerSchema: Schema = new Schema(
     resume: { type: Buffer, required: false },
     workExperience: { type: Number, required: false },
     isFreelancer: { type: Boolean, default: true, required: true },
-    oracleStatus: { type: String, enum: ['notApplied', 'applied', 'approved', 'failed', 'stopped', 'reapplied'], required: false },
-    consultant: {
-      status: { type: String, enum: ['notApplied', 'applied', 'approved', 'failed', 'stopped', 'reapplied'], default: 'notApplied', required: false },
+    oracleStatus: {
+      type: String,
+      enum: [
+        "notApplied",
+        "applied",
+        "approved",
+        "failed",
+        "stopped",
+        "reapplied",
+      ],
+      required: false,
     },
-    pendingProject: [{ type: Schema.Types.ObjectId, ref: 'Project', required: false }],
-    rejectedProject: [{ type: Schema.Types.ObjectId, ref: 'Project', required: false }],
-    acceptedProject: [{ type: Schema.Types.ObjectId, ref: 'Project', required: false }],
-    oracleProject: [{ type: Schema.Types.ObjectId, ref: 'Project', required: false }],
-    userDataForVerification: [{ type: Schema.Types.ObjectId, ref: 'Verification', required: false }],
-    interviewsAligned: [{ type: Schema.Types.ObjectId, ref: 'Verification', required: false }],
+    consultant: {
+      status: {
+        type: String,
+        enum: [
+          "notApplied",
+          "applied",
+          "approved",
+          "failed",
+          "stopped",
+          "reapplied",
+        ],
+        default: "notApplied",
+        required: false,
+      },
+    },
+    pendingProject: [
+      { type: Schema.Types.ObjectId, ref: "Project", required: false },
+    ],
+    rejectedProject: [
+      { type: Schema.Types.ObjectId, ref: "Project", required: false },
+    ],
+    acceptedProject: [
+      { type: Schema.Types.ObjectId, ref: "Project", required: false },
+    ],
+    oracleProject: [
+      { type: Schema.Types.ObjectId, ref: "Project", required: false },
+    ],
+    userDataForVerification: [
+      { type: Schema.Types.ObjectId, ref: "Verification", required: false },
+    ],
+    interviewsAligned: [
+      { type: Schema.Types.ObjectId, ref: "Verification", required: false },
+    ],
   },
   {
     timestamps: true,
     versionKey: false,
-  }
+  },
 );
 
-export const FreelancerModel: Model<IFreelancer> = mongoose.model<IFreelancer>('Freelancer', FreelancerSchema);
+export const FreelancerModel: Model<IFreelancer> = mongoose.model<IFreelancer>(
+  "Freelancer",
+  FreelancerSchema,
+);
 
 export default {
   FreelancerModel,

@@ -10,7 +10,7 @@ export interface DBModels {
   BusinessModel?: Model<IBusiness>;
   ProjectModel?: Model<IProject>;
   BidModel?: Model<IBid>;
-  InterviewModel?:Model<IInterview>
+  InterviewModel?: Model<IInterview>;
 }
 
 const models: DBModels = {
