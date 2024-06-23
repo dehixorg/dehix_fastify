@@ -6,8 +6,13 @@
  */
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { SESClient, SendEmailCommand, SendEmailCommandInput, SendEmailCommandOutput } from '@aws-sdk/client-ses';
-import { Service } from 'fastify-decorators';
+import {
+  SESClient,
+  SendEmailCommand,
+  SendEmailCommandInput,
+  SendEmailCommandOutput,
+} from "@aws-sdk/client-ses";
+import { Service } from "fastify-decorators";
 
 @Service()
 export class SESService {

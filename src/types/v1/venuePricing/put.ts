@@ -1,4 +1,8 @@
-import { PricingType, Duration, Day } from '../../../constants/venuePricing.constants';
+import {
+  PricingType,
+  Duration,
+  Day,
+} from "../../../constants/venuePricing.constants";
 interface Params {
   venue_id: string;
 }

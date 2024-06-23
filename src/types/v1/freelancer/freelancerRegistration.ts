@@ -71,9 +71,21 @@ export interface FreelancerRegistrationBody {
   resume?: Buffer;
   workExperience?: number;
   isFreelancer?: boolean;
-  oracleStatus?: "notApplied" | "applied" | "approved" | "failed" | "stopped" | "reapplied";
+  oracleStatus?:
+    | "notApplied"
+    | "applied"
+    | "approved"
+    | "failed"
+    | "stopped"
+    | "reapplied";
   consultant?: {
-    status: "notApplied" | "applied" | "approved" | "failed" | "stopped" | "reapplied";
+    status:
+      | "notApplied"
+      | "applied"
+      | "approved"
+      | "failed"
+      | "stopped"
+      | "reapplied";
   };
   otp?: string;
   otpVerified?: boolean;

@@ -1,5 +1,5 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
+import mongoose, { Schema, Document, Model } from "mongoose";
+import { v4 as uuidv4 } from "uuid";
 
 // Define an interface for the Project document
 export interface IProject extends Document {
@@ -29,90 +29,96 @@ export interface IProject extends Document {
 }
 
 // Define the Project schema
-const ProjectSchema: Schema<IProject> = new Schema({
-  _id: {
-    type: String,
-    default: uuidv4,
+const ProjectSchema: Schema<IProject> = new Schema(
+  {
+    _id: {
+      type: String,
+      default: uuidv4,
+    },
+    projectName: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    verified: {
+      type: Schema.Types.Mixed,
+      required: false,
+    },
+    isVerified: {
+      type: String,
+      required: false,
+    },
+    companyName: {
+      type: String,
+      required: true,
+    },
+    start: {
+      type: Date,
+      required: false,
+    },
+    end: {
+      type: Date,
+      required: false,
+    },
+    skillsRequired: {
+      type: [String],
+      required: true,
+    },
+    experience: {
+      type: String,
+      required: false,
+    },
+    role: {
+      type: String,
+      required: true,
+    },
+    projectType: {
+      type: String,
+      required: true,
+    },
+    totalNeedOfFreelancer: {
+      type: [
+        {
+          category: { type: String, required: false },
+          needOfFreelancer: { type: Number, required: false },
+          appliedCandidates: { type: [String], required: false },
+          rejected: { type: [String], required: false },
+          accepted: { type: [String], required: false },
+          status: { type: String, required: false },
+        },
+      ],
+      required: false,
+    },
+    status: {
+      type: String,
+      default: "Pending",
+    },
+    team: {
+      type: [String],
+      required: false,
+    },
   },
-  projectName: {
-    type: String,
-    required: true,
+  {
+    timestamps: true, // Add createdAt and updatedAt fields
+    versionKey: false, // Disable __v versioning field
+    paranoid: true, // Enable soft delete
+    underscored: true, // Use snake_case column names
   },
-  description: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  verified: {
-    type: Schema.Types.Mixed,
-    required: false,
-  },
-  isVerified: {
-    type: String,
-    required: false,
-  },
-  companyName: {
-    type: String,
-    required: true,
-  },
-  start: {
-    type: Date,
-    required: false,
-  },
-  end: {
-    type: Date,
-    required: false,
-  },
-  skillsRequired: {
-    type: [String],
-    required: true,
-  },
-  experience: {
-    type: String,
-    required: false,
-  },
-  role: {
-    type: String,
-    required: true,
-  },
-  projectType: {
-    type: String,
-    required: true,
-  },
-  totalNeedOfFreelancer: {
-    type: [
-      {
-        category: { type: String, required: false },
-        needOfFreelancer: { type: Number, required: false },
-        appliedCandidates: { type: [String], required: false },
-        rejected: { type: [String], required: false },
-        accepted: { type: [String], required: false },
-        status: { type: String, required: false },
-      }
-    ],
-    required: false,
-  },
-  status: {
-    type: String,
-    default: "Pending",
-  },
-  team: {
-    type: [String],
-    required: false,
-  }
-}, {
-  timestamps: true, // Add createdAt and updatedAt fields
-  versionKey: false, // Disable __v versioning field
-  paranoid: true, // Enable soft delete
-  underscored: true, // Use snake_case column names
-});
+);
 
 // Create and export the Project model
-export const ProjectModel: Model<IProject> = mongoose.model<IProject>('Project', ProjectSchema);
+export const ProjectModel: Model<IProject> = mongoose.model<IProject>(
+  "Project",
+  ProjectSchema,
+);
 
 export default {
-  ProjectModel
+  ProjectModel,
 };

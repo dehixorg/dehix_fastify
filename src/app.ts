@@ -1,20 +1,20 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import fastify from 'fastify';
-import fastifyEnv from '@fastify/env';
-import { bootstrap } from 'fastify-decorators';
-import cors from '@fastify/cors';
-import { initializeClients } from './clients';
-import swagger from '@fastify/swagger';
-import swagger_ui from '@fastify/swagger-ui';
-import { logger } from './common/services/logger.service';
-import fs from 'fs';
+import fastify from "fastify";
+import fastifyEnv from "@fastify/env";
+import { bootstrap } from "fastify-decorators";
+import cors from "@fastify/cors";
+import { initializeClients } from "./clients";
+import swagger from "@fastify/swagger";
+import swagger_ui from "@fastify/swagger-ui";
+import { logger } from "./common/services/logger.service";
+import fs from "fs";
 
 // Env schema
 const schema = {
-  type: 'object',
+  type: "object",
   required: [],
   patternProperties: {
-    'SERVER_(.*)': { type: 'string' },
+    "SERVER_(.*)": { type: "string" },
   },
   // add key properties for specific property validation
 };
@@ -22,9 +22,11 @@ const schema = {
 const app = fastify({ logger: logger });
 
 // Env path for stages
-const envPath = process.env.NODE_ENV ? `./.env.${process.env.NODE_ENV}` : './.env';
+const envPath = process.env.NODE_ENV
+  ? `./.env.${process.env.NODE_ENV}`
+  : "./.env";
 
-const packageJSON = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+const packageJSON = JSON.parse(fs.readFileSync("./package.json", "utf8"));
 
 export const configure = async () => {
   // Register handlers auto-bootstrap
@@ -38,7 +40,7 @@ export const configure = async () => {
 
   app
     .register(swagger, {
-      mode: 'dynamic',
+      mode: "dynamic",
       swagger: {
         info: {
           title: packageJSON.title,
@@ -51,9 +53,9 @@ export const configure = async () => {
           },
         },
         // basePath: '',
-        schemes: ['http', 'https'],
-        consumes: ['application/json'],
-        produces: ['application/json'],
+        schemes: ["http", "https"],
+        consumes: ["application/json"],
+        produces: ["application/json"],
       },
 
       openapi: {
@@ -70,9 +72,9 @@ export const configure = async () => {
         components: {
           securitySchemes: {
             bearerAuth: {
-              type: 'apiKey',
-              name: 'Authorization',
-              in: 'header',
+              type: "apiKey",
+              name: "Authorization",
+              in: "header",
             },
           },
         },
@@ -84,9 +86,9 @@ export const configure = async () => {
       },
     })
     .register(swagger_ui, {
-      routePrefix: '/documentation',
+      routePrefix: "/documentation",
       uiConfig: {
-        docExpansion: 'none',
+        docExpansion: "none",
         deepLinking: true,
       },
       staticCSP: false,
@@ -99,9 +101,16 @@ export const configure = async () => {
 
   app
     .register(cors, {
-      origin: ['*'],
-      methods: ['OPTIONS', 'GET', 'PUT', 'PATCH', 'POST', 'DELETE'],
-      allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With', 'x-api-key'],
+      origin: ["*"],
+      methods: ["OPTIONS", "GET", "PUT", "PATCH", "POST", "DELETE"],
+      allowedHeaders: [
+        "Content-Type",
+        "Authorization",
+        "Accept",
+        "Origin",
+        "X-Requested-With",
+        "x-api-key",
+      ],
     })
     .register(initializeClients)
     .register(bootstrap, {
@@ -115,11 +124,11 @@ export const configure = async () => {
   try {
     await app.ready();
   } catch (error) {
-    console.log('An error occurred during initialization:', error);
+    console.log("An error occurred during initialization:", error);
   }
 
   if (!global.LAMBDA_ENV) {
-    console.log('Running App env');
+    console.log("Running App env");
 
     app.listen({ port: Number(process.env.SERVER_PORT) }, (err: any) => {
       if (err) console.error(err);

@@ -1,4 +1,4 @@
-import { EntityType } from '../../../common/constants';
+import { EntityType } from "../../../common/constants";
 
 interface QueryString {
   entity_type: EntityType;

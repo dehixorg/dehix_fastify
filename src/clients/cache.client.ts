@@ -1,5 +1,5 @@
-import cache from 'memory-cache';
-import { ServerError } from '../common/errors';
+import cache from "memory-cache";
+import { ServerError } from "../common/errors";
 
 let cacheObject = null;
 
@@ -18,7 +18,7 @@ class CacheClient {
       const data = this.cache.put(key, value, timeOut);
       return data;
     } catch (error: any) {
-      throw new ServerError('Server Error', '500');
+      throw new ServerError("Server Error", "500");
     }
   }
 
@@ -26,23 +26,23 @@ class CacheClient {
     try {
       let data;
       data = this.cache.get(key);
-      if (!data && typeof callback === 'function') {
+      if (!data && typeof callback === "function") {
         data = await callback(key);
       } else if (!data && callback !== undefined) {
-        throw new TypeError('Callback must be a function');
+        throw new TypeError("Callback must be a function");
       }
       return data;
     } catch (error: any) {
-      throw new ServerError('Server Error', '500');
+      throw new ServerError("Server Error", "500");
     }
   }
 
   async clear() {
     try {
       this.cache.clear();
-      return 'Cache cleared successfully';
+      return "Cache cleared successfully";
     } catch (error: any) {
-      throw new ServerError('Server Error', '500');
+      throw new ServerError("Server Error", "500");
     }
   }
 }

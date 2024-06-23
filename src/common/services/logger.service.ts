@@ -7,8 +7,8 @@
  * Description: Logger service
  */
 
-import { pino } from 'pino';
-import { Service } from 'fastify-decorators';
+import { pino } from "pino";
+import { Service } from "fastify-decorators";
 
 @Service()
 export class Logger {
@@ -16,15 +16,15 @@ export class Logger {
 
   constructor() {
     this.logger = pino({
-      name: 'Dehix',
-      level: 'info',
+      name: "Dehix",
+      level: "info",
       transport: {
-        target: 'pino/file',
+        target: "pino/file",
         options: {
-          ignore: 'pid,hostname,name',
+          ignore: "pid,hostname,name",
         },
       },
-      redact: ['req.headers.authorization'],
+      redact: ["req.headers.authorization"],
       serializers: {
         res(reply) {
           // The default

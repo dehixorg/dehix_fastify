@@ -1,4 +1,4 @@
-import { EntityType, AmenityCategory } from '../../../common/constants';
+import { EntityType, AmenityCategory } from "../../../common/constants";
 
 interface QueryString {
   entity_type: EntityType;

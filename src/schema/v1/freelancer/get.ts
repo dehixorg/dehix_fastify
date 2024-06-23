@@ -5,51 +5,51 @@
  * Description:schema for API to get vendor profile data
  */
 
-import { FastifySchema } from 'fastify';
-import { EntityType } from '../../../common/constants';
+import { FastifySchema } from "fastify";
+import { EntityType } from "../../../common/constants";
 
 export const getFreelancerSchema: FastifySchema = {
-  description: 'API to get vendor profile data',
-  tags: ['Freelancer'],
+  description: "API to get vendor profile data",
+  tags: ["Freelancer"],
   response: {
     200: {
-      description: 'Success',
-      type: 'object',
+      description: "Success",
+      type: "object",
       properties: {
         data: {
-          type: 'object',
+          type: "object",
           properties: {
-            email: { type: 'string' },
+            email: { type: "string" },
           },
         },
       },
     },
     404: {
-      type: 'object',
+      type: "object",
       properties: {
         message: {
-          type: 'string',
+          type: "string",
         },
         code: {
-          type: 'string',
+          type: "string",
         },
       },
     },
     403: {
-      type: 'object',
+      type: "object",
       properties: {
         code: {
-          type: 'string',
+          type: "string",
         },
         message: {
-          type: 'string',
+          type: "string",
         },
       },
     },
     500: {
-      type: 'object',
+      type: "object",
       properties: {
-        message: { type: 'string' },
+        message: { type: "string" },
       },
     },
   },

@@ -1,5 +1,5 @@
-import { EntityType } from '../../../common/constants';
-import { Section, DBkeys } from '../../../constants/config.constants';
+import { EntityType } from "../../../common/constants";
+import { Section, DBkeys } from "../../../constants/config.constants";
 
 export interface GetConfigQueryString {
   form_type: EntityType.HOTEL | EntityType.VENUE;

@@ -1,19 +1,29 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { Service, Inject } from 'fastify-decorators';
-import { FastifyRequest } from 'fastify/types/request';
-import * as bcrypt from 'bcrypt';
+import { Service, Inject } from "fastify-decorators";
+import { FastifyRequest } from "fastify/types/request";
+import * as bcrypt from "bcrypt";
 
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
-import pkg from 'jsonwebtoken';
-const { sign: jwtSign, verify: jwtVerify, TokenExpiredError, JsonWebTokenError } = pkg;
+import pkg from "jsonwebtoken";
+const {
+  sign: jwtSign,
+  verify: jwtVerify,
+  TokenExpiredError,
+  JsonWebTokenError,
+} = pkg;
 
-import { BaseService } from '../common/base.service';
-import { firebaseClient, SESService } from '../common/services';
+import { BaseService } from "../common/base.service";
+import { firebaseClient, SESService } from "../common/services";
 // import { FreelancerDAO, UserSubscriptionDAO } from '../dao';
 
-import { decrypt, encrypt, hashPassword } from '../common/utils';
-import { NotFoundError, BadRequestError, UnAuthorisedError, BadTokenError } from '../common/errors';
+import { decrypt, encrypt, hashPassword } from "../common/utils";
+import {
+  NotFoundError,
+  BadRequestError,
+  UnAuthorisedError,
+  BadTokenError,
+} from "../common/errors";
 import {
   ENCRYPTION_SECRET_KEY,
   JWT_SECRET_KEY,
@@ -23,31 +33,45 @@ import {
   RESET_PASSWORD_EMAIL_CONSTANTS,
   EMAIL_VERIFICATION_EMAIL_CONSTANTS,
   FIREBASE_USER_TYPE,
-} from '../common/constants';
-import { ForgotPasswordBody, ResetPasswordBody, FreelancerLoginBody, FreelancerRegistrationBody } from '../types/v1';
-import { RESET_PASSWORD_DOMAIN, VERIFICATION_DOMAIN } from '../constants/freelancer.constant';
-import { FreelancerDAO } from '../dao/freelancer.dao';
+} from "../common/constants";
+import {
+  ForgotPasswordBody,
+  ResetPasswordBody,
+  FreelancerLoginBody,
+  FreelancerRegistrationBody,
+} from "../types/v1";
+import {
+  RESET_PASSWORD_DOMAIN,
+  VERIFICATION_DOMAIN,
+} from "../constants/freelancer.constant";
+import { FreelancerDAO } from "../dao/freelancer.dao";
 
 @Service()
 export class FreelancerService extends BaseService {
-
   @Inject(SESService)
   private sesService!: SESService;
 
-
   @Inject(FreelancerDAO)
   private FreelancerDAO!: FreelancerDAO;
-  
-  
 
   async getFreelancerProfile(freelancer_id: string) {
-    this.logger.info('FreelancerService: getFreelancerProfile: Fetching vendor profile for ID: ', freelancer_id);
+    this.logger.info(
+      "FreelancerService: getFreelancerProfile: Fetching vendor profile for ID: ",
+      freelancer_id,
+    );
 
-    const freelancer: any = await this.FreelancerDAO.findFreelancerById(freelancer_id)
+    const freelancer: any =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
 
     if (!freelancer) {
-      this.logger.error('FreelancerService: getFreelancerProfile: Freelancer not found with ID: ', freelancer_id);
-      throw new NotFoundError(RESPONSE_MESSAGE.VENDOR_NOT_FOUND, ERROR_CODES.VENDOR_NOT_FOUND);
+      this.logger.error(
+        "FreelancerService: getFreelancerProfile: Freelancer not found with ID: ",
+        freelancer_id,
+      );
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.VENDOR_NOT_FOUND,
+        ERROR_CODES.VENDOR_NOT_FOUND,
+      );
     }
 
     return freelancer;
@@ -144,7 +168,4 @@ export class FreelancerService extends BaseService {
 
   //   return verificationLink;
   // }
-
-
-
 }

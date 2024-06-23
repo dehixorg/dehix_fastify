@@ -1,8 +1,8 @@
-import { Service } from 'fastify-decorators';
-import { Model } from 'mongoose';
-import { MongoClient } from '../clients';
-import { BaseDAO } from '../common/base.dao';
-import { IBid, BidModel } from '../models/bid.entity';
+import { Service } from "fastify-decorators";
+import { Model } from "mongoose";
+import { MongoClient } from "../clients";
+import { BaseDAO } from "../common/base.dao";
+import { IBid, BidModel } from "../models/bid.entity";
 
 @Service()
 export class BidDAO extends BaseDAO {
@@ -13,8 +13,8 @@ export class BidDAO extends BaseDAO {
     this.model = BidModel;
   }
 
-  async createOne(bidder_id:string, project_id:string, domain_id:string){
-    return this.model.create({bidder_id, project_id, domain_id});
+  async createOne(bidder_id: string, project_id: string, domain_id: string) {
+    return this.model.create({ bidder_id, project_id, domain_id });
   }
 
   async getBidByEmail(email: string) {
@@ -22,17 +22,20 @@ export class BidDAO extends BaseDAO {
   }
 
   async findOneByEmail(email: string) {
-    return this.model.findOne(
-      { email },
-      'id password firebase_id full_name email is_email_verified owner_id'
-    ).lean().exec();
+    return this.model
+      .findOne(
+        { email },
+        "id password firebase_id full_name email is_email_verified owner_id",
+      )
+      .lean()
+      .exec();
   }
 
   async getById(id: string) {
-    return this.model.findById(
-      id,
-      'id firebase_id full_name email is_email_verified owner_id'
-    ).lean().exec();
+    return this.model
+      .findById(id, "id firebase_id full_name email is_email_verified owner_id")
+      .lean()
+      .exec();
   }
 
   async updateBid(condition: any, newData: any) {

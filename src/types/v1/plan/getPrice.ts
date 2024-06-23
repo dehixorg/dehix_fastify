@@ -1,4 +1,4 @@
-import { EntityType } from '../../../common/constants';
+import { EntityType } from "../../../common/constants";
 
 export interface GetPlanQueryString {
   entity_type: EntityType;

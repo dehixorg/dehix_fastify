@@ -7,7 +7,6 @@ import { BidDAO } from "../dao/bid.dao";
 
 @Service()
 export class BidService extends BaseService {
-
   /**
    * Service method to register a new vendor
    * @param body
@@ -16,7 +15,11 @@ export class BidService extends BaseService {
    */
   async create(body: BidApplyBody) {
     const { bidder_id, project_id, domain_id } = body;
-    let bid: any = await this.bidDAO.createOne(bidder_id, project_id, domain_id);
-    return bid
+    const bid: any = await this.bidDAO.createOne(
+      bidder_id,
+      project_id,
+      domain_id,
+    );
+    return bid;
   }
 }
