@@ -20,12 +20,12 @@ export default class FreelancerController extends AuthController {
       `FreelancerController -> getById -> Fetching vendor profile for vendor with ID: ${request.params.freelancer_id}`,
     );
 
-    if (request.decodedToken.userId !== request.params.freelancer_id) {
-      this.logger.error(
-        `FreelancerController -> getById -> Unauthorized access attempt by user with ID: ${request.decodedToken.userId} to vendor with ID: ${request.params.freelancer_id}`,
-      );
-      throw new UnAuthorisedError(RESPONSE_MESSAGE.UNAUTHORISED, ERROR_CODES.UNAUTHORIZED);
-    }
+    // if (request.decodedToken.userId !== request.params.freelancer_id) {
+    //   this.logger.error(
+    //     `FreelancerController -> getById -> Unauthorized access attempt by user with ID: ${request.decodedToken.userId} to vendor with ID: ${request.params.freelancer_id}`,
+    //   );
+    //   throw new UnAuthorisedError(RESPONSE_MESSAGE.UNAUTHORISED, ERROR_CODES.UNAUTHORIZED);
+    // }
 
     const data = await this.freelancerService.getFreelancerProfile(request.params.freelancer_id);
     reply.status(STATUS_CODES.SUCCESS).send({

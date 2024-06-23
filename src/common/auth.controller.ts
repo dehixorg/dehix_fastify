@@ -17,20 +17,19 @@ export abstract class AuthController extends BaseController {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     reply: FastifyReply,
   ): Promise<void> {
-    return;
-    // const auth = request.headers?.authorization ?? request.headers?.Authorization;
+    const auth = request.headers?.authorization ?? request.headers?.Authorization;
 
-    // this.logger.info(`AuthController -> validateAuth: url: ${request.url} and headers authorization: ${auth}`);
+    this.logger.info(`AuthController -> validateAuth: url: ${request.url} and headers authorization: ${auth}`);
 
-    // if (typeof auth === 'string' && auth.startsWith('Bearer ')) {
-    //   const token = auth.split(' ')[1];
-    //   request.decodedToken = await firebaseClient.getDecodedFirebaseToken(token);
+    if (typeof auth === 'string' && auth.startsWith('Bearer ')) {
+      const token = auth.split(' ')[1];
+      request.decodedToken = await firebaseClient.getDecodedFirebaseToken(token);
 
-    //   this.logger.info('AuthController: validateAuth: Decoded Token: ', request.decodedToken);
+      this.logger.info('AuthController: validateAuth: Decoded Token: ', request.decodedToken);
 
-    //   return this.roleService.validatePermission(request.decodedToken);
-    // }
+      return;
+    }
 
-    // throw new BadTokenError(RESPONSE_MESSAGE.BAD_TOKEN, `${STATUS_CODES.UNAUTHORISED}`);
+    throw new BadTokenError(RESPONSE_MESSAGE.BAD_TOKEN, `${STATUS_CODES.UNAUTHORISED}`);
   }
 }
