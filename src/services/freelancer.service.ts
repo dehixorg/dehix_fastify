@@ -88,6 +88,22 @@ export class FreelancerService extends BaseService {
 
     return data;
   }
+  
+  async updateProfileFreelancer(freelancer_id: string, freelancer) {
+    this.logger.info(
+      "FreelancerService: updateProfileFreelancer: Updating Freelancer: ",
+      freelancer_id,
+      freelancer,
+    );
+
+    const data: any = await this.FreelancerDAO.updateFreelancer(
+      { _id: freelancer_id },
+      freelancer,
+    );
+
+    return data;
+  }
+
   /**
    * Service method for FREELANCER login
    * @param body
