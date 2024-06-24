@@ -30,7 +30,7 @@ import { deleteFreelancerProjectSchema } from "../schema/v1/freelancer/delete";
 import { DeleteFreelancerPathParams } from "../types/v1/freelancer/delete";
 import { PutFreelancerProjectBody } from "../types/v1/freelancer/updateProject";
 
-import {CreateFreelancerBody} from "../types/v1/freelancer/create"
+import { CreateFreelancerBody } from "../types/v1/freelancer/create";
 import { IFreelancer } from "src/models/freelancer.entity";
 import { createFreelancerSchema } from "../schema/v1/freelancer/create";
 

@@ -88,7 +88,7 @@ export class FreelancerService extends BaseService {
 
     return data;
   }
-  
+
   async updateProfileFreelancer(freelancer_id: string, freelancer) {
     this.logger.info(
       "FreelancerService: updateProfileFreelancer: Updating Freelancer: ",

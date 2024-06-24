@@ -6,6 +6,7 @@
  */
 
 import { FastifySchema } from "fastify";
+import { updateFreelancerSchema } from "./update";
 
 export const getFreelancerSchema: FastifySchema = {
   description: "API to get FREELANCER profile data",
@@ -15,12 +16,7 @@ export const getFreelancerSchema: FastifySchema = {
       description: "Success",
       type: "object",
       properties: {
-        data: {
-          type: "object",
-          properties: {
-            email: { type: "string" },
-          },
-        },
+        data: updateFreelancerSchema.body,
       },
     },
     404: {
