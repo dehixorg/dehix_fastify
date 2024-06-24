@@ -12,6 +12,7 @@ import { BaseService } from "../common/base.service";
 import { NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { FreelancerDAO } from "../dao/freelancer.dao";
+import { IFreelancer } from "src/models/freelancer.entity";
 
 @Service()
 export class FreelancerService extends BaseService {
@@ -39,6 +40,18 @@ export class FreelancerService extends BaseService {
     }
 
     return freelancer;
+  }
+
+  async createFreelancerProfile(freelancer: IFreelancer) {
+    this.logger.info(
+      "FreelancerService: createFreelancerProfile: Creating Freelancer: ",
+      freelancer,
+    );
+
+    const data: any =
+      await this.FreelancerDAO.createFreelancer(freelancer);
+
+    return data;
   }
 
   /**

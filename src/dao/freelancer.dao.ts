@@ -77,4 +77,13 @@ export class FreelancerDAO extends BaseDAO {
   async createProjectById() {
     return;
   }
+
+  async createFreelancer(freelancer: IFreelancer) {
+    try {
+      const createdFreelancer = await this.model.create(freelancer);
+      return createdFreelancer;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

@@ -13,10 +13,14 @@ import {
   FREELANCER_ID_ENDPOINT,
   CREATE_PROJECT,
   FREELANCER_INFO,
+  FREELANCER_CREATE_ENDPOINT
 } from "../constants/freelancer.constant";
 import { getFreelancerSchema } from "../schema/v1/freelancer/get";
 import { UnAuthorisedError } from "../common/errors";
 import { AuthController } from "../common/auth.controller";
+import {CreateFreelancerBody} from "../types/v1/freelancer/create"
+import { IFreelancer } from "src/models/freelancer.entity";
+import { createFreelancerSchema } from "../schema/v1/freelancer/create";
 
 @Controller({ route: FREELANCER_ENDPOINT })
 export default class FreelancerController extends AuthController {
@@ -46,4 +50,20 @@ export default class FreelancerController extends AuthController {
       data,
     });
   }
+  @POST(FREELANCER_CREATE_ENDPOINT, { schema: createFreelancerSchema })
+  async create(
+    request: FastifyRequest<{ Body: IFreelancer }>,
+    reply: FastifyReply,
+  ) {
+    this.logger.info(
+      `FreelancerController -> create -> : Creating a new freelancer`,
+    );
+    const data = await this.freelancerService.createFreelancerProfile(
+      request.body,
+    );
+    reply.status(STATUS_CODES.SUCCESS).send({
+      data,
+    });
+  }
+
 }
