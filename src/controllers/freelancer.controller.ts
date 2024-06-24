@@ -11,7 +11,7 @@ import { GetFreelancerPathParams } from "../types/v1";
 import {
   FREELANCER_ENDPOINT,
   FREELANCER_ID_ENDPOINT,
-  CREATE_PROJECT,
+  FREELANCER_PROJECT_ADD_BY_ID,
   FREELANCER_INFO,
   FREELANCER_PROJECT_DELETE_BY_ID,
 } from "../constants/freelancer.constant";
@@ -100,28 +100,22 @@ export default class FreelancerController extends AuthController {
     reply.status(STATUS_CODES.SUCCESS).send({ data });
   }
 
-  // @PUT(FREELANCER_ENDPOINT, { schema: addFreelancerProjectSchema })
-  // async addProjectById(
-  //   request: FastifyRequest<{
-  //     Params: PutFreelancerPathParams;
-  //     Body: PutFreelancerProjectBody;
-  //   }>,
-  //   reply: FastifyReply,
-  // ) {
-  //   this.logger.info(
-  //     `FreelancerController -> getById -> Fetching FREELANCER profile for FREELANCER with ID: ${request.params.freelancer_id}`,
-  //   );
-  //   // if (request.decodedToken.userId !== request.params.freelancer_id) {
-  //   //   this.logger.error(
-  //   //     `FreelancerController -> getById -> Unauthorized access attempt by user with ID: ${request.decodedToken.userId} to FREELANCER with ID: ${request.params.freelancer_id}`,
-  //   //   );
-  //   //   throw new UnAuthorisedError(RESPONSE_MESSAGE.UNAUTHORISED, ERROR_CODES.UNAUTHORIZED);
-  //   // }
+  @PUT(FREELANCER_PROJECT_ADD_BY_ID, { schema: addFreelancerProjectSchema })
+  async addProjectById(
+    request: FastifyRequest<{
+      Params: PutFreelancerPathParams;
+      Body: PutFreelancerProjectBody;
+    }>,
+    reply: FastifyReply,
+  ) {
+    this.logger.info(
+      `FreelancerController -> addProjectById -> Adding project for freelancer using ID: ${request.params.freelancer_id}`,
+    );
 
-  //   const data = await this.freelancerService.addFreelancerProject(
-  //     request.params.freelancer_id,
-  //     request.body.update,
-  //   );
-  //   reply.status(STATUS_CODES.SUCCESS).send({ data });
-  // }
+    const data = await this.freelancerService.addFreelancerProject(
+      request.params.freelancer_id,
+      request.body,
+    );
+    reply.status(STATUS_CODES.SUCCESS).send({ data });
+  }
 }

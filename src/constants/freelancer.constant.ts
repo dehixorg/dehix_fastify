@@ -5,6 +5,7 @@ export const FREELANCER_ID_ENDPOINT = "/:freelancer_id";
 export const FREELANCER_CREATE_ENDPOINT = "/create";
 export const FREELANCER_PROJECT_DELETE_BY_ID =
   "/:freelancer_id/project/:project_id";
+export const FREELANCER_PROJECT_ADD_BY_ID = "/:freelancer_id/project";
 
 export const REGISTRATION_ENDPOINT = "/registration";
 export const VERIFY_ENDPOINT = "/verify";

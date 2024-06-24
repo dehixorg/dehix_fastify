@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import models from "../models/index";
 import { logger } from "../common/services/logger.service";
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace MongoClient {
   export async function init(fastify: FastifyInstance) {
     const mongoConnectionString = fastify.config["SERVER_MONGO_CONN"];

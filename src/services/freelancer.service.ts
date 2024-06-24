@@ -74,6 +74,20 @@ export class FreelancerService extends BaseService {
     return data;
   }
 
+  async addFreelancerProject(freelancer_id: string, project) {
+    this.logger.info(
+      "FreelancerService: addFreelancerProject: Creating Freelancer Project: ",
+      freelancer_id,
+      project,
+    );
+
+    const data: any = await this.FreelancerDAO.createProjectById(
+      freelancer_id,
+      project,
+    );
+
+    return data;
+  }
   /**
    * Service method for FREELANCER login
    * @param body
