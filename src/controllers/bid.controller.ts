@@ -7,12 +7,12 @@ import {
   ERROR_CODES,
   RESPONSE_MESSAGE,
 } from "../common/constants";
-import { GetBidPathParams } from "../types/v1";
+// import { GetBidPathParams } from "../types/v1";
 import { BID_ENDPOINT } from "../constants/bid.constant";
 import { UnAuthorisedError } from "../common/errors";
 import { AuthController } from "../common/auth.controller";
 import { bidApplySchema } from "../schema/v1/bid/apply";
-import { BidApplyBody } from "src/types/v1/bid/bidApplyBody";
+import { BidApplyBody } from "../types/v1/bid/bidApplyBody";
 
 @Controller({ route: BID_ENDPOINT })
 export default class BidController extends AuthController {

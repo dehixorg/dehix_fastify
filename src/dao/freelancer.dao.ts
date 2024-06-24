@@ -2,6 +2,7 @@ import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
 import { IFreelancer, FreelancerModel } from "../models/freelancer.entity";
+import { v4 as uuidv4 } from "uuid";
 
 @Service()
 export class FreelancerDAO extends BaseDAO {
@@ -74,7 +75,34 @@ export class FreelancerDAO extends BaseDAO {
     });
   }
 
-  async createProjectById() {
-    return;
+  async deleteProjectById(id: string, project_id: string) {
+    return this.model.findByIdAndUpdate(
+      id,
+      { $unset: { [`projects.${project_id}`]: "" } },
+      { new: true },
+    );
+  }
+
+  async createProjectById(id: string, project) {
+    project._id = uuidv4();
+    try {
+      const result = await this.model.findByIdAndUpdate(
+        id,
+        { $set: { [`projects.${project._id}`]: project } },
+        { new: true, upsert: true },
+      );
+      return result;
+    } catch (error: any) {
+      throw new Error(`Failed to add project to freelancer: ${error.message}`);
+    }
+  }
+
+  async createFreelancer(freelancer: IFreelancer) {
+    try {
+      const createdFreelancer = await this.model.create(freelancer);
+      return createdFreelancer;
+    } catch (error: any) {
+      throw new Error(`Failed to add freelancer: ${error.message}`);
+    }
   }
 }

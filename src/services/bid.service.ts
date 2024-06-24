@@ -1,6 +1,6 @@
 import { Service, Inject } from "fastify-decorators";
 import { BaseService } from "../common/base.service";
-import { BidApplyBody } from "src/types/v1/bid/bidApplyBody";
+import { BidApplyBody } from "../types/v1/bid/bidApplyBody";
 import { BidDAO } from "../dao/bid.dao";
 
 @Service()
@@ -9,7 +9,7 @@ export class BidService extends BaseService {
   private BidDAO!: BidDAO;
 
   /**
-   * Service method to register a new vendor
+   * Service method to register a new FREELANCER
    * @param body
    * @param em
    * @returns

@@ -47,6 +47,7 @@ export interface IFreelancer extends Document {
   role?: string;
   projects?: {
     [key: string]: {
+      _id: string;
       projectName: string;
       description: string;
       verified: boolean;
@@ -208,6 +209,7 @@ const FreelancerSchema: Schema = new Schema(
       type: Map,
       of: new Schema(
         {
+          _id: { type: String, required: true },
           projectName: { type: String, required: true },
           description: { type: String, required: true },
           verified: { type: Schema.Types.Mixed },

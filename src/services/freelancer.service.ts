@@ -12,15 +12,37 @@ import { BaseService } from "../common/base.service";
 import { NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { FreelancerDAO } from "../dao/freelancer.dao";
+import { IFreelancer } from "../models/freelancer.entity";
 
 @Service()
 export class FreelancerService extends BaseService {
   @Inject(FreelancerDAO)
   private FreelancerDAO!: FreelancerDAO;
 
+  async deleteFreelancerProject(freelancer_id: string, project_id: string) {
+    this.logger.info(
+      `FreelancerService: deleteFreelancerProject: Deleting project using: Freelancer ID:${freelancer_id} and Project ID:${project_id}`,
+    );
+
+    const delete_project = this.FreelancerDAO.deleteProjectById(
+      freelancer_id,
+      project_id,
+    );
+    if (!delete_project) {
+      this.logger.error(
+        "FreelancerService: deleteFreelancerProject: Project not found",
+        freelancer_id,
+      );
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+  }
+
   async getFreelancerProfile(freelancer_id: string) {
     this.logger.info(
-      "FreelancerService: getFreelancerProfile: Fetching vendor profile for ID: ",
+      "FreelancerService: getFreelancerProfile: Fetching FREELANCER profile for ID: ",
       freelancer_id,
     );
 
@@ -33,54 +55,95 @@ export class FreelancerService extends BaseService {
         freelancer_id,
       );
       throw new NotFoundError(
-        RESPONSE_MESSAGE.VENDOR_NOT_FOUND,
-        ERROR_CODES.VENDOR_NOT_FOUND,
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
       );
     }
 
     return freelancer;
   }
 
+  async createFreelancerProfile(freelancer: IFreelancer) {
+    this.logger.info(
+      "FreelancerService: createFreelancerProfile: Creating Freelancer: ",
+      freelancer,
+    );
+
+    const data: any = await this.FreelancerDAO.createFreelancer(freelancer);
+
+    return data;
+  }
+
+  async addFreelancerProject(freelancer_id: string, project) {
+    this.logger.info(
+      "FreelancerService: addFreelancerProject: Creating Freelancer Project: ",
+      freelancer_id,
+      project,
+    );
+
+    const data: any = await this.FreelancerDAO.createProjectById(
+      freelancer_id,
+      project,
+    );
+
+    return data;
+  }
+  
+  async updateProfileFreelancer(freelancer_id: string, freelancer) {
+    this.logger.info(
+      "FreelancerService: updateProfileFreelancer: Updating Freelancer: ",
+      freelancer_id,
+      freelancer,
+    );
+
+    const data: any = await this.FreelancerDAO.updateFreelancer(
+      { _id: freelancer_id },
+      freelancer,
+    );
+
+    return data;
+  }
+
   /**
-   * Service method for vendor login
+   * Service method for FREELANCER login
    * @param body
    * @param em
    */
   // async login(body: FreelancerLoginBody) {
   //   const { email: workEmail, password } = body;
-  //   let vendor: any = await this.freelancerDAO.findOneByEmail(workEmail);
+  //   let FREELANCER: any = await this.freelancerDAO.findOneByEmail(workEmail);
 
-  //   if (!vendor) {
+  //   if (!FREELANCER) {
   //     throw new BadRequestError('Invalid email or password', ERROR_CODES.INVALID_EMAIL_OR_PASSWORD);
   //   }
 
-  //   const passwordMatches = await bcrypt.compare(password, vendor.password);
+  //   const passwordMatches = await bcrypt.compare(password, FREELANCER.password);
   //   if (!passwordMatches) {
   //     this.logger.error('FreelancerService: login : Password is incorrect');
   //     throw new BadRequestError('Invalid email or password', ERROR_CODES.INVALID_EMAIL_OR_PASSWORD);
   //   }
 
-  //   if (!vendor.firebase_id) {
+  //   if (!FREELANCER.firebase_id) {
   //     this.logger.error('FreelancerService: login : Freelancer is not verified');
   //     throw new BadRequestError('Freelancer is not verified', ERROR_CODES.EMAIL_NOT_VERIFIED);
   //   }
 
   //   const [customToken] = await Promise.all([
-  //     firebaseClient.generateCustomToken(vendor.firebase_id),
-  //     // this.userSubscriptionDAO.getSubscriptionByFreelancerId(vendor.id),
+  //     firebaseClient.generateCustomToken(FREELANCER.firebase_id),
+  //     // this.userSubscriptionDAO.getSubscriptionByFreelancerId(FREELANCER.id),
   //   ]);
 
   //   return {
   //     firebase_custom_token: customToken,
-  //     user_id: vendor.id,
-  //     user_name: vendor.full_name,
-  //     email: vendor.email,
+  //     user_id: FREELANCER.id,
+  //     user_name: FREELANCER.full_name,
+  //     email: FREELANCER.email,
   //     subscription: subscription?.entity_plan,
   //   };
   // }
 
   // /**
-  //  * Service method to register a new vendor
+  //  * Service method to register a new FREELANCER
   //  * @param body
   //  * @param em
   //  * @returns
@@ -88,24 +151,24 @@ export class FreelancerService extends BaseService {
   // async register(body: FreelancerRegistrationBody) {
   //   const { full_name: fullName, email: workEmail, password } = body;
 
-  //   let vendor: any = await this.freelancerDAO.findOneByEmail(workEmail);
+  //   let FREELANCER: any = await this.freelancerDAO.findOneByEmail(workEmail);
 
-  //   if (vendor?.owner_id) {
+  //   if (FREELANCER?.owner_id) {
   //     this.logger.error('Staff members are not allowed to proceed');
 
   //     throw new BadRequestError(
   //       RESPONSE_MESSAGE.STAFF_REGISTERATION_NOT_ALLOWED,
   //       ERROR_CODES.STAFF_REGISTERATION_NOT_ALLOWED,
   //     );
-  //   } else if (vendor?.is_email_verified) {
+  //   } else if (FREELANCER?.is_email_verified) {
   //     this.logger.error('Verified owners are not allowed to proceed');
 
   //     throw new BadRequestError(RESPONSE_MESSAGE.VERIFIED_OWNERS_NOT_ALLOWED, ERROR_CODES.USER_ALREADY_REGISTERED);
   //   }
 
-  //   if (!vendor) {
+  //   if (!FREELANCER) {
   //     const hashedPassword = await hashPassword(password);
-  //     vendor = {
+  //     FREELANCER = {
   //       id: uuidv4(),
   //       full_name: fullName,
   //       email: workEmail,
@@ -113,14 +176,14 @@ export class FreelancerService extends BaseService {
   //       is_email_verified: false
   //     };
 
-  //     await this.freelancerDAO.create(this.freelancerDAO.model, vendor)
+  //     await this.freelancerDAO.create(this.freelancerDAO.model, FREELANCER)
   //   }
 
-  //   const jwtToken = jwtSign({ id: vendor!.id }, JWT_SECRET_KEY, { expiresIn: '7d' });
+  //   const jwtToken = jwtSign({ id: FREELANCER!.id }, JWT_SECRET_KEY, { expiresIn: '7d' });
   //   const encryptedJwt = await encrypt(jwtToken, ENCRYPTION_SECRET_KEY);
   //   const verificationLink = `${VERIFICATION_DOMAIN}?token=${encryptedJwt}`;
 
-  //   this.logger.info(`FreelancerService: register: id: ${vendor!.id} and  Verification link: ${verificationLink}`);
+  //   this.logger.info(`FreelancerService: register: id: ${FREELANCER!.id} and  Verification link: ${verificationLink}`);
 
   //   const { SENDER, SUBJECT, TEXTBODY } = EMAIL_VERIFICATION_EMAIL_CONSTANTS;
   //   await this.sesService.sendEmail({
