@@ -31,7 +31,7 @@ export const RESPONSE_MESSAGE = {
   USER_NOT_FOUND: "User not found",
   SUBSCRIPTION_NOT_FOUND: "Subscription by provided ID was not found.",
   DRAFT_SUB_NOT_FOUND: "No subscription found for this draft owner",
-  VENDOR_NOT_FOUND: "Freelancer with provided ID could not be found.",
+  FREELANCER_NOT_FOUND: "Freelancer with provided ID could not be found.",
   DRAFT_NOT_FOUND: "Draft with provided ID could not be found.",
   DRAFT_IS_INCOMPLETE:
     "This draft is incomplete and cannot be submitted for review",
@@ -66,7 +66,7 @@ export const EMAIL_VERIFICATION_EMAIL_CONSTANTS = {
 export const ERROR_CODES = {
   PASSWORDS_DO_NOT_MATCH: "PASSWORDS_DO_NOT_MATCH",
   USER_ALREADY_REGISTERED: "USER_ALREADY_REGISTERED",
-  VENDOR_NOT_FOUND: "VENDOR_NOT_FOUND",
+  FREELANCER_NOT_FOUND: "FREELANCER_NOT_FOUND",
   OFFERS_NOT_FOUND: "OFFERS_NOT_FOUND",
   OTP_MISMATCH: "OTP_MISMATCH",
   OTP_EXPIRED: "OTP_EXPIRED",
@@ -146,7 +146,7 @@ export const ENCRYPTION_SECRET_KEY = "Secret key";
 export const PASSWORD_SALT_ROUNDS = 10;
 
 export const FIREBASE_USER_TYPE = {
-  VENDOR: "VENDOR",
+  FREELANCER: "FREELANCER",
   CUSTOMER: "CUSTOMER",
   FMV_ADMIN: "FMV_ADMIN",
 };

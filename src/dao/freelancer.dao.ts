@@ -74,6 +74,14 @@ export class FreelancerDAO extends BaseDAO {
     });
   }
 
+  async deleteProjectById(id: string, project_id: string) {
+    return this.model.findByIdAndUpdate(
+      id,
+      { $unset: { [`projects.${project_id}`]: "" } },
+      { new: true },
+    );
+  }
+
   async createProjectById() {
     return;
   }

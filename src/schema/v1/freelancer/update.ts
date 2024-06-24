@@ -47,7 +47,6 @@ export const updateFreelancerSchema: FastifySchema = {
   },
 };
 
-
 export const addFreelancerProjectSchema: FastifySchema = {
   description: "API to delete project freelancer",
   tags: ["Freelancer"],

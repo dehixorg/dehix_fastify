@@ -101,7 +101,7 @@ export function getListingFormCongif() {
 }
 
 export function getCreateFreelancerQuery() {
-  return `INSERT INTO vendor_team (id, full_name, email, password, is_email_verified, created_at, updated_at)
+  return `INSERT INTO FREELANCER_team (id, full_name, email, password, is_email_verified, created_at, updated_at)
     VALUES (?, ?, ?, ?, ?,  NOW(), NOW())`;
 }
 
@@ -110,7 +110,7 @@ export function getCreateDraftQuery() {
     VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())`;
 }
 
-export function getDrafts(ownerId, formTypes, vendorId) {
+export function getDrafts(ownerId, formTypes, FREELANCERId) {
   const query = `WITH LatestDrafts AS (
    
     SELECT form_type, MAX(created_at) as max_created, created_by
@@ -122,10 +122,10 @@ export function getDrafts(ownerId, formTypes, vendorId) {
   FROM draft d
   JOIN LatestDrafts ld ON d.form_type = ld.form_type AND d.created_at = ld.max_created AND d.created_by = ld.created_by;`;
 
-  return { query, bindParams: [vendorId, ownerId] };
+  return { query, bindParams: [FREELANCERId, ownerId] };
 }
 
-export function getHotelDraftsQuery(ownerId, vendorId) {
+export function getHotelDraftsQuery(ownerId, FREELANCERId) {
   const query = `
   WITH LatestDrafts AS (
    
@@ -147,5 +147,5 @@ export function getHotelDraftsQuery(ownerId, vendorId) {
   ORDER BY created_at DESC
   LIMIT 1)`;
 
-  return { query, bindParams: [vendorId, ownerId, ownerId] };
+  return { query, bindParams: [FREELANCERId, ownerId, ownerId] };
 }

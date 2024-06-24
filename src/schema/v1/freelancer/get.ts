@@ -2,13 +2,13 @@
  * File: get.ts
  * Author: Akhil
  * Date: 22-05-2024
- * Description:schema for API to get vendor profile data
+ * Description:schema for API to get FREELANCER profile data
  */
 
 import { FastifySchema } from "fastify";
 
 export const getFreelancerSchema: FastifySchema = {
-  description: "API to get vendor profile data",
+  description: "API to get FREELANCER profile data",
   tags: ["Freelancer"],
   response: {
     200: {

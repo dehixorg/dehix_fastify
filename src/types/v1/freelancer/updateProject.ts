@@ -1,4 +1,3 @@
-
-  export interface PutFreelancerProjectBody{
-    update:any;
-  }
+export interface PutFreelancerProjectBody {
+  update: any;
+}

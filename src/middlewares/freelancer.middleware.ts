@@ -15,7 +15,7 @@
 
 //     if (!freelancer) {
 //       logger.error(`freelancer not found with id: ${request.decodedToken?.userId}`);
-//       throw new NotFoundError(ERROR_CODES.VENDOR_NOT_FOUND, `${STATUS_CODES.NOT_FOUND}`);
+//       throw new NotFoundError(ERROR_CODES.FREELANCER_NOT_FOUND, `${STATUS_CODES.NOT_FOUND}`);
 //     }
 
 //     request.metadata = { freelancer };
