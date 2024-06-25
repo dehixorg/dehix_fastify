@@ -38,6 +38,8 @@ export class FreelancerService extends BaseService {
         ERROR_CODES.FREELANCER_NOT_FOUND,
       );
     }
+
+    return { success: true };
   }
 
   async deleteFreelancerSkill(freelancer_id: string, skill_id: string) {
