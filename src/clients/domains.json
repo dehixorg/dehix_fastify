@@ -1,0 +1,23 @@
+ [
+      { "label": "frontend" },
+      { "label": "backend" },
+      { "label": "database" },
+      { "label": "cloud computing" },
+      { "label": "mobile development" },
+      { "label": "machine learning" },
+      { "label": "data science" },
+      { "label": "devops" },
+      { "label": "cybersecurity" },
+      { "label": "UI/UX design" },
+      { "label": "networking" },
+      { "label": "game development" },
+      { "label": "e-commerce" },
+      { "label": "social media" },
+      { "label": "artificial intelligence" },
+      { "label": "blockchain" },
+      { "label": "IoT (Internet of Things)" },
+      { "label": "big data" },
+      { "label": "web scraping" },
+      { "label": "embedded systems" }
+    ]
+  
