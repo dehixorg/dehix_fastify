@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, DELETE, GET, Inject, POST, PUT } from "fastify-decorators";
+import { Controller, GET, Inject } from "fastify-decorators";
 import { SkillsService } from "../services/skills.service";
 import {
   STATUS_CODES,
@@ -21,7 +21,7 @@ export default class SkillsController extends AuthController {
   skillsService!: SkillsService;
 
   @GET(SKILLS_ALL_ENDPOINT, { schema: getSkillsSchema })
-  async getSkills(reply: FastifyReply) {
+  async getSkills(request: FastifyRequest, reply: FastifyReply) {
     try {
       this.logger.info(`SkillsController -> getSkills -> Fetching skills`);
 
@@ -33,7 +33,7 @@ export default class SkillsController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       }
-
+      console.log("DATA:", data);
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(`Error in getSkills: ${error.message}`);

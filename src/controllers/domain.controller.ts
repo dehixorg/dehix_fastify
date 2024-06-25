@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, DELETE, GET, Inject, POST, PUT } from "fastify-decorators";
+import { Controller, GET, Inject } from "fastify-decorators";
 import { DomainService } from "../services/domain.service";
 import {
   STATUS_CODES,
@@ -21,7 +21,7 @@ export default class DomainController extends AuthController {
   domainService!: DomainService;
 
   @GET(DOMAIN_ALL_ENDPOINT, { schema: getDomainSchema })
-  async getDomain(reply: FastifyReply) {
+  async getDomain(request: FastifyRequest, reply: FastifyReply) {
     try {
       this.logger.info(`DomainController -> getDomain -> Fetching domain`);
 
