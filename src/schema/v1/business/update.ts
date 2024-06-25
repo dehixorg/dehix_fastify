@@ -76,14 +76,14 @@ export const updateBusinessSchema: FastifySchema = {
         type: "array",
         items: {
           type: "string",
-          format: "objectid"
+          format: "freelancer_id"
         }
       },
       Appliedcandidates: {
         type: "array",
         items: {
           type: "string",
-          format: "objectid"
+          format: "freelancer_id"
         }
       },
       hirefreelancer: {
@@ -93,7 +93,7 @@ export const updateBusinessSchema: FastifySchema = {
           properties: {
             freelancer: {
               type: "string",
-              format: "objectid"
+              format: "freelancer_id"
             },
             status: {
               type: "string",
@@ -156,7 +156,7 @@ export const hireFreelancerSchema: FastifySchema = {
         properties: {
           freelancer: {
             type: "string",
-            format: "objectid"
+            format: "freelancer_id"
           },
           status: {
             type: "string",
@@ -218,7 +218,7 @@ export const hireFreelancerSchema: FastifySchema = {
         properties: {
           candidate: {
             type: "string",
-            format: "objectid"
+            format: "freelancer_id"
           }
         },
         required: ["candidate"]
