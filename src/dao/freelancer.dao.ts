@@ -149,4 +149,11 @@ return this.model.findByIdAndUpdate(
       { new: true })
    }
 
+   async addDomainById(id: string, domain: any) {
+    return this.model.updateOne(
+      { _id: id },
+      { $addToSet: { domain: { $each: domain } } },
+    );
+  }
+
 }

@@ -505,3 +505,68 @@ export const addFreelancerSkillsSchema: FastifySchema = {
     },
   },
 };
+
+export const createDomainSchema: FastifySchema = {
+  description: "API to create business data",
+  tags: ["Business"],
+  body: {
+    type: "object",
+    properties: {
+      _id: {
+        type: "string",
+        format: "uuid"
+      },
+      name: {
+        type: "string"
+      },
+      description: {
+        type: "string"
+      }
+    },
+    required: ["name"]
+  }
+  
+  ,
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: {
+          type: "object",
+          properties: {
+            email: { type: "string" },
+          },
+        },
+      },
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
