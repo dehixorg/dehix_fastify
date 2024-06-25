@@ -3,14 +3,17 @@ import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
 import { IFreelancer, FreelancerModel } from "../models/freelancer.entity";
 import { v4 as uuidv4 } from "uuid";
+import ApplicationForWorkModel, { IApplicationForWork } from "src/models/applyforwork.entity";
+import { string } from "zod";
 
 @Service()
 export class FreelancerDAO extends BaseDAO {
   model: Model<IFreelancer>;
-
+applicationmodel:Model<IApplicationForWork>
   constructor() {
     super();
     this.model = FreelancerModel;
+    this.applicationmodel=ApplicationForWorkModel
   }
 
   async getFreelancerByEmail(email: string) {
@@ -105,4 +108,45 @@ export class FreelancerDAO extends BaseDAO {
       throw new Error(`Failed to add freelancer: ${error.message}`);
     }
   }
+   async updatePendingProjectById(freelancer_id:string,project_id:string){
+return this.model.findByIdAndUpdate(
+  freelancer_id,
+  { $addToSet: { pendingProject: project_id } },
+  { new: true }
+);
+
+   }
+   async updateProjectByIdToAccept(freelancer_id:string,project_id:string){
+    return this.model.findByIdAndUpdate(
+      freelancer_id,
+      {
+        $pull: { pendingProject: project_id},
+        $addToSet: { acceptedProject: project_id }
+      },
+      { new: true }
+    );
+       }
+       async updateProjectByIdToReject(freelancer_id:string,project_id:string){
+        return this.model.findByIdAndUpdate(
+          freelancer_id,
+          {
+            $pull: { pendingProject: project_id },
+            $addToSet: { rejectedProject:project_id }
+          },
+          { new: true }
+        );
+        
+           }
+   async creatJobApplication(data:any){
+    return this.applicationmodel.create(data)
+   }
+   async findJobApplicationById(application_id:string){
+    return this.applicationmodel.findById(application_id);
+   }
+   async updateJobApplicationStatusById(application_id:string,status:string){
+    return this.applicationmodel.findByIdAndUpdate(application_id,
+      { status:status },
+      { new: true })
+   }
+
 }
