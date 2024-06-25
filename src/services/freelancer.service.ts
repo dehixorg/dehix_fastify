@@ -40,6 +40,23 @@ export class FreelancerService extends BaseService {
     }
   }
 
+  async deleteFreelancerSkill(freelancer_id: string, skill_id: string) {
+    this.logger.info(
+      `FreelancerService: deleteFreelancerSkill: Deleting skill for Freelancer ID:${freelancer_id} and Skill ID:${skill_id}`,
+    );
+
+    const updateResult = await this.FreelancerDAO.updateFreelancer(
+      { _id: freelancer_id },
+      { $pull: { skills: { _id: skill_id } } },
+    );
+
+    if (updateResult.modifiedCount === 0) {
+      throw new Error("Skill not found or already deleted");
+    }
+
+    return { success: true };
+  }
+
   async getFreelancerProfile(freelancer_id: string) {
     this.logger.info(
       "FreelancerService: getFreelancerProfile: Fetching FREELANCER profile for ID: ",

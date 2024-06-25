@@ -15,6 +15,7 @@ import {
   FREELANCER_CREATE_ENDPOINT,
   FREELANCER_PROJECT_DELETE_BY_ID,
   FREELANCER_SKILLS_ADD_BY_ID,
+  FREELANCER_SKILL_DELETE_BY_ID,
 } from "../constants/freelancer.constant";
 import { getFreelancerSchema } from "../schema/v1/freelancer/get";
 import { UnAuthorisedError } from "../common/errors";
@@ -28,8 +29,14 @@ import {
   PutFreelancerBody,
   PutFreelancerSkillsBody,
 } from "../types/v1/freelancer/updateProfile";
-import { deleteFreelancerProjectSchema } from "../schema/v1/freelancer/delete";
-import { DeleteFreelancerPathParams } from "../types/v1/freelancer/delete";
+import {
+  deleteFreelancerProjectSchema,
+  deleteFreelancerSkillSchema,
+} from "../schema/v1/freelancer/delete";
+import {
+  DeleteFreelancerProjectPathParams,
+  DeleteFreelancerSkillPathParams,
+} from "../types/v1/freelancer/delete";
 import { PutFreelancerProjectBody } from "../types/v1/freelancer/updateProject";
 
 import { addFreelancerSkillsSchema } from "../schema/v1/freelancer/update";
@@ -87,7 +94,7 @@ export default class FreelancerController extends AuthController {
     schema: deleteFreelancerProjectSchema,
   })
   async deleteProjectById(
-    request: FastifyRequest<{ Params: DeleteFreelancerPathParams }>,
+    request: FastifyRequest<{ Params: DeleteFreelancerProjectPathParams }>,
     reply: FastifyReply,
   ) {
     this.logger.info(
@@ -96,6 +103,23 @@ export default class FreelancerController extends AuthController {
     const data = await this.freelancerService.deleteFreelancerProject(
       request.params.freelancer_id,
       request.params.project_id,
+    );
+    reply.status(STATUS_CODES.SUCCESS).send({ data });
+  }
+
+  @DELETE(FREELANCER_SKILL_DELETE_BY_ID, {
+    schema: deleteFreelancerSkillSchema,
+  })
+  async deleteSkillById(
+    request: FastifyRequest<{ Params: DeleteFreelancerSkillPathParams }>,
+    reply: FastifyReply,
+  ) {
+    this.logger.info(
+      `FreelancerController -> deleteSkillById -> Deleting skill using: ${request.params}`,
+    );
+    const data = await this.freelancerService.deleteFreelancerSkill(
+      request.params.freelancer_id,
+      request.params.skill_id,
     );
     reply.status(STATUS_CODES.SUCCESS).send({ data });
   }

@@ -46,3 +46,48 @@ export const deleteFreelancerProjectSchema: FastifySchema = {
     },
   },
 };
+
+export const deleteFreelancerSkillSchema: FastifySchema = {
+  description: "API to delete a skill of a freelancer",
+  tags: ["Freelancer"],
+  params: {
+    type: "object",
+    properties: {
+      freelancer_id: {
+        type: "string",
+        description: "The ID of the freelancer",
+      },
+      skill_id: {
+        type: "string",
+        description: "The ID of the skill to be deleted",
+      },
+    },
+    required: ["freelancer_id", "skill_id"],
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: { type: "object" },
+      },
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
