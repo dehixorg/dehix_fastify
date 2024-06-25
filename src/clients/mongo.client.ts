@@ -26,12 +26,12 @@ export namespace MongoClient {
 
     logger.info("mongo client -> init -> dbModels", models);
 
-    // Seed skills
-    await seedSkills();
+    // Seed skill when its a new DB
+    // await seedSkills();
   }
 }
 
-async function seedSkills() {
+export async function seedSkills() {
   const skillDAO = new SkillDAO();
   try {
     const insertedSkills = await skillDAO.addSkills(skills);
