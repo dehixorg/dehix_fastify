@@ -1,7 +1,7 @@
 import { FastifySchema } from "fastify";
 import { updateBusinessSchema } from "./update";
 
-export const getFreelancerSchema: FastifySchema = {
+export const getBusinessSchema: FastifySchema = {
   description: "API to get Business profile data",
   tags: ["Business"],
   response: {
