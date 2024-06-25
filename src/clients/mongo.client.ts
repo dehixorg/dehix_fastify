@@ -2,6 +2,9 @@ import { FastifyInstance } from "fastify";
 import mongoose from "mongoose";
 import models from "../models/index";
 import { logger } from "../common/services/logger.service";
+import skills from "./skills.json" assert { type: "json" };
+
+import { SkillDAO } from "../dao/skills.dao";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace MongoClient {
@@ -22,5 +25,19 @@ export namespace MongoClient {
     fastify.decorate("mongoModels", models);
 
     logger.info("mongo client -> init -> dbModels", models);
+
+    // Seed skills
+    await seedSkills();
+  }
+}
+
+async function seedSkills() {
+  const skillDAO = new SkillDAO();
+  try {
+    const insertedSkills = await skillDAO.addSkills(skills);
+    logger.info(`Successfully inserted ${insertedSkills.length} skills.`);
+  } catch (error: any) {
+    logger.error(`Failed to insert skills: ${error.message}`);
+    // Handle error appropriately
   }
 }
