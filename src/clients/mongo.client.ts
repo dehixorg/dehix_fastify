@@ -3,8 +3,10 @@ import mongoose from "mongoose";
 import models from "../models/index";
 import { logger } from "../common/services/logger.service";
 import skills from "./skills.json" assert { type: "json" };
+import domains from "./domains.json" assert { type: "json" };
 
 import { SkillDAO } from "../dao/skills.dao";
+import { DomainDAO } from "../dao/domain.dao";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace MongoClient {
@@ -26,8 +28,9 @@ export namespace MongoClient {
 
     logger.info("mongo client -> init -> dbModels", models);
 
-    // Seed skill when its a new DB
+    // Seed skills and domains when its a new DB
     // await seedSkills();
+    // await seedDomains();
   }
 }
 
@@ -36,6 +39,17 @@ export async function seedSkills() {
   try {
     const insertedSkills = await skillDAO.addSkills(skills);
     logger.info(`Successfully inserted ${insertedSkills.length} skills.`);
+  } catch (error: any) {
+    logger.error(`Failed to insert skills: ${error.message}`);
+    // Handle error appropriately
+  }
+}
+
+export async function seedDomains() {
+  const domainDAO = new DomainDAO();
+  try {
+    const insertedDomains = await domainDAO.addDomain(domains);
+    logger.info(`Successfully inserted ${insertedDomains.length} domains.`);
   } catch (error: any) {
     logger.error(`Failed to insert skills: ${error.message}`);
     // Handle error appropriately

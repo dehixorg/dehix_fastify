@@ -13,78 +13,78 @@ export const createBusinessSchema: FastifySchema = {
       "password",
       "email",
       "phone",
-      "isBusiness"
+      "isBusiness",
     ],
     properties: {
       _id: {
         type: "string",
-        format: "uuid"
+        format: "uuid",
       },
       firstName: {
-        type: "string"
+        type: "string",
       },
       lastName: {
-        type: "string"
+        type: "string",
       },
       companyName: {
-        "type": "string"
+        type: "string",
       },
       companySize: {
-        type: "string"
+        type: "string",
       },
       password: {
-        type: "string"
+        type: "string",
       },
       email: {
-        type: "string"
+        type: "string",
       },
       phone: {
-        type: "string"
+        type: "string",
       },
       position: {
-        type: "string"
+        type: "string",
       },
       refer: {
-        type: "string"
+        type: "string",
       },
       verified: {},
       isVerified: {
         type: "boolean",
-        default: false
+        default: false,
       },
       linkedin: {
-        type: "string"
+        type: "string",
       },
       personalWebsite: {
-        type: "string"
+        type: "string",
       },
       isBusiness: {
         type: "boolean",
-        default: true
+        default: true,
       },
       connects: {
         type: "integer",
-        default: 0
+        default: 0,
       },
       otp: {
-        type: "string"
+        type: "string",
       },
       otpverified: {
-        type: "string"
+        type: "string",
       },
       ProjectList: {
         type: "array",
         items: {
           type: "string",
-          format: "objectid"
-        }
+          format: "objectid",
+        },
       },
       Appliedcandidates: {
         type: "array",
         items: {
           type: "string",
-          format: "objectid"
-        }
+          format: "objectid",
+        },
       },
       hirefreelancer: {
         type: "array",
@@ -93,18 +93,17 @@ export const createBusinessSchema: FastifySchema = {
           properties: {
             freelancer: {
               type: "string",
-              format: "objectid"
+              format: "objectid",
             },
             status: {
               type: "string",
-              default: "Pending"
-            }
-          }
-        }
-      }
-    }
-  }
-  ,
+              default: "Pending",
+            },
+          },
+        },
+      },
+    },
+  },
   response: {
     200: {
       description: "Success",

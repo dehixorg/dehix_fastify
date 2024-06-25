@@ -8,11 +8,11 @@ export const deleteHireFreelancerSchema: FastifySchema = {
     properties: {
       freelancer: {
         type: "string",
-        format: "freelancer_id"
-      }
+        format: "freelancer_id",
+      },
     },
-    "required": ["freelancer"]
-  },  
+    required: ["freelancer"],
+  },
   response: {
     200: {
       description: "Success",

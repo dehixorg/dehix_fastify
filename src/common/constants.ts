@@ -56,6 +56,12 @@ export const RESET_PASSWORD_EMAIL_CONSTANTS = {
   TEXTBODY: "Click on this link to reset your password: :verificationLink",
 };
 
+export const CREATE_PASSWORD_EMAIL_CONSTANTS = {
+  SENDER: process.env.SENDER_EMAIL_ID,
+  SUBJECT: "Create your password",
+  TEXTBODY: "Click on this link to create your password: :passLink",
+};
+
 export const PRICE_CONFIG_NAME = "PRICE_CONFIG";
 
 export const EMAIL_VERIFICATION_EMAIL_CONSTANTS = {

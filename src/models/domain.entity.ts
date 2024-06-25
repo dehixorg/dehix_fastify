@@ -32,5 +32,5 @@ export const DomainModel: Model<IDomain> = mongoose.model<IDomain>(
 );
 
 export default {
- DomainModel,
+  DomainModel,
 };
