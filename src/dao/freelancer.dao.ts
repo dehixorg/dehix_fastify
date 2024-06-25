@@ -46,8 +46,8 @@ export class FreelancerDAO extends BaseDAO {
   async updateFreelancerData(id: string, update: any) {
     return this.model.updateOne({ _id: id }, update);
   }
-  async findAllFreelancer() {
-    return this.model.find();
+  async findAllFreelancer(data) {
+    return this.model.find(data);
   }
 
   async addFreelancerSkill(id: string, skills: any) {
