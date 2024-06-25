@@ -14,6 +14,7 @@ import {
   FREELANCER_PROJECT_ADD_BY_ID,
   FREELANCER_CREATE_ENDPOINT,
   FREELANCER_PROJECT_DELETE_BY_ID,
+  FREELANCER_SKILLS_ADD_BY_ID,
 } from "../constants/freelancer.constant";
 import { getFreelancerSchema } from "../schema/v1/freelancer/get";
 import { UnAuthorisedError } from "../common/errors";
@@ -25,12 +26,13 @@ import {
 import {
   PutFreelancerPathParams,
   PutFreelancerBody,
+  PutFreelancerSkillsBody,
 } from "../types/v1/freelancer/updateProfile";
 import { deleteFreelancerProjectSchema } from "../schema/v1/freelancer/delete";
 import { DeleteFreelancerPathParams } from "../types/v1/freelancer/delete";
 import { PutFreelancerProjectBody } from "../types/v1/freelancer/updateProject";
 
-import { CreateFreelancerBody } from "../types/v1/freelancer/create";
+import { addFreelancerSkillsSchema } from "../schema/v1/freelancer/update";
 import { IFreelancer } from "src/models/freelancer.entity";
 import { createFreelancerSchema } from "../schema/v1/freelancer/create";
 
@@ -113,6 +115,25 @@ export default class FreelancerController extends AuthController {
     const data = await this.freelancerService.addFreelancerProject(
       request.params.freelancer_id,
       request.body,
+    );
+    reply.status(STATUS_CODES.SUCCESS).send({ data });
+  }
+
+  @PUT(FREELANCER_SKILLS_ADD_BY_ID, { schema: addFreelancerSkillsSchema })
+  async addSkillsById(
+    request: FastifyRequest<{
+      Params: PutFreelancerPathParams;
+      Body: PutFreelancerSkillsBody;
+    }>,
+    reply: FastifyReply,
+  ) {
+    this.logger.info(
+      `FreelancerController -> addSkillsById -> Adding skills for freelancer using ID: ${request.params.freelancer_id}`,
+    );
+
+    const data = await this.freelancerService.addFreelancerSkills(
+      request.params.freelancer_id,
+      request.body.skills,
     );
     reply.status(STATUS_CODES.SUCCESS).send({ data });
   }
