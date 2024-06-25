@@ -63,7 +63,7 @@ export default class FreelancerController extends AuthController {
 
       if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.NOT_FOUND,
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
           code: ERROR_CODES.NOT_FOUND,
         });
       }
@@ -97,7 +97,7 @@ export default class FreelancerController extends AuthController {
 
       if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.NOT_FOUND,
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
           code: ERROR_CODES.NOT_FOUND,
         });
       }
@@ -163,7 +163,7 @@ export default class FreelancerController extends AuthController {
 
       if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.NOT_FOUND,
+          message: RESPONSE_MESSAGE.NOT_FOUND("Skill"),
           code: ERROR_CODES.NOT_FOUND,
         });
       }
