@@ -230,7 +230,7 @@ const FreelancerSchema: Schema = new Schema(
           projectType: { type: String },
           oracleAssigned: {
             type: Schema.Types.ObjectId,
-            ref: "freelancer_data",
+            ref: "Freelancer",
           },
           verificationStatus: {
             type: String,

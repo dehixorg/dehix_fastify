@@ -106,10 +106,10 @@ const ProjectSchema: Schema<IProject> = new Schema(
     },
   },
   {
-    timestamps: true, // Add createdAt and updatedAt fields
-    versionKey: false, // Disable __v versioning field
-    paranoid: true, // Enable soft delete
-    underscored: true, // Use snake_case column names
+    timestamps: true, 
+    versionKey: false, 
+    paranoid: true,
+    underscored: true, 
   },
 );
 
