@@ -15,23 +15,17 @@ import {
 import { getDomainSchema } from "../schema/v1/domain/getAll";
 import { AuthController } from "../common/auth.controller";
 
-
 @Controller({ route: DOMAIN_ENDPOINT })
 export default class DomainController extends AuthController {
   @Inject(DomainService)
   domainService!: DomainService;
 
-  @GET(  DOMAIN_ALL_ENDPOINT, { schema: getDomainSchema })
-  async getDomain(
-    reply: FastifyReply,
-  ) {
+  @GET(DOMAIN_ALL_ENDPOINT, { schema: getDomainSchema })
+  async getDomain(reply: FastifyReply) {
     try {
-      this.logger.info(
-        `DomainController -> getDomain -> Fetching domain`,
-      );
+      this.logger.info(`DomainController -> getDomain -> Fetching domain`);
 
       const data = await this.domainService.getAllDomain();
-      
 
       if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -49,5 +43,4 @@ export default class DomainController extends AuthController {
       });
     }
   }
-
 }

@@ -15,23 +15,17 @@ import {
 import { getSkillsSchema } from "../schema/v1/skills/getAll";
 import { AuthController } from "../common/auth.controller";
 
-
 @Controller({ route: SKILLS_ENDPOINT })
 export default class SkillsController extends AuthController {
   @Inject(SkillsService)
   skillsService!: SkillsService;
 
-  @GET( SKILLS_ALL_ENDPOINT, { schema: getSkillsSchema })
-  async getSkills(
-    reply: FastifyReply,
-  ) {
+  @GET(SKILLS_ALL_ENDPOINT, { schema: getSkillsSchema })
+  async getSkills(reply: FastifyReply) {
     try {
-      this.logger.info(
-        `SkillsController -> getSkills -> Fetching skills`,
-      );
+      this.logger.info(`SkillsController -> getSkills -> Fetching skills`);
 
       const data = await this.skillsService.getAllSkills();
-      
 
       if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -49,5 +43,4 @@ export default class SkillsController extends AuthController {
       });
     }
   }
-
 }

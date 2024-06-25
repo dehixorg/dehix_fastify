@@ -7,7 +7,6 @@
 
 import { FastifySchema } from "fastify";
 
-
 export const getSkillsSchema: FastifySchema = {
   description: "API to get all skills",
   tags: ["Skills"],
@@ -17,49 +16,49 @@ export const getSkillsSchema: FastifySchema = {
       type: "object",
       properties: {
         data: {
-           type: "array",
-  items: {
-    type: "object",
-    properties: {
-      _id: {
-        type: "string"
-      },
-      label: {
-        type: "string"
-      }
-    },
-    required: ["_id", "label"],
-        }
-      },
-    },
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              _id: {
+                type: "string",
+              },
+              label: {
+                type: "string",
+              },
+            },
+            required: ["_id", "label"],
+          },
         },
       },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
+      404: {
+        type: "object",
+        properties: {
+          message: {
+            type: "string",
+          },
+          code: {
+            type: "string",
+          },
         },
       },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
+      403: {
+        type: "object",
+        properties: {
+          code: {
+            type: "string",
+          },
+          message: {
+            type: "string",
+          },
+        },
+      },
+      500: {
+        type: "object",
+        properties: {
+          message: { type: "string" },
+        },
       },
     },
   },
-}
-}
+};

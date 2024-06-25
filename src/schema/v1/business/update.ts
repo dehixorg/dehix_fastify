@@ -13,78 +13,78 @@ export const updateBusinessSchema: FastifySchema = {
       "password",
       "email",
       "phone",
-      "isBusiness"
+      "isBusiness",
     ],
     properties: {
       _id: {
         type: "string",
-        format: "uuid"
+        format: "uuid",
       },
       firstName: {
-        type: "string"
+        type: "string",
       },
       lastName: {
-        type: "string"
+        type: "string",
       },
       companyName: {
-        "type": "string"
+        type: "string",
       },
       companySize: {
-        type: "string"
+        type: "string",
       },
       password: {
-        type: "string"
+        type: "string",
       },
       email: {
-        type: "string"
+        type: "string",
       },
       phone: {
-        type: "string"
+        type: "string",
       },
       position: {
-        type: "string"
+        type: "string",
       },
       refer: {
-        type: "string"
+        type: "string",
       },
       verified: {},
       isVerified: {
         type: "boolean",
-        default: false
+        default: false,
       },
       linkedin: {
-        type: "string"
+        type: "string",
       },
       personalWebsite: {
-        type: "string"
+        type: "string",
       },
       isBusiness: {
         type: "boolean",
-        default: true
+        default: true,
       },
       connects: {
         type: "integer",
-        default: 0
+        default: 0,
       },
       otp: {
-        type: "string"
+        type: "string",
       },
       otpverified: {
-        type: "string"
+        type: "string",
       },
       ProjectList: {
         type: "array",
         items: {
           type: "string",
-          format: "freelancer_id"
-        }
+          format: "freelancer_id",
+        },
       },
       Appliedcandidates: {
         type: "array",
         items: {
           type: "string",
-          format: "freelancer_id"
-        }
+          format: "freelancer_id",
+        },
       },
       hirefreelancer: {
         type: "array",
@@ -93,16 +93,16 @@ export const updateBusinessSchema: FastifySchema = {
           properties: {
             freelancer: {
               type: "string",
-              format: "freelancer_id"
+              format: "freelancer_id",
             },
             status: {
               type: "string",
-              default: "Pending"
-            }
-          }
-        }
-      }
-    }
+              default: "Pending",
+            },
+          },
+        },
+      },
+    },
   },
   response: {
     200: {
@@ -149,120 +149,119 @@ export const updateBusinessSchema: FastifySchema = {
 };
 
 export const hireFreelancerSchema: FastifySchema = {
-    description: "API to add hire freelancer",
-    tags: ["Business"],
-    body: {
-        type: "object",
-        properties: {
-          freelancer: {
-            type: "string",
-            format: "freelancer_id"
-          },
-          status: {
-            type: "string",
-            default: "Pending"
-          }
-        },
-        required: ["freelancer"]
+  description: "API to add hire freelancer",
+  tags: ["Business"],
+  body: {
+    type: "object",
+    properties: {
+      freelancer: {
+        type: "string",
+        format: "freelancer_id",
       },
-    response: {
-      200: {
-        description: "Success",
-        type: "object",
-        properties: {
-          data: {
-            type: "object",
-            properties: {
-              email: { type: "string" },
-            },
-          },
-        },
+      status: {
+        type: "string",
+        default: "Pending",
       },
-      404: {
-        type: "object",
-        properties: {
-          message: {
-            type: "string",
+    },
+    required: ["freelancer"],
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: {
+          type: "object",
+          properties: {
+            email: { type: "string" },
           },
-          code: {
-            type: "string",
-          },
-        },
-      },
-      403: {
-        type: "object",
-        properties: {
-          code: {
-            type: "string",
-          },
-          message: {
-            type: "string",
-          },
-        },
-      },
-      500: {
-        type: "object",
-        properties: {
-          message: { type: "string" },
         },
       },
     },
-  };
-
-
-  export const appliedCandidateSchema: FastifySchema = {
-    description: "API to add applied candidate list",
-    tags: ["Business"],
-    body: {
-        type: "object",
-        properties: {
-          candidate: {
-            type: "string",
-            format: "freelancer_id"
-          }
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
         },
-        required: ["candidate"]
-      },
-    response: {
-      200: {
-        description: "Success",
-        type: "object",
-        properties: {
-          data: {
-            type: "object",
-            properties: {
-              email: { type: "string" },
-            },
-          },
-        },
-      },
-      404: {
-        type: "object",
-        properties: {
-          message: {
-            type: "string",
-          },
-          code: {
-            type: "string",
-          },
-        },
-      },
-      403: {
-        type: "object",
-        properties: {
-          code: {
-            type: "string",
-          },
-          message: {
-            type: "string",
-          },
-        },
-      },
-      500: {
-        type: "object",
-        properties: {
-          message: { type: "string" },
+        code: {
+          type: "string",
         },
       },
     },
-  };
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
+
+export const appliedCandidateSchema: FastifySchema = {
+  description: "API to add applied candidate list",
+  tags: ["Business"],
+  body: {
+    type: "object",
+    properties: {
+      candidate: {
+        type: "string",
+        format: "freelancer_id",
+      },
+    },
+    required: ["candidate"],
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: {
+          type: "object",
+          properties: {
+            email: { type: "string" },
+          },
+        },
+      },
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};

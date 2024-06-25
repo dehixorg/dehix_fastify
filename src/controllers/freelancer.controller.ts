@@ -39,7 +39,7 @@ import {
 import { PutFreelancerProjectBody } from "../types/v1/freelancer/updateProject";
 
 import { addFreelancerSkillsSchema } from "../schema/v1/freelancer/update";
-import { IFreelancer } from "src/models/freelancer.entity";
+import { IFreelancer } from "../models/freelancer.entity";
 import { createFreelancerSchema } from "../schema/v1/freelancer/create";
 
 @Controller({ route: FREELANCER_ENDPOINT })

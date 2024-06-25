@@ -41,10 +41,10 @@ const applyForPositionSchema: Schema<IApplicationForWork> = new Schema(
   },
 );
 
-
-export const ApplicationForWorkModel: Model<IApplicationForWork> = mongoose.model<IApplicationForWork>(
-  "Applicationforwork",
-  applyForPositionSchema,
-);
+export const ApplicationForWorkModel: Model<IApplicationForWork> =
+  mongoose.model<IApplicationForWork>(
+    "Applicationforwork",
+    applyForPositionSchema,
+  );
 
 export default ApplicationForWorkModel;

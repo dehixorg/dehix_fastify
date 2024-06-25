@@ -106,10 +106,10 @@ const ProjectSchema: Schema<IProject> = new Schema(
     },
   },
   {
-    timestamps: true, 
-    versionKey: false, 
+    timestamps: true,
+    versionKey: false,
     paranoid: true,
-    underscored: true, 
+    underscored: true,
   },
 );
 

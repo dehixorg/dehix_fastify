@@ -514,19 +514,18 @@ export const createDomainSchema: FastifySchema = {
     properties: {
       _id: {
         type: "string",
-        format: "uuid"
+        format: "uuid",
       },
       name: {
-        type: "string"
+        type: "string",
       },
       description: {
-        type: "string"
-      }
+        type: "string",
+      },
     },
-    required: ["name"]
-  }
-  
-  ,
+    required: ["name"],
+  },
+
   response: {
     200: {
       description: "Success",
