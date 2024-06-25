@@ -28,18 +28,8 @@ export class FreelancerService extends BaseService {
       freelancer_id,
       project_id,
     );
-    if (!delete_project) {
-      this.logger.error(
-        "FreelancerService: deleteFreelancerProject: Project not found",
-        freelancer_id,
-      );
-      throw new NotFoundError(
-        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
-        ERROR_CODES.FREELANCER_NOT_FOUND,
-      );
-    }
 
-    return { success: true };
+    return delete_project;
   }
 
   async deleteFreelancerSkill(freelancer_id: string, skill_id: string) {
@@ -47,16 +37,12 @@ export class FreelancerService extends BaseService {
       `FreelancerService: deleteFreelancerSkill: Deleting skill for Freelancer ID:${freelancer_id} and Skill ID:${skill_id}`,
     );
 
-    const updateResult = await this.FreelancerDAO.updateFreelancer(
+    const delete_skill = await this.FreelancerDAO.updateFreelancer(
       { _id: freelancer_id },
       { $pull: { skills: { _id: skill_id } } },
     );
 
-    if (updateResult.modifiedCount === 0) {
-      throw new Error("Skill not found or already deleted");
-    }
-
-    return { success: true };
+    return delete_skill;
   }
 
   async getFreelancerProfile(freelancer_id: string) {

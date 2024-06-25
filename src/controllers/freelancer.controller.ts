@@ -127,7 +127,6 @@ export default class FreelancerController extends AuthController {
         request.params.freelancer_id,
         request.params.project_id,
       );
-
       if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
@@ -161,7 +160,7 @@ export default class FreelancerController extends AuthController {
         request.params.skill_id,
       );
 
-      if (!data) {
+      if (data.modifiedCount == 0) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Skill"),
           code: ERROR_CODES.NOT_FOUND,
