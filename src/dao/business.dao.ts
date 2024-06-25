@@ -62,6 +62,10 @@ async findBusinessProject(id:string){
 async updateBusinessProject(id:string,update:any){
   return this.projectmodel.findByIdAndUpdate(id,update)
 }
+async addProjectById(business_id:string,project_id:string){
+return this.model.findByIdAndUpdate(business_id, { $push: { ProjectList: project_id } },
+  { new: true })
+}
   async deleteBusinessProject(id:string){
     return this.projectmodel.findByIdAndDelete(id)
   }
@@ -81,4 +85,7 @@ this.projectmodel.findOneAndUpdate({_id: project_id, "TotalNeedOffreelancer.cate
       { $set: { "TotalNeedOffreelancer.$.status": "not assigned" } }
     );
   }
+  async findAllProjects(){
+    return this.projectmodel.find()
+}
 }
