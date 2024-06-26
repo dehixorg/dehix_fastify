@@ -102,3 +102,10 @@ export interface PutFreelancerBody {
   userDataForVerification?: mongoose.Types.ObjectId[];
   interviewsAligned?: mongoose.Types.ObjectId[];
 }
+
+export interface PutFreelancerSkillsBody {
+  skills: string[];
+}
+export interface PutFreelancerOracleStatusBody {
+  oracleStatus: string;
+}

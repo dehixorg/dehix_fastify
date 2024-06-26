@@ -13,12 +13,12 @@ const InterviewSchema: Schema<IInterview> = new Schema(
   {
     interviewer: {
       type: Schema.Types.ObjectId,
-      ref: "freelancer_data",
+      ref: "Freelancer",
       required: true,
     },
     interviewee: {
       type: Schema.Types.ObjectId,
-      ref: "freelancer_data",
+      ref: "Freelancer",
       required: true,
     },
     skill: {

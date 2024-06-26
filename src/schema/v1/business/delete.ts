@@ -1,22 +1,29 @@
-/**
- * File: get.ts
- * Author: Akhil
- * Date: 22-05-2024
- * Description:schema for API to get FREELANCER profile data
- */
-
 import { FastifySchema } from "fastify";
-import { updateFreelancerSchema } from "./update";
 
-export const getFreelancerSchema: FastifySchema = {
-  description: "API to get FREELANCER profile data",
-  tags: ["Freelancer"],
+export const deleteHireFreelancerSchema: FastifySchema = {
+  description: "API to delete project freelancer",
+  tags: ["Business"],
+  body: {
+    type: "object",
+    properties: {
+      freelancer: {
+        type: "string",
+        format: "freelancer_id",
+      },
+    },
+    required: ["freelancer"],
+  },
   response: {
     200: {
       description: "Success",
       type: "object",
       properties: {
-        data: updateFreelancerSchema.body,
+        data: {
+          type: "object",
+          properties: {
+            email: { type: "string" },
+          },
+        },
       },
     },
     404: {

@@ -108,7 +108,7 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
     ProjectList: [
       {
         type: Schema.Types.ObjectId,
-        ref: "ProjectListByCompany",
+        ref: "Project",
       },
     ],
     Appliedcandidates: [
@@ -121,7 +121,7 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
       {
         freelancer: {
           type: Schema.Types.ObjectId,
-          ref: "freelancer_data",
+          ref: "Freelancer",
         },
         status: {
           type: String,

@@ -25,11 +25,12 @@ export const RESPONSE_MESSAGE = {
   DATABASE_REQUEST_ERROR: "Database request error",
   EXPIRED_TOKEN: "This token is expired",
   AUTHENTICATION_FAILED: "Failed to authenticate token.",
-  INTERNAL_SERVER_ERROR: "Internal server Error",
+  SERVER_ERROR: "Internal server Error",
   TOKEN_VERIFICATION_FAILED:
     "Something went wrong with the token verification.",
+  NOT_FOUND: (entity: string = "User") => `${entity} not found`,
   USER_NOT_FOUND: "User not found",
-  SUBSCRIPTION_NOT_FOUND: "Subscription by provided ID was not found.",
+  PROJECT_NOT_FOUND: "Subscription by provided ID was not found.",
   DRAFT_SUB_NOT_FOUND: "No subscription found for this draft owner",
   FREELANCER_NOT_FOUND: "Freelancer with provided ID could not be found.",
   DRAFT_NOT_FOUND: "Draft with provided ID could not be found.",
@@ -53,6 +54,12 @@ export const RESET_PASSWORD_EMAIL_CONSTANTS = {
   SENDER: process.env.SENDER_EMAIL_ID,
   SUBJECT: "Reset your password",
   TEXTBODY: "Click on this link to reset your password: :verificationLink",
+};
+
+export const CREATE_PASSWORD_EMAIL_CONSTANTS = {
+  SENDER: process.env.SENDER_EMAIL_ID,
+  SUBJECT: "Create your password",
+  TEXTBODY: "Click on this link to create your password: :passLink",
 };
 
 export const PRICE_CONFIG_NAME = "PRICE_CONFIG";

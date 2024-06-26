@@ -1,6 +1,15 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
+export interface ISkill extends Document {
+  _id: string;
+  name: string;
+  level: string;
+  experience: string;
+  interviewStatus?: "pending" | "accepted" | "rejected" | "reapplied";
+  interviewInfo?: mongoose.Types.ObjectId;
+  interviewerRating?: number;
+}
 export interface IFreelancer extends Document {
   _id: string;
   firstName: string;
@@ -24,14 +33,7 @@ export interface IFreelancer extends Document {
     verificationUpdateTime?: Date;
     comments?: string;
   }[];
-  skills?: {
-    name: string;
-    level: string;
-    experience: string;
-    interviewStatus?: "pending" | "accepted" | "rejected" | "reapplied";
-    interviewInfo?: mongoose.Types.ObjectId;
-    interviewerRating?: number;
-  }[];
+  skills?: ISkill[];
   education?: {
     degree?: string;
     universityName?: string;
@@ -105,6 +107,7 @@ const FreelancerSchema: Schema = new Schema(
     _id: {
       type: String,
       default: uuidv4,
+      required: true,
     },
     firstName: {
       type: String,
@@ -162,6 +165,11 @@ const FreelancerSchema: Schema = new Schema(
     ],
     skills: [
       {
+        _id: {
+          type: String,
+          default: uuidv4,
+          required: true,
+        },
         name: { type: String, required: false },
         level: { type: String, required: false },
         experience: { type: String, required: false },
@@ -222,7 +230,7 @@ const FreelancerSchema: Schema = new Schema(
           projectType: { type: String },
           oracleAssigned: {
             type: Schema.Types.ObjectId,
-            ref: "freelancer_data",
+            ref: "Freelancer",
           },
           verificationStatus: {
             type: String,

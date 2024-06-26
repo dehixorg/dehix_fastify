@@ -12,7 +12,7 @@ const OracleSchema: Schema<IOracle> = new Schema(
   {
     freeLancerId: {
       type: Schema.Types.ObjectId,
-      ref: "freelancer_data",
+      ref: "Freelancer",
       required: true,
     },
     experienceYears: {

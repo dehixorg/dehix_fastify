@@ -28,16 +28,21 @@ export class FreelancerService extends BaseService {
       freelancer_id,
       project_id,
     );
-    if (!delete_project) {
-      this.logger.error(
-        "FreelancerService: deleteFreelancerProject: Project not found",
-        freelancer_id,
-      );
-      throw new NotFoundError(
-        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
-        ERROR_CODES.FREELANCER_NOT_FOUND,
-      );
-    }
+
+    return delete_project;
+  }
+
+  async deleteFreelancerSkill(freelancer_id: string, skill_id: string) {
+    this.logger.info(
+      `FreelancerService: deleteFreelancerSkill: Deleting skill for Freelancer ID:${freelancer_id} and Skill ID:${skill_id}`,
+    );
+
+    const delete_skill = await this.FreelancerDAO.updateFreelancer(
+      { _id: freelancer_id },
+      { $pull: { skills: { _id: skill_id } } },
+    );
+
+    return delete_skill;
   }
 
   async getFreelancerProfile(freelancer_id: string) {
@@ -88,7 +93,22 @@ export class FreelancerService extends BaseService {
 
     return data;
   }
-  
+
+  async addFreelancerSkills(freelancer_id: string, skills: string[]) {
+    this.logger.info(
+      `FreelancerService -> addFreelancerSkills -> Adding skills for freelancer ID: ${freelancer_id}`,
+    );
+
+    const updatedFreelancer = await this.FreelancerDAO.addFreelancerSkill(
+      freelancer_id,
+      skills,
+    );
+    if (!updatedFreelancer) {
+      throw new Error("Freelancer not found or skills could not be added");
+    }
+    return updatedFreelancer;
+  }
+
   async updateProfileFreelancer(freelancer_id: string, freelancer) {
     this.logger.info(
       "FreelancerService: updateProfileFreelancer: Updating Freelancer: ",
@@ -99,6 +119,21 @@ export class FreelancerService extends BaseService {
     const data: any = await this.FreelancerDAO.updateFreelancer(
       { _id: freelancer_id },
       freelancer,
+    );
+
+    return data;
+  }
+
+  async updateFreelancerOracleStatus(freelancer_id: string, oracle_status: string) {
+    this.logger.info(
+      "FreelancerService: updateFreelancerOracleStatus: Updating Freelancer Oracle Status: ",
+      freelancer_id,
+      oracle_status,
+    );
+
+    const data: any = await this.FreelancerDAO.updateOracleStatusById(
+      freelancer_id,
+      oracle_status,
     );
 
     return data;

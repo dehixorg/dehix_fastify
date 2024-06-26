@@ -19,16 +19,16 @@ export default class BidController extends AuthController {
   @Inject(BidService)
   bidService!: BidService;
 
-  @POST(BID_ENDPOINT, { schema: bidApplySchema })
-  async bidApply(
-    request: FastifyRequest<{ Body: BidApplyBody }>,
-    reply: FastifyReply,
-  ) {
-    this.logger.info(`BidController -> getById -> Applying for bid}`);
-    const data = await this.bidService.create(request.body);
+  // @POST(BID_ENDPOINT, { schema: bidApplySchema })
+  // async bidApply(
+  //   request: FastifyRequest<{ Body: BidApplyBody }>,
+  //   reply: FastifyReply,
+  // ) {
+  //   this.logger.info(`BidController -> getById -> Applying for bid}`);
+  //   const data = await this.bidService.create(request.body);
 
-    reply.status(STATUS_CODES.SUCCESS).send({
-      data,
-    });
-  }
+  //   reply.status(STATUS_CODES.SUCCESS).send({
+  //     data,
+  //   });
+  // }
 }
