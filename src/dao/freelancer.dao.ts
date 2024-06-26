@@ -156,4 +156,12 @@ export class FreelancerDAO extends BaseDAO {
       { $addToSet: { domain: { $each: domain } } },
     );
   }
+
+  async updateOracleStatusById(freelancer_id: string, oracleStatus: string) {
+    return this.model.findByIdAndUpdate(
+      freelancer_id,
+      { oracleStatus },
+      { new: true }
+    );
+  }
 }
