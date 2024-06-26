@@ -3,8 +3,9 @@ import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
 import { IFreelancer, FreelancerModel } from "../models/freelancer.entity";
 import { v4 as uuidv4 } from "uuid";
-import ApplicationForWorkModel, { IApplicationForWork } from "src/models/applyforwork.entity";
+import ApplicationForWorkModel, { IApplicationForWork } from "../models/applyforwork.entity";
 import { string } from "zod";
+import { EnumDataType } from "sequelize";
 
 @Service()
 export class FreelancerDAO extends BaseDAO {
@@ -148,5 +149,13 @@ return this.model.findByIdAndUpdate(
       { status:status },
       { new: true })
    }
+
+   async updateOracleStatusById(freelancer_id: string, oracleStatus: string) {
+    return this.model.findByIdAndUpdate(
+      freelancer_id,
+      { oracleStatus },
+      { new: true }
+    );
+  }
 
 }
