@@ -569,3 +569,79 @@ export const createDomainSchema: FastifySchema = {
     },
   },
 };
+
+export const oracleStatusSchema: FastifySchema = {
+  description: "API to update oracle status of freelancer",
+  tags: ["Freelancer"],
+  body: {
+    type: 'object',
+    properties: {
+      oracleStatus: {
+        type: 'string',
+        enum: [
+          'notApplied',
+          'applied',
+          'approved',
+          'failed',
+          'stopped',
+          'reapplied'
+        ]
+      }
+    },
+    required: ['oracleStatus']
+  },
+  params: {
+    type: "object",
+    properties: {
+      freelancer_id: {
+        type: "string",
+        description:
+          "The ID of the freelancer to where the oracle status updated",
+      },
+    },
+    required: ["freelancer_id"],
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: {
+          type: "object",
+          properties: {
+            freelancer_id: { type: "string" },
+            oracleStatus: { type: "string" },
+          },
+        },
+      },
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};

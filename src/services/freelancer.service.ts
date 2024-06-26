@@ -124,6 +124,21 @@ export class FreelancerService extends BaseService {
     return data;
   }
 
+  async updateFreelancerOracleStatus(freelancer_id: string, oracle_status: string) {
+    this.logger.info(
+      "FreelancerService: updateFreelancerOracleStatus: Updating Freelancer Oracle Status: ",
+      freelancer_id,
+      oracle_status,
+    );
+
+    const data: any = await this.FreelancerDAO.updateOracleStatusById(
+      freelancer_id,
+      oracle_status,
+    );
+
+    return data;
+  }
+
   /**
    * Service method for FREELANCER login
    * @param body

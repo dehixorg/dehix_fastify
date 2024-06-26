@@ -106,3 +106,6 @@ export interface PutFreelancerBody {
 export interface PutFreelancerSkillsBody {
   skills: string[];
 }
+export interface PutFreelancerOracleStatusBody {
+  oracleStatus: string;
+}
