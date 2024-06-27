@@ -11,7 +11,7 @@ export interface ISkill extends Document {
   interviewerRating?: number;
 }
 export interface IFreelancer extends Document {
-  _id: string;
+  _id?: string;
   firstName: string;
   lastName: string;
   userName: string;
@@ -49,7 +49,7 @@ export interface IFreelancer extends Document {
   role?: string;
   projects?: {
     [key: string]: {
-      _id: string;
+      _id?: string;
       projectName: string;
       description: string;
       verified: boolean;
@@ -60,7 +60,7 @@ export interface IFreelancer extends Document {
       techUsed: string[];
       role: string;
       projectType: string;
-      oracleAssigned: mongoose.Types.ObjectId;
+      oracleAssigned: string;
       verificationStatus: "added" | "verified" | "rejected" | "reapplied";
       verificationUpdateTime: Date;
       comments: string;
@@ -229,7 +229,7 @@ const FreelancerSchema: Schema = new Schema(
           role: { type: String, required: true },
           projectType: { type: String },
           oracleAssigned: {
-            type: Schema.Types.ObjectId,
+            type: String,
             ref: "Freelancer",
           },
           verificationStatus: {

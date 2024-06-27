@@ -574,21 +574,21 @@ export const oracleStatusSchema: FastifySchema = {
   description: "API to update oracle status of freelancer",
   tags: ["Freelancer"],
   body: {
-    type: 'object',
+    type: "object",
     properties: {
       oracleStatus: {
-        type: 'string',
+        type: "string",
         enum: [
-          'notApplied',
-          'applied',
-          'approved',
-          'failed',
-          'stopped',
-          'reapplied'
-        ]
-      }
+          "notApplied",
+          "applied",
+          "approved",
+          "failed",
+          "stopped",
+          "reapplied",
+        ],
+      },
     },
-    required: ['oracleStatus']
+    required: ["oracleStatus"],
   },
   params: {
     type: "object",
@@ -611,6 +611,81 @@ export const oracleStatusSchema: FastifySchema = {
           properties: {
             freelancer_id: { type: "string" },
             oracleStatus: { type: "string" },
+          },
+        },
+      },
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
+
+export const interviewsAlignedSchema: FastifySchema = {
+  description: "API to aligned interview for freelancer",
+  tags: ["Freelancer"],
+  body: {
+    type: 'object',
+    properties: {
+      interviewsAligned: {
+        type: 'array',
+        items: {
+          type: 'string',  // Assuming ObjectId will be passed as a string
+          pattern: '^[0-9a-fA-F]{24}$'  // ObjectId validation pattern
+        }
+      }
+    },
+    required: ["interviewsAligned"]
+  },
+  params: {
+    type: "object",
+    properties: {
+      freelancer_id: {
+        type: "string",
+        description:
+          "The ID of the freelancery to whose interview aligned",
+      },
+    },
+    required: ["freelancer_id"],
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: {
+          type: "object",
+          properties: {
+            freelancer_id: { type: "string" },
+            interviewsAligned: { 
+              type: "array",
+              items: { type: 'string' }
+            },
           },
         },
       },

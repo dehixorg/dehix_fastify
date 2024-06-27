@@ -161,7 +161,16 @@ export class FreelancerDAO extends BaseDAO {
     return this.model.findByIdAndUpdate(
       freelancer_id,
       { oracleStatus },
+      { new: true },
+    );
+  }
+
+  async interviewsAlignedById(freelancer_id: string, interviewsAligned: string[]) {
+    return this.model.findByIdAndUpdate(
+      freelancer_id,
+      { interviewsAligned },
       { new: true }
     );
   }
+
 }
