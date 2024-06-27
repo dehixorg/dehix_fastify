@@ -229,7 +229,7 @@ const FreelancerSchema: Schema = new Schema(
           role: { type: String, required: true },
           projectType: { type: String },
           oracleAssigned: {
-            type: Schema.Types.ObjectId,
+            type: String,
             ref: "Freelancer",
           },
           verificationStatus: {
