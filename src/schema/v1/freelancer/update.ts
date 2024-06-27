@@ -645,3 +645,78 @@ export const oracleStatusSchema: FastifySchema = {
     },
   },
 };
+
+export const interviewsAlignedSchema: FastifySchema = {
+  description: "API to aligned interview for freelancer",
+  tags: ["Freelancer"],
+  body: {
+    type: 'object',
+    properties: {
+      interviewsAligned: {
+        type: 'array',
+        items: {
+          type: 'string',  // Assuming ObjectId will be passed as a string
+          pattern: '^[0-9a-fA-F]{24}$'  // ObjectId validation pattern
+        }
+      }
+    },
+    required: ["interviewsAligned"]
+  },
+  params: {
+    type: "object",
+    properties: {
+      freelancer_id: {
+        type: "string",
+        description:
+          "The ID of the freelancery to whose interview aligned",
+      },
+    },
+    required: ["freelancer_id"],
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: {
+          type: "object",
+          properties: {
+            freelancer_id: { type: "string" },
+            interviewsAligned: { 
+              type: "array",
+              items: { type: 'string' }
+            },
+          },
+        },
+      },
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
