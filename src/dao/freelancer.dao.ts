@@ -161,7 +161,7 @@ export class FreelancerDAO extends BaseDAO {
     return this.model.findByIdAndUpdate(
       freelancer_id,
       { oracleStatus },
-      { new: true }
+      { new: true },
     );
   }
 }

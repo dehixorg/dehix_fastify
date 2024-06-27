@@ -574,21 +574,21 @@ export const oracleStatusSchema: FastifySchema = {
   description: "API to update oracle status of freelancer",
   tags: ["Freelancer"],
   body: {
-    type: 'object',
+    type: "object",
     properties: {
       oracleStatus: {
-        type: 'string',
+        type: "string",
         enum: [
-          'notApplied',
-          'applied',
-          'approved',
-          'failed',
-          'stopped',
-          'reapplied'
-        ]
-      }
+          "notApplied",
+          "applied",
+          "approved",
+          "failed",
+          "stopped",
+          "reapplied",
+        ],
+      },
     },
-    required: ['oracleStatus']
+    required: ["oracleStatus"],
   },
   params: {
     type: "object",
