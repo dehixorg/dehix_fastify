@@ -11,7 +11,7 @@ export interface ISkill extends Document {
   interviewerRating?: number;
 }
 export interface IFreelancer extends Document {
-  _id: string;
+  _id?: string;
   firstName: string;
   lastName: string;
   userName: string;
@@ -49,7 +49,7 @@ export interface IFreelancer extends Document {
   role?: string;
   projects?: {
     [key: string]: {
-      _id: string;
+      _id?: string;
       projectName: string;
       description: string;
       verified: boolean;
