@@ -163,6 +163,21 @@ export class FreelancerService extends BaseService {
     return data;
   }
 
+  async freelancerInterviewsAligned(freelancer_id: string, interviews_aligned: string[]) {
+    this.logger.info(
+      "FreelancerService: freelancerInterviewsAligned: Freelancer Interviews aligned: ",
+      freelancer_id,
+      interviews_aligned,
+    );
+
+    const data: any = await this.FreelancerDAO.interviewsAlignedById(
+      freelancer_id,
+      interviews_aligned,
+    );
+
+    return data;
+  }
+
   /**
    * Service method for FREELANCER login
    * @param body
