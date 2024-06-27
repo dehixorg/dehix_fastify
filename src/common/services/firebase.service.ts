@@ -35,13 +35,14 @@ class FirebaseClient {
    * @param emailAddress
    * @returns
    */
-  async createUserByEmail(emailAddress: string): Promise<string> {
+  async createUserByEmail(emailAddress: string): Promise<any> {
     try {
       const userRecord = await this.admin.auth().createUser({
         email: emailAddress,
         emailVerified: true,
       });
-      return userRecord.uid;
+      const reset_link = await this.sendPasswordResetLink(emailAddress);
+      return [userRecord.uid, reset_link];
     } catch (error) {
       throw new Error(
         `FirebaseClient-> createFireBaseUser ->Error creating user: ${error}`,
@@ -168,6 +169,25 @@ class FirebaseClient {
         error,
       );
       throw error;
+    }
+  }
+
+  /**
+   * Method to send a password reset email
+   * @param email
+   * @returns {Promise<void>}
+   */
+  async sendPasswordResetLink(email: string): Promise<any> {
+    try {
+      const resetLink = await this.admin
+        .auth()
+        .generatePasswordResetLink(email);
+      return resetLink;
+    } catch (error: any) {
+      logger.error(
+        `FirebaseClient-> sendPasswordResetEmail ->Error: ${error.message}`,
+      );
+      throw new Error(`Failed to send password reset email: ${error.message}`);
     }
   }
 

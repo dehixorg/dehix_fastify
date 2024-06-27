@@ -10,14 +10,23 @@ import { Service, Inject } from "fastify-decorators";
 
 import { BaseService } from "../common/base.service";
 import { NotFoundError } from "../common/errors";
-import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
+import {
+  ERROR_CODES,
+  RESPONSE_MESSAGE,
+  CREATE_PASSWORD_EMAIL_CONSTANTS,
+} from "../common/constants";
 import { FreelancerDAO } from "../dao/freelancer.dao";
 import { IFreelancer } from "../models/freelancer.entity";
+import { firebaseClient } from "../common/services";
+import { SESService } from "../common/services";
 
 @Service()
 export class FreelancerService extends BaseService {
   @Inject(FreelancerDAO)
   private FreelancerDAO!: FreelancerDAO;
+
+  @Inject(SESService)
+  private sesService!: SESService;
 
   async deleteFreelancerProject(freelancer_id: string, project_id: string) {
     this.logger.info(
@@ -74,6 +83,18 @@ export class FreelancerService extends BaseService {
       freelancer,
     );
 
+    const [freelancer_id, reset_link] = await firebaseClient.createUserByEmail(
+      freelancer.email,
+    );
+    freelancer._id = freelancer_id;
+    //uncomment when SES is up
+    // const { SENDER, SUBJECT, TEXTBODY } = CREATE_PASSWORD_EMAIL_CONSTANTS;
+    // await this.sesService.sendEmail({
+    //   sender: SENDER!,
+    //   recipient: [freelancer.email],
+    //   subject: SUBJECT,
+    //   textBody: TEXTBODY.replace(":passLink", reset_link),
+    // });
     const data: any = await this.FreelancerDAO.createFreelancer(freelancer);
 
     return data;
@@ -124,7 +145,10 @@ export class FreelancerService extends BaseService {
     return data;
   }
 
-  async updateFreelancerOracleStatus(freelancer_id: string, oracle_status: string) {
+  async updateFreelancerOracleStatus(
+    freelancer_id: string,
+    oracle_status: string,
+  ) {
     this.logger.info(
       "FreelancerService: updateFreelancerOracleStatus: Updating Freelancer Oracle Status: ",
       freelancer_id,
