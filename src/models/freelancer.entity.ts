@@ -60,7 +60,7 @@ export interface IFreelancer extends Document {
       techUsed: string[];
       role: string;
       projectType: string;
-      oracleAssigned: mongoose.Types.ObjectId;
+      oracleAssigned: string;
       verificationStatus: "added" | "verified" | "rejected" | "reapplied";
       verificationUpdateTime: Date;
       comments: string;
