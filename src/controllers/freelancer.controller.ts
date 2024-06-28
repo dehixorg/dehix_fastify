@@ -16,17 +16,23 @@ import {
   FREELANCER_PROJECT_DELETE_BY_ID,
   FREELANCER_SKILLS_ADD_BY_ID,
   FREELANCER_SKILL_DELETE_BY_ID,
+  FREELANCER_ORACLE_STATUS_BY_ID,
+  FREELANCER_INTERVIEWS_ALIGNED_BY_ID,
 } from "../constants/freelancer.constant";
 import { getFreelancerSchema } from "../schema/v1/freelancer/get";
 import { AuthController } from "../common/auth.controller";
 import {
   addFreelancerProjectSchema,
+  interviewsAlignedSchema,
+  oracleStatusSchema,
   updateFreelancerSchema,
 } from "../schema/v1/freelancer/update";
 import {
   PutFreelancerPathParams,
   PutFreelancerBody,
   PutFreelancerSkillsBody,
+  PutFreelancerOracleStatusBody,
+  PutFreelancerInterviewsAlignedBody,
 } from "../types/v1/freelancer/updateProfile";
 import {
   deleteFreelancerProjectSchema,
@@ -248,6 +254,62 @@ export default class FreelancerController extends AuthController {
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(`Error in create: ${error.message}`);
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
+        message: RESPONSE_MESSAGE.SERVER_ERROR,
+        code: ERROR_CODES.SERVER_ERROR,
+      });
+    }
+  }
+
+  @PUT(FREELANCER_ORACLE_STATUS_BY_ID, { schema: oracleStatusSchema })
+  async updateOracleStatusById(
+    request: FastifyRequest<{
+      Params: PutFreelancerPathParams;
+      Body: PutFreelancerOracleStatusBody;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FreelancerController -> updateOracleStatusById -> Updating oracle status of freelancer using ID: ${request.params.freelancer_id}`,
+      );
+
+      const data = await this.freelancerService.updateFreelancerOracleStatus(
+        request.params.freelancer_id,
+        request.body.oracleStatus,
+      );
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in updateOracleStatusById: ${error.message}`);
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
+        message: RESPONSE_MESSAGE.SERVER_ERROR,
+        code: ERROR_CODES.SERVER_ERROR,
+      });
+    }
+  }
+
+  @PUT(FREELANCER_INTERVIEWS_ALIGNED_BY_ID, { schema: interviewsAlignedSchema })
+  async interviewsAlignedById(
+    request: FastifyRequest<{
+      Params: PutFreelancerPathParams;
+      Body: PutFreelancerInterviewsAlignedBody;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FreelancerController -> interviewsAlignedById -> Interviews aligned of freelancer using ID: ${request.params.freelancer_id}`,
+      );
+
+      const data = await this.freelancerService.freelancerInterviewsAligned(
+        request.params.freelancer_id,
+        request.body.interviewsAligned,
+      );
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in aligned interviews: ${error.message}`);
       reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,

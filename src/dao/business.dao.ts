@@ -18,6 +18,10 @@ export class businessDAO extends BaseDAO {
     return this.model.findOne({ email });
   }
 
+async getBusinessById(id:string)
+{
+  return this.model.findById(id)
+}
   async populateBusiness(business_id: string) {
     return this.model.findById(business_id).populate("ProjectList").populate({
       path: "hirefreelancer.freelancer",
@@ -29,6 +33,9 @@ export class businessDAO extends BaseDAO {
       { email },
       "id password firebase_id full_name email is_email_verified owner_id",
     );
+  }
+  async createBusiness(data:any){
+return this.model.create(data)
   }
 
   async getById(id: string) {
@@ -55,18 +62,21 @@ export class businessDAO extends BaseDAO {
   async createProjectBusiness(data: any) {
     return this.projectmodel.create(data);
   }
-async findBusinessProject(id:string){
-  return this.projectmodel.findById(id)
-}
-async updateBusinessProject(id:string,update:any){
-  return this.projectmodel.findByIdAndUpdate(id,update)
-}
-async addProjectById(business_id:string,project_id:string){
-return this.model.findByIdAndUpdate(business_id, { $push: { ProjectList: project_id } },
-  { new: true })
-}
-  async deleteBusinessProject(id:string){
-    return this.projectmodel.findByIdAndDelete(id)
+  async findBusinessProject(id: string) {
+    return this.projectmodel.findById(id);
+  }
+  async updateBusinessProject(id: string, update: any) {
+    return this.projectmodel.findByIdAndUpdate(id, update);
+  }
+  async addProjectById(business_id: string, project_id: string) {
+    return this.model.findByIdAndUpdate(
+      business_id,
+      { $push: { ProjectList: project_id } },
+      { new: true },
+    );
+  }
+  async deleteBusinessProject(id: string) {
+    return this.projectmodel.findByIdAndDelete(id);
   }
 
   async addAppliedCandidateById(business_id: string, candidate_id: string) {
@@ -97,7 +107,7 @@ return this.model.findByIdAndUpdate(business_id, { $push: { ProjectList: project
       { $set: { "TotalNeedOffreelancer.$.status": "not assigned" } },
     );
   }
-  async findAllProjects(){
-    return this.projectmodel.find()
-}
+  async findAllProjects() {
+    return this.projectmodel.find();
+  }
 }

@@ -1,19 +1,18 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
-// Define an interface for the ApplicationForWork document
 export interface IApplicationForWork extends Document {
-  uuid: string;
+  _id: string;
   desiredSalary: string;
   role: string;
   status: string;
   projectId: Schema.Types.ObjectId;
 }
 
-// Define the ApplicationForWork schema
+
 const applyForPositionSchema: Schema<IApplicationForWork> = new Schema(
   {
-    uuid: {
+    _id: {
       type: String,
       default: uuidv4,
       required: true,
@@ -37,7 +36,7 @@ const applyForPositionSchema: Schema<IApplicationForWork> = new Schema(
     },
   },
   {
-    timestamps: true, // Add createdAt and updatedAt fields
+    timestamps: true,
   },
 );
 
