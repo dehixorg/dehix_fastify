@@ -76,14 +76,14 @@ export const createBusinessSchema: FastifySchema = {
         type: "array",
         items: {
           type: "string",
-          format: "objectid",
+
         },
       },
       Appliedcandidates: {
         type: "array",
         items: {
           type: "string",
-          format: "objectid",
+
         },
       },
       hirefreelancer: {
@@ -93,7 +93,7 @@ export const createBusinessSchema: FastifySchema = {
           properties: {
             freelancer: {
               type: "string",
-              format: "objectid",
+    
             },
             status: {
               type: "string",

@@ -8,7 +8,7 @@ export interface IBusiness extends Document {
   lastName: string;
   companyName: string;
   companySize: string;
-  password: string;
+  // password: string;
   email: string;
   phone: string;
   position?: string;
@@ -21,10 +21,10 @@ export interface IBusiness extends Document {
   connects: number;
   otp?: string;
   otpverified?: string;
-  ProjectList: Schema.Types.ObjectId[];
-  Appliedcandidates: Schema.Types.ObjectId[];
+  ProjectList: mongoose.Types.ObjectId[];
+  Appliedcandidates: mongoose.Types.ObjectId[];
   hirefreelancer: {
-    freelancer: Schema.Types.ObjectId;
+    freelancer: mongoose.Types.ObjectId;
     status: string;
   }[];
 }
@@ -52,10 +52,10 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
       type: String,
       required: true,
     },
-    password: {
-      type: String,
-      required: true,
-    },
+    // password: {
+    //   type: String,
+    //   required: true,
+    // },
     email: {
       type: String,
       required: true,
