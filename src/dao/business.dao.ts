@@ -18,6 +18,10 @@ export class businessDAO extends BaseDAO {
     return this.model.findOne({ email });
   }
 
+async getBusinessById(id:string)
+{
+  return this.model.findById(id)
+}
   async populateBusiness(business_id: string) {
     return this.model.findById(business_id).populate("ProjectList").populate({
       path: "hirefreelancer.freelancer",
@@ -29,6 +33,9 @@ export class businessDAO extends BaseDAO {
       { email },
       "id password firebase_id full_name email is_email_verified owner_id",
     );
+  }
+  async createBusiness(data:any){
+return this.model.create(data)
   }
 
   async getById(id: string) {
