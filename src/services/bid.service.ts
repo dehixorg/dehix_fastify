@@ -2,6 +2,7 @@ import { Service, Inject } from "fastify-decorators";
 import { BaseService } from "../common/base.service";
 import { BidApplyBody } from "../types/v1/bid/bidApplyBody";
 import { BidDAO } from "../dao/bid.dao";
+import { PutBidBody } from "src/types/v1/bid/updateBid";
 
 @Service()
 export class BidService extends BaseService {
@@ -22,5 +23,20 @@ export class BidService extends BaseService {
       domain_id,
     );
     return bid;
+  }
+
+  async updateBid(bid_id: string, bid) {
+    this.logger.info(
+      "BidService: updateBid: Updating Bid: ",
+      bid_id,
+      bid,
+    );
+
+    const data: any = await this.BidDAO.updateBid(
+      { _id: bid_id },
+      bid,
+    );
+
+    return data;
   }
 }

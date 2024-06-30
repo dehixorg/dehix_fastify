@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
+import { string } from "zod";
 
 // Define an interface for the Bid document
 export interface IBid extends Document {
