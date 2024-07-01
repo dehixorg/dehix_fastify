@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
-export  interface GetBusinessPathParams{
-    project_id:string,
-    business_id:string
+export interface GetBusinessPathParams {
+  project_id: string;
+  business_id: string;
 }
 
-export interface BusinessBody{
+export interface BusinessBody {
   _id: string;
   firstName: string;
   lastName: string;

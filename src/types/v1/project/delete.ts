@@ -1,3 +1,3 @@
-export interface DeleteProjectPathParams{
-    project_id:string;
+export interface DeleteProjectPathParams {
+  project_id: string;
 }

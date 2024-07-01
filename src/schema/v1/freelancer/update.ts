@@ -650,25 +650,24 @@ export const interviewsAlignedSchema: FastifySchema = {
   description: "API to aligned interview for freelancer",
   tags: ["Freelancer"],
   body: {
-    type: 'object',
+    type: "object",
     properties: {
       interviewsAligned: {
-        type: 'array',
+        type: "array",
         items: {
-          type: 'string',  // Assuming ObjectId will be passed as a string
-          pattern: '^[0-9a-fA-F]{24}$'  // ObjectId validation pattern
-        }
-      }
+          type: "string", // Assuming ObjectId will be passed as a string
+          pattern: "^[0-9a-fA-F]{24}$", // ObjectId validation pattern
+        },
+      },
     },
-    required: ["interviewsAligned"]
+    required: ["interviewsAligned"],
   },
   params: {
     type: "object",
     properties: {
       freelancer_id: {
         type: "string",
-        description:
-          "The ID of the freelancery to whose interview aligned",
+        description: "The ID of the freelancery to whose interview aligned",
       },
     },
     required: ["freelancer_id"],
@@ -682,9 +681,9 @@ export const interviewsAlignedSchema: FastifySchema = {
           type: "object",
           properties: {
             freelancer_id: { type: "string" },
-            interviewsAligned: { 
+            interviewsAligned: {
               type: "array",
-              items: { type: 'string' }
+              items: { type: "string" },
             },
           },
         },

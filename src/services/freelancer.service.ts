@@ -10,11 +10,7 @@ import { Service, Inject } from "fastify-decorators";
 
 import { BaseService } from "../common/base.service";
 import { NotFoundError } from "../common/errors";
-import {
-  ERROR_CODES,
-  RESPONSE_MESSAGE,
-  CREATE_PASSWORD_EMAIL_CONSTANTS,
-} from "../common/constants";
+import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { FreelancerDAO } from "../dao/freelancer.dao";
 import { IFreelancer } from "../models/freelancer.entity";
 import { firebaseClient } from "../common/services";
@@ -83,9 +79,12 @@ export class FreelancerService extends BaseService {
       freelancer,
     );
 
-    const [freelancer_id, reset_link] = await firebaseClient.createUserByEmail(
-      freelancer.email,
-    );
+    const [freelancer_id, _] =
+      await firebaseClient.createFireBaseUserWithCustomClaims(
+        freelancer.email,
+        freelancer.password,
+        { type: "freelancer" },
+      );
     freelancer._id = freelancer_id;
     //uncomment when SES is up
     // const { SENDER, SUBJECT, TEXTBODY } = CREATE_PASSWORD_EMAIL_CONSTANTS;
@@ -163,7 +162,10 @@ export class FreelancerService extends BaseService {
     return data;
   }
 
-  async freelancerInterviewsAligned(freelancer_id: string, interviews_aligned: string[]) {
+  async freelancerInterviewsAligned(
+    freelancer_id: string,
+    interviews_aligned: string[],
+  ) {
     this.logger.info(
       "FreelancerService: freelancerInterviewsAligned: Freelancer Interviews aligned: ",
       freelancer_id,

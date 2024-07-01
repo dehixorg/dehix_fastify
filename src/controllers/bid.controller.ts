@@ -8,7 +8,10 @@ import {
   RESPONSE_MESSAGE,
 } from "../common/constants";
 // import { GetBidPathParams } from "../types/v1";
-import { BID_ENDPOINT, UPDATE_BID_BY_ID_ENDPOINT } from "../constants/bid.constant";
+import {
+  BID_ENDPOINT,
+  UPDATE_BID_BY_ID_ENDPOINT,
+} from "../constants/bid.constant";
 import { UnAuthorisedError } from "../common/errors";
 import { AuthController } from "../common/auth.controller";
 import { bidApplySchema } from "../schema/v1/bid/apply";
@@ -34,7 +37,7 @@ export default class BidController extends AuthController {
     });
   }
 
-  @PUT(UPDATE_BID_BY_ID_ENDPOINT,{ schema: updateBidSchema } ) //add schema
+  @PUT(UPDATE_BID_BY_ID_ENDPOINT, { schema: updateBidSchema }) //add schema
   async addProjectById(
     request: FastifyRequest<{
       Params: PutBidPathParams;
