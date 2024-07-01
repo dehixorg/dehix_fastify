@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, GET, Inject, POST, PUT } from "fastify-decorators";
+import { Controller, DELETE, GET, Inject, POST, PUT } from "fastify-decorators";
 import { BidService } from "../services";
 import {
   STATUS_CODES,
@@ -8,20 +8,24 @@ import {
   RESPONSE_MESSAGE,
 } from "../common/constants";
 // import { GetBidPathParams } from "../types/v1";
-import { BID_ENDPOINT, UPDATE_BID_BY_ID_ENDPOINT } from "../constants/bid.constant";
+import { BID_ENDPOINT, BID_ID_BUSINESS_END_POINT, BID_ID_ENDPOINT, BID_ID_FREELANCER_END_POINT, DELETE_BID_END_POINT, UPDATE_BID_BY_ID_ENDPOINT, UPDATE_BID_STATUS_BY_ID_ENDPOINT } from "../constants/bid.constant";
 import { UnAuthorisedError } from "../common/errors";
 import { AuthController } from "../common/auth.controller";
 import { bidApplySchema } from "../schema/v1/bid/apply";
 import { BidApplyBody } from "../types/v1/bid/bidApplyBody";
-import { PutBidBody, PutBidPathParams } from "../types/v1/bid/updateBid";
+import { BidStatusBody, PutBidBody, PutBidPathParams } from "../types/v1/bid/updateBid";
 import { updateBidSchema } from "../schema/v1/bid/update";
+import { getBidSchema } from "../schema/v1/bid/get";
+import { GetBidPathParams } from "../types/v1/bid/getBid";
+import { DeleteBidPathParams } from "../types/v1/bid/deleteBid";
+import { deleteBidSchema } from "../schema/v1/bid/delete";
 
 @Controller({ route: BID_ENDPOINT })
 export default class BidController extends AuthController {
   @Inject(BidService)
   bidService!: BidService;
 
-  @POST(BID_ENDPOINT, { schema: bidApplySchema })
+  @POST(BID_ID_ENDPOINT, { schema: bidApplySchema })
   async bidApply(
     request: FastifyRequest<{ Body: BidApplyBody }>,
     reply: FastifyReply,
@@ -56,6 +60,99 @@ export default class BidController extends AuthController {
     } catch (error: any) {
       this.logger.error(`Error in addProjectById: ${error.message}`);
       reply.status(STATUS_CODES.SERVER_ERROR).send({
+        message: RESPONSE_MESSAGE.SERVER_ERROR,
+        code: ERROR_CODES.SERVER_ERROR,
+      });
+    }
+  }
+
+  @PUT(UPDATE_BID_STATUS_BY_ID_ENDPOINT, { schema: updateBidSchema } )
+  async updateBidStatusById(
+    request: FastifyRequest<{
+      Params: PutBidPathParams;
+      Body: BidStatusBody;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `BidController -> updateBidStatusById -> Update bid status using ID: ${request.params.bid_id}`,
+      );
+
+      const data = await this.bidService.bidStatusUpdate(
+        request.params.bid_id,
+        request.body.status,
+      );
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in updateBidStatusById: ${error.message}`);
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
+        message: RESPONSE_MESSAGE.SERVER_ERROR,
+        code: ERROR_CODES.SERVER_ERROR,
+      });
+    }
+  }
+
+  @GET(BID_ID_BUSINESS_END_POINT, { schema: getBidSchema } ) 
+  async getBidBusiness(request:FastifyRequest<{Params:GetBidPathParams}>,reply:FastifyReply){
+  try {
+      this.logger.info(
+          `BidController -> getBidBusiness -> Fetching Business Bid for project ID: ${request.params.project_id}`,
+        );
+
+        const data = await this.bidService.getBidBusiness(request.params.project_id, request.params.domain_id, request.params.status);
+        
+        if (!data) {
+        return  reply.status(STATUS_CODES.NOT_FOUND).send({message:RESPONSE_MESSAGE.NOT_FOUND("Bid"),
+          code:ERROR_CODES.NOT_FOUND
+        });
+        }
+  reply.status(STATUS_CODES.SUCCESS).send({data})
+
+  } catch (error) {
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+    }
+  }
+
+  @GET(BID_ID_FREELANCER_END_POINT, { schema: getBidSchema } ) 
+  async getBidFreelancer(request:FastifyRequest<{Params:GetBidPathParams}>,reply:FastifyReply){
+  try {
+      this.logger.info(
+          `BidController -> getBidFreelancer -> Fetching Freelancer Bid for Bidder ID: ${request.params.bidder_id}`,
+        );
+
+        const data = await this.bidService.getBidfreelancer(request.params.bidder_id);
+        
+        if (!data) {
+        return  reply.status(STATUS_CODES.NOT_FOUND).send({message:RESPONSE_MESSAGE.NOT_FOUND("Bid"),
+          code:ERROR_CODES.NOT_FOUND
+        });
+        }
+  reply.status(STATUS_CODES.SUCCESS).send({data})
+
+  } catch (error) {
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+  }
+  }
+
+  @DELETE(DELETE_BID_END_POINT, { schema: deleteBidSchema } )
+  async deleteBid(request:FastifyRequest<{Params:DeleteBidPathParams}>,reply:FastifyReply){
+    try {
+      this.logger.info(
+        `BidController -> Delete Bid -> Deleting Bid for Bid ID: ${request.params.bid_id} `,
+      );
+    
+      const data= await this.bidService.deleteBid(request.params.bid_id)
+      return reply.status(STATUS_CODES.SUCCESS).send({data})
+    } catch (error) {
+      return reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });

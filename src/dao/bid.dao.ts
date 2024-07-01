@@ -48,4 +48,17 @@ export class BidDAO extends BaseDAO {
   async updateBidData(id: string, update: any) {
     return this.model.updateOne({ _id: id }, update).exec();
   }
+
+  async deleteBid(id:string){
+    return this.model.findByIdAndDelete(id)
+  }
+  async updateStatus(id:string,status:any){
+return this.model.findByIdAndUpdate(id,{status:status})
+  }
+async sendDataToFreelancer( bidder_id:string){
+  return this.model.find({bidder_id:bidder_id})
+}
+async sendDataToBusinessForProject(project_id:string,domain_id:string,status:string){
+return this.model.find({$and:[{project_id:project_id},{domain_id:domain_id},{status:status }]})
+}
 }
