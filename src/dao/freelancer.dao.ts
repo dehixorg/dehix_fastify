@@ -35,6 +35,15 @@ export class FreelancerDAO extends BaseDAO {
     );
   }
 
+  async findProject(project_id: string, freelancer_id: string){
+    return this.model.find(
+      {
+        _id: freelancer_id,
+        projects: { $elemMatch: { project_id: project_id } }
+      }
+    );
+}
+
   async updateFreelancer(condition: any, newData: any) {
     return this.model.updateOne(condition, newData);
   }
@@ -46,8 +55,8 @@ export class FreelancerDAO extends BaseDAO {
   async updateFreelancerData(id: string, update: any) {
     return this.model.updateOne({ _id: id }, update);
   }
-  async findAllFreelancer(data) {
-    return this.model.find(data);
+  async findAllFreelancer() {
+    return this.model.find();
   }
 
   async addFreelancerSkill(id: string, skills: any) {

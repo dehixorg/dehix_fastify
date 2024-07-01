@@ -28,7 +28,13 @@ export class FreelancerService extends BaseService {
     this.logger.info(
       `FreelancerService: deleteFreelancerProject: Deleting project using: Freelancer ID:${freelancer_id} and Project ID:${project_id}`,
     );
-
+    const project_exist = this.FreelancerDAO.findProject(freelancer_id, project_id)
+    if(!project_exist){
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.PROJECT_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND,
+      ); 
+    }
     const delete_project = this.FreelancerDAO.deleteProjectById(
       freelancer_id,
       project_id,
@@ -99,7 +105,7 @@ export class FreelancerService extends BaseService {
     return data;
   }
 
-  async addFreelancerProject(freelancer_id: string, project) {
+  async addFreelancerProject(freelancer_id: string, project: any) {
     this.logger.info(
       "FreelancerService: addFreelancerProject: Creating Freelancer Project: ",
       freelancer_id,
