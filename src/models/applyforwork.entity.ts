@@ -9,7 +9,6 @@ export interface IApplicationForWork extends Document {
   projectId: Schema.Types.ObjectId;
 }
 
-
 const applyForPositionSchema: Schema<IApplicationForWork> = new Schema(
   {
     _id: {

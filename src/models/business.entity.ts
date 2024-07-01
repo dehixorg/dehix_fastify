@@ -8,7 +8,7 @@ export interface IBusiness extends Document {
   lastName: string;
   companyName: string;
   companySize: string;
-  // password: string;
+  password: string;
   email: string;
   phone: string;
   position?: string;

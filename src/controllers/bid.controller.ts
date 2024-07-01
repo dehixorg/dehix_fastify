@@ -38,7 +38,7 @@ export default class BidController extends AuthController {
     });
   }
 
-  @PUT(UPDATE_BID_BY_ID_ENDPOINT,{ schema: updateBidSchema } ) //add schema
+  @PUT(UPDATE_BID_BY_ID_ENDPOINT, { schema: updateBidSchema }) //add schema
   async addProjectById(
     request: FastifyRequest<{
       Params: PutBidPathParams;

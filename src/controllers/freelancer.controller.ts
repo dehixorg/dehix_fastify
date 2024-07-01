@@ -239,28 +239,6 @@ export default class FreelancerController extends AuthController {
     }
   }
 
-  @POST(FREELANCER_CREATE_ENDPOINT, { schema: createFreelancerSchema })
-  async create(
-    request: FastifyRequest<{ Body: IFreelancer }>,
-    reply: FastifyReply,
-  ) {
-    try {
-      this.logger.info(
-        `FreelancerController -> create -> : Creating a new freelancer`,
-      );
-      const data = await this.freelancerService.createFreelancerProfile(
-        request.body,
-      );
-      reply.status(STATUS_CODES.SUCCESS).send({ data });
-    } catch (error: any) {
-      this.logger.error(`Error in create: ${error.message}`);
-      reply.status(STATUS_CODES.SERVER_ERROR).send({
-        message: RESPONSE_MESSAGE.SERVER_ERROR,
-        code: ERROR_CODES.SERVER_ERROR,
-      });
-    }
-  }
-
   @PUT(FREELANCER_ORACLE_STATUS_BY_ID, { schema: oracleStatusSchema })
   async updateOracleStatusById(
     request: FastifyRequest<{

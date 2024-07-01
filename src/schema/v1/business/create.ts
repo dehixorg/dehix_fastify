@@ -2,7 +2,7 @@ import { FastifySchema } from "fastify";
 
 export const createBusinessSchema: FastifySchema = {
   description: "API to create business data",
-  tags: ["Business"],
+  tags: ["Register"],
   body: {
     type: "object",
     required: [
@@ -76,14 +76,12 @@ export const createBusinessSchema: FastifySchema = {
         type: "array",
         items: {
           type: "string",
-
         },
       },
       Appliedcandidates: {
         type: "array",
         items: {
           type: "string",
-
         },
       },
       hirefreelancer: {
@@ -93,7 +91,6 @@ export const createBusinessSchema: FastifySchema = {
           properties: {
             freelancer: {
               type: "string",
-    
             },
             status: {
               type: "string",
