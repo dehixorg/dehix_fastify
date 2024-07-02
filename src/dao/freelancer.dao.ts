@@ -65,6 +65,9 @@ export class FreelancerDAO extends BaseDAO {
       { $addToSet: { skills: { $each: skills } } },
     );
   }
+  async findSkillExistInFreelancer(freelancer_id:string,skills_id:any){
+return this.model.findOne({_id:freelancer_id,skills: { $elemMatch: { _id: skills_id}}})
+  }
   async sendFreelancerInfo(id: string) {
     return this.model
       .findById(id, "id firebase_id full_name email is_email_verified owner_id")
