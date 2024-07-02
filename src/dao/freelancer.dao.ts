@@ -99,7 +99,7 @@ return this.model.findOne({_id:freelancer_id,skills: { $elemMatch: { _id: skills
     );
   }
 
-  async createProjectById(id: string, project) {
+  async createProjectById(id: string, project:any) {
     project._id = uuidv4();
     try {
       const result = await this.model.findByIdAndUpdate(

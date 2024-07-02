@@ -9,7 +9,7 @@ import { Service, Inject } from "fastify-decorators";
 // } = pkg;
 
 import { BaseService } from "../common/base.service";
-import { NotFoundError } from "../common/errors";
+import { ConflictError, NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { FreelancerDAO } from "../dao/freelancer.dao";
 import { IFreelancer } from "../models/freelancer.entity";
@@ -100,7 +100,14 @@ if (!checkSkill) {
       "FreelancerService: createFreelancerProfile: Creating Freelancer: ",
       freelancer,
     );
-
+const userExist= await this.FreelancerDAO.findOneByEmail(freelancer.email)
+if (userExist) {
+  throw new ConflictError(
+    "user already exist",
+    ERROR_CODES.USER_ALREADY_EXIST,
+  ); 
+  
+}
     const freelancer_id=
       await firebaseClient.createFireBaseUserWithCustomClaims(
         freelancer.email,
