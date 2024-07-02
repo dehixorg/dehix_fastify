@@ -101,7 +101,7 @@ if (!checkSkill) {
       freelancer,
     );
 
-    const [freelancer_id, _] =
+    const freelancer_id=
       await firebaseClient.createFireBaseUserWithCustomClaims(
         freelancer.email,
         freelancer.password,

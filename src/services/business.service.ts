@@ -11,7 +11,7 @@ export class BusinessService extends BaseService {
   // private FreelancerDAO!: FreelancerDAO;
   async createBusiness(business: IBusiness) {
     this.logger.info("Business Service:  creating business profile");
-    const [business_id, _] =
+    const business_id =
       await firebaseClient.createFireBaseUserWithCustomClaims(
         business.email,
         business.password,
