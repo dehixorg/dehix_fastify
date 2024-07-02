@@ -35,10 +35,14 @@ class FirebaseClient {
    * @param emailAddress
    * @returns
    */
-  async createUserByEmail(emailAddress: string): Promise<any> {
+  async createUserByEmail(
+    emailAddress: string,
+    password: string,
+  ): Promise<any> {
     try {
       const userRecord = await this.admin.auth().createUser({
         email: emailAddress,
+        password: password,
         emailVerified: true,
       });
       const reset_link = await this.sendPasswordResetLink(emailAddress);
@@ -119,14 +123,15 @@ class FirebaseClient {
    */
   async createFireBaseUserWithCustomClaims(
     email: string,
+    password: string,
     customClaims: { [key: string]: any },
   ): Promise<string> {
     try {
       logger.info(
-        `FirebaseClient-> createFireBaseUserWithCustomClaims -> creating firebase user for  venue admin id :`,
+        `FirebaseClient-> createFireBaseUserWithCustomClaims -> creating firebase user:`,
         customClaims,
       );
-      const userId: string = await this.createUserByEmail(email);
+      const [userId, _] = await this.createUserByEmail(email, password);
       await this.setCustomClaims(userId, customClaims);
       return userId;
     } catch (error) {

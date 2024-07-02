@@ -35,6 +35,15 @@ export class FreelancerDAO extends BaseDAO {
     );
   }
 
+  async findProject(project_id: string, freelancer_id: string){
+    return this.model.find(
+      {
+        _id: freelancer_id,
+        projects: { $elemMatch: { project_id: project_id } }
+      }
+    );
+}
+
   async updateFreelancer(condition: any, newData: any) {
     return this.model.updateOne(condition, newData);
   }
@@ -46,8 +55,8 @@ export class FreelancerDAO extends BaseDAO {
   async updateFreelancerData(id: string, update: any) {
     return this.model.updateOne({ _id: id }, update);
   }
-  async findAllFreelancer(data) {
-    return this.model.find(data);
+  async findAllFreelancer() {
+    return this.model.find();
   }
 
   async addFreelancerSkill(id: string, skills: any) {
@@ -55,6 +64,9 @@ export class FreelancerDAO extends BaseDAO {
       { _id: id },
       { $addToSet: { skills: { $each: skills } } },
     );
+  }
+  async findSkillExistInFreelancer(freelancer_id:string,skills_id:any){
+return this.model.findOne({_id:freelancer_id,skills: { $elemMatch: { _id: skills_id}}})
   }
   async sendFreelancerInfo(id: string) {
     return this.model
@@ -87,7 +99,7 @@ export class FreelancerDAO extends BaseDAO {
     );
   }
 
-  async createProjectById(id: string, project) {
+  async createProjectById(id: string, project:any) {
     project._id = uuidv4();
     try {
       const result = await this.model.findByIdAndUpdate(
@@ -165,12 +177,14 @@ export class FreelancerDAO extends BaseDAO {
     );
   }
 
-  async interviewsAlignedById(freelancer_id: string, interviewsAligned: string[]) {
+  async interviewsAlignedById(
+    freelancer_id: string,
+    interviewsAligned: string[],
+  ) {
     return this.model.findByIdAndUpdate(
       freelancer_id,
       { interviewsAligned },
-      { new: true }
+      { new: true },
     );
   }
-
 }

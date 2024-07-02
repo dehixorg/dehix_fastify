@@ -1,3 +1,3 @@
-export interface    GetBusinessPathParams{
-    business_id:string
+export interface GetBusinessPathParams {
+  business_id: string;
 }

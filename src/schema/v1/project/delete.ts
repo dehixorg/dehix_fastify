@@ -6,17 +6,17 @@ export const deleteProjectSchema: FastifySchema = {
   params: {
     type: "object",
     properties: {
-      projectId: { type: "string" }
+      projectId: { type: "string" },
     },
-    required: ["project_id"]
+    required: ["project_id"],
   },
   response: {
     200: {
       description: "Success",
       type: "object",
       properties: {
-        message: { type: "string" }
-      }
+        message: { type: "string" },
+      },
     },
     404: {
       type: "object",

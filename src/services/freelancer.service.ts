@@ -9,12 +9,8 @@ import { Service, Inject } from "fastify-decorators";
 // } = pkg;
 
 import { BaseService } from "../common/base.service";
-import { NotFoundError } from "../common/errors";
-import {
-  ERROR_CODES,
-  RESPONSE_MESSAGE,
-  CREATE_PASSWORD_EMAIL_CONSTANTS,
-} from "../common/constants";
+import { ConflictError, NotFoundError } from "../common/errors";
+import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { FreelancerDAO } from "../dao/freelancer.dao";
 import { IFreelancer } from "../models/freelancer.entity";
 import { firebaseClient } from "../common/services";
@@ -32,7 +28,13 @@ export class FreelancerService extends BaseService {
     this.logger.info(
       `FreelancerService: deleteFreelancerProject: Deleting project using: Freelancer ID:${freelancer_id} and Project ID:${project_id}`,
     );
-
+    const project_exist = this.FreelancerDAO.findProject(freelancer_id, project_id)
+    if(!project_exist){
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.PROJECT_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND,
+      ); 
+    }
     const delete_project = this.FreelancerDAO.deleteProjectById(
       freelancer_id,
       project_id,
@@ -45,7 +47,23 @@ export class FreelancerService extends BaseService {
     this.logger.info(
       `FreelancerService: deleteFreelancerSkill: Deleting skill for Freelancer ID:${freelancer_id} and Skill ID:${skill_id}`,
     );
-
+    const freelancerExist= await this.FreelancerDAO.getById(freelancer_id)
+    if (!freelancerExist) {
+      this.logger.error(
+        "FreelancerService: getFreelancerProfile: Freelancer not found with ID: ",
+        freelancer_id,
+      );
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+const checkSkill= await  this.FreelancerDAO.findSkillExistInFreelancer(freelancer_id,skill_id);
+if (!checkSkill) {
+  throw new NotFoundError(
+    RESPONSE_MESSAGE.DATA_NOT_FOUND,
+    ERROR_CODES.NOT_FOUND,)
+}
     const delete_skill = await this.FreelancerDAO.updateFreelancer(
       { _id: freelancer_id },
       { $pull: { skills: { _id: skill_id } } },
@@ -82,10 +100,20 @@ export class FreelancerService extends BaseService {
       "FreelancerService: createFreelancerProfile: Creating Freelancer: ",
       freelancer,
     );
-
-    const [freelancer_id, reset_link] = await firebaseClient.createUserByEmail(
-      freelancer.email,
-    );
+const userExist= await this.FreelancerDAO.findOneByEmail(freelancer.email)
+if (userExist) {
+  throw new ConflictError(
+    "user already exist",
+    ERROR_CODES.USER_ALREADY_EXIST,
+  ); 
+  
+}
+    const freelancer_id=
+      await firebaseClient.createFireBaseUserWithCustomClaims(
+        freelancer.email,
+        freelancer.password,
+        { type: "freelancer" },
+      );
     freelancer._id = freelancer_id;
     //uncomment when SES is up
     // const { SENDER, SUBJECT, TEXTBODY } = CREATE_PASSWORD_EMAIL_CONSTANTS;
@@ -100,13 +128,23 @@ export class FreelancerService extends BaseService {
     return data;
   }
 
-  async addFreelancerProject(freelancer_id: string, project) {
+  async addFreelancerProject(freelancer_id: string, project: any) {
     this.logger.info(
       "FreelancerService: addFreelancerProject: Creating Freelancer Project: ",
       freelancer_id,
       project,
     );
-
+    const freelancerExist= await this.FreelancerDAO.getById(freelancer_id)
+    if (!freelancerExist) {
+      this.logger.error(
+        "FreelancerService: getFreelancerProfile: Freelancer not found with ID: ",
+        freelancer_id,
+      );
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
     const data: any = await this.FreelancerDAO.createProjectById(
       freelancer_id,
       project,
@@ -119,7 +157,17 @@ export class FreelancerService extends BaseService {
     this.logger.info(
       `FreelancerService -> addFreelancerSkills -> Adding skills for freelancer ID: ${freelancer_id}`,
     );
-
+    const freelancerExist= await this.FreelancerDAO.getById(freelancer_id)
+    if (!freelancerExist) {
+      this.logger.error(
+        "FreelancerService: getFreelancerProfile: Freelancer not found with ID: ",
+        freelancer_id,
+      );
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
     const updatedFreelancer = await this.FreelancerDAO.addFreelancerSkill(
       freelancer_id,
       skills,
@@ -163,7 +211,10 @@ export class FreelancerService extends BaseService {
     return data;
   }
 
-  async freelancerInterviewsAligned(freelancer_id: string, interviews_aligned: string[]) {
+  async freelancerInterviewsAligned(
+    freelancer_id: string,
+    interviews_aligned: string[],
+  ) {
     this.logger.info(
       "FreelancerService: freelancerInterviewsAligned: Freelancer Interviews aligned: ",
       freelancer_id,

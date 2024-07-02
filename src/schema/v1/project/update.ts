@@ -12,54 +12,54 @@ export const updateProjectSchema: FastifySchema = {
       "companyName",
       "skillsRequired",
       "role",
-      "projectType"
+      "projectType",
     ],
     properties: {
       _id: {
         type: "string",
-        format: "uuid"
+        format: "uuid",
       },
       projectName: {
-        type: "string"
+        type: "string",
       },
       description: {
-        type: "string"
+        type: "string",
       },
       email: {
-        type: "string"
+        type: "string",
       },
       verified: {
-        type: "string"
+        type: "string",
       },
       isVerified: {
         type: "boolean",
-        default: false
+        default: false,
       },
       companyName: {
-        type: "string"
+        type: "string",
       },
       start: {
         type: "string",
-        format: "date-time"
+        format: "date-time",
       },
       end: {
         type: "string",
-        format: "date-time"
+        format: "date-time",
       },
       skillsRequired: {
         type: "array",
         items: {
-          type: "string"
-        }
+          type: "string",
+        },
       },
       experience: {
-        type: "string"
+        type: "string",
       },
       role: {
-        type: "string"
+        type: "string",
       },
       projectType: {
-        type: "string"
+        type: "string",
       },
       totalNeedOfFreelancer: {
         type: "array",
@@ -67,46 +67,46 @@ export const updateProjectSchema: FastifySchema = {
           type: "object",
           properties: {
             category: {
-              type: "string"
+              type: "string",
             },
             needOfFreelancer: {
-              type: "integer"
+              type: "integer",
             },
             appliedCandidates: {
               type: "array",
               items: {
-                type: "string"
-              }
+                type: "string",
+              },
             },
             rejected: {
               type: "array",
               items: {
-                type: "string"
-              }
+                type: "string",
+              },
             },
             accepted: {
               type: "array",
               items: {
-                type: "string"
-              }
+                type: "string",
+              },
             },
             status: {
-              type: "string"
-            }
-          }
-        }
+              type: "string",
+            },
+          },
+        },
       },
       status: {
         type: "string",
-        default: "Pending"
+        default: "Pending",
       },
       team: {
         type: "array",
         items: {
-          type: "string"
-        }
-      }
-    }
+          type: "string",
+        },
+      },
+    },
   },
   response: {
     200: {
