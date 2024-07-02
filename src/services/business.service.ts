@@ -3,6 +3,8 @@ import { BaseService } from "../common/base.service";
 import { businessDAO } from "../dao";
 import { IBusiness } from "src/models/business.entity";
 import { firebaseClient } from "../common/services";
+import { ConflictError } from "src/common/errors";
+import { ERROR_CODES } from "src/common/constants";
 @Service()
 export class BusinessService extends BaseService {
   @Inject(businessDAO)
@@ -11,6 +13,14 @@ export class BusinessService extends BaseService {
   // private FreelancerDAO!: FreelancerDAO;
   async createBusiness(business: IBusiness) {
     this.logger.info("Business Service:  creating business profile");
+    const userExist= await this.businessDao.findOneByEmail(business.email);
+    if (userExist) {
+      throw new ConflictError(
+        "user already exist",
+        ERROR_CODES.USER_ALREADY_EXIST,
+      );  
+      
+    }
     const business_id =
       await firebaseClient.createFireBaseUserWithCustomClaims(
         business.email,
@@ -18,6 +28,8 @@ export class BusinessService extends BaseService {
         { type: "business" },
       );
     business._id = business_id;
+  
+    
     const data: any = await this.businessDao.createBusiness(business);
     return data;
   }
