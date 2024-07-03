@@ -15,8 +15,8 @@ import { bidApplySchema } from "../schema/v1/bid/apply";
 import { BidApplyBody } from "../types/v1/bid/bidApplyBody";
 import { BidStatusBody, PutBidBody, PutBidPathParams } from "../types/v1/bid/updateBid";
 import { updateBidSchema } from "../schema/v1/bid/update";
-import { getBidSchema } from "../schema/v1/bid/get";
-import { GetBidPathParams } from "../types/v1/bid/getBid";
+import { getBidForBidderIdSchema, getBidForProjectIdSchema, getBidSchema } from "../schema/v1/bid/get";
+import { GetBidByBidderIdPathParams, GetBidByProjectIdPathParams } from "../types/v1/bid/getBid";
 import { DeleteBidPathParams } from "../types/v1/bid/deleteBid";
 import { deleteBidSchema } from "../schema/v1/bid/delete";
 
@@ -94,52 +94,57 @@ export default class BidController extends AuthController {
     }
   }
 
-  @GET(BID_ID_BUSINESS_END_POINT, { schema: getBidSchema } ) 
-  async getBidBusiness(request:FastifyRequest<{Params:GetBidPathParams}>,reply:FastifyReply){
+  @GET(BID_ID_BUSINESS_END_POINT, { schema: getBidForProjectIdSchema })
+  async getBidBusiness(request: FastifyRequest<{ Params: GetBidByProjectIdPathParams }>, reply: FastifyReply) {
   try {
-      this.logger.info(
-          `BidController -> getBidBusiness -> Fetching Business Bid for project ID: ${request.params.project_id}`,
-        );
+    this.logger.info(
+      `BidController -> getBidBusiness -> Fetching Business Bid for project ID: ${request.params.project_id}`,
+    );
 
-        const data = await this.bidService.getBidBusiness(request.params.project_id, request.params.domain_id, request.params.status);
-        
-        if (!data) {
-        return  reply.status(STATUS_CODES.NOT_FOUND).send({message:RESPONSE_MESSAGE.NOT_FOUND("Bid"),
-          code:ERROR_CODES.NOT_FOUND
-        });
-        }
-  reply.status(STATUS_CODES.SUCCESS).send({data})
-
-  } catch (error) {
-      reply.status(STATUS_CODES.SERVER_ERROR).send({
-          message: RESPONSE_MESSAGE.SERVER_ERROR,
-          code: ERROR_CODES.SERVER_ERROR,
-        });
+    const data = await this.bidService.getBidBusiness(request.params.project_id);
+    
+    if (!data || data.length === 0) {
+      return reply.status(STATUS_CODES.NOT_FOUND).send({
+        message: RESPONSE_MESSAGE.NOT_FOUND("Bid"),
+        code: ERROR_CODES.NOT_FOUND
+      });
     }
-  }
 
-  @GET(BID_ID_FREELANCER_END_POINT, { schema: getBidSchema } ) 
-  async getBidFreelancer(request:FastifyRequest<{Params:GetBidPathParams}>,reply:FastifyReply){
-  try {
-      this.logger.info(
-          `BidController -> getBidFreelancer -> Fetching Freelancer Bid for Bidder ID: ${request.params.bidder_id}`,
-        );
-
-        const data = await this.bidService.getBidfreelancer(request.params.bidder_id);
-        
-        if (!data) {
-        return  reply.status(STATUS_CODES.NOT_FOUND).send({message:RESPONSE_MESSAGE.NOT_FOUND("Bid"),
-          code:ERROR_CODES.NOT_FOUND
-        });
-        }
-  reply.status(STATUS_CODES.SUCCESS).send({data})
-
+    reply.status(STATUS_CODES.SUCCESS).send({ data });
   } catch (error) {
-      reply.status(STATUS_CODES.SERVER_ERROR).send({
-          message: RESPONSE_MESSAGE.SERVER_ERROR,
-          code: ERROR_CODES.SERVER_ERROR,
-        });
+    this.logger.error(`Error in getBidBusiness: ${error}`);
+    reply.status(STATUS_CODES.SERVER_ERROR).send({
+      message: RESPONSE_MESSAGE.SERVER_ERROR,
+      code: ERROR_CODES.SERVER_ERROR,
+    });
   }
+  }
+
+
+  @GET(BID_ID_FREELANCER_END_POINT, { schema: getBidForBidderIdSchema } ) 
+  async getBidFreelancer(request:FastifyRequest<{Params:GetBidByBidderIdPathParams}>,reply:FastifyReply){
+  try {
+    this.logger.info(
+        `BidController -> getBidFreelancer -> Fetching Freelancer Bid for Bidder ID: ${request.params.bidder_id}`,
+      );
+
+      const data = await this.bidService.getBidfreelancer(request.params.bidder_id);
+      
+      if (!data || data.length === 0) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Bid"),
+          code: ERROR_CODES.NOT_FOUND
+        });
+      }
+  
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error) {
+      this.logger.error(`Error in getBidFreelancer: ${error}`);
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
+        message: RESPONSE_MESSAGE.SERVER_ERROR,
+        code: ERROR_CODES.SERVER_ERROR,
+      });
+    }
   }
 
   @DELETE(DELETE_BID_END_POINT, { schema: deleteBidSchema } )
