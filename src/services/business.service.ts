@@ -25,6 +25,18 @@ export class BusinessService extends BaseService {
       const data: any = await this.businessDao.createBusiness(business);
       return data;
     } catch (error: any) {
+      if (business._id) {
+        try {
+          await firebaseClient.deleteFireBaseUser(business._id);
+          this.logger.info(
+            `Rolled back Firebase user creation for ID: ${business._id}`,
+          );
+        } catch (rollbackError) {
+          this.logger.error(
+            `Error rolling back Firebase user creation: ${rollbackError}`,
+          );
+        }
+      }
       if (error.code === "USER_ALREADY_EXISTS") {
         throw new ConflictError(
           RESPONSE_MESSAGE.USER_EXISTS,

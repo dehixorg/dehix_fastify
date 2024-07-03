@@ -127,6 +127,18 @@ export class FreelancerService extends BaseService {
 
       return data;
     } catch (error: any) {
+      if (freelancer._id) {
+        try {
+          await firebaseClient.deleteFireBaseUser(freelancer._id);
+          this.logger.info(
+            `Rolled back Firebase user creation for ID: ${freelancer._id}`,
+          );
+        } catch (rollbackError) {
+          this.logger.error(
+            `Error rolling back Firebase user creation: ${rollbackError}`,
+          );
+        }
+      }
       if (error.code === "USER_ALREADY_EXISTS") {
         throw new ConflictError(
           RESPONSE_MESSAGE.USER_EXISTS,
