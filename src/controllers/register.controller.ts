@@ -39,10 +39,20 @@ export default class RegisterController extends BaseController {
       const data = await this.freelancerService.createFreelancerProfile(
         request.body,
       );
-      this.logger.warn(data)
+      this.logger.warn(data);
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
-      this.logger.error(`Error in create: ${error.message}`);
+      this.logger.error(
+        "error in controller create business profile",
+        error.message,
+      );
+      if (error.message === RESPONSE_MESSAGE.USER_EXISTS) {
+        return reply.status(STATUS_CODES.BAD_REQUEST).send({
+          message: RESPONSE_MESSAGE.USER_EXISTS,
+          code: ERROR_CODES.BAD_REQUEST_ERROR,
+        });
+      }
+
       reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
@@ -65,11 +75,19 @@ export default class RegisterController extends BaseController {
           code: ERROR_CODES.INVALID_DATA,
         });
       }
-      return reply
-        .status(STATUS_CODES.SUCCESS)
-        .send({data});
-    } catch (error) {
-      this.logger.error("error in controller create business profile", error);
+      return reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(
+        "error in controller create business profile",
+        error.message,
+      );
+      if (error.message === RESPONSE_MESSAGE.USER_EXISTS) {
+        return reply.status(STATUS_CODES.BAD_REQUEST).send({
+          message: RESPONSE_MESSAGE.USER_EXISTS,
+          code: ERROR_CODES.BAD_REQUEST_ERROR,
+        });
+      }
+
       reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,

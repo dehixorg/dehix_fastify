@@ -134,11 +134,23 @@ class FirebaseClient {
       const [userId, _] = await this.createUserByEmail(email, password);
       await this.setCustomClaims(userId, customClaims);
       return userId;
-    } catch (error) {
-      logger.error(
-        `FirebaseClient-> createFireBaseUserWithCustomClaims ->Error creating user: ${error}`,
-      );
-      throw error;
+    } catch (error: any) {
+      if (
+        error.message.includes(
+          "The email address is already in use by another account",
+        )
+      ) {
+        logger.error(
+          `FirebaseClient-> createFireBaseUserWithCustomClaims -> User already exists: ${error.message}`,
+        );
+        const customError = new Error("User already exists");
+        throw customError;
+      } else {
+        logger.error(
+          `FirebaseClient-> createFireBaseUserWithCustomClaims -> Error creating user: ${error}`,
+        );
+        throw error;
+      }
     }
   }
 

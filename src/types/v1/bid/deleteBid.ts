@@ -1,3 +1,3 @@
-export interface  DeleteBidPathParams{
-    bid_id:string
+export interface DeleteBidPathParams {
+  bid_id: string;
 }

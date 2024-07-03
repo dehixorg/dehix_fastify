@@ -32,37 +32,43 @@ export class BidService extends BaseService {
     return data;
   }
 
-  async bidStatusUpdate(bid_id:string,status:string):Promise<any>{
+  async bidStatusUpdate(bid_id: string, status: string): Promise<any> {
+    const updateStatus = async (status: string) => {
+      return await this.BidDAO.updateStatus(bid_id, status);
+    };
+    const data =
+      status == "Accepted"
+        ? await updateStatus("Accepted")
+        : await updateStatus("Rejected");
 
-    const updateStatus=  async (status:string)=>{
-   return await this.BidDAO.updateStatus(bid_id,status);
-    }
-    const data= status=="Accepted"? await updateStatus("Accepted"):await updateStatus("Rejected")
-   
     return data;
-   }
-   
-   async getBidBusiness(project_id:string,domain_id:string,status:string){
-     this.logger.info(
-       `Bid Service: 
+  }
+
+  async getBidBusiness(project_id: string, domain_id: string, status: string) {
+    this.logger.info(
+      `Bid Service: 
          Getting  business project bid`,
-     );
-     const data =  await this.BidDAO.sendDataToBusinessForProject(project_id,domain_id,status)
-     return  data
-   }
-   async getBidfreelancer(bidder_id:string){
-     this.logger.info(
-       `Bid Service: 
+    );
+    const data = await this.BidDAO.sendDataToBusinessForProject(
+      project_id,
+      domain_id,
+      status,
+    );
+    return data;
+  }
+  async getBidfreelancer(bidder_id: string) {
+    this.logger.info(
+      `Bid Service: 
          Getting  Freelancer project bid`,
-     );
-     const data= await this.BidDAO.sendDataToFreelancer(bidder_id)
-     return data
-   }
-   async deleteBid(id:string){
-     this.logger.info(
-       `Bid Service: 
+    );
+    const data = await this.BidDAO.sendDataToFreelancer(bidder_id);
+    return data;
+  }
+  async deleteBid(id: string) {
+    this.logger.info(
+      `Bid Service: 
          Deleting  project bid`,
-     );
-     return await this.BidDAO.deleteBid(id)
-   }
+    );
+    return await this.BidDAO.deleteBid(id);
+  }
 }

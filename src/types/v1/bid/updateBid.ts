@@ -7,7 +7,6 @@ export interface PutBidBody {
   domain_id: string;
 }
 
-export interface BidStatusBody{
-  status:string
+export interface BidStatusBody {
+  status: string;
 }
-
