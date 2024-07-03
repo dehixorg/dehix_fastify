@@ -39,7 +39,7 @@ export default class RegisterController extends BaseController {
       const data = await this.freelancerService.createFreelancerProfile(
         request.body,
       );
-      this.logger.warn(data)
+      this.logger.warn(data);
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(`Error in create: ${error.message}`);
@@ -65,9 +65,7 @@ export default class RegisterController extends BaseController {
           code: ERROR_CODES.INVALID_DATA,
         });
       }
-      return reply
-        .status(STATUS_CODES.SUCCESS)
-        .send({data});
+      return reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error) {
       this.logger.error("error in controller create business profile", error);
       reply.status(STATUS_CODES.SERVER_ERROR).send({

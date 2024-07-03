@@ -57,7 +57,7 @@ export default class BusinessController extends AuthController {
       }
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error) {
-      this.logger.info(error,"error in getBusiness")
+      this.logger.info(error, "error in getBusiness");
       reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
@@ -88,8 +88,8 @@ export default class BusinessController extends AuthController {
         });
       }
     } catch (error) {
-      this.logger.info(error,"error in PutBusinessProfile ")
-     return reply.status(STATUS_CODES.SERVER_ERROR).send({
+      this.logger.info(error, "error in PutBusinessProfile ");
+      return reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });
@@ -109,8 +109,8 @@ export default class BusinessController extends AuthController {
         });
       }
     } catch (error) {
-      this.logger.info(error,"error in getAllBusiness")
-     return reply.status(STATUS_CODES.SERVER_ERROR).send({
+      this.logger.info(error, "error in getAllBusiness");
+      return reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });
@@ -125,8 +125,8 @@ export default class BusinessController extends AuthController {
       const data = await this.BusinessService.getAllProjectsData();
       return reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error) {
-      this.logger.info(error,"error in getAllProjectBusiness")
-     return reply.status(STATUS_CODES.SERVER_ERROR).send({
+      this.logger.info(error, "error in getAllProjectBusiness");
+      return reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });
@@ -154,8 +154,8 @@ export default class BusinessController extends AuthController {
         .status(STATUS_CODES.SUCCESS)
         .send({ message: RESPONSE_MESSAGE.CREATED });
     } catch (error) {
-      this.logger.info(error,"error in Post Business")
-     return reply.status(STATUS_CODES.SERVER_ERROR).send({
+      this.logger.info(error, "error in Post Business");
+      return reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });
@@ -177,8 +177,8 @@ export default class BusinessController extends AuthController {
       );
       return reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error) {
-      this.logger.info(error,"error in Delete Business Project")
-     return reply.status(STATUS_CODES.SERVER_ERROR).send({
+      this.logger.info(error, "error in Delete Business Project");
+      return reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });

@@ -285,24 +285,14 @@ const FreelancerSchema: Schema = new Schema(
         required: false,
       },
     },
-    pendingProject: [
-      { type: ObjectId, ref: "Project", required: false },
-    ],
-    rejectedProject: [
-      { type: ObjectId, ref: "Project", required: false },
-    ],
-    acceptedProject: [
-      { type: ObjectId, ref: "Project", required: false },
-    ],
-    oracleProject: [
-      { type: ObjectId, ref: "Project", required: false },
-    ],
+    pendingProject: [{ type: ObjectId, ref: "Project", required: false }],
+    rejectedProject: [{ type: ObjectId, ref: "Project", required: false }],
+    acceptedProject: [{ type: ObjectId, ref: "Project", required: false }],
+    oracleProject: [{ type: ObjectId, ref: "Project", required: false }],
     userDataForVerification: [
       { type: ObjectId, ref: "Verification", required: false },
     ],
-    interviewsAligned: [
-      { type: ObjectId, ref: "Interview", required: false },
-    ],
+    interviewsAligned: [{ type: ObjectId, ref: "Interview", required: false }],
   },
   {
     timestamps: true,
@@ -313,4 +303,3 @@ export const FreelancerModel: Model<IFreelancer> = mongoose.model<IFreelancer>(
   "Freelancer",
   FreelancerSchema,
 );
-

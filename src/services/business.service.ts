@@ -13,23 +13,20 @@ export class BusinessService extends BaseService {
   // private FreelancerDAO!: FreelancerDAO;
   async createBusiness(business: IBusiness) {
     this.logger.info("Business Service:  creating business profile");
-    const userExist= await this.businessDao.findOneByEmail(business.email);
+    const userExist = await this.businessDao.findOneByEmail(business.email);
     if (userExist) {
       throw new ConflictError(
         "user already exist",
         ERROR_CODES.USER_ALREADY_EXIST,
-      );  
-      
-    }
-    const business_id =
-      await firebaseClient.createFireBaseUserWithCustomClaims(
-        business.email,
-        business.password,
-        { type: "business" },
       );
+    }
+    const business_id = await firebaseClient.createFireBaseUserWithCustomClaims(
+      business.email,
+      business.password,
+      { type: "business" },
+    );
     business._id = business_id;
-  
-    
+
     const data: any = await this.businessDao.createBusiness(business);
     return data;
   }
@@ -84,8 +81,7 @@ export class BusinessService extends BaseService {
       `Business Service: 
         Creating business Project`,
     );
-    const business = await this.businessDao.getBusinessById(business_id);
-    const { email } = business;
+    await this.businessDao.getBusinessById(business_id);
     const Project = await this.businessDao.createProjectBusiness(data);
     const { _id } = Project;
     await this.businessDao.addProjectById(business_id, _id);
@@ -96,7 +92,7 @@ export class BusinessService extends BaseService {
       `Business Service: 
         Fetching business project by id`,
     );
-    const data = await this.businessDao.findBusinessProject(id);
+    await this.businessDao.findBusinessProject(id);
   }
   async getAllProjectsData() {
     this.logger.info(
