@@ -8,12 +8,24 @@ import {
   RESPONSE_MESSAGE,
 } from "../common/constants";
 // import { GetBidPathParams } from "../types/v1";
-import { BID_ENDPOINT, BID_ID_BUSINESS_END_POINT, BID_ID_ENDPOINT, BID_ID_FREELANCER_END_POINT, DELETE_BID_END_POINT, UPDATE_BID_BY_ID_ENDPOINT, UPDATE_BID_STATUS_BY_ID_ENDPOINT } from "../constants/bid.constant";
+import {
+  BID_ENDPOINT,
+  BID_ID_BUSINESS_END_POINT,
+  BID_ID_ENDPOINT,
+  BID_ID_FREELANCER_END_POINT,
+  DELETE_BID_END_POINT,
+  UPDATE_BID_BY_ID_ENDPOINT,
+  UPDATE_BID_STATUS_BY_ID_ENDPOINT,
+} from "../constants/bid.constant";
 import { UnAuthorisedError } from "../common/errors";
 import { AuthController } from "../common/auth.controller";
 import { bidApplySchema } from "../schema/v1/bid/apply";
 import { BidApplyBody } from "../types/v1/bid/bidApplyBody";
-import { BidStatusBody, PutBidBody, PutBidPathParams } from "../types/v1/bid/updateBid";
+import {
+  BidStatusBody,
+  PutBidBody,
+  PutBidPathParams,
+} from "../types/v1/bid/updateBid";
 import { updateBidSchema } from "../schema/v1/bid/update";
 import { getBidForBidderIdSchema, getBidForProjectIdSchema, getBidSchema } from "../schema/v1/bid/get";
 import { GetBidByBidderIdPathParams, GetBidByProjectIdPathParams } from "../types/v1/bid/getBid";
@@ -66,7 +78,7 @@ export default class BidController extends AuthController {
     }
   }
 
-  @PUT(UPDATE_BID_STATUS_BY_ID_ENDPOINT, { schema: updateBidSchema } )
+  @PUT(UPDATE_BID_STATUS_BY_ID_ENDPOINT, { schema: updateBidSchema })
   async updateBidStatusById(
     request: FastifyRequest<{
       Params: PutBidPathParams;
@@ -120,7 +132,6 @@ export default class BidController extends AuthController {
   }
   }
 
-
   @GET(BID_ID_FREELANCER_END_POINT, { schema: getBidForBidderIdSchema } ) 
   async getBidFreelancer(request:FastifyRequest<{Params:GetBidByBidderIdPathParams}>,reply:FastifyReply){
   try {
@@ -147,15 +158,18 @@ export default class BidController extends AuthController {
     }
   }
 
-  @DELETE(DELETE_BID_END_POINT, { schema: deleteBidSchema } )
-  async deleteBid(request:FastifyRequest<{Params:DeleteBidPathParams}>,reply:FastifyReply){
+  @DELETE(DELETE_BID_END_POINT, { schema: deleteBidSchema })
+  async deleteBid(
+    request: FastifyRequest<{ Params: DeleteBidPathParams }>,
+    reply: FastifyReply,
+  ) {
     try {
       this.logger.info(
         `BidController -> Delete Bid -> Deleting Bid for Bid ID: ${request.params.bid_id} `,
       );
-    
-      const data= await this.bidService.deleteBid(request.params.bid_id)
-      return reply.status(STATUS_CODES.SUCCESS).send({data})
+
+      const data = await this.bidService.deleteBid(request.params.bid_id);
+      return reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error) {
       return reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,

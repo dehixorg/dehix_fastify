@@ -16,10 +16,6 @@ export const createBusinessSchema: FastifySchema = {
       "isBusiness",
     ],
     properties: {
-      _id: {
-        type: "string",
-        format: "uuid",
-      },
       firstName: {
         type: "string",
       },
@@ -109,6 +105,7 @@ export const createBusinessSchema: FastifySchema = {
         data: {
           type: "object",
           properties: {
+            _id: { type: "string" },
             email: { type: "string" },
           },
         },

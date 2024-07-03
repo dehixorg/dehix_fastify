@@ -1,8 +1,10 @@
 import { Service, Inject } from "fastify-decorators";
 import { BaseService } from "../common/base.service";
 import { businessDAO } from "../dao";
-import { IBusiness } from "src/models/business.entity";
+import { IBusiness } from "../models/business.entity";
 import { firebaseClient } from "../common/services";
+import { ConflictError } from "../common/errors";
+import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 @Service()
 export class BusinessService extends BaseService {
   @Inject(businessDAO)
@@ -10,27 +12,43 @@ export class BusinessService extends BaseService {
   // @Inject(FreelancerDAO)
   // private FreelancerDAO!: FreelancerDAO;
   async createBusiness(business: IBusiness) {
-    this.logger.info("Business Service:  creating business profile");
-    const [business_id, _] =
-      await firebaseClient.createFireBaseUserWithCustomClaims(
-        business.email,
-        business.password,
-        { type: "business" },
-      );
-    business._id = business_id;
-    const data: any = await this.businessDao.createBusiness(business);
-    return data;
-  }
-  async getBusinessProfile(business_id: string) {
-    this.logger.info(
-      `Business Service: business id:${business_id}
-           fetching business profile`,
-    );
+    try {
+      this.logger.info("Business Service: creating business profile");
+      const business_id =
+        await firebaseClient.createFireBaseUserWithCustomClaims(
+          business.email,
+          business.password,
+          { type: "business" },
+        );
+      business._id = business_id;
 
-    const data = await this.businessDao.populateBusiness(business_id);
-
-    return data;
+      const data: any = await this.businessDao.createBusiness(business);
+      return data;
+    } catch (error: any) {
+      if (business._id) {
+        try {
+          await firebaseClient.deleteFireBaseUser(business._id);
+          this.logger.info(
+            `Rolled back Firebase user creation for ID: ${business._id}`,
+          );
+        } catch (rollbackError) {
+          this.logger.error(
+            `Error rolling back Firebase user creation: ${rollbackError}`,
+          );
+        }
+      }
+      if (error.code === "USER_ALREADY_EXISTS") {
+        throw new ConflictError(
+          RESPONSE_MESSAGE.USER_EXISTS,
+          ERROR_CODES.USER_ALREADY_EXIST,
+        );
+      } else {
+        this.logger.error("Error in createBusiness:", error);
+        throw error; // Pass the error to the parent for proper handling
+      }
+    }
   }
+
   async updateBusiness(business_id: string, update: any) {
     this.logger.info(
       `Business Service: business id:${business_id}
@@ -72,8 +90,7 @@ export class BusinessService extends BaseService {
       `Business Service: 
         Creating business Project`,
     );
-    const business = await this.businessDao.getBusinessById(business_id);
-    const { email } = business;
+    await this.businessDao.getBusinessById(business_id);
     const Project = await this.businessDao.createProjectBusiness(data);
     const { _id } = Project;
     await this.businessDao.addProjectById(business_id, _id);
@@ -84,7 +101,7 @@ export class BusinessService extends BaseService {
       `Business Service: 
         Fetching business project by id`,
     );
-    const data = await this.businessDao.findBusinessProject(id);
+    await this.businessDao.findBusinessProject(id);
   }
   async getAllProjectsData() {
     this.logger.info(

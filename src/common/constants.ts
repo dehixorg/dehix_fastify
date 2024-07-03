@@ -10,6 +10,7 @@ export const STATUS_CODES = {
   CREATED: 201,
   SPECIAL_STATUS: 600,
   FORBIDDEN: 403,
+  CONFLICT: 409,
 };
 
 export const RESPONSE_MESSAGE = {
@@ -30,6 +31,7 @@ export const RESPONSE_MESSAGE = {
     "Something went wrong with the token verification.",
   NOT_FOUND: (entity: string = "User") => `${entity} not found`,
   USER_NOT_FOUND: "User not found",
+  USER_EXISTS: "User already exists",
   PROJECT_NOT_FOUND: "Subscription by provided ID was not found.",
   DRAFT_SUB_NOT_FOUND: "No subscription found for this draft owner",
   FREELANCER_NOT_FOUND: "Freelancer with provided ID could not be found.",
@@ -71,6 +73,7 @@ export const EMAIL_VERIFICATION_EMAIL_CONSTANTS = {
 };
 
 export const ERROR_CODES = {
+  USER_ALREADY_EXIST: "USER ALREADY EXIST",
   PASSWORDS_DO_NOT_MATCH: "PASSWORDS_DO_NOT_MATCH",
   USER_ALREADY_REGISTERED: "USER_ALREADY_REGISTERED",
   FREELANCER_NOT_FOUND: "FREELANCER_NOT_FOUND",

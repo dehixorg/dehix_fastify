@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
+const { ObjectId } = Schema.Types;
 
-// Define an interface for the Business document
 export interface IBusiness extends Document {
   _id: string;
   firstName: string;
@@ -29,7 +29,6 @@ export interface IBusiness extends Document {
   }[];
 }
 
-// Define the Business schema
 const BusinessSchema: Schema<IBusiness> = new Schema(
   {
     _id: {
@@ -52,10 +51,10 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
       type: String,
       required: true,
     },
-    // password: {
-    //   type: String,
-    //   required: true,
-    // },
+    password: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       required: true,
@@ -107,20 +106,20 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
     },
     ProjectList: [
       {
-        type: Schema.Types.ObjectId,
+        type: ObjectId,
         ref: "Project",
       },
     ],
     Appliedcandidates: [
       {
-        type: Schema.Types.ObjectId,
+        type: ObjectId,
         ref: "Applicationforwork",
       },
     ],
     hirefreelancer: [
       {
         freelancer: {
-          type: Schema.Types.ObjectId,
+          type: ObjectId,
           ref: "Freelancer",
         },
         status: {
@@ -131,11 +130,9 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
     ],
   },
   {
-    timestamps: true, // Add createdAt and updatedAt fields
+    timestamps: true,
   },
 );
-
-// Create and export the Business model
 export const BusinessModel: Model<IBusiness> = mongoose.model<IBusiness>(
   "Business",
   BusinessSchema,

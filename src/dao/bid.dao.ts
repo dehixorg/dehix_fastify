@@ -49,8 +49,8 @@ export class BidDAO extends BaseDAO {
     return this.model.updateOne({ _id: id }, update).exec();
   }
 
-  async deleteBid(id:string){
-    return this.model.findByIdAndDelete(id)
+  async deleteBid(id: string) {
+    return this.model.findByIdAndDelete(id);
   }
   async updateStatus(bid_id:string,status:any){
     return this.model.updateOne(

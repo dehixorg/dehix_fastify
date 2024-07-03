@@ -1,6 +1,8 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
+const { ObjectId } = Schema.Types;
+
 export interface ISkill extends Document {
   _id: string;
   name: string;
@@ -10,6 +12,7 @@ export interface ISkill extends Document {
   interviewInfo?: mongoose.Types.ObjectId;
   interviewerRating?: number;
 }
+
 export interface IFreelancer extends Document {
   _id?: string;
   firstName: string;
@@ -60,7 +63,7 @@ export interface IFreelancer extends Document {
       techUsed: string[];
       role: string;
       projectType: string;
-      oracleAssigned: string;
+      oracleAssigned: mongoose.Types.ObjectId;
       verificationStatus: "added" | "verified" | "rejected" | "reapplied";
       verificationUpdateTime: Date;
       comments: string;
@@ -150,7 +153,7 @@ const FreelancerSchema: Schema = new Schema(
         referencePersonContact: { type: String, required: false },
         githubRepoLink: { type: String, required: false },
         oracleAssigned: {
-          type: Schema.Types.ObjectId,
+          type: ObjectId,
           ref: "FreelancerData",
           required: false,
         },
@@ -180,7 +183,7 @@ const FreelancerSchema: Schema = new Schema(
           required: false,
         },
         interviewInfo: {
-          type: Schema.Types.ObjectId,
+          type: ObjectId,
           ref: "Interview",
           required: false,
         },
@@ -196,7 +199,7 @@ const FreelancerSchema: Schema = new Schema(
         endDate: { type: Date, required: false },
         grade: { type: String, required: false },
         oracleAssigned: {
-          type: Schema.Types.ObjectId,
+          type: ObjectId,
           ref: "FreelancerData",
           required: false,
         },
@@ -229,7 +232,7 @@ const FreelancerSchema: Schema = new Schema(
           role: { type: String, required: true },
           projectType: { type: String },
           oracleAssigned: {
-            type: String,
+            type: ObjectId,
             ref: "Freelancer",
           },
           verificationStatus: {
@@ -282,28 +285,17 @@ const FreelancerSchema: Schema = new Schema(
         required: false,
       },
     },
-    pendingProject: [
-      { type: Schema.Types.ObjectId, ref: "Project", required: false },
-    ],
-    rejectedProject: [
-      { type: Schema.Types.ObjectId, ref: "Project", required: false },
-    ],
-    acceptedProject: [
-      { type: Schema.Types.ObjectId, ref: "Project", required: false },
-    ],
-    oracleProject: [
-      { type: Schema.Types.ObjectId, ref: "Project", required: false },
-    ],
+    pendingProject: [{ type: ObjectId, ref: "Project", required: false }],
+    rejectedProject: [{ type: ObjectId, ref: "Project", required: false }],
+    acceptedProject: [{ type: ObjectId, ref: "Project", required: false }],
+    oracleProject: [{ type: ObjectId, ref: "Project", required: false }],
     userDataForVerification: [
-      { type: Schema.Types.ObjectId, ref: "Verification", required: false },
+      { type: ObjectId, ref: "Verification", required: false },
     ],
-    interviewsAligned: [
-      { type: Schema.Types.ObjectId, ref: "Verification", required: false },
-    ],
+    interviewsAligned: [{ type: ObjectId, ref: "Interview", required: false }],
   },
   {
     timestamps: true,
-    versionKey: false,
   },
 );
 
@@ -311,7 +303,3 @@ export const FreelancerModel: Model<IFreelancer> = mongoose.model<IFreelancer>(
   "Freelancer",
   FreelancerSchema,
 );
-
-export default {
-  FreelancerModel,
-};

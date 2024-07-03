@@ -33,7 +33,14 @@ export class BidService extends BaseService {
     return data;
   }
 
-  async bidStatusUpdate(bid_id:string,status:string):Promise<any>{
+  async bidStatusUpdate(bid_id: string, status: string): Promise<any> {
+    const updateStatus = async (status: string) => {
+      return await this.BidDAO.updateStatus(bid_id, status);
+    };
+    const data =
+      status == "Accepted"
+        ? await updateStatus("Accepted")
+        : await updateStatus("Rejected");
 
     const updateStatus=  async (status:string)=>{
     return await this.BidDAO.updateStatus(bid_id,status);
@@ -59,9 +66,8 @@ export class BidService extends BaseService {
    }
    async deleteBid(id:string){
      this.logger.info(
-       `Bid Service: 
-         Deleting  project bid`,
-     );
-     return await this.BidDAO.deleteBid(id)
-   }
+       `Bid Service: Deleting  project bid`,
+    );
+    return await this.BidDAO.deleteBid(id);
+  }
 }
