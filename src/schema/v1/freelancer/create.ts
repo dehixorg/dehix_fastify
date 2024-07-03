@@ -6,7 +6,6 @@ export const createFreelancerSchema: FastifySchema = {
   body: {
     type: "object",
     properties: {
-      _id: { type: "string" },
       firstName: { type: "string" },
       lastName: { type: "string" },
       userName: { type: "string" },
@@ -260,6 +259,7 @@ export const createFreelancerSchema: FastifySchema = {
         data: {
           type: "object",
           properties: {
+            _id: { type: "string" },
             email: { type: "string" },
           },
         },

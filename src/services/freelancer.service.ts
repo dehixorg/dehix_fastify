@@ -103,35 +103,40 @@ export class FreelancerService extends BaseService {
   }
 
   async createFreelancerProfile(freelancer: IFreelancer) {
-    this.logger.info(
-      "FreelancerService: createFreelancerProfile: Creating Freelancer: ",
-      freelancer,
-    );
-    const userExist = await this.FreelancerDAO.findOneByEmail(freelancer.email);
-    if (userExist) {
-      throw new ConflictError(
-        "user already exist",
-        ERROR_CODES.USER_ALREADY_EXIST,
+    try {
+      this.logger.info(
+        "FreelancerService: createFreelancerProfile: Creating Freelancer: ",
+        freelancer,
       );
-    }
-    const freelancer_id =
-      await firebaseClient.createFireBaseUserWithCustomClaims(
-        freelancer.email,
-        freelancer.password,
-        { type: "freelancer" },
-      );
-    freelancer._id = freelancer_id;
-    //uncomment when SES is up
-    // const { SENDER, SUBJECT, TEXTBODY } = CREATE_PASSWORD_EMAIL_CONSTANTS;
-    // await this.sesService.sendEmail({
-    //   sender: SENDER!,
-    //   recipient: [freelancer.email],
-    //   subject: SUBJECT,
-    //   textBody: TEXTBODY.replace(":passLink", reset_link),
-    // });
-    const data: any = await this.FreelancerDAO.createFreelancer(freelancer);
+      const freelancer_id =
+        await firebaseClient.createFireBaseUserWithCustomClaims(
+          freelancer.email,
+          freelancer.password,
+          { type: "freelancer" },
+        );
+      freelancer._id = freelancer_id;
+      //uncomment when SES is up
+      // const { SENDER, SUBJECT, TEXTBODY } = CREATE_PASSWORD_EMAIL_CONSTANTS;
+      // await this.sesService.sendEmail({
+      //   sender: SENDER!,
+      //   recipient: [freelancer.email],
+      //   subject: SUBJECT,
+      //   textBody: TEXTBODY.replace(":passLink", reset_link),
+      // });
+      const data: any = await this.FreelancerDAO.createFreelancer(freelancer);
 
-    return data;
+      return data;
+    } catch (error: any) {
+      if (error.code === "USER_ALREADY_EXISTS") {
+        throw new ConflictError(
+          RESPONSE_MESSAGE.USER_EXISTS,
+          ERROR_CODES.USER_ALREADY_EXIST,
+        );
+      } else {
+        this.logger.error("Error in createBusiness:", error);
+        throw error; // Pass the error to the parent for proper handling
+      }
+    }
   }
 
   async addFreelancerProject(freelancer_id: string, project: any) {
