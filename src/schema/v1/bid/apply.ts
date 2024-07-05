@@ -1,10 +1,3 @@
-/**
- * File: login.ts
- * Author: Akhil
- * Date: 30-04-2024
- * Description:schema for API for bidding
- */
-
 import { FastifySchema } from "fastify";
 
 export const bidApplySchema: FastifySchema = {
@@ -13,6 +6,7 @@ export const bidApplySchema: FastifySchema = {
   body: {
     type: "object",
     properties: {
+      _id: { type: "string" },
       bidder_id: { type: "string" },
       current_price: { type: "number" },
       project_id: { type: "string" },
@@ -27,7 +21,11 @@ export const bidApplySchema: FastifySchema = {
         data: {
           type: "object",
           properties: {
-            response: { type: "string", nullable: true },
+            bidder_id: { type: "string" },
+            project_id: { type: "string" },
+            bid_status: { type: "string" },
+            current_price: { type: "string" },
+            domain_id: { type: "string" },
           },
         },
       },

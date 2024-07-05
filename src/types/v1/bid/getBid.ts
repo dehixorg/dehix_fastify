@@ -1,6 +1,7 @@
-export interface GetBidPathParams {
-  project_id: string;
-  domain_id: string;
-  status: string;
-  bidder_id: string;
+export interface GetBidByProjectIdPathParams{
+    project_id: string,
+}
+
+export interface GetBidByBidderIdPathParams{
+    bidder_id: string,
 }
