@@ -179,6 +179,7 @@ export class FreelancerService extends BaseService {
     this.logger.info(
       `FreelancerService -> addFreelancerSkills -> Adding skills for freelancer ID: ${freelancer_id}`,
     );
+    
     const freelancerExist = await this.FreelancerDAO.getById(freelancer_id);
     if (!freelancerExist) {
       this.logger.error(
@@ -190,17 +191,16 @@ export class FreelancerService extends BaseService {
         ERROR_CODES.FREELANCER_NOT_FOUND,
       );
     }
+    
     const updatedFreelancer = await this.FreelancerDAO.addFreelancerSkill(
       freelancer_id,
       skills,
     );
-    if (!updatedFreelancer) {
-      throw new Error("Freelancer not found or skills could not be added");
-    }
+    
     return updatedFreelancer;
   }
 
-  async updateProfileFreelancer(freelancer_id: string, freelancer) {
+  async updateProfileFreelancer(freelancer_id: string, freelancer: any) {
     this.logger.info(
       "FreelancerService: updateProfileFreelancer: Updating Freelancer: ",
       freelancer_id,
