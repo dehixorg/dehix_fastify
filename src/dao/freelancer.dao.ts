@@ -58,11 +58,20 @@ export class FreelancerDAO extends BaseDAO {
   }
 
   async addFreelancerSkill(id: string, skills: any) {
-    return this.model.updateOne(
+    const result = await this.model.updateOne(
       { _id: id },
       { $addToSet: { skills: { $each: skills } } },
+      { new: true }
     );
+    if (!result) {
+      throw new Error("Freelancer not found or skills could not be added");
+    }
+    return {
+      id,
+      skills,
+    };  // Fetch and return the updated document
   }
+  
   async findSkillExistInFreelancer(freelancer_id: string, skills_id: any) {
     return this.model.findOne({
       _id: freelancer_id,

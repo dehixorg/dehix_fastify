@@ -157,11 +157,10 @@ export class FreelancerService extends BaseService {
       freelancer_id,
       project,
     );
-    const freelancerExist = await this.FreelancerDAO.getById(freelancer_id);
+    const freelancerExist = await this.FreelancerDAO.findFreelancerById(freelancer_id);
     if (!freelancerExist) {
       this.logger.error(
-        "FreelancerService: getFreelancerProfile: Freelancer not found with ID: ",
-        freelancer_id,
+        `FreelancerService: getFreelancerProfile: Freelancer not found with ID: ${freelancer_id} `
       );
       throw new NotFoundError(
         RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
@@ -180,6 +179,7 @@ export class FreelancerService extends BaseService {
     this.logger.info(
       `FreelancerService -> addFreelancerSkills -> Adding skills for freelancer ID: ${freelancer_id}`,
     );
+    
     const freelancerExist = await this.FreelancerDAO.getById(freelancer_id);
     if (!freelancerExist) {
       this.logger.error(
@@ -191,17 +191,16 @@ export class FreelancerService extends BaseService {
         ERROR_CODES.FREELANCER_NOT_FOUND,
       );
     }
+    
     const updatedFreelancer = await this.FreelancerDAO.addFreelancerSkill(
       freelancer_id,
       skills,
     );
-    if (!updatedFreelancer) {
-      throw new Error("Freelancer not found or skills could not be added");
-    }
+    
     return updatedFreelancer;
   }
 
-  async updateProfileFreelancer(freelancer_id: string, freelancer) {
+  async updateProfileFreelancer(freelancer_id: string, freelancer: any) {
     this.logger.info(
       "FreelancerService: updateProfileFreelancer: Updating Freelancer: ",
       freelancer_id,
@@ -243,6 +242,17 @@ export class FreelancerService extends BaseService {
       freelancer_id,
       interviews_aligned,
     );
+
+    const freelancerExist = await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!freelancerExist) {
+      this.logger.error(
+        `FreelancerService: getFreelancerProfile: Freelancer not found with ID: ${freelancer_id} `
+      );
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
 
     const data: any = await this.FreelancerDAO.interviewsAlignedById(
       freelancer_id,

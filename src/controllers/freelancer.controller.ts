@@ -67,20 +67,20 @@ export default class FreelancerController extends AuthController {
         request.params.freelancer_id,
       );
 
-      if (!data) {
-        return reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
-          code: ERROR_CODES.NOT_FOUND,
-        });
-      }
-
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(`Error in getFreelancer: ${error.message}`);
-      reply.status(STATUS_CODES.SERVER_ERROR).send({
-        message: RESPONSE_MESSAGE.SERVER_ERROR,
-        code: ERROR_CODES.SERVER_ERROR,
-      });
+      if (error.ERROR_CODES === "FREELANCER_NOT_FOUND" || error.message.includes('Freelancer with provided ID could not be found.')) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND('Freelancer'),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
     }
   }
 
@@ -204,10 +204,18 @@ export default class FreelancerController extends AuthController {
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(`Error in addProjectById: ${error.message}`);
-      reply.status(STATUS_CODES.SERVER_ERROR).send({
-        message: RESPONSE_MESSAGE.SERVER_ERROR,
-        code: ERROR_CODES.SERVER_ERROR,
-      });
+
+      if (error.ERROR_CODES === "FREELANCER_NOT_FOUND" || error.message.includes('Freelancer with provided ID could not be found.')) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND('Freelancer'),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
     }
   }
 
@@ -224,20 +232,29 @@ export default class FreelancerController extends AuthController {
         `FreelancerController -> addSkillsById -> Adding skills for freelancer using ID: ${request.params.freelancer_id}`,
       );
 
-      const data = await this.freelancerService.addFreelancerSkills(
+      const updatedFreelancer = await this.freelancerService.addFreelancerSkills(
         request.params.freelancer_id,
         request.body.skills,
       );
 
-      reply.status(STATUS_CODES.SUCCESS).send({ data });
+      reply.status(STATUS_CODES.SUCCESS).send({ data: updatedFreelancer });
     } catch (error: any) {
       this.logger.error(`Error in addSkillsById: ${error.message}`);
-      reply.status(STATUS_CODES.SERVER_ERROR).send({
-        message: RESPONSE_MESSAGE.SERVER_ERROR,
-        code: ERROR_CODES.SERVER_ERROR,
-      });
+
+      if (error.message.includes(RESPONSE_MESSAGE.FREELANCER_NOT_FOUND)) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+          code: ERROR_CODES.FREELANCER_NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
     }
   }
+
 
   @PUT(FREELANCER_ORACLE_STATUS_BY_ID, { schema: oracleStatusSchema })
   async updateOracleStatusById(
@@ -288,10 +305,17 @@ export default class FreelancerController extends AuthController {
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(`Error in aligned interviews: ${error.message}`);
-      reply.status(STATUS_CODES.SERVER_ERROR).send({
-        message: RESPONSE_MESSAGE.SERVER_ERROR,
-        code: ERROR_CODES.SERVER_ERROR,
-      });
+      if (error.ERROR_CODES === "FREELANCER_NOT_FOUND" || error.message.includes('Freelancer with provided ID could not be found.')) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND('Freelancer'),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
     }
   }
 }
