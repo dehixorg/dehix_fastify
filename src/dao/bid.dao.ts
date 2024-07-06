@@ -12,8 +12,18 @@ export class BidDAO extends BaseDAO {
     this.model = BidModel;
   }
 
-  async createOne(bidder_id: string, project_id: string, domain_id: string, current_price: number) {
-    return this.model.create({ bidder_id, project_id, domain_id, current_price });
+  async createOne(
+    bidder_id: string,
+    project_id: string,
+    domain_id: string,
+    current_price: number,
+  ) {
+    return this.model.create({
+      bidder_id,
+      project_id,
+      domain_id,
+      current_price,
+    });
   }
 
   async getBidByEmail(email: string) {
@@ -52,16 +62,13 @@ export class BidDAO extends BaseDAO {
   async deleteBid(id: string) {
     return this.model.findByIdAndDelete(id);
   }
-  async updateStatus(bid_id:string,status:any){
-    return this.model.updateOne(
-      { _id: bid_id },
-      { $set: { status: status } }
-    )
+  async updateStatus(bid_id: string, status: any) {
+    return this.model.updateOne({ _id: bid_id }, { $set: { status: status } });
   }
-  async findBidByProjectId(project_id:string){
-  return this.model.find({project_id:project_id})
+  async findBidByProjectId(project_id: string) {
+    return this.model.find({ project_id: project_id });
   }
-  async findBidByBidderId(project_id:string){
-  return this.model.find({project_id:project_id})
+  async findBidByBidderId(project_id: string) {
+    return this.model.find({ project_id: project_id });
   }
 }

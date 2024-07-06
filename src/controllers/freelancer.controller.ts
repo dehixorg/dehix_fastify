@@ -70,9 +70,14 @@ export default class FreelancerController extends AuthController {
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(`Error in getFreelancer: ${error.message}`);
-      if (error.ERROR_CODES === "FREELANCER_NOT_FOUND" || error.message.includes('Freelancer with provided ID could not be found.')) {
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found.",
+        )
+      ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.NOT_FOUND('Freelancer'),
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {
@@ -205,9 +210,14 @@ export default class FreelancerController extends AuthController {
     } catch (error: any) {
       this.logger.error(`Error in addProjectById: ${error.message}`);
 
-      if (error.ERROR_CODES === "FREELANCER_NOT_FOUND" || error.message.includes('Freelancer with provided ID could not be found.')) {
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found.",
+        )
+      ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.NOT_FOUND('Freelancer'),
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {
@@ -232,10 +242,11 @@ export default class FreelancerController extends AuthController {
         `FreelancerController -> addSkillsById -> Adding skills for freelancer using ID: ${request.params.freelancer_id}`,
       );
 
-      const updatedFreelancer = await this.freelancerService.addFreelancerSkills(
-        request.params.freelancer_id,
-        request.body.skills,
-      );
+      const updatedFreelancer =
+        await this.freelancerService.addFreelancerSkills(
+          request.params.freelancer_id,
+          request.body.skills,
+        );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data: updatedFreelancer });
     } catch (error: any) {
@@ -254,7 +265,6 @@ export default class FreelancerController extends AuthController {
       }
     }
   }
-
 
   @PUT(FREELANCER_ORACLE_STATUS_BY_ID, { schema: oracleStatusSchema })
   async updateOracleStatusById(
@@ -305,9 +315,14 @@ export default class FreelancerController extends AuthController {
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(`Error in aligned interviews: ${error.message}`);
-      if (error.ERROR_CODES === "FREELANCER_NOT_FOUND" || error.message.includes('Freelancer with provided ID could not be found.')) {
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found.",
+        )
+      ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.NOT_FOUND('Freelancer'),
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {

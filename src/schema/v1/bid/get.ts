@@ -47,88 +47,88 @@ export const getBidForProjectIdSchema: FastifySchema = {
   description: "API to get Bid data using project id",
   tags: ["Bid"],
   params: {
-    type: 'object',
+    type: "object",
     properties: {
-      project_id: { type: 'string' }
+      project_id: { type: "string" },
     },
-    required: ['project_id']
+    required: ["project_id"],
   },
   response: {
     200: {
-      type: 'object',
+      type: "object",
       properties: {
         data: {
-          type: 'array',
+          type: "array",
           items: {
-            type: 'object',
+            type: "object",
             properties: {
-              project_id: { type: 'string' },
-              bidder_id: { type: 'string' },
-              current_price: { type: 'number' },
-              domain_id: { type: 'string' }
-            }
-          }
-        }
-      }
+              project_id: { type: "string" },
+              bidder_id: { type: "string" },
+              current_price: { type: "number" },
+              domain_id: { type: "string" },
+            },
+          },
+        },
+      },
     },
     404: {
-      type: 'object',
+      type: "object",
       properties: {
-        message: { type: 'string' },
-        code: { type: 'string' }
-      }
+        message: { type: "string" },
+        code: { type: "string" },
+      },
     },
     500: {
-      type: 'object',
+      type: "object",
       properties: {
-        message: { type: 'string' },
-        code: { type: 'string' }
-      }
-    }
-  }
+        message: { type: "string" },
+        code: { type: "string" },
+      },
+    },
+  },
 };
 
 export const getBidForBidderIdSchema: FastifySchema = {
   description: "API to get Bid data using bidder id",
   tags: ["Bid"],
   params: {
-    type: 'object',
+    type: "object",
     properties: {
-      bidder_id: { type: 'string' }
+      bidder_id: { type: "string" },
     },
-    required: ['bidder_id']
+    required: ["bidder_id"],
   },
   response: {
     200: {
-      type: 'object',
+      type: "object",
       properties: {
         data: {
-          type: 'array',
+          type: "array",
           items: {
-            type: 'object',
+            type: "object",
             properties: {
-              project_id: { type: 'string' },
-              bidder_id: { type: 'string' },
-              current_price: { type: 'number' },
-              domain_id: { type: 'string' }
-            }
-          }
-        }
-      }
+              project_id: { type: "string" },
+              bidder_id: { type: "string" },
+              current_price: { type: "number" },
+              domain_id: { type: "string" },
+            },
+          },
+        },
+      },
     },
     404: {
-      type: 'object',
+      type: "object",
       properties: {
-        message: { type: 'string' },
-        code: { type: 'string' }
-      }
+        message: { type: "string" },
+        code: { type: "string" },
+      },
     },
     500: {
-      type: 'object',
+      type: "object",
       properties: {
-        message: { type: 'string' },
-        code: { type: 'string' }
-      }
-    }
-  }
+        message: { type: "string" },
+        code: { type: "string" },
+      },
+    },
+  },
 };

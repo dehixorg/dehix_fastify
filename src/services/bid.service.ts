@@ -42,32 +42,29 @@ export class BidService extends BaseService {
         ? await updateStatus("Accepted")
         : await updateStatus("Rejected");
 
-    const updateStatus=  async (status:string)=>{
-    return await this.BidDAO.updateStatus(bid_id,status);
-    }
-    const data = status === "Accepted" ? await updateStatus("Accepted") : await updateStatus("Rejected");
-   
+    const updateStatus = async (status: string) => {
+      return await this.BidDAO.updateStatus(bid_id, status);
+    };
+    const data =
+      status === "Accepted"
+        ? await updateStatus("Accepted")
+        : await updateStatus("Rejected");
+
     return data;
-   }
-   
-   async getBidBusiness(project_id:string){
-     this.logger.info(
-       `Bid Service: Getting  business project bid`,
-     );
-     const data =  await this.BidDAO.findBidByProjectId(project_id);
-     return  data;
-   }
-   async getBidfreelancer(bidder_id:string){
-     this.logger.info(
-       `Bid Service: Getting  Freelancer project bid`,
-     );
-     const data= await this.BidDAO.findBidByBidderId(bidder_id)
-     return data
-   }
-   async deleteBid(id:string){
-     this.logger.info(
-       `Bid Service: Deleting  project bid`,
-    );
+  }
+
+  async getBidBusiness(project_id: string) {
+    this.logger.info(`Bid Service: Getting  business project bid`);
+    const data = await this.BidDAO.findBidByProjectId(project_id);
+    return data;
+  }
+  async getBidfreelancer(bidder_id: string) {
+    this.logger.info(`Bid Service: Getting  Freelancer project bid`);
+    const data = await this.BidDAO.findBidByBidderId(bidder_id);
+    return data;
+  }
+  async deleteBid(id: string) {
+    this.logger.info(`Bid Service: Deleting  project bid`);
     return await this.BidDAO.deleteBid(id);
   }
 }

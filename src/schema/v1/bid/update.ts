@@ -20,7 +20,7 @@ export const updateBidSchema: FastifySchema = {
       bid_status: {
         type: "string",
         enum: ["Pending", "Accepted", "Rejected"],
-      }
+      },
     },
     required: [],
   },
