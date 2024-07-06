@@ -157,14 +157,14 @@ export class FreelancerService extends BaseService {
       freelancer_id,
       project,
     );
-    const freelancerExist = await this.FreelancerDAO.getById(freelancer_id);
+    const freelancerExist = await this.FreelancerDAO.findFreelancerById(freelancer_id);
     if (!freelancerExist) {
       this.logger.error(
         `FreelancerService: getFreelancerProfile: Freelancer not found with ID: ${freelancer_id} `
       );
       throw new NotFoundError(
         RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
-        ERROR_CODES.NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
       );
     }
     const data: any = await this.FreelancerDAO.createProjectById(
