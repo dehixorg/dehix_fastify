@@ -38,14 +38,6 @@ export class BidService extends BaseService {
       return await this.BidDAO.updateStatus(bid_id, status);
     };
     const data =
-      status == "Accepted"
-        ? await updateStatus("Accepted")
-        : await updateStatus("Rejected");
-
-    const updateStatus = async (status: string) => {
-      return await this.BidDAO.updateStatus(bid_id, status);
-    };
-    const data =
       status === "Accepted"
         ? await updateStatus("Accepted")
         : await updateStatus("Rejected");
