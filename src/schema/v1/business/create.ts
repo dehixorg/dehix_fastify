@@ -13,7 +13,14 @@ export const createBusinessSchema: FastifySchema = {
       "password",
       "email",
       "phone",
+      "position",
+      "refer",
+      "verified",
+      "isVerified",
+      "linkedin",
+      "personalWebsite",
       "isBusiness",
+      "connects",
     ],
     properties: {
       firstName: {
@@ -43,7 +50,9 @@ export const createBusinessSchema: FastifySchema = {
       refer: {
         type: "string",
       },
-      verified: {},
+      verified: {
+        type: "string",
+      },
       isVerified: {
         type: "boolean",
         default: false,
@@ -61,39 +70,6 @@ export const createBusinessSchema: FastifySchema = {
       connects: {
         type: "integer",
         default: 0,
-      },
-      otp: {
-        type: "string",
-      },
-      otpverified: {
-        type: "string",
-      },
-      ProjectList: {
-        type: "array",
-        items: {
-          type: "string",
-        },
-      },
-      Appliedcandidates: {
-        type: "array",
-        items: {
-          type: "string",
-        },
-      },
-      hirefreelancer: {
-        type: "array",
-        items: {
-          type: "object",
-          properties: {
-            freelancer: {
-              type: "string",
-            },
-            status: {
-              type: "string",
-              default: "Pending",
-            },
-          },
-        },
       },
     },
   },
