@@ -67,7 +67,7 @@ export default class FreelancerController extends AuthController {
         request.params.freelancer_id,
       );
 
-      reply.status(STATUS_CODES.SUCCESS).send({ data });
+      reply.status(STATUS_CODES.SUCCESS).send(data);
     } catch (error: any) {
       this.logger.error(`Error in getFreelancer: ${error.message}`);
       if (
