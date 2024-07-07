@@ -89,7 +89,7 @@ export default class FreelancerController extends AuthController {
     }
   }
 
-  @PUT(FREELANCER_ID_ENDPOINT, { schema: updateFreelancerSchema })
+  @PUT(FREELANCER_ID_ENDPOINT, { schema: addFreelancerProjectSchema })
   async updateFreelancer(
     request: FastifyRequest<{
       Params: PutFreelancerPathParams;

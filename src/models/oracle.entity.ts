@@ -2,7 +2,7 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 
 // Define an interface for the Oracle document
 export interface IOracle extends Document {
-  freeLancerId: mongoose.Types.ObjectId;
+  freeLancerId: string;
   experienceYears: number;
   status: "Not Applicable" | "Applicable" | "Stopped";
 }

@@ -110,11 +110,11 @@ export class FreelancerDAO extends BaseDAO {
   }
 
   async createProjectById(id: string, project: any) {
-    project._id = uuidv4();
+    const projectId = uuidv4(); // Generate a new UUIDv4 for project _id
     try {
       const result = await this.model.findByIdAndUpdate(
         id,
-        { $set: { [`projects.${project._id}`]: project } },
+        { $set: { [`projects.${projectId}`]: { ...project, _id: projectId } } },
         { new: true, upsert: true },
       );
       return result;

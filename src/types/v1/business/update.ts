@@ -22,10 +22,10 @@ export interface PutBusinessBody {
   connects: number;
   otp?: string;
   otpverified?: string;
-  ProjectList: mongoose.Types.ObjectId[];
-  Appliedcandidates: mongoose.Types.ObjectId[];
+  ProjectList: string[];
+  Appliedcandidates: string[];
   hirefreelancer: {
-    freelancer: mongoose.Types.ObjectId;
+    freelancer: string;
     status: string;
   }[];
 }
