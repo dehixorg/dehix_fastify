@@ -1,4 +1,3 @@
-import { Types } from "mongoose";
 export interface PutFreelancerProjectBody {
   projectName: string;
   description: string;
@@ -10,7 +9,7 @@ export interface PutFreelancerProjectBody {
   techUsed: string[];
   role: string;
   projectType: string;
-  oracleAssigned: Types.ObjectId;
+  oracleAssigned: string;
   verificationStatus: "added" | "verified" | "rejected" | "reapplied";
   verificationUpdateTime: Date;
   comments: string;

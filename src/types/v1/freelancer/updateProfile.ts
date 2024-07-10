@@ -1,5 +1,3 @@
-import mongoose from "mongoose";
-
 export interface PutFreelancerPathParams {
   freelancer_id: string;
 }
@@ -22,7 +20,7 @@ export interface PutFreelancerBody {
     referencePersonName?: string;
     referencePersonContact?: string;
     githubRepoLink?: string;
-    oracleAssigned?: mongoose.Types.ObjectId;
+    oracleAssigned?: string;
     verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
     verificationUpdateTime?: Date;
     comments?: string;
@@ -32,7 +30,7 @@ export interface PutFreelancerBody {
     level: string;
     experience: string;
     interviewStatus?: "pending" | "accepted" | "rejected" | "reapplied";
-    interviewInfo?: mongoose.Types.ObjectId;
+    interviewInfo?: string;
     interviewerRating?: number;
   }[];
   education?: {
@@ -42,7 +40,7 @@ export interface PutFreelancerBody {
     startDate?: Date;
     endDate?: Date;
     grade?: string;
-    oracleAssigned?: mongoose.Types.ObjectId;
+    oracleAssigned?: string;
     verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
     verificationUpdateTime?: Date;
     comments?: string;
@@ -61,7 +59,7 @@ export interface PutFreelancerBody {
       techUsed: string[];
       role: string;
       projectType: string;
-      oracleAssigned: mongoose.Types.ObjectId;
+      oracleAssigned?: string;
       verificationStatus: "added" | "verified" | "rejected" | "reapplied";
       verificationUpdateTime: Date;
       comments: string;
@@ -95,12 +93,12 @@ export interface PutFreelancerBody {
       | "stopped"
       | "reapplied";
   };
-  pendingProject?: mongoose.Types.ObjectId[];
-  rejectedProject?: mongoose.Types.ObjectId[];
-  acceptedProject?: mongoose.Types.ObjectId[];
-  oracleProject?: mongoose.Types.ObjectId[];
-  userDataForVerification?: mongoose.Types.ObjectId[];
-  interviewsAligned?: mongoose.Types.ObjectId[];
+  pendingProject?: string[];
+  rejectedProject?: string[];
+  acceptedProject?: string[];
+  oracleProject?: string[];
+  userDataForVerification?: string[];
+  interviewsAligned?: string[];
 }
 
 export interface PutFreelancerSkillsBody {

@@ -9,7 +9,7 @@ export interface ISkill extends Document {
   level: string;
   experience: string;
   interviewStatus?: "pending" | "accepted" | "rejected" | "reapplied";
-  interviewInfo?: mongoose.Types.ObjectId;
+  interviewInfo?: string;
   interviewerRating?: number;
 }
 
@@ -31,7 +31,7 @@ export interface IFreelancer extends Document {
     referencePersonName?: string;
     referencePersonContact?: string;
     githubRepoLink?: string;
-    oracleAssigned?: mongoose.Types.ObjectId;
+    oracleAssigned?: string;
     verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
     verificationUpdateTime?: Date;
     comments?: string;
@@ -44,7 +44,7 @@ export interface IFreelancer extends Document {
     startDate?: Date;
     endDate?: Date;
     grade?: string;
-    oracleAssigned?: mongoose.Types.ObjectId;
+    oracleAssigned?: string;
     verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
     verificationUpdateTime?: Date;
     comments?: string;
@@ -63,7 +63,7 @@ export interface IFreelancer extends Document {
       techUsed: string[];
       role: string;
       projectType: string;
-      oracleAssigned: mongoose.Types.ObjectId;
+      oracleAssigned: string;
       verificationStatus: "added" | "verified" | "rejected" | "reapplied";
       verificationUpdateTime: Date;
       comments: string;
@@ -97,12 +97,12 @@ export interface IFreelancer extends Document {
       | "stopped"
       | "reapplied";
   };
-  pendingProject?: mongoose.Types.ObjectId[];
-  rejectedProject?: mongoose.Types.ObjectId[];
-  acceptedProject?: mongoose.Types.ObjectId[];
-  oracleProject?: mongoose.Types.ObjectId[];
-  userDataForVerification?: mongoose.Types.ObjectId[];
-  interviewsAligned?: mongoose.Types.ObjectId[];
+  pendingProject?: string[];
+  rejectedProject?: string[];
+  acceptedProject?: string[];
+  oracleProject?: string[];
+  userDataForVerification?: string[];
+  interviewsAligned?: string[];
 }
 
 const FreelancerSchema: Schema = new Schema(
@@ -144,6 +144,11 @@ const FreelancerSchema: Schema = new Schema(
     },
     professionalInfo: [
       {
+        _id: {
+          type: String,
+          default: uuidv4,
+          required: true,
+        },
         company: { type: String, required: false },
         jobTitle: { type: String, required: false },
         workDescription: { type: String, required: false },

@@ -2,7 +2,7 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 
 // Define an interface for the Oracle document
 export interface IOracle extends Document {
-  freeLancerId: mongoose.Types.ObjectId;
+  freeLancerId: string;
   experienceYears: number;
   status: "Not Applicable" | "Applicable" | "Stopped";
 }
@@ -11,7 +11,7 @@ export interface IOracle extends Document {
 const OracleSchema: Schema<IOracle> = new Schema(
   {
     freeLancerId: {
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: "Freelancer",
       required: true,
     },
