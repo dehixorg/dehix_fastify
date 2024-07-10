@@ -6,7 +6,7 @@ export interface IApplicationForWork extends Document {
   desiredSalary: string;
   role: string;
   status: string;
-  projectId: Schema.Types.ObjectId;
+  projectId: String;
 }
 
 const applyForPositionSchema: Schema<IApplicationForWork> = new Schema(
@@ -29,7 +29,7 @@ const applyForPositionSchema: Schema<IApplicationForWork> = new Schema(
       default: "Pending",
     },
     projectId: {
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: "ProjectListByCompany",
       required: true,
     },

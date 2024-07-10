@@ -12,12 +12,12 @@ export interface IInterview extends Document {
 const InterviewSchema: Schema<IInterview> = new Schema(
   {
     interviewer: {
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: "Freelancer",
       required: true,
     },
     interviewee: {
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: "Freelancer",
       required: true,
     },

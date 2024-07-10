@@ -11,7 +11,7 @@ export interface IOracle extends Document {
 const OracleSchema: Schema<IOracle> = new Schema(
   {
     freeLancerId: {
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: "Freelancer",
       required: true,
     },
