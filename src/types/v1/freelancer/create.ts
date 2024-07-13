@@ -93,3 +93,18 @@ export interface CreateFreelancerBody {
   userDataForVerification: any[];
   interviewsAligned: any[];
 }
+
+export interface CreateFreelancerExperienceBody{
+  company?: string;
+    jobTitle?: string;
+    workDescription?: string;
+    workFrom?: Date;
+    workTo?: Date;
+    referencePersonName?: string;
+    referencePersonContact?: string;
+    githubRepoLink?: string;
+    oracleAssigned?: string;
+    verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
+    verificationUpdateTime?: Date;
+    comments?: string;
+}

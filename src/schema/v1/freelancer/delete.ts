@@ -94,3 +94,44 @@ export const deleteFreelancerSkillSchema: FastifySchema = {
     },
   },
 };
+export const deleteProfessionalInfoSchema: FastifySchema = {
+  description: "API to delete professional information",
+  tags: ["Freelancer"],
+  params: {
+    type: "object",
+    properties: {
+      id: { type: "string", format: "uuid" },
+    },
+    required: ["id"],
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+        code: { type: "string" },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: { type: "string" },
+        message: { type: "string" },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
+
