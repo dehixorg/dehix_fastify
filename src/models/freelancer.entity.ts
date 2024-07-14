@@ -38,7 +38,8 @@ export interface IFreelancer extends Document {
     comments?: string;
   }>;
   skills?: ISkill[];
-  education?: {
+  education?: Map<string, {
+    _id?: string;
     degree?: string;
     universityName?: string;
     fieldOfStudy?: string;
@@ -49,7 +50,7 @@ export interface IFreelancer extends Document {
     verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
     verificationUpdateTime?: Date;
     comments?: string;
-  }[];
+  }>;
   role?: string;
   projects?: {
     [key: string]: {
@@ -198,8 +199,10 @@ const FreelancerSchema: Schema = new Schema(
         interviewerRating: { type: Number, required: false },
       },
     ],
-    education: [
-      {
+    education: {
+      type: Map,
+      of: new Schema({
+        _id: {type: String, default: uuidv4, required: true },
         degree: { type: String, required: false },
         universityName: { type: String, required: false },
         fieldOfStudy: { type: String, required: false },
@@ -218,8 +221,9 @@ const FreelancerSchema: Schema = new Schema(
         },
         verificationUpdateTime: { type: Date, required: false },
         comments: { type: String, required: false },
-      },
-    ],
+      }),
+      require: false
+    },
     role: {
       type: String,
       required: false,

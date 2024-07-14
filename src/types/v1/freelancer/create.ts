@@ -96,15 +96,28 @@ export interface CreateFreelancerBody {
 
 export interface CreateFreelancerExperienceBody{
   company?: string;
-    jobTitle?: string;
-    workDescription?: string;
-    workFrom?: Date;
-    workTo?: Date;
-    referencePersonName?: string;
-    referencePersonContact?: string;
-    githubRepoLink?: string;
-    oracleAssigned?: string;
-    verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
-    verificationUpdateTime?: Date;
-    comments?: string;
+  jobTitle?: string;
+  workDescription?: string;
+  workFrom?: Date;
+  workTo?: Date;
+  referencePersonName?: string;
+  referencePersonContact?: string;
+  githubRepoLink?: string;
+  oracleAssigned?: string;
+  verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
+  verificationUpdateTime?: Date;
+  comments?: string;
+}
+
+export interface CreateFreelancerEducationBody{
+  degree?: string;
+  universityName?: string;
+  fieldOfStudy?: string;
+  startDate?: string;
+  endDate?: string;
+  grade?: string;
+  oracleAssigned?: null | any;
+  verificationStatus?: string;
+  verificationUpdateTime?: string;
+  comments?: string;
 }

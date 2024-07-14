@@ -238,5 +238,17 @@ export class FreelancerDAO extends BaseDAO {
     );
   }
 
+  async addEducationById(id: string, update: any) {
+    const educationId = uuidv4();
+    return this.model.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          [`education.${educationId}`]: { _id: educationId, ...update },
+        },
+      },
+      { new: true, upsert: true }
+    );
+  }
   
 }

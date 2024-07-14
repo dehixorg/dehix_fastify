@@ -332,6 +332,28 @@ async createFreelancerExperience(freelancer_id: string, experienceData: any) {
     throw new Error(`Failed to create freelancer experience: ${error.message}`);
   }
 }
+
+async createFreelancerEducation(freelancer_id: string, educationData: any) {
+  try {
+    this.logger.info("FreelancerService: create freelancer education ", freelancer_id);
+
+    // Check if freelancer exists
+    const userExist = await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    // Create new education entry
+    const createdEducation = await this.FreelancerDAO.addEducationById(freelancer_id, educationData);
+    return createdEducation;
+  } catch (error:any) {
+    throw new Error(`Failed to create freelancer education: ${error.message}`);
+  }
+}
+
   /**
    * Service method for FREELANCER login
    * @param body

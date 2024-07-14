@@ -7,7 +7,7 @@ import {
   ERROR_CODES,
   RESPONSE_MESSAGE,
 } from "../common/constants";
-import { CreateFreelancerExperienceBody, GetFreelancerPathParams } from "../types/v1";
+import { CreateFreelancerEducationBody, CreateFreelancerExperienceBody, GetFreelancerPathParams } from "../types/v1";
 import {
   FREELANCER_ENDPOINT,
   FREELANCER_ID_ENDPOINT,
@@ -21,6 +21,7 @@ import {
   FREELANCER_UPDATE_EXPERIENCE_BY_ID,
   FREELANCER_EXPERINCE_DELETE_BY_ID,
   FREELANCER_CREATE_EXPERIENCE_BY_ID,
+  FREELANCER_CREATE_EDUCATION_BY_ID,
 } from "../constants/freelancer.constant";
 import { getFreelancerSchema } from "../schema/v1/freelancer/get";
 import { AuthController } from "../common/auth.controller";
@@ -54,7 +55,7 @@ import { PutFreelancerProjectBody } from "../types/v1/freelancer/updateProject";
 
 import { addFreelancerSkillsSchema } from "../schema/v1/freelancer/update";
 import { IFreelancer } from "../models/freelancer.entity";
-import { createFreelancerSchema, createProfessionalInfoSchema } from "../schema/v1/freelancer/create";
+import { createEducationSchema, createFreelancerSchema, createProfessionalInfoSchema } from "../schema/v1/freelancer/create";
 import { Schema } from 'mongoose';
 
 @Controller({ route: FREELANCER_ENDPOINT })
@@ -441,6 +442,38 @@ export default class FreelancerController extends AuthController {
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(`Error in CreateExperienceFreelancer: ${error.message}`);
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found.",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } 
+       else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @POST(FREELANCER_CREATE_EDUCATION_BY_ID, {schema:createEducationSchema}) 
+  async createEducation(request:FastifyRequest<{Params:GetFreelancerPathParams,Body:CreateFreelancerEducationBody}>,reply:FastifyReply){
+    try {
+      this.logger.info(
+        `FreelancerController -> createEducation -> Create education using ID: ${request.params.freelancer_id}`,
+      );
+
+      const data= await this.freelancerService.createFreelancerEducation(request.params.freelancer_id,request.body);
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in CreateEducation: ${error.message}`);
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
