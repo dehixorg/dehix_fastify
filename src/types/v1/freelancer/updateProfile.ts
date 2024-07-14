@@ -114,19 +114,36 @@ export interface PutFreelancerInterviewsAlignedBody {
 
 export interface PutFreelancerExperinceBody{
   company?: string;
-    jobTitle?: string;
-    workDescription?: string;
-    workFrom?: Date;
-    workTo?: Date;
-    referencePersonName?: string;
-    referencePersonContact?: string;
-    githubRepoLink?: string;
-    oracleAssigned?: string;
-    verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
-    verificationUpdateTime?: Date;
-    comments?: string;
+  jobTitle?: string;
+  workDescription?: string;
+  workFrom?: Date;
+  workTo?: Date;
+  referencePersonName?: string;
+  referencePersonContact?: string;
+  githubRepoLink?: string;
+  oracleAssigned?: string;
+  verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
+  verificationUpdateTime?: Date;
+  comments?: string;
 }
 export interface PutExperincePathParams{
   freelancer_id:string,
   experience_id:string
+}
+
+export interface PutFreelancerEducationBody{
+  degree?: string;
+  universityName?: string;
+  fieldOfStudy?: string;
+  startDate?: string;
+  endDate?: string;
+  grade?: string;
+  oracleAssigned?: null | any;
+  verificationStatus?: string;
+  verificationUpdateTime?: string;
+  comments?: string;
+}
+export interface PutEducationPathParams{
+  freelancer_id:string,
+  education_id:string
 }

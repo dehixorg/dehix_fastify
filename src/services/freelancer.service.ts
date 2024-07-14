@@ -354,6 +354,28 @@ async createFreelancerEducation(freelancer_id: string, educationData: any) {
   }
 }
 
+async putFreelancerEducation(freelancer_id: string, education_id: string, update: any) {
+  this.logger.info(
+    "FreelancerService: freelancer education put ",
+    freelancer_id,
+  );
+
+  const userExist = await this.FreelancerDAO.findFreelancerById(freelancer_id);
+  if (!userExist) {
+    throw new NotFoundError(RESPONSE_MESSAGE.FREELANCER_NOT_FOUND, ERROR_CODES.FREELANCER_NOT_FOUND);
+  }
+
+  const educationExist = await this.FreelancerDAO.getEducationById(freelancer_id, education_id);
+  if (!educationExist) {
+    throw new NotFoundError(RESPONSE_MESSAGE.EDUCATION_NOT_FOUND, ERROR_CODES.EDUCATION_NOT_FOUND);
+  }
+
+  const data = await this.FreelancerDAO.putEducationById(freelancer_id, education_id, update);
+  this.logger.info(data, "in update education");
+  return data;
+}
+
+
   /**
    * Service method for FREELANCER login
    * @param body

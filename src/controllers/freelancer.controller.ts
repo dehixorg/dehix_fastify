@@ -22,6 +22,7 @@ import {
   FREELANCER_EXPERINCE_DELETE_BY_ID,
   FREELANCER_CREATE_EXPERIENCE_BY_ID,
   FREELANCER_CREATE_EDUCATION_BY_ID,
+  FREELANCER_UPDATE_EDUCATION_BY_ID,
 } from "../constants/freelancer.constant";
 import { getFreelancerSchema } from "../schema/v1/freelancer/get";
 import { AuthController } from "../common/auth.controller";
@@ -30,6 +31,7 @@ import {
   experinceInProfessionalInfo,
   interviewsAlignedSchema,
   oracleStatusSchema,
+  updateEducationSchema,
   updateFreelancerSchema,
 } from "../schema/v1/freelancer/update";
 import {
@@ -40,6 +42,8 @@ import {
   PutFreelancerInterviewsAlignedBody,
   PutExperincePathParams,
   PutFreelancerExperinceBody,
+  PutEducationPathParams,
+  PutFreelancerEducationBody,
 } from "../types/v1/freelancer/updateProfile";
 import {
   deleteFreelancerProjectSchema,
@@ -486,6 +490,47 @@ export default class FreelancerController extends AuthController {
         });
       } 
        else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @PUT(FREELANCER_UPDATE_EDUCATION_BY_ID, { schema: updateEducationSchema })
+  async updateEducationFreelancer(request: FastifyRequest<{ Params: PutEducationPathParams, Body: PutFreelancerEducationBody }>, reply: FastifyReply) {
+
+    try {
+      this.logger.info(
+        `FreelancerController -> updateEducationFreelancer-> update education freelancer using ID: ${request.params.freelancer_id}`,
+      );
+
+      const data = await this.freelancerService.putFreelancerEducation(request.params.freelancer_id, request.params.education_id, request.body)
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in education add: ${error.message}`);
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found.",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+      else if (error.ERROR_CODES === "EDUCATION_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer education not found by id",
+        )) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Education"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
         reply.status(STATUS_CODES.SERVER_ERROR).send({
           message: RESPONSE_MESSAGE.SERVER_ERROR,
           code: ERROR_CODES.SERVER_ERROR,

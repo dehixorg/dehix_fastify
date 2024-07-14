@@ -1,4 +1,5 @@
 import { FastifySchema } from "fastify";
+import { nullable } from "zod";
 
 export const updateFreelancerSchema: FastifySchema = {
   description: "API to update freelancer",
@@ -768,6 +769,86 @@ export const experinceInProfessionalInfo: FastifySchema = {
             },
             verificationUpdateTime: { type: "string", format: "date-time" },
             comments: { type: "string" },
+          },
+        },
+      }}
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
+
+export const updateEducationSchema: FastifySchema = {
+  description: "API to update education data",
+  tags: ["Freelancer"],
+  body: {
+    type: "object",
+    properties: {
+      degree: { type: "string", nullable: true },
+      universityName: { type: "string", nullable: true },
+      fieldOfStudy: { type: "string", nullable: true },
+      startDate: { type: "string", format: "date-time", nullable: true },
+      endDate: { type: "string", format: "date-time", nullable: true },
+      grade: { type: "string", nullable: true },
+      oracleAssigned: { type: "string", nullable: true },
+      verificationStatus: {
+        type: "string",
+        enum: ["added", "verified", "rejected", "reapplied"],
+        nullable: true
+      },
+      verificationUpdateTime: { type: "string", format: "date-time", nullable: true },
+      comments: { type: "string", nullable: true },
+    }
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: {
+          type: "object",
+          properties: {
+            email: { type: "string" },
+            education:{
+              degree: { type: "string" },
+              universityName: { type: "string" },
+              fieldOfStudy: { type: "string" },
+              startDate: { type: "string", format: "date-time" },
+              endDate: { type: "string", format: "date-time" },
+              grade: { type: "string" },
+              oracleAssigned: { type: "string" },
+              verificationStatus: {
+                type: "string",
+                enum: ["added", "verified", "rejected", "reapplied"],
+              },
+              verificationUpdateTime: { type: "string", format: "date-time" },
+              comments: { type: "string" },
           },
         },
       }}
