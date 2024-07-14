@@ -18,7 +18,7 @@ import {
   FREELANCER_SKILL_DELETE_BY_ID,
   FREELANCER_ORACLE_STATUS_BY_ID,
   FREELANCER_INTERVIEWS_ALIGNED_BY_ID,
-  FREELANCER_EXPERINCE_BY_ID,
+  FREELANCER_UPDATE_EXPERIENCE_BY_ID,
   FREELANCER_EXPERINCE_DELETE_BY_ID,
   FREELANCER_CREATE_EXPERIENCE_BY_ID,
 } from "../constants/freelancer.constant";
@@ -343,7 +343,7 @@ export default class FreelancerController extends AuthController {
       }
     }
   }
-  @PUT(FREELANCER_EXPERINCE_BY_ID, { schema: experinceInProfessionalInfo })
+  @PUT(FREELANCER_UPDATE_EXPERIENCE_BY_ID, { schema: experinceInProfessionalInfo })
   async putExperienceFreelancer(request: FastifyRequest<{ Params: PutExperincePathParams, Body: PutFreelancerExperinceBody }>, reply: FastifyReply) {
 
     try {

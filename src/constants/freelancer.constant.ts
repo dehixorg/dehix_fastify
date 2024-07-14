@@ -10,9 +10,9 @@ export const FREELANCER_ORACLE_STATUS_BY_ID = "/:freelancer_id/oracle-status";
 export const FREELANCER_INTERVIEWS_ALIGNED_BY_ID =
   "/:freelancer_id/interviews-aligned";
 
-export const FREELANCER_EXPERINCE_BY_ID="/updateexperience/:freelancer_id/:experience_id"
-export const FREELANCER_EXPERINCE_DELETE_BY_ID="/deleteexperience/:freelancer_id/:experience_id"
-export const FREELANCER_CREATE_EXPERIENCE_BY_ID="/createexperience/:freelancer_id"
+export const FREELANCER_UPDATE_EXPERIENCE_BY_ID="/:freelancer_id/:experience_id"
+export const FREELANCER_EXPERINCE_DELETE_BY_ID="/:freelancer_id/:experience_id"
+export const FREELANCER_CREATE_EXPERIENCE_BY_ID="/:freelancer_id"
 export const REGISTRATION_ENDPOINT = "/register";
 export const VERIFY_ENDPOINT = "/verify";
 export const LOGIN_ENDPOINT = "/login";
