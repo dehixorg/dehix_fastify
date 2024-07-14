@@ -398,7 +398,7 @@ export default class FreelancerController extends AuthController {
         request.params.experience_id,
       );
 
-      reply.status(STATUS_CODES.SUCCESS).send({ data });
+      reply.status(STATUS_CODES.SUCCESS).send({ message:"Experience deleted" });
     } catch (error: any) {
       this.logger.error(`Error in deleteExperienceFreelancer: ${error.message}`);
       if (

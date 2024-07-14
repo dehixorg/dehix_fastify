@@ -92,6 +92,7 @@ export const deleteFreelancerSkillSchema: FastifySchema = {
         },
       },
     },
+    
   },
 };
 export const deleteProfessionalInfoSchema: FastifySchema = {
@@ -100,9 +101,16 @@ export const deleteProfessionalInfoSchema: FastifySchema = {
   params: {
     type: "object",
     properties: {
-      id: { type: "string", format: "uuid" },
+      freelancer_id: {
+        type: "string",
+        description: "The ID of the freelancer",
+      },
+      experience_id: {
+        type: "string",
+        description: "The ID of the experience to be deleted",
+      },
     },
-    required: ["id"],
+    required: ["freelancer_id", "experience_id"]
   },
   response: {
     200: {
