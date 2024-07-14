@@ -23,6 +23,7 @@ import {
   FREELANCER_CREATE_EXPERIENCE_BY_ID,
   FREELANCER_CREATE_EDUCATION_BY_ID,
   FREELANCER_UPDATE_EDUCATION_BY_ID,
+  FREELANCER_DELETE_EDUCATION_BY_ID,
 } from "../constants/freelancer.constant";
 import { getFreelancerSchema } from "../schema/v1/freelancer/get";
 import { AuthController } from "../common/auth.controller";
@@ -46,11 +47,13 @@ import {
   PutFreelancerEducationBody,
 } from "../types/v1/freelancer/updateProfile";
 import {
+  deleteEducationSchema,
   deleteFreelancerProjectSchema,
   deleteFreelancerSkillSchema,
   deleteProfessionalInfoSchema,
 } from "../schema/v1/freelancer/delete";
 import {
+  DeleteFreelancerEducationPathParams,
   DeleteFreelancerExperiencePathParams,
   DeleteFreelancerProjectPathParams,
   DeleteFreelancerSkillPathParams,
@@ -539,4 +542,50 @@ export default class FreelancerController extends AuthController {
     }
   }
   
+  @DELETE(FREELANCER_DELETE_EDUCATION_BY_ID, { schema: deleteEducationSchema })
+  async deleteEducationFreelancer(
+    request: FastifyRequest<{ Params:DeleteFreelancerEducationPathParams }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FreelancerController -> deleteEducationFreelancer -> Deleting education using ID: ${request.params.freelancer_id}`,
+      );
+
+      const data = await this.freelancerService.deleteFreelancerEducation(
+        request.params.freelancer_id,
+        request.params.education_id,
+      );
+
+      reply.status(STATUS_CODES.SUCCESS).send({ message:"Education deleted" });
+    } catch (error: any) {
+      this.logger.error(`Error in deleteEducationFreelancer: ${error.message}`);
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found.",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else if (
+        error.ERROR_CODES === "EDUCATION_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer education not found by id",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Education"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
 }

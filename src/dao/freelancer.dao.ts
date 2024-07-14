@@ -267,6 +267,18 @@ export class FreelancerDAO extends BaseDAO {
     );
   }
 
+  async deleteEducationById(id: string, educationId: string) {
+    return this.model.findByIdAndUpdate(
+      id,
+      {
+        $unset: {
+          [`education.${educationId}`]: "",
+        },
+      },
+      { new: true }
+    );
+  }
+
 
   
 }
