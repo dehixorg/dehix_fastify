@@ -6,7 +6,7 @@ export interface IApplicationForWork extends Document {
   desiredSalary: string;
   role: string;
   status: string;
-  projectId: String;
+  projectId: string;
 }
 
 const applyForPositionSchema: Schema<IApplicationForWork> = new Schema(

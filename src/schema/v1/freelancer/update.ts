@@ -739,9 +739,13 @@ export const experinceInProfessionalInfo: FastifySchema = {
         enum: ["added", "verified", "rejected", "reapplied"],
         nullable: true,
       },
-      verificationUpdateTime: { type: "string", format: "date-time", nullable: true },
+      verificationUpdateTime: {
+        type: "string",
+        format: "date-time",
+        nullable: true,
+      },
       comments: { type: "string", nullable: true },
-    }
+    },
   },
   response: {
     200: {
@@ -752,25 +756,26 @@ export const experinceInProfessionalInfo: FastifySchema = {
           type: "object",
           properties: {
             email: { type: "string" },
-            professionalInfo:{
-            company: { type: "string" },
-            jobTitle: { type: "string" },
-            workDescription: { type: "string" },
-            workFrom: { type: "string", format: "date-time" },
-            workTo: { type: "string", format: "date-time" },
-            referencePersonName: { type: "string" },
-            referencePersonContact: { type: "string" },
-            githubRepoLink: { type: "string" },
-            oracleAssigned: { type: "string" },
-            verificationStatus: {
-              type: "string",
-              enum: ["added", "verified", "rejected", "reapplied"],
+            professionalInfo: {
+              company: { type: "string" },
+              jobTitle: { type: "string" },
+              workDescription: { type: "string" },
+              workFrom: { type: "string", format: "date-time" },
+              workTo: { type: "string", format: "date-time" },
+              referencePersonName: { type: "string" },
+              referencePersonContact: { type: "string" },
+              githubRepoLink: { type: "string" },
+              oracleAssigned: { type: "string" },
+              verificationStatus: {
+                type: "string",
+                enum: ["added", "verified", "rejected", "reapplied"],
+              },
+              verificationUpdateTime: { type: "string", format: "date-time" },
+              comments: { type: "string" },
             },
-            verificationUpdateTime: { type: "string", format: "date-time" },
-            comments: { type: "string" },
           },
         },
-      }}
+      },
     },
     404: {
       type: "object",

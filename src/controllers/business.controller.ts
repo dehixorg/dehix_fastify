@@ -117,7 +117,7 @@ export default class BusinessController extends AuthController {
     }
   }
   @GET(GET_ALL_BUSINESS_PROJECT_END_POINT, { schema: getProjectSchema })
-  async getAllProjectBusiness(reply: FastifyReply) {
+  async getAllProjectBusiness(request: FastifyRequest, reply: FastifyReply) {
     try {
       this.logger.info(
         `BusinessController -> getAllProjectBusiness -> Fetching Business all project `,

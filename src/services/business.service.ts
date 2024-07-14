@@ -79,7 +79,7 @@ export class BusinessService extends BaseService {
     this.logger.info(
       `Business Service: 
         Fetching  business profile with Id `,
-        id,
+      id,
     );
 
     const business: any = await this.businessDao.getById(id);

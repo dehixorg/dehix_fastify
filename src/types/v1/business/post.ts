@@ -1,5 +1,3 @@
-import mongoose from "mongoose";
-
 export interface GetBusinessPathParams {
   project_id: string;
   business_id: string;

@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 export interface PutBusinessPathParams {
   business_id: string;
 }

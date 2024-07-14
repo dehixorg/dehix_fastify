@@ -112,21 +112,21 @@ export interface PutFreelancerInterviewsAlignedBody {
   interviewsAligned: string[];
 }
 
-export interface PutFreelancerExperinceBody{
+export interface PutFreelancerExperinceBody {
   company?: string;
-    jobTitle?: string;
-    workDescription?: string;
-    workFrom?: Date;
-    workTo?: Date;
-    referencePersonName?: string;
-    referencePersonContact?: string;
-    githubRepoLink?: string;
-    oracleAssigned?: string;
-    verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
-    verificationUpdateTime?: Date;
-    comments?: string;
+  jobTitle?: string;
+  workDescription?: string;
+  workFrom?: Date;
+  workTo?: Date;
+  referencePersonName?: string;
+  referencePersonContact?: string;
+  githubRepoLink?: string;
+  oracleAssigned?: string;
+  verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
+  verificationUpdateTime?: Date;
+  comments?: string;
 }
-export interface PutExperincePathParams{
-  freelancer_id:string,
-  experience_id:string
+export interface PutExperincePathParams {
+  freelancer_id: string;
+  experience_id: string;
 }

@@ -1,5 +1,4 @@
 import { FastifySchema } from "fastify";
-import { UUIDV4 } from "sequelize";
 
 export const createFreelancerSchema: FastifySchema = {
   description: "API to create freelancer data",
@@ -34,7 +33,6 @@ export const createFreelancerSchema: FastifySchema = {
           verificationUpdateTime: { type: "string", format: "date-time" },
           comments: { type: "string" },
         },
-      
       },
       skills: {
         type: "array",
@@ -329,7 +327,10 @@ export const createProfessionalInfoSchema: FastifySchema = {
             referencePersonContact: { type: "string" },
             githubRepoLink: { type: "string" },
             oracleAssigned: { type: "string" },
-            verificationStatus: { type: "string", enum: ["added", "verified", "rejected", "reapplied"] },
+            verificationStatus: {
+              type: "string",
+              enum: ["added", "verified", "rejected", "reapplied"],
+            },
             verificationUpdateTime: { type: "string", format: "date-time" },
             comments: { type: "string" },
           },
