@@ -22,7 +22,8 @@ export interface IFreelancer extends Document {
   email: string;
   phone: string;
   dob?: Date;
-  professionalInfo?: {
+  professionalInfo?: Map<string, {
+    _id?: string;
     company?: string;
     jobTitle?: string;
     workDescription?: string;
@@ -35,7 +36,7 @@ export interface IFreelancer extends Document {
     verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
     verificationUpdateTime?: Date;
     comments?: string;
-  }[];
+  }>;
   skills?: ISkill[];
   education?: {
     degree?: string;
@@ -78,7 +79,7 @@ export interface IFreelancer extends Document {
   personalWebsite?: string;
   perHourPrice?: number;
   connects?: number;
-  resume?: Buffer;
+  resume?: string;
   workExperience?: number;
   isFreelancer?: boolean;
   oracleStatus?:
@@ -142,8 +143,9 @@ const FreelancerSchema: Schema = new Schema(
       type: Date,
       required: false,
     },
-    professionalInfo: [
-      {
+    professionalInfo: {
+      type: Map,
+      of: new Schema({
         _id: {
           type: String,
           default: uuidv4,
@@ -159,7 +161,7 @@ const FreelancerSchema: Schema = new Schema(
         githubRepoLink: { type: String, required: false },
         oracleAssigned: {
           type: ObjectId,
-          ref: "FreelancerData",
+          ref: "Freelancer",
           required: false,
         },
         verificationStatus: {
@@ -169,8 +171,9 @@ const FreelancerSchema: Schema = new Schema(
         },
         verificationUpdateTime: { type: Date, required: false },
         comments: { type: String, required: false },
-      },
-    ],
+      }),
+      required: false,
+    },
     skills: [
       {
         _id: {
@@ -205,7 +208,7 @@ const FreelancerSchema: Schema = new Schema(
         grade: { type: String, required: false },
         oracleAssigned: {
           type: ObjectId,
-          ref: "FreelancerData",
+          ref: "Freelancer",
           required: false,
         },
         verificationStatus: {
@@ -260,7 +263,7 @@ const FreelancerSchema: Schema = new Schema(
     personalWebsite: { type: String, required: false },
     perHourPrice: { type: Number, required: false },
     connects: { type: Number, default: 100 },
-    resume: { type: Buffer, required: false },
+    resume: { type: String, required: false },
     workExperience: { type: Number, required: false },
     isFreelancer: { type: Boolean, default: true, required: true },
     oracleStatus: {

@@ -15,6 +15,7 @@ import { FreelancerDAO } from "../dao/freelancer.dao";
 import { IFreelancer } from "../models/freelancer.entity";
 import { firebaseClient } from "../common/services";
 import { SESService } from "../common/services";
+import { Model } from 'mongoose';
 
 @Service()
 export class FreelancerService extends BaseService {
@@ -264,6 +265,73 @@ export class FreelancerService extends BaseService {
     return data;
   }
 
+  async putFreelancerExperience (freelancer_id:string,experience_id:string,update:any){
+
+  this.logger.info(
+    "FreelancerService: freelancer experience put ",
+    freelancer_id,
+  );
+  const userExist= await this.FreelancerDAO.findFreelancerById(freelancer_id)
+if (!userExist) {
+   throw new NotFoundError( RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+    ERROR_CODES.FREELANCER_NOT_FOUND,)
+}
+const experinceExist = await this.FreelancerDAO.getExperienceById(freelancer_id,experience_id);
+if (!experinceExist) {
+  throw new NotFoundError( RESPONSE_MESSAGE.EXPERIENCE_NOT_FOUND,
+    ERROR_CODES.EXPERIENCE_NOT_FOUND)
+}
+
+const data= await this.FreelancerDAO.putExperienceById(freelancer_id,experience_id,update)
+this.logger.info(data,"in update experience")
+return data;
+  }
+
+async deleteFreelancerExperience(freelancerId: string, experienceId: string) {
+  this.logger.info(
+    "FreelancerService: deleteFreelancerExperience",
+    freelancerId,
+  );
+
+  const userExist = await this.FreelancerDAO.findFreelancerById(freelancerId);
+  if (!userExist) {
+    throw new NotFoundError(
+      RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+      ERROR_CODES.FREELANCER_NOT_FOUND,
+    );
+  }
+
+  const experienceExist = await this.FreelancerDAO.getExperienceById(freelancerId, experienceId);
+  if (!experienceExist) {
+    throw new NotFoundError(
+      RESPONSE_MESSAGE.EXPERIENCE_NOT_FOUND,
+      ERROR_CODES.EXPERIENCE_NOT_FOUND,
+    );
+  }
+
+  const data = await this.FreelancerDAO.deleteExperienceById(freelancerId, experienceId);
+  return data;
+}
+async createFreelancerExperience(freelancer_id: string, experienceData: any) {
+  try {
+    this.logger.info("FreelancerService: create freelancer experience ", freelancer_id);
+
+    // Check if freelancer exists
+    const userExist = await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    // Create new experience entry
+    const createdExperience = await this.FreelancerDAO.addExperienceById(freelancer_id, experienceData);
+    return createdExperience;
+  } catch (error:any) {
+    throw new Error(`Failed to create freelancer experience: ${error.message}`);
+  }
+}
   /**
    * Service method for FREELANCER login
    * @param body

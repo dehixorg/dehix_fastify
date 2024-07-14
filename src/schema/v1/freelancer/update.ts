@@ -719,3 +719,86 @@ export const interviewsAlignedSchema: FastifySchema = {
     },
   },
 };
+export const experinceInProfessionalInfo: FastifySchema = {
+  description: "API to manage professional experience",
+  tags: ["Freelancer"],
+  body: {
+    type: "object",
+    properties: {
+      company: { type: "string", nullable: true },
+      jobTitle: { type: "string", nullable: true },
+      workDescription: { type: "string", nullable: true },
+      workFrom: { type: "string", format: "date-time", nullable: true },
+      workTo: { type: "string", format: "date-time", nullable: true },
+      referencePersonName: { type: "string", nullable: true },
+      referencePersonContact: { type: "string", nullable: true },
+      githubRepoLink: { type: "string", nullable: true },
+      oracleAssigned: { type: "string", nullable: true },
+      verificationStatus: {
+        type: "string",
+        enum: ["added", "verified", "rejected", "reapplied"],
+        nullable: true,
+      },
+      verificationUpdateTime: { type: "string", format: "date-time", nullable: true },
+      comments: { type: "string", nullable: true },
+    }
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: {
+          type: "object",
+          properties: {
+            email: { type: "string" },
+            professionalInfo:{
+            company: { type: "string" },
+            jobTitle: { type: "string" },
+            workDescription: { type: "string" },
+            workFrom: { type: "string", format: "date-time" },
+            workTo: { type: "string", format: "date-time" },
+            referencePersonName: { type: "string" },
+            referencePersonContact: { type: "string" },
+            githubRepoLink: { type: "string" },
+            oracleAssigned: { type: "string" },
+            verificationStatus: {
+              type: "string",
+              enum: ["added", "verified", "rejected", "reapplied"],
+            },
+            verificationUpdateTime: { type: "string", format: "date-time" },
+            comments: { type: "string" },
+          },
+        },
+      }}
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
