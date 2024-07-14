@@ -361,6 +361,71 @@ export class FreelancerService extends BaseService {
       );
     }
   }
+}
+
+async createFreelancerEducation(freelancer_id: string, educationData: any) {
+  try {
+    this.logger.info("FreelancerService: create freelancer education ", freelancer_id);
+
+    // Check if freelancer exists
+    const userExist = await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    // Create new education entry
+    const createdEducation = await this.FreelancerDAO.addEducationById(freelancer_id, educationData);
+    return createdEducation;
+  } catch (error:any) {
+    throw new Error(`Failed to create freelancer education: ${error.message}`);
+  }
+}
+
+async putFreelancerEducation(freelancer_id: string, education_id: string, update: any) {
+  this.logger.info(
+    "FreelancerService: freelancer education put ",
+    freelancer_id,
+  );
+
+  const userExist = await this.FreelancerDAO.findFreelancerById(freelancer_id);
+  if (!userExist) {
+    throw new NotFoundError(RESPONSE_MESSAGE.FREELANCER_NOT_FOUND, ERROR_CODES.FREELANCER_NOT_FOUND);
+  }
+
+  const educationExist = await this.FreelancerDAO.getEducationById(freelancer_id, education_id);
+  if (!educationExist) {
+    throw new NotFoundError(RESPONSE_MESSAGE.EDUCATION_NOT_FOUND, ERROR_CODES.EDUCATION_NOT_FOUND);
+  }
+
+  const data = await this.FreelancerDAO.putEducationById(freelancer_id, education_id, update);
+  this.logger.info(data, "in update education");
+  return data;
+}
+
+async deleteFreelancerEducation(freelancer_id: string, education_id: string) {
+  this.logger.info(
+    "FreelancerService: deleteFreelancerEducation",
+    freelancer_id,
+  );
+
+  const userExist = await this.FreelancerDAO.findFreelancerById(freelancer_id);
+  if (!userExist) {
+    throw new NotFoundError(RESPONSE_MESSAGE.FREELANCER_NOT_FOUND, ERROR_CODES.FREELANCER_NOT_FOUND);
+  }
+
+  const educationExist = await this.FreelancerDAO.getEducationById(freelancer_id, education_id);
+  if (!educationExist) {
+    throw new NotFoundError(RESPONSE_MESSAGE.EDUCATION_NOT_FOUND, ERROR_CODES.EDUCATION_NOT_FOUND);
+  }
+
+  const data = await this.FreelancerDAO.deleteEducationById(freelancer_id, education_id);
+  return data;
+}
+
+
   /**
    * Service method for FREELANCER login
    * @param body

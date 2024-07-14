@@ -108,3 +108,17 @@ export interface CreateFreelancerExperienceBody {
   verificationUpdateTime?: Date;
   comments?: string;
 }
+
+export interface CreateFreelancerEducationBody{
+  degree?: string;
+  universityName?: string;
+  fieldOfStudy?: string;
+  startDate?: string;
+  endDate?: string;
+  grade?: string;
+  oracleAssigned?: null | any;
+  verificationStatus?: string;
+  verificationUpdateTime?: string;
+  comments?: string;
+}
+

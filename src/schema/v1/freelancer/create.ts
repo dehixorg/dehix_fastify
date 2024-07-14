@@ -60,10 +60,9 @@ export const createFreelancerSchema: FastifySchema = {
         },
       },
       education: {
-        type: "array",
-        items: {
           type: "object",
           properties: {
+            id: { type: "string" },
             degree: { type: "string" },
             universityName: { type: "string" },
             fieldOfStudy: { type: "string" },
@@ -78,20 +77,7 @@ export const createFreelancerSchema: FastifySchema = {
             verificationUpdateTime: { type: "string", format: "date-time" },
             comments: { type: "string" },
           },
-          required: [
-            "degree",
-            "universityName",
-            "fieldOfStudy",
-            "startDate",
-            "endDate",
-            "grade",
-            "oracleAssigned",
-            "verificationStatus",
-            "verificationUpdateTime",
-            "comments",
-          ],
         },
-      },
       role: { type: "string" },
       projects: {
         type: "object",
@@ -215,7 +201,6 @@ export const createFreelancerSchema: FastifySchema = {
       "phone",
       "dob",
       "skills",
-      "education",
       "role",
       "refer",
       "githubLink",
@@ -359,3 +344,86 @@ export const createProfessionalInfoSchema: FastifySchema = {
     },
   },
 };
+
+export const createEducationSchema: FastifySchema = {
+  description: "API to create education",
+  tags: ["Freelancer"],
+  body: {
+    type: "object",
+    properties: {
+      degree: { type: "string" },
+      universityName: { type: "string" },
+      fieldOfStudy: { type: "string" },
+      startDate: { type: "string", format: "date-time" },
+      endDate: { type: "string", format: "date-time" },
+      grade: { type: "string" },
+      oracleAssigned: { type: "string" },
+      verificationStatus: {
+        type: "string",
+        enum: ["added", "verified", "rejected", "reapplied"],
+      },
+      verificationUpdateTime: { type: "string", format: "date-time" },
+      comments: { type: "string" },
+    },
+    required: [
+      "degree",
+      "universityName",
+      "fieldOfStudy",
+      "startDate",
+      "endDate",
+      "grade",
+      "oracleAssigned",
+      "verificationStatus",
+      "verificationUpdateTime",
+      "comments",
+    ],
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: {
+          type: "object",
+          properties: {
+            _id: { type: "string", format: "uuid" },
+            degree: { type: "string" },
+            universityName: { type: "string" },
+            fieldOfStudy: { type: "string" },
+            startDate: { type: "string", format: "date-time" },
+            endDate: { type: "string", format: "date-time" },
+            grade: { type: "string" },
+            oracleAssigned: { type: "string" },
+            verificationStatus: {
+              type: "string",
+              enum: ["added", "verified", "rejected", "reapplied"],
+            },
+            verificationUpdateTime: { type: "string", format: "date-time" },
+            comments: { type: "string" },
+          },
+        },
+      },
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+        code: { type: "string" },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: { type: "string" },
+        message: { type: "string" },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
+

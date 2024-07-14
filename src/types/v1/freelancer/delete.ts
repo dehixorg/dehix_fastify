@@ -10,3 +10,7 @@ export interface DeleteFreelancerSkillPathParams {
   freelancer_id: string;
   skill_id: string;
 }
+export interface DeleteFreelancerEducationPathParams {
+  freelancer_id: string;
+  education_id: string;
+}
