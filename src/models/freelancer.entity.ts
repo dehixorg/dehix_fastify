@@ -41,19 +41,22 @@ export interface IFreelancer extends Document {
     }
   >;
   skills?: ISkill[];
-  education?: Map<string, {
-    _id?: string;
-    degree?: string;
-    universityName?: string;
-    fieldOfStudy?: string;
-    startDate?: Date;
-    endDate?: Date;
-    grade?: string;
-    oracleAssigned?: string;
-    verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
-    verificationUpdateTime?: Date;
-    comments?: string;
-  }>;
+  education?: Map<
+    string,
+    {
+      _id?: string;
+      degree?: string;
+      universityName?: string;
+      fieldOfStudy?: string;
+      startDate?: Date;
+      endDate?: Date;
+      grade?: string;
+      oracleAssigned?: string;
+      verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
+      verificationUpdateTime?: Date;
+      comments?: string;
+    }
+  >;
   role?: string;
   projects?: {
     [key: string]: {
@@ -205,7 +208,7 @@ const FreelancerSchema: Schema = new Schema(
     education: {
       type: Map,
       of: new Schema({
-        _id: {type: String, default: uuidv4, required: true },
+        _id: { type: String, default: uuidv4, required: true },
         degree: { type: String, required: false },
         universityName: { type: String, required: false },
         fieldOfStudy: { type: String, required: false },
@@ -225,7 +228,7 @@ const FreelancerSchema: Schema = new Schema(
         verificationUpdateTime: { type: Date, required: false },
         comments: { type: String, required: false },
       }),
-      require: false
+      require: false,
     },
     role: {
       type: String,

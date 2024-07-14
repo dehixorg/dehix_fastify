@@ -126,12 +126,12 @@ export interface PutFreelancerExperinceBody {
   verificationUpdateTime?: Date;
   comments?: string;
 }
-export interface PutExperincePathParams{
-  freelancer_id:string,
-  experience_id:string
+export interface PutExperincePathParams {
+  freelancer_id: string;
+  experience_id: string;
 }
 
-export interface PutFreelancerEducationBody{
+export interface PutFreelancerEducationBody {
   degree?: string;
   universityName?: string;
   fieldOfStudy?: string;
@@ -143,7 +143,7 @@ export interface PutFreelancerEducationBody{
   verificationUpdateTime?: string;
   comments?: string;
 }
-export interface PutEducationPathParams{
-  freelancer_id:string,
-  education_id:string
+export interface PutEducationPathParams {
+  freelancer_id: string;
+  education_id: string;
 }

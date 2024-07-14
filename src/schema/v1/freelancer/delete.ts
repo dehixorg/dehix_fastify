@@ -157,7 +157,7 @@ export const deleteEducationSchema: FastifySchema = {
         description: "The ID of the education to be deleted",
       },
     },
-    required: ["freelancer_id", "education_id"]
+    required: ["freelancer_id", "education_id"],
   },
   response: {
     200: {

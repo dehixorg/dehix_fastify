@@ -7,15 +7,20 @@ export const FREELANCER_SKILL_DELETE_BY_ID = "/:freelancer_id/skill/:skill_id";
 export const FREELANCER_PROJECT_ADD_BY_ID = "/:freelancer_id/project";
 export const FREELANCER_SKILLS_ADD_BY_ID = "/:freelancer_id/skill";
 export const FREELANCER_ORACLE_STATUS_BY_ID = "/:freelancer_id/oracle-status";
-export const FREELANCER_INTERVIEWS_ALIGNED_BY_ID = "/:freelancer_id/interviews-aligned";
+export const FREELANCER_INTERVIEWS_ALIGNED_BY_ID =
+  "/:freelancer_id/interviews-aligned";
 
-export const FREELANCER_UPDATE_EDUCATION_BY_ID = "/education/:freelancer_id/:education_id";
-export const FREELANCER_DELETE_EDUCATION_BY_ID = "/education/:freelancer_id/:education_id";
+export const FREELANCER_UPDATE_EDUCATION_BY_ID =
+  "/education/:freelancer_id/:education_id";
+export const FREELANCER_DELETE_EDUCATION_BY_ID =
+  "/education/:freelancer_id/:education_id";
 export const FREELANCER_CREATE_EDUCATION_BY_ID = "/education/:freelancer_id";
 
-export const FREELANCER_UPDATE_EXPERIENCE_BY_ID = "/experience/:freelancer_id/:experience_id"
-export const FREELANCER_EXPERINCE_DELETE_BY_ID = "/experience/:freelancer_id/:experience_id"
-export const FREELANCER_CREATE_EXPERIENCE_BY_ID = "/experience/:freelancer_id"
+export const FREELANCER_UPDATE_EXPERIENCE_BY_ID =
+  "/experience/:freelancer_id/:experience_id";
+export const FREELANCER_EXPERINCE_DELETE_BY_ID =
+  "/experience/:freelancer_id/:experience_id";
+export const FREELANCER_CREATE_EXPERIENCE_BY_ID = "/experience/:freelancer_id";
 export const REGISTRATION_ENDPOINT = "/register";
 export const VERIFY_ENDPOINT = "/verify";
 export const LOGIN_ENDPOINT = "/login";

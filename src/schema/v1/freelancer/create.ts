@@ -60,24 +60,24 @@ export const createFreelancerSchema: FastifySchema = {
         },
       },
       education: {
-          type: "object",
-          properties: {
-            id: { type: "string" },
-            degree: { type: "string" },
-            universityName: { type: "string" },
-            fieldOfStudy: { type: "string" },
-            startDate: { type: "string", format: "date-time" },
-            endDate: { type: "string", format: "date-time" },
-            grade: { type: "string" },
-            oracleAssigned: { type: "string" },
-            verificationStatus: {
-              type: "string",
-              enum: ["added", "verified", "rejected", "reapplied"],
-            },
-            verificationUpdateTime: { type: "string", format: "date-time" },
-            comments: { type: "string" },
+        type: "object",
+        properties: {
+          id: { type: "string" },
+          degree: { type: "string" },
+          universityName: { type: "string" },
+          fieldOfStudy: { type: "string" },
+          startDate: { type: "string", format: "date-time" },
+          endDate: { type: "string", format: "date-time" },
+          grade: { type: "string" },
+          oracleAssigned: { type: "string" },
+          verificationStatus: {
+            type: "string",
+            enum: ["added", "verified", "rejected", "reapplied"],
           },
+          verificationUpdateTime: { type: "string", format: "date-time" },
+          comments: { type: "string" },
         },
+      },
       role: { type: "string" },
       projects: {
         type: "object",
@@ -426,4 +426,3 @@ export const createEducationSchema: FastifySchema = {
     },
   },
 };
-

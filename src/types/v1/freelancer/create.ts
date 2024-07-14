@@ -109,7 +109,7 @@ export interface CreateFreelancerExperienceBody {
   comments?: string;
 }
 
-export interface CreateFreelancerEducationBody{
+export interface CreateFreelancerEducationBody {
   degree?: string;
   universityName?: string;
   fieldOfStudy?: string;
@@ -121,4 +121,3 @@ export interface CreateFreelancerEducationBody{
   verificationUpdateTime?: string;
   comments?: string;
 }
-

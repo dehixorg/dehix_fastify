@@ -1,5 +1,4 @@
 import { FastifySchema } from "fastify";
-import { nullable } from "zod";
 
 export const updateFreelancerSchema: FastifySchema = {
   description: "API to update freelancer",
@@ -825,11 +824,15 @@ export const updateEducationSchema: FastifySchema = {
       verificationStatus: {
         type: "string",
         enum: ["added", "verified", "rejected", "reapplied"],
-        nullable: true
+        nullable: true,
       },
-      verificationUpdateTime: { type: "string", format: "date-time", nullable: true },
+      verificationUpdateTime: {
+        type: "string",
+        format: "date-time",
+        nullable: true,
+      },
       comments: { type: "string", nullable: true },
-    }
+    },
   },
   response: {
     200: {
@@ -840,7 +843,7 @@ export const updateEducationSchema: FastifySchema = {
           type: "object",
           properties: {
             email: { type: "string" },
-            education:{
+            education: {
               degree: { type: "string" },
               universityName: { type: "string" },
               fieldOfStudy: { type: "string" },
@@ -854,9 +857,10 @@ export const updateEducationSchema: FastifySchema = {
               },
               verificationUpdateTime: { type: "string", format: "date-time" },
               comments: { type: "string" },
+            },
           },
         },
-      }}
+      },
     },
     404: {
       type: "object",

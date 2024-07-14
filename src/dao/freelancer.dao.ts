@@ -258,10 +258,9 @@ export class FreelancerDAO extends BaseDAO {
   async getEducationById(freelancerId: string, educationId: string) {
     return this.model.findOne(
       { _id: freelancerId, [`education.${educationId}`]: { $exists: true } },
-      { [`education.${educationId}`]: 1 }
+      { [`education.${educationId}`]: 1 },
     );
-}
-
+  }
 
   async addEducationById(id: string, update: any) {
     const educationId = uuidv4();
@@ -272,15 +271,21 @@ export class FreelancerDAO extends BaseDAO {
           [`education.${educationId}`]: { _id: educationId, ...update },
         },
       },
-      { new: true, upsert: true }
+      { new: true, upsert: true },
     );
   }
 
-  async putEducationById(freelancerId: string, educationId: string, update: any) {
+  async putEducationById(
+    freelancerId: string,
+    educationId: string,
+    update: any,
+  ) {
     return this.model.findOneAndUpdate(
       { _id: freelancerId, [`education.${educationId}`]: { $exists: true } },
-      { $set: { [`education.${educationId}`]: { _id: educationId, ...update } } },
-      { new: true }
+      {
+        $set: { [`education.${educationId}`]: { _id: educationId, ...update } },
+      },
+      { new: true },
     );
   }
 
@@ -292,10 +297,7 @@ export class FreelancerDAO extends BaseDAO {
           [`education.${educationId}`]: "",
         },
       },
-      { new: true }
+      { new: true },
     );
   }
-
-
-
 }
