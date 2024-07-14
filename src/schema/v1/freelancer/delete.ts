@@ -92,7 +92,6 @@ export const deleteFreelancerSkillSchema: FastifySchema = {
         },
       },
     },
-    
   },
 };
 export const deleteProfessionalInfoSchema: FastifySchema = {
@@ -110,7 +109,7 @@ export const deleteProfessionalInfoSchema: FastifySchema = {
         description: "The ID of the experience to be deleted",
       },
     },
-    required: ["freelancer_id", "experience_id"]
+    required: ["freelancer_id", "experience_id"],
   },
   response: {
     200: {
@@ -190,4 +189,3 @@ export const deleteEducationSchema: FastifySchema = {
     },
   },
 };
-

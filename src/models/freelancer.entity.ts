@@ -22,21 +22,24 @@ export interface IFreelancer extends Document {
   email: string;
   phone: string;
   dob?: Date;
-  professionalInfo?: Map<string, {
-    _id?: string;
-    company?: string;
-    jobTitle?: string;
-    workDescription?: string;
-    workFrom?: Date;
-    workTo?: Date;
-    referencePersonName?: string;
-    referencePersonContact?: string;
-    githubRepoLink?: string;
-    oracleAssigned?: string;
-    verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
-    verificationUpdateTime?: Date;
-    comments?: string;
-  }>;
+  professionalInfo?: Map<
+    string,
+    {
+      _id?: string;
+      company?: string;
+      jobTitle?: string;
+      workDescription?: string;
+      workFrom?: Date;
+      workTo?: Date;
+      referencePersonName?: string;
+      referencePersonContact?: string;
+      githubRepoLink?: string;
+      oracleAssigned?: string;
+      verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
+      verificationUpdateTime?: Date;
+      comments?: string;
+    }
+  >;
   skills?: ISkill[];
   education?: Map<string, {
     _id?: string;

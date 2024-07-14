@@ -112,7 +112,7 @@ export interface PutFreelancerInterviewsAlignedBody {
   interviewsAligned: string[];
 }
 
-export interface PutFreelancerExperinceBody{
+export interface PutFreelancerExperinceBody {
   company?: string;
   jobTitle?: string;
   workDescription?: string;

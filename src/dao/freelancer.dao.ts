@@ -110,7 +110,7 @@ export class FreelancerDAO extends BaseDAO {
   }
 
   async createProjectById(id: string, project: any) {
-    const projectId = uuidv4(); 
+    const projectId = uuidv4();
     try {
       const result = await this.model.findByIdAndUpdate(
         id,
@@ -204,10 +204,13 @@ export class FreelancerDAO extends BaseDAO {
       id,
       {
         $set: {
-          [`professionalInfo.${experienceId}`]: { _id: experienceId, ...update },
+          [`professionalInfo.${experienceId}`]: {
+            _id: experienceId,
+            ...update,
+          },
         },
       },
-      { new: true, upsert: true }
+      { new: true, upsert: true },
     );
   }
 
@@ -219,22 +222,36 @@ export class FreelancerDAO extends BaseDAO {
           [`professionalInfo.${experienceId}`]: "",
         },
       },
-      { new: true }
+      { new: true },
     );
   }
 
-  async putExperienceById(freelancerId: string, experienceId: string, update: any) {
+  async putExperienceById(
+    freelancerId: string,
+    experienceId: string,
+    update: any,
+  ) {
     return this.model.findOneAndUpdate(
-      { _id: freelancerId, [`professionalInfo.${experienceId}`]: { $exists: true } },
-      { $set: { [`professionalInfo.${experienceId}`]: { _id: experienceId, ...update } } },
-      { new: true }
+      {
+        _id: freelancerId,
+        [`professionalInfo.${experienceId}`]: { $exists: true },
+      },
+      {
+        $set: {
+          [`professionalInfo.${experienceId}`]: {
+            _id: experienceId,
+            ...update,
+          },
+        },
+      },
+      { new: true },
     );
   }
 
   async getExperienceById(freelancerId: string, experienceId: string) {
     return this.model.findOne(
       { _id: freelancerId },
-      { [`professionalInfo.${experienceId}`]: 1 }
+      { [`professionalInfo.${experienceId}`]: 1 },
     );
   }
 
@@ -280,5 +297,5 @@ export class FreelancerDAO extends BaseDAO {
   }
 
 
-  
+
 }

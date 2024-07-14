@@ -94,7 +94,7 @@ export interface CreateFreelancerBody {
   interviewsAligned: any[];
 }
 
-export interface CreateFreelancerExperienceBody{
+export interface CreateFreelancerExperienceBody {
   company?: string;
   jobTitle?: string;
   workDescription?: string;
@@ -121,3 +121,4 @@ export interface CreateFreelancerEducationBody{
   verificationUpdateTime?: string;
   comments?: string;
 }
+
