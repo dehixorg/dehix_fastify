@@ -72,9 +72,9 @@ import { addFreelancerSkillsSchema } from "../schema/v1/freelancer/update";
 import { IFreelancer } from "../models/freelancer.entity";
 import {
   createEducationSchema,
-  createFreelancerSchema,
   createProfessionalInfoSchema,
 } from "../schema/v1/freelancer/create";
+import { GetFreelancerProjectQueryParams } from "src/types/v1/freelancer/getProject";
 
 @Controller({ route: FREELANCER_ENDPOINT })
 export default class FreelancerController extends AuthController {
@@ -120,7 +120,10 @@ export default class FreelancerController extends AuthController {
 
   @GET(FREELANCER_PROJECT_ID_ENDPOINT, { schema: getFreelancerProjectSchema })
   async getFreelancerProjects(
-    request: FastifyRequest<{ Params: GetFreelancerPathParams }>,
+    request: FastifyRequest<{
+      Params: GetFreelancerPathParams;
+      Querystring: GetFreelancerProjectQueryParams;
+    }>,
     reply: FastifyReply,
   ) {
     try {
@@ -128,12 +131,15 @@ export default class FreelancerController extends AuthController {
         `FreelancerController -> getFreelancerProjects -> Fetching freelancer projects for ID: ${request.params.freelancer_id}`,
       );
 
-      const data = await this.freelancerService.getFreelancerProjects(
-        request.params.freelancer_id,
-      );
-      console.log("DATA:", data);
+      const { freelancer_id } = request.params;
+      const { status } = request.query;
 
-      reply.status(STATUS_CODES.SUCCESS).send({ ...data });
+      const data = await this.freelancerService.getFreelancerProjects(
+        freelancer_id,
+        status,
+      );
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(`Error in getFreelancer: ${error.message}`);
       if (

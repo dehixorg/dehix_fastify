@@ -435,7 +435,10 @@ export class FreelancerService extends BaseService {
     return data;
   }
 
-  async getFreelancerProjects(freelancer_id: string) {
+  async getFreelancerProjects(
+    freelancer_id: string,
+    status?: "Active" | "Pending" | "Completed" | "Rejected",
+  ) {
     this.logger.info(
       "FreelancerService: freelancer get projects",
       freelancer_id,
@@ -450,7 +453,10 @@ export class FreelancerService extends BaseService {
       );
     }
 
-    const data = await this.ProjectDAO.getFreelancerProjects(freelancer_id);
+    const data = await this.ProjectDAO.getFreelancerProjects(
+      freelancer_id,
+      status,
+    );
     this.logger.info(data, "in get freelancer projects");
     return data;
   }

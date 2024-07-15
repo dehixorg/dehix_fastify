@@ -11,9 +11,17 @@ export class ProjectDAO extends BaseDAO {
     this.model = ProjectModel;
   }
 
-  async getFreelancerProjects(user_id: string) {
+  async getFreelancerProjects(
+    user_id: string,
+    status?: "Active" | "Pending" | "Completed" | "Rejected",
+  ) {
     try {
-      return await this.model.find({ team: { $in: [user_id] } });
+      const query = {
+        team: { $in: [user_id] },
+        ...(status && { status }), // Add status to the query if it's provided
+      };
+
+      return await this.model.find(query);
     } catch (error) {
       console.error("Error fetching freelancer projects:", error);
       throw error;
