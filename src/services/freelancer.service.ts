@@ -15,11 +15,15 @@ import { FreelancerDAO } from "../dao/freelancer.dao";
 import { IFreelancer } from "../models/freelancer.entity";
 import { firebaseClient } from "../common/services";
 import { SESService } from "../common/services";
+import { ProjectDAO } from "../dao/project.dao";
 
 @Service()
 export class FreelancerService extends BaseService {
   @Inject(FreelancerDAO)
   private FreelancerDAO!: FreelancerDAO;
+
+  @Inject(ProjectDAO)
+  private ProjectDAO!: ProjectDAO;
 
   @Inject(SESService)
   private sesService!: SESService;
@@ -428,6 +432,26 @@ export class FreelancerService extends BaseService {
       update,
     );
     this.logger.info(data, "in update education");
+    return data;
+  }
+
+  async getFreelancerProjects(freelancer_id: string) {
+    this.logger.info(
+      "FreelancerService: freelancer get projects",
+      freelancer_id,
+    );
+
+    const userExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const data = await this.ProjectDAO.getFreelancerProjects(freelancer_id);
+    this.logger.info(data, "in get freelancer projects");
     return data;
   }
 

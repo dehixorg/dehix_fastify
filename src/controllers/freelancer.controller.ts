@@ -28,8 +28,12 @@ import {
   FREELANCER_CREATE_EDUCATION_BY_ID,
   FREELANCER_UPDATE_EDUCATION_BY_ID,
   FREELANCER_DELETE_EDUCATION_BY_ID,
+  FREELANCER_PROJECT_ID_ENDPOINT,
 } from "../constants/freelancer.constant";
-import { getFreelancerSchema } from "../schema/v1/freelancer/get";
+import {
+  getFreelancerProjectSchema,
+  getFreelancerSchema,
+} from "../schema/v1/freelancer/get";
 import { AuthController } from "../common/auth.controller";
 import {
   addFreelancerProjectSchema,
@@ -71,7 +75,6 @@ import {
   createFreelancerSchema,
   createProfessionalInfoSchema,
 } from "../schema/v1/freelancer/create";
-import { Schema } from "mongoose";
 
 @Controller({ route: FREELANCER_ENDPOINT })
 export default class FreelancerController extends AuthController {
@@ -94,6 +97,43 @@ export default class FreelancerController extends AuthController {
       console.log("DATA:", data);
 
       reply.status(STATUS_CODES.SUCCESS).send({ ...data._doc });
+    } catch (error: any) {
+      this.logger.error(`Error in getFreelancer: ${error.message}`);
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found.",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @GET(FREELANCER_PROJECT_ID_ENDPOINT, { schema: getFreelancerProjectSchema })
+  async getFreelancerProjects(
+    request: FastifyRequest<{ Params: GetFreelancerPathParams }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FreelancerController -> getFreelancerProjects -> Fetching freelancer projects for ID: ${request.params.freelancer_id}`,
+      );
+
+      const data = await this.freelancerService.getFreelancerProjects(
+        request.params.freelancer_id,
+      );
+      console.log("DATA:", data);
+
+      reply.status(STATUS_CODES.SUCCESS).send({ ...data });
     } catch (error: any) {
       this.logger.error(`Error in getFreelancer: ${error.message}`);
       if (
