@@ -14,40 +14,24 @@ export const createFreelancerSchema: FastifySchema = {
       phone: { type: "string" },
       dob: { type: "string", format: "date-time" },
       professionalInfo: {
-        type: "array",
-        items: {
-          type: "object",
-          properties: {
-            company: { type: "string" },
-            jobTitle: { type: "string" },
-            workDescription: { type: "string" },
-            workFrom: { type: "string", format: "date-time" },
-            workTo: { type: "string", format: "date-time" },
-            referencePersonName: { type: "string" },
-            referencePersonContact: { type: "string" },
-            githubRepoLink: { type: "string" },
-            oracleAssigned: { type: "string" },
-            verificationStatus: {
-              type: "string",
-              enum: ["added", "verified", "rejected", "reapplied"],
-            },
-            verificationUpdateTime: { type: "string", format: "date-time" },
-            comments: { type: "string" },
+        type: "object",
+        properties: {
+          id: { type: "string" },
+          company: { type: "string" },
+          jobTitle: { type: "string" },
+          workDescription: { type: "string" },
+          workFrom: { type: "string", format: "date-time" },
+          workTo: { type: "string", format: "date-time" },
+          referencePersonName: { type: "string" },
+          referencePersonContact: { type: "string" },
+          githubRepoLink: { type: "string" },
+          oracleAssigned: { type: "string" },
+          verificationStatus: {
+            type: "string",
+            enum: ["added", "verified", "rejected", "reapplied"],
           },
-          required: [
-            "company",
-            "jobTitle",
-            "workDescription",
-            "workFrom",
-            "workTo",
-            "referencePersonName",
-            "referencePersonContact",
-            "githubRepoLink",
-            "oracleAssigned",
-            "verificationStatus",
-            "verificationUpdateTime",
-            "comments",
-          ],
+          verificationUpdateTime: { type: "string", format: "date-time" },
+          comments: { type: "string" },
         },
       },
       skills: {
@@ -76,36 +60,22 @@ export const createFreelancerSchema: FastifySchema = {
         },
       },
       education: {
-        type: "array",
-        items: {
-          type: "object",
-          properties: {
-            degree: { type: "string" },
-            universityName: { type: "string" },
-            fieldOfStudy: { type: "string" },
-            startDate: { type: "string", format: "date-time" },
-            endDate: { type: "string", format: "date-time" },
-            grade: { type: "string" },
-            oracleAssigned: { type: "string" },
-            verificationStatus: {
-              type: "string",
-              enum: ["added", "verified", "rejected", "reapplied"],
-            },
-            verificationUpdateTime: { type: "string", format: "date-time" },
-            comments: { type: "string" },
+        type: "object",
+        properties: {
+          id: { type: "string" },
+          degree: { type: "string" },
+          universityName: { type: "string" },
+          fieldOfStudy: { type: "string" },
+          startDate: { type: "string", format: "date-time" },
+          endDate: { type: "string", format: "date-time" },
+          grade: { type: "string" },
+          oracleAssigned: { type: "string" },
+          verificationStatus: {
+            type: "string",
+            enum: ["added", "verified", "rejected", "reapplied"],
           },
-          required: [
-            "degree",
-            "universityName",
-            "fieldOfStudy",
-            "startDate",
-            "endDate",
-            "grade",
-            "oracleAssigned",
-            "verificationStatus",
-            "verificationUpdateTime",
-            "comments",
-          ],
+          verificationUpdateTime: { type: "string", format: "date-time" },
+          comments: { type: "string" },
         },
       },
       role: { type: "string" },
@@ -228,17 +198,17 @@ export const createFreelancerSchema: FastifySchema = {
       "userName",
       "password",
       "email",
-      "professionalInfo",
+      "phone",
+      "dob",
       "skills",
-      "education",
       "role",
-      "projects",
       "refer",
       "githubLink",
       "linkedin",
       "personalWebsite",
       "perHourPrice",
       "connects",
+      "resume",
       "workExperience",
       "isFreelancer",
       "oracleStatus",
@@ -268,23 +238,184 @@ export const createFreelancerSchema: FastifySchema = {
     404: {
       type: "object",
       properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
+        message: { type: "string" },
+        code: { type: "string" },
       },
     },
     403: {
       type: "object",
       properties: {
-        code: {
-          type: "string",
+        code: { type: "string" },
+        message: { type: "string" },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
+export const createProfessionalInfoSchema: FastifySchema = {
+  description: "API to create professional information",
+  tags: ["Freelancer"],
+  body: {
+    type: "object",
+    properties: {
+      company: { type: "string" },
+      jobTitle: { type: "string" },
+      workDescription: { type: "string" },
+      workFrom: { type: "string", format: "date-time" },
+      workTo: { type: "string", format: "date-time" },
+      referencePersonName: { type: "string" },
+      referencePersonContact: { type: "string" },
+      githubRepoLink: { type: "string" },
+      oracleAssigned: { type: "string" },
+      verificationStatus: {
+        type: "string",
+        enum: ["added", "verified", "rejected", "reapplied"],
+      },
+      verificationUpdateTime: { type: "string", format: "date-time" },
+      comments: { type: "string" },
+    },
+    required: [
+      "company",
+      "jobTitle",
+      "workDescription",
+      "workFrom",
+      "workTo",
+      "referencePersonName",
+      "referencePersonContact",
+      "githubRepoLink",
+      "oracleAssigned",
+      "verificationStatus",
+      "verificationUpdateTime",
+      "comments",
+    ],
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: {
+          type: "object",
+          properties: {
+            _id: { type: "string", format: "uuid" },
+            company: { type: "string" },
+            jobTitle: { type: "string" },
+            workDescription: { type: "string" },
+            workFrom: { type: "string", format: "date-time" },
+            workTo: { type: "string", format: "date-time" },
+            referencePersonName: { type: "string" },
+            referencePersonContact: { type: "string" },
+            githubRepoLink: { type: "string" },
+            oracleAssigned: { type: "string" },
+            verificationStatus: {
+              type: "string",
+              enum: ["added", "verified", "rejected", "reapplied"],
+            },
+            verificationUpdateTime: { type: "string", format: "date-time" },
+            comments: { type: "string" },
+          },
         },
-        message: {
-          type: "string",
+      },
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+        code: { type: "string" },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: { type: "string" },
+        message: { type: "string" },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
+
+export const createEducationSchema: FastifySchema = {
+  description: "API to create education",
+  tags: ["Freelancer"],
+  body: {
+    type: "object",
+    properties: {
+      degree: { type: "string" },
+      universityName: { type: "string" },
+      fieldOfStudy: { type: "string" },
+      startDate: { type: "string", format: "date-time" },
+      endDate: { type: "string", format: "date-time" },
+      grade: { type: "string" },
+      oracleAssigned: { type: "string" },
+      verificationStatus: {
+        type: "string",
+        enum: ["added", "verified", "rejected", "reapplied"],
+      },
+      verificationUpdateTime: { type: "string", format: "date-time" },
+      comments: { type: "string" },
+    },
+    required: [
+      "degree",
+      "universityName",
+      "fieldOfStudy",
+      "startDate",
+      "endDate",
+      "grade",
+      "oracleAssigned",
+      "verificationStatus",
+      "verificationUpdateTime",
+      "comments",
+    ],
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: {
+          type: "object",
+          properties: {
+            _id: { type: "string", format: "uuid" },
+            degree: { type: "string" },
+            universityName: { type: "string" },
+            fieldOfStudy: { type: "string" },
+            startDate: { type: "string", format: "date-time" },
+            endDate: { type: "string", format: "date-time" },
+            grade: { type: "string" },
+            oracleAssigned: { type: "string" },
+            verificationStatus: {
+              type: "string",
+              enum: ["added", "verified", "rejected", "reapplied"],
+            },
+            verificationUpdateTime: { type: "string", format: "date-time" },
+            comments: { type: "string" },
+          },
         },
+      },
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+        code: { type: "string" },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: { type: "string" },
+        message: { type: "string" },
       },
     },
     500: {

@@ -38,10 +38,7 @@ export class businessDAO extends BaseDAO {
   }
 
   async getById(id: string) {
-    return this.model.findById(
-      id,
-      "id firebase_id full_name email is_email_verified owner_id",
-    );
+    return this.model.findById(id);
   }
 
   async updateBusiness(condition: any, newData: any) {

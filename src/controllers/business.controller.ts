@@ -17,7 +17,7 @@ import {
 } from "../constants/business.constant";
 import { getBusinessSchema } from "../schema/v1/business/get";
 import { updateBusinessSchema } from "../schema/v1/business/update";
-import { BusinessService } from "../services/business.service";
+import { BusinessService } from "../services";
 import { GetBusinessPathParams } from "../types/v1/business/get";
 import {
   PutBusinessBody,
@@ -55,7 +55,7 @@ export default class BusinessController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       }
-      reply.status(STATUS_CODES.SUCCESS).send({ data });
+      reply.status(STATUS_CODES.SUCCESS).send({ ...data._doc });
     } catch (error) {
       this.logger.info(error, "error in getBusiness");
       reply.status(STATUS_CODES.SERVER_ERROR).send({
@@ -117,7 +117,7 @@ export default class BusinessController extends AuthController {
     }
   }
   @GET(GET_ALL_BUSINESS_PROJECT_END_POINT, { schema: getProjectSchema })
-  async getAllProjectBusiness(reply: FastifyReply) {
+  async getAllProjectBusiness(request: FastifyRequest, reply: FastifyReply) {
     try {
       this.logger.info(
         `BusinessController -> getAllProjectBusiness -> Fetching Business all project `,

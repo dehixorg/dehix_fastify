@@ -15,11 +15,15 @@ import { FreelancerDAO } from "../dao/freelancer.dao";
 import { IFreelancer } from "../models/freelancer.entity";
 import { firebaseClient } from "../common/services";
 import { SESService } from "../common/services";
+import { ProjectDAO } from "../dao/project.dao";
 
 @Service()
 export class FreelancerService extends BaseService {
   @Inject(FreelancerDAO)
   private FreelancerDAO!: FreelancerDAO;
+
+  @Inject(ProjectDAO)
+  private ProjectDAO!: ProjectDAO;
 
   @Inject(SESService)
   private sesService!: SESService;
@@ -264,95 +268,321 @@ export class FreelancerService extends BaseService {
     return data;
   }
 
-  /**
-   * Service method for FREELANCER login
-   * @param body
-   * @param em
-   */
-  // async login(body: FreelancerLoginBody) {
-  //   const { email: workEmail, password } = body;
-  //   let FREELANCER: any = await this.freelancerDAO.findOneByEmail(workEmail);
+  async putFreelancerExperience(
+    freelancer_id: string,
+    experience_id: string,
+    update: any,
+  ) {
+    this.logger.info(
+      "FreelancerService: freelancer experience put ",
+      freelancer_id,
+    );
+    const userExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+    const experinceExist = await this.FreelancerDAO.getExperienceById(
+      freelancer_id,
+      experience_id,
+    );
+    if (!experinceExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.EXPERIENCE_NOT_FOUND,
+        ERROR_CODES.EXPERIENCE_NOT_FOUND,
+      );
+    }
 
-  //   if (!FREELANCER) {
-  //     throw new BadRequestError('Invalid email or password', ERROR_CODES.INVALID_EMAIL_OR_PASSWORD);
-  //   }
+    const data = await this.FreelancerDAO.putExperienceById(
+      freelancer_id,
+      experience_id,
+      update,
+    );
+    this.logger.info(data, "in update experience");
+    return data;
+  }
 
-  //   const passwordMatches = await bcrypt.compare(password, FREELANCER.password);
-  //   if (!passwordMatches) {
-  //     this.logger.error('FreelancerService: login : Password is incorrect');
-  //     throw new BadRequestError('Invalid email or password', ERROR_CODES.INVALID_EMAIL_OR_PASSWORD);
-  //   }
+  async deleteFreelancerExperience(freelancerId: string, experienceId: string) {
+    this.logger.info(
+      "FreelancerService: deleteFreelancerExperience",
+      freelancerId,
+    );
 
-  //   if (!FREELANCER.firebase_id) {
-  //     this.logger.error('FreelancerService: login : Freelancer is not verified');
-  //     throw new BadRequestError('Freelancer is not verified', ERROR_CODES.EMAIL_NOT_VERIFIED);
-  //   }
+    const userExist = await this.FreelancerDAO.findFreelancerById(freelancerId);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
 
-  //   const [customToken] = await Promise.all([
-  //     firebaseClient.generateCustomToken(FREELANCER.firebase_id),
-  //     // this.userSubscriptionDAO.getSubscriptionByFreelancerId(FREELANCER.id),
-  //   ]);
+    const experienceExist = await this.FreelancerDAO.getExperienceById(
+      freelancerId,
+      experienceId,
+    );
+    if (!experienceExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.EXPERIENCE_NOT_FOUND,
+        ERROR_CODES.EXPERIENCE_NOT_FOUND,
+      );
+    }
 
-  //   return {
-  //     firebase_custom_token: customToken,
-  //     user_id: FREELANCER.id,
-  //     user_name: FREELANCER.full_name,
-  //     email: FREELANCER.email,
-  //     subscription: subscription?.entity_plan,
-  //   };
-  // }
+    const data = await this.FreelancerDAO.deleteExperienceById(
+      freelancerId,
+      experienceId,
+    );
+    return data;
+  }
+  async createFreelancerExperience(freelancer_id: string, experienceData: any) {
+    try {
+      this.logger.info(
+        "FreelancerService: create freelancer experience ",
+        freelancer_id,
+      );
 
-  // /**
-  //  * Service method to register a new FREELANCER
-  //  * @param body
-  //  * @param em
-  //  * @returns
-  //  */
-  // async register(body: FreelancerRegistrationBody) {
-  //   const { full_name: fullName, email: workEmail, password } = body;
+      // Check if freelancer exists
+      const userExist =
+        await this.FreelancerDAO.findFreelancerById(freelancer_id);
+      if (!userExist) {
+        throw new NotFoundError(
+          RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+          ERROR_CODES.FREELANCER_NOT_FOUND,
+        );
+      }
 
-  //   let FREELANCER: any = await this.freelancerDAO.findOneByEmail(workEmail);
+      // Create new experience entry
+      const createdExperience = await this.FreelancerDAO.addExperienceById(
+        freelancer_id,
+        experienceData,
+      );
+      return createdExperience;
+    } catch (error: any) {
+      throw new Error(
+        `Failed to create freelancer experience: ${error.message}`,
+      );
+    }
+  }
 
-  //   if (FREELANCER?.owner_id) {
-  //     this.logger.error('Staff members are not allowed to proceed');
+  async createFreelancerEducation(freelancer_id: string, educationData: any) {
+    try {
+      this.logger.info(
+        "FreelancerService: create freelancer education ",
+        freelancer_id,
+      );
 
-  //     throw new BadRequestError(
-  //       RESPONSE_MESSAGE.STAFF_REGISTERATION_NOT_ALLOWED,
-  //       ERROR_CODES.STAFF_REGISTERATION_NOT_ALLOWED,
-  //     );
-  //   } else if (FREELANCER?.is_email_verified) {
-  //     this.logger.error('Verified owners are not allowed to proceed');
+      // Check if freelancer exists
+      const userExist =
+        await this.FreelancerDAO.findFreelancerById(freelancer_id);
+      if (!userExist) {
+        throw new NotFoundError(
+          RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+          ERROR_CODES.FREELANCER_NOT_FOUND,
+        );
+      }
 
-  //     throw new BadRequestError(RESPONSE_MESSAGE.VERIFIED_OWNERS_NOT_ALLOWED, ERROR_CODES.USER_ALREADY_REGISTERED);
-  //   }
+      // Create new education entry
+      const createdEducation = await this.FreelancerDAO.addEducationById(
+        freelancer_id,
+        educationData,
+      );
+      return createdEducation;
+    } catch (error: any) {
+      throw new Error(
+        `Failed to create freelancer education: ${error.message}`,
+      );
+    }
+  }
 
-  //   if (!FREELANCER) {
-  //     const hashedPassword = await hashPassword(password);
-  //     FREELANCER = {
-  //       id: uuidv4(),
-  //       full_name: fullName,
-  //       email: workEmail,
-  //       password: hashedPassword,
-  //       is_email_verified: false
-  //     };
+  async putFreelancerEducation(
+    freelancer_id: string,
+    education_id: string,
+    update: any,
+  ) {
+    this.logger.info(
+      "FreelancerService: freelancer education put ",
+      freelancer_id,
+    );
 
-  //     await this.freelancerDAO.create(this.freelancerDAO.model, FREELANCER)
-  //   }
+    const userExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
 
-  //   const jwtToken = jwtSign({ id: FREELANCER!.id }, JWT_SECRET_KEY, { expiresIn: '7d' });
-  //   const encryptedJwt = await encrypt(jwtToken, ENCRYPTION_SECRET_KEY);
-  //   const verificationLink = `${VERIFICATION_DOMAIN}?token=${encryptedJwt}`;
+    const educationExist = await this.FreelancerDAO.getEducationById(
+      freelancer_id,
+      education_id,
+    );
+    if (!educationExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.EDUCATION_NOT_FOUND,
+        ERROR_CODES.EDUCATION_NOT_FOUND,
+      );
+    }
 
-  //   this.logger.info(`FreelancerService: register: id: ${FREELANCER!.id} and  Verification link: ${verificationLink}`);
+    const data = await this.FreelancerDAO.putEducationById(
+      freelancer_id,
+      education_id,
+      update,
+    );
+    this.logger.info(data, "in update education");
+    return data;
+  }
 
-  //   const { SENDER, SUBJECT, TEXTBODY } = EMAIL_VERIFICATION_EMAIL_CONSTANTS;
-  //   await this.sesService.sendEmail({
-  //     sender: SENDER!,
-  //     recipient: [workEmail],
-  //     subject: SUBJECT,
-  //     textBody: TEXTBODY.replace(':verificationLink', verificationLink),
-  //   });
+  async getFreelancerProjects(
+    freelancer_id: string,
+    status?: "Active" | "Pending" | "Completed" | "Rejected",
+  ) {
+    this.logger.info(
+      "FreelancerService: freelancer get projects",
+      freelancer_id,
+    );
 
-  //   return verificationLink;
-  // }
+    const userExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const data = await this.ProjectDAO.getFreelancerProjects(
+      freelancer_id,
+      status,
+    );
+    this.logger.info(data, "in get freelancer projects");
+    return data;
+  }
+
+  async deleteFreelancerEducation(freelancer_id: string, education_id: string) {
+    this.logger.info(
+      "FreelancerService: deleteFreelancerEducation",
+      freelancer_id,
+    );
+
+    const userExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const educationExist = await this.FreelancerDAO.getEducationById(
+      freelancer_id,
+      education_id,
+    );
+    if (!educationExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.EDUCATION_NOT_FOUND,
+        ERROR_CODES.EDUCATION_NOT_FOUND,
+      );
+    }
+
+    const data = await this.FreelancerDAO.deleteEducationById(
+      freelancer_id,
+      education_id,
+    );
+    return data;
+  }
 }
+/**
+ * Service method for FREELANCER login
+ * @param body
+ * @param em
+ */
+// async login(body: FreelancerLoginBody) {
+//   const { email: workEmail, password } = body;
+//   let FREELANCER: any = await this.freelancerDAO.findOneByEmail(workEmail);
+
+//   if (!FREELANCER) {
+//     throw new BadRequestError('Invalid email or password', ERROR_CODES.INVALID_EMAIL_OR_PASSWORD);
+//   }
+
+//   const passwordMatches = await bcrypt.compare(password, FREELANCER.password);
+//   if (!passwordMatches) {
+//     this.logger.error('FreelancerService: login : Password is incorrect');
+//     throw new BadRequestError('Invalid email or password', ERROR_CODES.INVALID_EMAIL_OR_PASSWORD);
+//   }
+
+//   if (!FREELANCER.firebase_id) {
+//     this.logger.error('FreelancerService: login : Freelancer is not verified');
+//     throw new BadRequestError('Freelancer is not verified', ERROR_CODES.EMAIL_NOT_VERIFIED);
+//   }
+
+//   const [customToken] = await Promise.all([
+//     firebaseClient.generateCustomToken(FREELANCER.firebase_id),
+//     // this.userSubscriptionDAO.getSubscriptionByFreelancerId(FREELANCER.id),
+//   ]);
+
+//   return {
+//     firebase_custom_token: customToken,
+//     user_id: FREELANCER.id,
+//     user_name: FREELANCER.full_name,
+//     email: FREELANCER.email,
+//     subscription: subscription?.entity_plan,
+//   };
+// }
+
+// /**
+//  * Service method to register a new FREELANCER
+//  * @param body
+//  * @param em
+//  * @returns
+//  */
+// async register(body: FreelancerRegistrationBody) {
+//   const { full_name: fullName, email: workEmail, password } = body;
+
+//   let FREELANCER: any = await this.freelancerDAO.findOneByEmail(workEmail);
+
+//   if (FREELANCER?.owner_id) {
+//     this.logger.error('Staff members are not allowed to proceed');
+
+//     throw new BadRequestError(
+//       RESPONSE_MESSAGE.STAFF_REGISTERATION_NOT_ALLOWED,
+//       ERROR_CODES.STAFF_REGISTERATION_NOT_ALLOWED,
+//     );
+//   } else if (FREELANCER?.is_email_verified) {
+//     this.logger.error('Verified owners are not allowed to proceed');
+
+//     throw new BadRequestError(RESPONSE_MESSAGE.VERIFIED_OWNERS_NOT_ALLOWED, ERROR_CODES.USER_ALREADY_REGISTERED);
+//   }
+
+//   if (!FREELANCER) {
+//     const hashedPassword = await hashPassword(password);
+//     FREELANCER = {
+//       id: uuidv4(),
+//       full_name: fullName,
+//       email: workEmail,
+//       password: hashedPassword,
+//       is_email_verified: false
+//     };
+
+//     await this.freelancerDAO.create(this.freelancerDAO.model, FREELANCER)
+//   }
+
+//   const jwtToken = jwtSign({ id: FREELANCER!.id }, JWT_SECRET_KEY, { expiresIn: '7d' });
+//   const encryptedJwt = await encrypt(jwtToken, ENCRYPTION_SECRET_KEY);
+//   const verificationLink = `${VERIFICATION_DOMAIN}?token=${encryptedJwt}`;
+
+//   this.logger.info(`FreelancerService: register: id: ${FREELANCER!.id} and  Verification link: ${verificationLink}`);
+
+//   const { SENDER, SUBJECT, TEXTBODY } = EMAIL_VERIFICATION_EMAIL_CONSTANTS;
+//   await this.sesService.sendEmail({
+//     sender: SENDER!,
+//     recipient: [workEmail],
+//     subject: SUBJECT,
+//     textBody: TEXTBODY.replace(':verificationLink', verificationLink),
+//   });
+
+//   return verificationLink;
+// }
+// }

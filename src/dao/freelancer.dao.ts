@@ -51,7 +51,7 @@ export class FreelancerDAO extends BaseDAO {
   }
 
   async updateFreelancerData(id: string, update: any) {
-    return this.model.updateOne({ _id: id }, update);
+    return this.model.findByIdAndUpdate({ _id: id }, update);
   }
   async findAllFreelancer() {
     return this.model.find();
@@ -86,20 +86,20 @@ export class FreelancerDAO extends BaseDAO {
       .populate("rejectedProject")
       .populate("acceptedProject");
   }
-  async addExperienceById(id: string, update: any, experinceid: string) {
-    return this.model.findByIdAndUpdate(id, {
-      $addToSet: {
-        professional_info: { _id: experinceid, ...update },
-      },
-    });
-  }
-  async deleteExperienceById(id: string, experinceid: string) {
-    return this.model.findByIdAndDelete(id, {
-      $pull: {
-        professionalInfo: { _id: experinceid },
-      },
-    });
-  }
+  // async addExperienceById(id: string, update: any, experinceid: string) {
+  //   return this.model.findByIdAndUpdate(id, {
+  //     $addToSet: {
+  //       professional_info: { _id: experinceid, ...update },
+  //     },
+  //   });
+  // }
+  // async deleteExperienceById(id: string, experinceid: string) {
+  //   return this.model.findByIdAndDelete(id, {
+  //     $pull: {
+  //       professionalInfo: { _id: experinceid },
+  //     },
+  //   });
+  // }
 
   async deleteProjectById(id: string, project_id: string) {
     return this.model.findByIdAndUpdate(
@@ -110,7 +110,7 @@ export class FreelancerDAO extends BaseDAO {
   }
 
   async createProjectById(id: string, project: any) {
-    const projectId = uuidv4(); // Generate a new UUIDv4 for project _id
+    const projectId = uuidv4();
     try {
       const result = await this.model.findByIdAndUpdate(
         id,
@@ -194,6 +194,109 @@ export class FreelancerDAO extends BaseDAO {
     return this.model.findByIdAndUpdate(
       freelancer_id,
       { interviewsAligned },
+      { new: true },
+    );
+  }
+
+  async addExperienceById(id: string, update: any) {
+    const experienceId = uuidv4();
+    return this.model.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          [`professionalInfo.${experienceId}`]: {
+            _id: experienceId,
+            ...update,
+          },
+        },
+      },
+      { new: true, upsert: true },
+    );
+  }
+
+  async deleteExperienceById(id: string, experienceId: string) {
+    return this.model.findByIdAndUpdate(
+      id,
+      {
+        $unset: {
+          [`professionalInfo.${experienceId}`]: "",
+        },
+      },
+      { new: true },
+    );
+  }
+
+  async putExperienceById(
+    freelancerId: string,
+    experienceId: string,
+    update: any,
+  ) {
+    return this.model.findOneAndUpdate(
+      {
+        _id: freelancerId,
+        [`professionalInfo.${experienceId}`]: { $exists: true },
+      },
+      {
+        $set: {
+          [`professionalInfo.${experienceId}`]: {
+            _id: experienceId,
+            ...update,
+          },
+        },
+      },
+      { new: true },
+    );
+  }
+
+  async getExperienceById(freelancerId: string, experienceId: string) {
+    return this.model.findOne(
+      { _id: freelancerId },
+      { [`professionalInfo.${experienceId}`]: 1 },
+    );
+  }
+
+  async getEducationById(freelancerId: string, educationId: string) {
+    return this.model.findOne(
+      { _id: freelancerId, [`education.${educationId}`]: { $exists: true } },
+      { [`education.${educationId}`]: 1 },
+    );
+  }
+
+  async addEducationById(id: string, update: any) {
+    const educationId = uuidv4();
+    return this.model.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          [`education.${educationId}`]: { _id: educationId, ...update },
+        },
+      },
+      { new: true, upsert: true },
+    );
+  }
+
+  async putEducationById(
+    freelancerId: string,
+    educationId: string,
+    update: any,
+  ) {
+    return this.model.findOneAndUpdate(
+      { _id: freelancerId, [`education.${educationId}`]: { $exists: true } },
+      {
+        $set: { [`education.${educationId}`]: { _id: educationId, ...update } },
+      },
+      { new: true },
+    );
+  }
+
+  async deleteEducationById(id: string, educationId: string) {
+    return this.model.findByIdAndUpdate(
+      id,
+      {
+        $unset: {
+          [`education.${educationId}`]: "",
+        },
+      },
       { new: true },
     );
   }

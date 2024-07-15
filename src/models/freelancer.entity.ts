@@ -22,33 +22,41 @@ export interface IFreelancer extends Document {
   email: string;
   phone: string;
   dob?: Date;
-  professionalInfo?: {
-    company?: string;
-    jobTitle?: string;
-    workDescription?: string;
-    workFrom?: Date;
-    workTo?: Date;
-    referencePersonName?: string;
-    referencePersonContact?: string;
-    githubRepoLink?: string;
-    oracleAssigned?: string;
-    verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
-    verificationUpdateTime?: Date;
-    comments?: string;
-  }[];
+  professionalInfo?: Map<
+    string,
+    {
+      _id?: string;
+      company?: string;
+      jobTitle?: string;
+      workDescription?: string;
+      workFrom?: Date;
+      workTo?: Date;
+      referencePersonName?: string;
+      referencePersonContact?: string;
+      githubRepoLink?: string;
+      oracleAssigned?: string;
+      verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
+      verificationUpdateTime?: Date;
+      comments?: string;
+    }
+  >;
   skills?: ISkill[];
-  education?: {
-    degree?: string;
-    universityName?: string;
-    fieldOfStudy?: string;
-    startDate?: Date;
-    endDate?: Date;
-    grade?: string;
-    oracleAssigned?: string;
-    verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
-    verificationUpdateTime?: Date;
-    comments?: string;
-  }[];
+  education?: Map<
+    string,
+    {
+      _id?: string;
+      degree?: string;
+      universityName?: string;
+      fieldOfStudy?: string;
+      startDate?: Date;
+      endDate?: Date;
+      grade?: string;
+      oracleAssigned?: string;
+      verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
+      verificationUpdateTime?: Date;
+      comments?: string;
+    }
+  >;
   role?: string;
   projects?: {
     [key: string]: {
@@ -78,7 +86,7 @@ export interface IFreelancer extends Document {
   personalWebsite?: string;
   perHourPrice?: number;
   connects?: number;
-  resume?: Buffer;
+  resume?: string;
   workExperience?: number;
   isFreelancer?: boolean;
   oracleStatus?:
@@ -142,8 +150,9 @@ const FreelancerSchema: Schema = new Schema(
       type: Date,
       required: false,
     },
-    professionalInfo: [
-      {
+    professionalInfo: {
+      type: Map,
+      of: new Schema({
         _id: {
           type: String,
           default: uuidv4,
@@ -159,7 +168,7 @@ const FreelancerSchema: Schema = new Schema(
         githubRepoLink: { type: String, required: false },
         oracleAssigned: {
           type: ObjectId,
-          ref: "FreelancerData",
+          ref: "Freelancer",
           required: false,
         },
         verificationStatus: {
@@ -169,8 +178,9 @@ const FreelancerSchema: Schema = new Schema(
         },
         verificationUpdateTime: { type: Date, required: false },
         comments: { type: String, required: false },
-      },
-    ],
+      }),
+      required: false,
+    },
     skills: [
       {
         _id: {
@@ -195,8 +205,10 @@ const FreelancerSchema: Schema = new Schema(
         interviewerRating: { type: Number, required: false },
       },
     ],
-    education: [
-      {
+    education: {
+      type: Map,
+      of: new Schema({
+        _id: { type: String, default: uuidv4, required: true },
         degree: { type: String, required: false },
         universityName: { type: String, required: false },
         fieldOfStudy: { type: String, required: false },
@@ -205,7 +217,7 @@ const FreelancerSchema: Schema = new Schema(
         grade: { type: String, required: false },
         oracleAssigned: {
           type: ObjectId,
-          ref: "FreelancerData",
+          ref: "Freelancer",
           required: false,
         },
         verificationStatus: {
@@ -215,8 +227,9 @@ const FreelancerSchema: Schema = new Schema(
         },
         verificationUpdateTime: { type: Date, required: false },
         comments: { type: String, required: false },
-      },
-    ],
+      }),
+      require: false,
+    },
     role: {
       type: String,
       required: false,
@@ -260,7 +273,7 @@ const FreelancerSchema: Schema = new Schema(
     personalWebsite: { type: String, required: false },
     perHourPrice: { type: Number, required: false },
     connects: { type: Number, default: 100 },
-    resume: { type: Buffer, required: false },
+    resume: { type: String, required: false },
     workExperience: { type: Number, required: false },
     isFreelancer: { type: Boolean, default: true, required: true },
     oracleStatus: {

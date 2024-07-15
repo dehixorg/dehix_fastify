@@ -1,5 +1,6 @@
 export const FREELANCER_ENDPOINT = "/freelancer";
 export const FREELANCER_ID_ENDPOINT = "/:freelancer_id";
+export const FREELANCER_PROJECT_ID_ENDPOINT = "/:freelancer_id/project";
 export const FREELANCER_CREATE_ENDPOINT = "/create";
 export const FREELANCER_PROJECT_DELETE_BY_ID =
   "/:freelancer_id/project/:project_id";
@@ -10,6 +11,17 @@ export const FREELANCER_ORACLE_STATUS_BY_ID = "/:freelancer_id/oracle-status";
 export const FREELANCER_INTERVIEWS_ALIGNED_BY_ID =
   "/:freelancer_id/interviews-aligned";
 
+export const FREELANCER_UPDATE_EDUCATION_BY_ID =
+  "/education/:freelancer_id/:education_id";
+export const FREELANCER_DELETE_EDUCATION_BY_ID =
+  "/education/:freelancer_id/:education_id";
+export const FREELANCER_CREATE_EDUCATION_BY_ID = "/education/:freelancer_id";
+
+export const FREELANCER_UPDATE_EXPERIENCE_BY_ID =
+  "/experience/:freelancer_id/:experience_id";
+export const FREELANCER_EXPERINCE_DELETE_BY_ID =
+  "/experience/:freelancer_id/:experience_id";
+export const FREELANCER_CREATE_EXPERIENCE_BY_ID = "/experience/:freelancer_id";
 export const REGISTRATION_ENDPOINT = "/register";
 export const VERIFY_ENDPOINT = "/verify";
 export const LOGIN_ENDPOINT = "/login";

@@ -5,16 +5,7 @@ export const updateBusinessSchema: FastifySchema = {
   tags: ["Business"],
   body: {
     type: "object",
-    required: [
-      "firstName",
-      "lastName",
-      "companyName",
-      "companySize",
-      "password",
-      "email",
-      "phone",
-      "isBusiness",
-    ],
+    required: [],
     properties: {
       _id: {
         type: "string",

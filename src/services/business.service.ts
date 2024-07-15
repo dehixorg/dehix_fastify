@@ -75,14 +75,15 @@ export class BusinessService extends BaseService {
     const data = await this.businessDao.findOneByEmail(email);
     return data;
   }
-  async getBusinessById(id: string) {
+  async getBusinessProfile(id: string) {
     this.logger.info(
       `Business Service: 
         Fetching  business profile with Id `,
+      id,
     );
 
-    const data = await this.businessDao.getById(id);
-    return data;
+    const business: any = await this.businessDao.getById(id);
+    return business;
   }
 
   async createBusinessProject(business_id: string, data: any) {
@@ -106,7 +107,7 @@ export class BusinessService extends BaseService {
   async getAllProjectsData() {
     this.logger.info(
       `Business Service: 
-        Fetching business Projects`,
+        Fetching all business project`,
     );
     const data = await this.businessDao.findAllProjects();
     return data;

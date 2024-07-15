@@ -1,17 +1,9 @@
 import { FastifySchema } from "fastify";
-import { updateBusinessSchema } from "./update";
 
 export const getBusinessSchema: FastifySchema = {
-  description: "API to get Business profile data",
+  description: "API to get BUSINESS profile data",
   tags: ["Business"],
   response: {
-    200: {
-      description: "Success",
-      type: "object",
-      properties: {
-        data: updateBusinessSchema.body,
-      },
-    },
     404: {
       type: "object",
       properties: {
