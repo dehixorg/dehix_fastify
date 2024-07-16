@@ -19,10 +19,7 @@ class FirebaseClient {
   async init() {
     const dirName = path.dirname(new URL(import.meta.url).pathname);
     const serviceAccountPath = path
-      .join(
-        dirName,
-        `../../common/config/firebase-${process.env.NODE_ENV}.json`,
-      )
+      .join(dirName, `../../common/config/firebase-dev.json`)
       .replace(/^\\([A-Za-z]:)/, "$1");
     const serviceAccount = JSON.parse(
       fs.readFileSync(serviceAccountPath, "utf8"),
