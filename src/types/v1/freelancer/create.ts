@@ -121,3 +121,20 @@ export interface CreateFreelancerEducationBody {
   verificationUpdateTime?: string;
   comments?: string;
 }
+
+export interface CreateFreelancerProjectBody {
+  projectName: string;
+  description: string;
+  verified: any;
+  githubLink: string;
+  start: string;
+  end: string;
+  refer: string;
+  techUsed: string[];
+  role: string;
+  projectType: string;
+  oracleAssigned: null | any;
+  verificationStatus: string;
+  verificationUpdateTime: string;
+  comments: string;
+}

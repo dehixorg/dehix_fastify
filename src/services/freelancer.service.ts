@@ -28,27 +28,6 @@ export class FreelancerService extends BaseService {
   @Inject(SESService)
   private sesService!: SESService;
 
-  async deleteFreelancerProject(freelancer_id: string, project_id: string) {
-    this.logger.info(
-      `FreelancerService: deleteFreelancerProject: Deleting project using: Freelancer ID:${freelancer_id} and Project ID:${project_id}`,
-    );
-    const project_exist = this.FreelancerDAO.findProject(
-      freelancer_id,
-      project_id,
-    );
-    if (!project_exist) {
-      throw new NotFoundError(
-        RESPONSE_MESSAGE.PROJECT_NOT_FOUND,
-        ERROR_CODES.NOT_FOUND,
-      );
-    }
-    const delete_project = this.FreelancerDAO.deleteProjectById(
-      freelancer_id,
-      project_id,
-    );
-
-    return delete_project;
-  }
 
   async deleteFreelancerSkill(freelancer_id: string, skill_id: string) {
     this.logger.info(
@@ -492,6 +471,97 @@ export class FreelancerService extends BaseService {
       education_id,
     );
     return data;
+  }
+
+  async createFreelancerProject(freelancer_id: string, projectData: any) {
+    try {
+      this.logger.info(
+        "FreelancerService: create freelancer project ",
+        freelancer_id,
+      );
+
+      // Check if freelancer exists
+      const userExist =
+        await this.FreelancerDAO.findFreelancerById(freelancer_id);
+      if (!userExist) {
+        throw new NotFoundError(
+          RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+          ERROR_CODES.FREELANCER_NOT_FOUND,
+        );
+      }
+
+      // Create new project entry
+      const createdProject = await this.FreelancerDAO.addProjectById(
+        freelancer_id,
+        projectData,
+      );
+      return createdProject;
+    } catch (error: any) {
+      throw new Error(
+        `Failed to create freelancer project: ${error.message}`,
+      );
+    }
+  }
+
+  async putFreelancerProject(
+    freelancer_id: string,
+    project_id: string,
+    update: any,
+  ) {
+    this.logger.info(
+      "FreelancerService: freelancer project put ",
+      freelancer_id,
+    );
+
+    const userExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const projectExist = await this.FreelancerDAO.getProjectById(
+      freelancer_id,
+      project_id,
+    );
+    if (!projectExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_PROJECT_NOT_FOUND,
+        ERROR_CODES.FREELANCER_PROJECT_NOT_FOUND,
+      );
+    }
+
+    const data = await this.FreelancerDAO.putProjectById(
+      freelancer_id,
+      project_id,
+      update,
+    );
+    this.logger.info(data, "in update project");
+    return data;
+  }
+
+  async deleteFreelancerProject(freelancer_id: string, project_id: string) {
+    this.logger.info(
+      `FreelancerService: deleteFreelancerProject: Deleting project using: Freelancer ID:${freelancer_id} and Project ID:${project_id}`,
+    );
+    const project_exist = this.FreelancerDAO.findProject(
+      freelancer_id,
+      project_id,
+    );
+    if (!project_exist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_PROJECT_NOT_FOUND,
+        ERROR_CODES.FREELANCER_PROJECT_NOT_FOUND,
+      );
+    }
+    const delete_project = this.FreelancerDAO.deleteProjectById(
+      freelancer_id,
+      project_id,
+    );
+
+    return delete_project;
   }
 }
 /**

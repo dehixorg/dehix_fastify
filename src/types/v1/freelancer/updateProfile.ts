@@ -147,3 +147,25 @@ export interface PutEducationPathParams {
   freelancer_id: string;
   education_id: string;
 }
+
+export interface PutFreelancerProjectBody {
+  projectName: string;
+  description: string;
+  verified: boolean;
+  githubLink: string;
+  start: Date;
+  end: Date;
+  refer: string;
+  techUsed: string[];
+  role: string;
+  projectType: string;
+  oracleAssigned?: string;
+  verificationStatus: "added" | "verified" | "rejected" | "reapplied";
+  verificationUpdateTime: Date;
+  comments: string;
+}
+
+export interface PutProjectPathParams {
+  freelancer_id: string;
+  project_id: string;
+}
