@@ -58,25 +58,26 @@ export interface IFreelancer extends Document {
     }
   >;
   role?: string;
-  projects?: {
-    [key: string]: {
+  projects?: Map<
+    string, 
+    {
       _id?: string;
-      projectName: string;
-      description: string;
-      verified: boolean;
-      githubLink: string;
-      start: Date;
-      end: Date;
-      refer: string;
-      techUsed: string[];
-      role: string;
-      projectType: string;
-      oracleAssigned: string;
-      verificationStatus: "added" | "verified" | "rejected" | "reapplied";
-      verificationUpdateTime: Date;
-      comments: string;
-    };
-  };
+      projectName?: string;
+      description?: string;
+      verified?: boolean;
+      githubLink?: string;
+      start?: Date;
+      end?: Date;
+      refer?: string;
+      techUsed?: string[];
+      role?: string;
+      projectType?: string;
+      oracleAssigned?: string;
+      verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
+      verificationUpdateTime?: Date;
+      comments?: string;
+    }
+  >;
   refer?: {
     name?: string;
     contact?: string;
@@ -238,7 +239,7 @@ const FreelancerSchema: Schema = new Schema(
       type: Map,
       of: new Schema(
         {
-          _id: { type: String, required: true },
+          _id: { type: String, default: uuidv4, required: true },
           projectName: { type: String, required: true },
           description: { type: String, required: true },
           verified: { type: Schema.Types.Mixed },
@@ -260,9 +261,8 @@ const FreelancerSchema: Schema = new Schema(
           },
           verificationUpdateTime: { type: Date },
           comments: { type: String },
-        },
-        { _id: false },
-      ),
+        }),
+        require: false,
     },
     refer: {
       name: { type: String, required: false },

@@ -312,7 +312,7 @@ export class FreelancerDAO extends BaseDAO {
       },
       { new: true, upsert: true },
     );
-  }
+  }  
 
   async getProjectById(freelancerId: string, project_id: string) {
     return this.model.findOne(

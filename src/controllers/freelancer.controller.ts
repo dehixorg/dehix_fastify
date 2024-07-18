@@ -761,9 +761,9 @@ export default class FreelancerController extends AuthController {
         request.params.project_id,
       );
 
-      reply.status(STATUS_CODES.SUCCESS).send({ message: "Education deleted" });
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "Project deleted" });
     } catch (error: any) {
-      this.logger.error(`Error in deleteEducationFreelancer: ${error.message}`);
+      this.logger.error(`Error in deleteProjectFreelancer: ${error.message}`);
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(

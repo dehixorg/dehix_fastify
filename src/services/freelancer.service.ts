@@ -479,17 +479,16 @@ export class FreelancerService extends BaseService {
         "FreelancerService: create freelancer project ",
         freelancer_id,
       );
-
+  
       // Check if freelancer exists
-      const userExist =
-        await this.FreelancerDAO.findFreelancerById(freelancer_id);
+      const userExist = await this.FreelancerDAO.findFreelancerById(freelancer_id);
       if (!userExist) {
         throw new NotFoundError(
           RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
           ERROR_CODES.FREELANCER_NOT_FOUND,
         );
       }
-
+  
       // Create new project entry
       const createdProject = await this.FreelancerDAO.addProjectById(
         freelancer_id,

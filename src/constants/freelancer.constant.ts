@@ -19,7 +19,7 @@ export const FREELANCER_UPDATE_PROJECT_BY_ID =
   "/:freelancer_id/project/:project_id";
 export const FREELANCER_PROJECT_DELETE_BY_ID =
   "/:freelancer_id/project/:project_id";
-export const FREELANCER_CREATE_PROJECT_BY_ID = "/:freelancer/project/create";
+export const FREELANCER_CREATE_PROJECT_BY_ID = "/:freelancer_id/project/create";
 
 export const FREELANCER_UPDATE_EXPERIENCE_BY_ID =
   "/experience/:freelancer_id/:experience_id";
