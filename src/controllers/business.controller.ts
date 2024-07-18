@@ -141,7 +141,7 @@ export default class BusinessController extends AuthController {
       this.logger.info(`BusinessController -> create business project`);
 
       const data = await this.BusinessService.createBusinessProject(
-        request.params.project_id,
+        request.params.business_id,
         request.body,
       );
       if (!data) {
@@ -152,7 +152,7 @@ export default class BusinessController extends AuthController {
       }
       return reply
         .status(STATUS_CODES.SUCCESS)
-        .send({ message: RESPONSE_MESSAGE.CREATED });
+        .send({ data });
     } catch (error) {
       this.logger.info(error, "error in Post Business");
       return reply.status(STATUS_CODES.SERVER_ERROR).send({
