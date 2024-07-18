@@ -26,7 +26,7 @@ import {
   UPDATE_EMAIL_AND_PHONE,
 } from "../constants/business.constant";
 import { getBusinessSchema } from "../schema/v1/business/get";
-import { updateBusinessSchema } from "../schema/v1/business/update";
+import { updateBusinessEmailAndPhoneSchema, updateBusinessSchema } from "../schema/v1/business/update";
 import { BusinessService } from "../services";
 import { GetBusinessPathParams } from "../types/v1/business/get";
 import {
@@ -107,7 +107,7 @@ export default class BusinessController extends AuthController {
       });
     }
   }
-  @PATCH(UPDATE_EMAIL_AND_PHONE, { schema: updateBusinessSchema })
+  @PATCH(UPDATE_EMAIL_AND_PHONE, { schema: updateBusinessEmailAndPhoneSchema })
   async updateEmailAndPhone(
     request: FastifyRequest<{
       Params: GetBusinessPathParams;

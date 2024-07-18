@@ -135,7 +135,65 @@ export const updateBusinessSchema: FastifySchema = {
     },
   },
 };
-
+export const updateBusinessEmailAndPhoneSchema: FastifySchema = {
+  description: "API to update business",
+  tags: ["Business"],
+  body: {
+    type: "object",
+    required: [],
+    properties: {
+      email: {
+        type: "string",
+      },
+      phone: {
+        type: "string",
+      },
+      
+    },
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: {
+          type: "object",
+          properties: {
+            email: { type: "string" },
+          },
+        },
+      },
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
 export const hireFreelancerSchema: FastifySchema = {
   description: "API to add hire freelancer",
   tags: ["Business"],
@@ -251,3 +309,4 @@ export const appliedCandidateSchema: FastifySchema = {
     },
   },
 };
+
