@@ -920,6 +920,7 @@ export const updateProjectSchema: FastifySchema = {
       verificationUpdateTime: { type: "string", format: "date-time" },
       comments: { type: "string" },
     },
+    required: ["projectName", "description"] 
   },
   response: {
     200: {
@@ -931,26 +932,29 @@ export const updateProjectSchema: FastifySchema = {
           properties: {
             email: { type: "string" },
             projects: {
-              projectName: { type: "string" },
-              description: { type: "string" },
-              verified: { type: "boolean" },
-              githubLink: { type: "string" },
-              start: { type: "string", format: "date-time" },
-              end: { type: "string", format: "date-time" },
-              refer: { type: "string" },
-              techUsed: {
-                type: "array",
-                items: { type: "string" },
+              type: "object",
+              properties: {
+                projectName: { type: "string" },
+                description: { type: "string" },
+                verified: { type: "boolean" },
+                githubLink: { type: "string" },
+                start: { type: "string", format: "date-time" },
+                end: { type: "string", format: "date-time" },
+                refer: { type: "string" },
+                techUsed: {
+                  type: "array",
+                  items: { type: "string" },
+                },
+                role: { type: "string" },
+                projectType: { type: "string" },
+                oracleAssigned: { type: "string" },
+                verificationStatus: {
+                  type: "string",
+                  enum: ["added", "verified", "rejected", "reapplied"],
+                },
+                verificationUpdateTime: { type: "string", format: "date-time" },
+                comments: { type: "string" },
               },
-              role: { type: "string" },
-              projectType: { type: "string" },
-              oracleAssigned: { type: "string" },
-              verificationStatus: {
-                type: "string",
-                enum: ["added", "verified", "rejected", "reapplied"],
-              },
-              verificationUpdateTime: { type: "string", format: "date-time" },
-              comments: { type: "string" },
             },
           },
         },
