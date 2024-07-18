@@ -73,7 +73,7 @@ export class BusinessService extends BaseService {
       `Business Service: 
         Fetching  business profile with Email`,
     );
-    const data = await this.businessDao.findOneByEmail(email);
+    const data = await this.businessDao.findBusinessProjectByEmail(email);
     return data;
   }
   async getBusinessProfile(id: string) {
