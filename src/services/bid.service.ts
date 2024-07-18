@@ -2,6 +2,8 @@ import { Service, Inject } from "fastify-decorators";
 import { BaseService } from "../common/base.service";
 import { BidApplyBody } from "../types/v1/bid/bidApplyBody";
 import { BidDAO } from "../dao/bid.dao";
+import { NotFoundError } from "../common/errors";
+import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 
 @Service()
 export class BidService extends BaseService {
@@ -25,15 +27,29 @@ export class BidService extends BaseService {
     return bid;
   }
 
-  async updateBid(bid_id: string, bid) {
+  async updateBid(bid_id: string, bid:any) {
     this.logger.info("BidService: updateBid: Updating Bid: ", bid_id, bid);
-
+    const bidExist= await this.BidDAO.findBidById(bid_id);
+    if (!bidExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.BID_NOT_FOUND,
+        ERROR_CODES.BID_NOT_FOUND
+      )
+    }
     const data: any = await this.BidDAO.updateBid({ _id: bid_id }, bid);
 
     return data;
   }
 
   async bidStatusUpdate(bid_id: string, status: string): Promise<any> {
+    this.logger.info("BidService: updateBidstatus: Updating Bid Status: ", bid_id)
+    const bidExist= await this.BidDAO.findBidById(bid_id);
+    if (!bidExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.BID_NOT_FOUND,
+        ERROR_CODES.BID_NOT_FOUND
+      )
+    }
     const updateStatus = async (status: string) => {
       return await this.BidDAO.updateStatus(bid_id, status);
     };
@@ -57,6 +73,13 @@ export class BidService extends BaseService {
   }
   async deleteBid(id: string) {
     this.logger.info(`Bid Service: Deleting  project bid`);
+    const bidExist= await this.BidDAO.findBidById(id);
+    if (!bidExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.BID_NOT_FOUND,
+        ERROR_CODES.BID_NOT_FOUND
+      )
+    }
     return await this.BidDAO.deleteBid(id);
   }
 }

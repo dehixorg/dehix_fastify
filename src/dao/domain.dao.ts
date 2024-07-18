@@ -37,4 +37,10 @@ export class DomainDAO extends BaseDAO {
       throw new Error(`Failed to fetch domains: ${error.message}`);
     }
   }
+  async deleteDomain(domain_id:string){
+    return this.model.findOneAndDelete({_id:domain_id})
+  }
+  async getDomainById(domain_id:string){
+    return this.model.findById(domain_id)
+  }
 }

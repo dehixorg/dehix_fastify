@@ -19,7 +19,7 @@ export class businessDAO extends BaseDAO {
   }
 
   async getBusinessById(id: string) {
-    return this.model.findById(id);
+    return this.model.findOne({ _id: id });
   }
   async populateBusiness(business_id: string) {
     return this.model.findById(business_id).populate("ProjectList").populate({
@@ -58,8 +58,8 @@ export class businessDAO extends BaseDAO {
   async createProjectBusiness(data: any) {
     return this.projectmodel.create(data);
   }
-  async findBusinessProject(id: string) {
-    return this.projectmodel.findById(id);
+  async findBusinessProjectByEmail(email: string) {
+    return this.projectmodel.find({ email: email });
   }
   async updateBusinessProject(id: string, update: any) {
     return this.projectmodel.findByIdAndUpdate(id, update);
@@ -105,5 +105,8 @@ export class businessDAO extends BaseDAO {
   }
   async findAllProjects() {
     return this.projectmodel.find();
+  }
+  async updateEmailAndPhone(business_id: string, update: any) {
+    return this.model.findByIdAndUpdate({ _id: business_id }, update);
   }
 }

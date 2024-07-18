@@ -32,12 +32,13 @@ export const RESPONSE_MESSAGE = {
   NOT_FOUND: (entity: string = "User") => `${entity} not found`,
   USER_NOT_FOUND: "User not found",
   USER_EXISTS: "User already exists",
-  PROJECT_NOT_FOUND: "Subscription by provided ID was not found.",
   DRAFT_SUB_NOT_FOUND: "No subscription found for this draft owner",
   FREELANCER_NOT_FOUND: "Freelancer with provided ID could not be found.",
-
+  BUSINESS_NOT_FOUND: "Business with provided ID could not be found.",
   EXPERIENCE_NOT_FOUND: "Freelancer experience  not found by id",
   EDUCATION_NOT_FOUND: "Freelancer education not found by id",
+  PROJECT_NOT_FOUND: "Project not found by email.",
+  BID_NOT_FOUND:"Bid not found by id",
   DRAFT_NOT_FOUND: "Draft with provided ID could not be found.",
   DRAFT_IS_INCOMPLETE:
     "This draft is incomplete and cannot be submitted for review",
@@ -76,12 +77,15 @@ export const EMAIL_VERIFICATION_EMAIL_CONSTANTS = {
 };
 
 export const ERROR_CODES = {
+  BUSINESS_NOT_FOUND: "BUSINESS NOT FOUND",
   USER_ALREADY_EXIST: "USER ALREADY EXIST",
   PASSWORDS_DO_NOT_MATCH: "PASSWORDS_DO_NOT_MATCH",
   USER_ALREADY_REGISTERED: "USER_ALREADY_REGISTERED",
   FREELANCER_NOT_FOUND: "FREELANCER_NOT_FOUND",
   EXPERIENCE_NOT_FOUND: "EXPERIENCE_NOT_FOUND",
   EDUCATION_NOT_FOUND: "EDUCATION_NOT_FOUND",
+  PROJECT_NOT_FOUND: "PROJECT_NOT_FOUND",
+  BID_NOT_FOUND:"BID_NOT_FOUND",
   OFFERS_NOT_FOUND: "OFFERS_NOT_FOUND",
   OTP_MISMATCH: "OTP_MISMATCH",
   OTP_EXPIRED: "OTP_EXPIRED",

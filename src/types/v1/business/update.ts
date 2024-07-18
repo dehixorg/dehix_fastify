@@ -28,3 +28,7 @@ export interface PutBusinessBody {
     status: string;
   }[];
 }
+export interface PutEmailAndPhone {
+  email: string;
+  phone: string;
+}

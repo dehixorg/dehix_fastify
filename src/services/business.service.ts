@@ -3,7 +3,7 @@ import { BaseService } from "../common/base.service";
 import { businessDAO } from "../dao";
 import { IBusiness } from "../models/business.entity";
 import { firebaseClient } from "../common/services";
-import { ConflictError } from "../common/errors";
+import { ConflictError, NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 @Service()
 export class BusinessService extends BaseService {
@@ -92,18 +92,31 @@ export class BusinessService extends BaseService {
       `Business Service: 
         Creating business Project`,
     );
-    await this.businessDao.getBusinessById(business_id);
+    const businessExist = await this.businessDao.getBusinessById(business_id);
+    if (!businessExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.BUSINESS_NOT_FOUND,
+        ERROR_CODES.BUSINESS_NOT_FOUND,
+      );
+    }
     const Project = await this.businessDao.createProjectBusiness(data);
     const { _id } = Project;
     await this.businessDao.addProjectById(business_id, _id);
     return Project;
   }
-  async getBusinessProjectById(id: string) {
+  async getBusinessProjectByEmail(email: string) {
     this.logger.info(
       `Business Service: 
-        Fetching business project by id`,
+        Fetching business project by email`,
     );
-    await this.businessDao.findBusinessProject(id);
+    const data = await this.businessDao.getBusinessByEmail(email);
+    if (!data) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.PROJECT_NOT_FOUND,
+        ERROR_CODES.PROJECT_NOT_FOUND,
+      );
+    }
+    return data;
   }
   async getAllProjectsData() {
     this.logger.info(
@@ -128,6 +141,28 @@ export class BusinessService extends BaseService {
         deleting business projects`,
     );
     const data = await this.businessDao.deleteBusinessProject(id);
+    return data;
+  }
+  async updateEmailAndPhone(business_id: string, update: any) {
+    this.logger.info(`Business Service: 
+       Updating business email and phone `);
+    const businessExist = await this.businessDao.getBusinessById(business_id);
+    if (!businessExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.BUSINESS_NOT_FOUND,
+        ERROR_CODES.BUSINESS_NOT_FOUND,
+      );
+    }
+    let data: any;
+    if (update.email != "") {
+      data = await this.businessDao.updateEmailAndPhone(business_id, {
+        email: update.email,
+      });
+    } else {
+      data = await this.businessDao.updateEmailAndPhone(business_id, {
+        phone: update.phone,
+      });
+    }
     return data;
   }
 }

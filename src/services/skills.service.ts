@@ -19,10 +19,30 @@ export class SkillsService extends BaseService {
       this.logger.error("SkillsService: getAllSkills: Skills not found ");
       throw new NotFoundError(
         RESPONSE_MESSAGE.NOT_FOUND("Skills"),
-        ERROR_CODES.FREELANCER_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND,
       );
     }
 
     return skills;
+  }
+  async createSkill(skillData:any){
+    this.logger.info("SkillsService: Create Skills: Creating Skills ");
+    const data= await this.SkillDAO.addSkills(skillData);
+    return data
+  }
+  async deleteSkill(skill_id:string){
+    this.logger.info("SkillsService: Delete Skills: Deleting Skills ");
+    const skillExist= await this.SkillDAO.getSkillById(skill_id);
+    
+    if (!skillExist) {
+      
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Skills"),
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+
+    const data= await this.SkillDAO.deleteSkills(skill_id);
+    return data
   }
 }

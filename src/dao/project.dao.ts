@@ -18,7 +18,7 @@ export class ProjectDAO extends BaseDAO {
     try {
       const query = {
         team: { $in: [user_id] },
-        ...(status && { status }), // Add status to the query if it's provided
+        ...(status && { status }), 
       };
 
       return await this.model.find(query);

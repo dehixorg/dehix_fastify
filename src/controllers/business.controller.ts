@@ -1,5 +1,13 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, DELETE, GET, Inject, POST, PUT } from "fastify-decorators";
+import {
+  Controller,
+  DELETE,
+  GET,
+  Inject,
+  PATCH,
+  POST,
+  PUT,
+} from "fastify-decorators";
 import { AuthController } from "../common/auth.controller";
 import {
   ERROR_CODES,
@@ -14,6 +22,8 @@ import {
   CREATE_BUSINESS_PROJECT_END_POINT,
   DELETE_BUSINESS_PROJECT_END_POINT,
   GET_ALL_BUSINESS_PROJECT_END_POINT,
+  GET_PROJECT_BY_EMAIL,
+  UPDATE_EMAIL_AND_PHONE,
 } from "../constants/business.constant";
 import { getBusinessSchema } from "../schema/v1/business/get";
 import { updateBusinessSchema } from "../schema/v1/business/update";
@@ -22,6 +32,7 @@ import { GetBusinessPathParams } from "../types/v1/business/get";
 import {
   PutBusinessBody,
   PutBusinessPathParams,
+  PutEmailAndPhone,
 } from "../types/v1/business/update";
 import { getProjectPathParams } from "../types/v1/project/post";
 import { DeleteProjectPathParams } from "../types/v1/project/delete";
@@ -29,6 +40,7 @@ import { IProject } from "../models/project.entity";
 import { getProjectSchema } from "../schema/v1/project/get";
 import { createProjectSchema } from "../schema/v1/project/create";
 import { deleteProjectSchema } from "../schema/v1/project/delete";
+import { GetProjectPathParams } from "src/types/v1/project/get";
 
 @Controller({ route: BUSINESS_END_POINT })
 export default class BusinessController extends AuthController {
@@ -50,7 +62,7 @@ export default class BusinessController extends AuthController {
       );
 
       if (!data) {
-        return reply.status(STATUS_CODES.NOT_FOUND).send({
+        reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Business"),
           code: ERROR_CODES.NOT_FOUND,
         });
@@ -82,17 +94,52 @@ export default class BusinessController extends AuthController {
         request.body,
       );
       if (!data) {
-        return reply.status(STATUS_CODES.BAD_REQUEST).send({
+        reply.status(STATUS_CODES.BAD_REQUEST).send({
           message: RESPONSE_MESSAGE.REQUEST_DATA_INVALID,
           code: ERROR_CODES.BAD_REQUEST_ERROR,
         });
       }
     } catch (error) {
       this.logger.info(error, "error in PutBusinessProfile ");
-      return reply.status(STATUS_CODES.SERVER_ERROR).send({
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });
+    }
+  }
+  @PATCH(UPDATE_EMAIL_AND_PHONE, { schema: updateBusinessSchema })
+  async updateEmailAndPhone(
+    request: FastifyRequest<{
+      Params: GetBusinessPathParams;
+      Body: PutEmailAndPhone;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `BusinessController -> Update email and phone -> Updating Business email and phone `,
+      );
+      const data = await this.BusinessService.updateEmailAndPhone(
+        request.params.business_id,
+        request.body,
+      );
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in updating email and phone: ${error.message}`);
+      if (
+        error.ERROR_CODES === "BUSINESS_NOT_FOUND" ||
+        error.message.includes("Business with provided ID could not be found.")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Business"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
     }
   }
   @GET(ALL_BUSINESS_END_POINT, { schema: getBusinessSchema })
@@ -103,14 +150,15 @@ export default class BusinessController extends AuthController {
       );
       const data = await this.BusinessService.getAllBusinessInfo();
       if (!data) {
-        return reply.status(STATUS_CODES.NOT_FOUND).send({
+        reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND,
           code: ERROR_CODES.NOT_FOUND,
         });
       }
+      reply.status(STATUS_CODES.SUCCESS).send({data});
     } catch (error) {
       this.logger.info(error, "error in getAllBusiness");
-      return reply.status(STATUS_CODES.SERVER_ERROR).send({
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });
@@ -123,10 +171,10 @@ export default class BusinessController extends AuthController {
         `BusinessController -> getAllProjectBusiness -> Fetching Business all project `,
       );
       const data = await this.BusinessService.getAllProjectsData();
-      return reply.status(STATUS_CODES.SUCCESS).send({ data });
+      reply.code(STATUS_CODES.SUCCESS).send({ data });
     } catch (error) {
       this.logger.info(error, "error in getAllProjectBusiness");
-      return reply.status(STATUS_CODES.SERVER_ERROR).send({
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });
@@ -145,20 +193,30 @@ export default class BusinessController extends AuthController {
         request.body,
       );
       if (!data) {
-        return reply.status(STATUS_CODES.NO_CONTENT).send({
+        reply.status(STATUS_CODES.NO_CONTENT).send({
           message: RESPONSE_MESSAGE.REQUEST_DATA_INVALID,
           code: ERROR_CODES.INVALID_DATA,
         });
       }
-      return reply
+      reply
         .status(STATUS_CODES.SUCCESS)
         .send({ message: RESPONSE_MESSAGE.CREATED });
-    } catch (error) {
-      this.logger.info(error, "error in Post Business");
-      return reply.status(STATUS_CODES.SERVER_ERROR).send({
-        message: RESPONSE_MESSAGE.SERVER_ERROR,
-        code: ERROR_CODES.SERVER_ERROR,
-      });
+    } catch (error: any) {
+      this.logger.error(`Error in updating email and phone: ${error.message}`);
+      if (
+        error.ERROR_CODES === "BUSINESS_NOT_FOUND" ||
+        error.message.includes("Business with provided ID could not be found.")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Business"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
     }
   }
 
@@ -169,19 +227,51 @@ export default class BusinessController extends AuthController {
   ) {
     try {
       this.logger.info(
-        `BusinessController -> Delete ProjectBusiness -> Deleting Business All Project `,
+        `BusinessController -> Delete ProjectBusiness -> Deleting Business  Project `,
       );
 
       const data = await this.BusinessService.deleteBusinessProject(
         request.params.project_id,
       );
-      return reply.status(STATUS_CODES.SUCCESS).send({ data });
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error) {
       this.logger.info(error, "error in Delete Business Project");
-      return reply.status(STATUS_CODES.SERVER_ERROR).send({
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });
+    }
+  }
+
+  @GET(GET_PROJECT_BY_EMAIL, { schema: getProjectSchema })
+  async getProjectDataByEmail(
+    request: FastifyRequest<{ Params: GetProjectPathParams }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `BusinessController -> Getting ProjectBusiness -> Getting Business Project by email `,
+      );
+      const data = await this.BusinessService.getBusinessByEmail(
+        request.params.email,
+      );
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`error in getProjectByEmail${error}`);
+      if (
+        error.ERROR_CODES === "PROJECT_NOT_FOUND" ||
+        error.message.include("Project not found by email.")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
     }
   }
 }

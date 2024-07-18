@@ -70,3 +70,59 @@ export const updateBidSchema: FastifySchema = {
     },
   },
 };
+
+export const updateBidStatus: FastifySchema = {
+  description: "API for update bidding",
+  tags: ["Bid"],
+  body: {
+    type: "object",
+    properties: {
+      bid_status: {
+        type: "string",
+        enum: ["Pending", "Accepted", "Rejected"],
+      },
+    },
+    required: [],
+  },
+  response: {
+    200: {
+      type: "object",
+      properties: {
+       message:{
+        type:"string"
+      },
+        code: {
+        type: "string",
+      },
+      },
+    },
+    401: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};

@@ -8,12 +8,9 @@ export const deleteBidSchema: FastifySchema = {
       description: "Success",
       type: "object",
       properties: {
-        data: {
-          type: "object",
-          properties: {
-            bid_id: { type: "string" },
-          },
-        },
+       message:{
+        type:"string"
+       }
       },
     },
     404: {
