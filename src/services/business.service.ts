@@ -19,6 +19,7 @@ export class BusinessService extends BaseService {
           business.email,
           business.password,
           { type: "business" },
+          business.phone,
         );
       business._id = business_id;
 

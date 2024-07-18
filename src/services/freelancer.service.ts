@@ -117,6 +117,7 @@ export class FreelancerService extends BaseService {
           freelancer.email,
           freelancer.password,
           { type: "freelancer" },
+          freelancer.phone,
         );
       freelancer._id = freelancer_id;
       //uncomment when SES is up
