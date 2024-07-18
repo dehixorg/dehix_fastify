@@ -30,7 +30,6 @@ import {
   FREELANCER_UPDATE_EDUCATION_BY_ID,
   FREELANCER_DELETE_EDUCATION_BY_ID,
   FREELANCER_PROJECT_ID_ENDPOINT,
-  FREELANCER_CREATE_PROJECT_BY_ID,
   FREELANCER_UPDATE_PROJECT_BY_ID,
 } from "../constants/freelancer.constant";
 import {
@@ -657,7 +656,7 @@ export default class FreelancerController extends AuthController {
     }
   }
 
-  @POST(FREELANCER_CREATE_PROJECT_BY_ID, { schema: createProjectSchema })
+  @POST(FREELANCER_PROJECT_ID_ENDPOINT, { schema: createProjectSchema })
   async createProject(
     request: FastifyRequest<{
       Params: GetFreelancerPathParams;
