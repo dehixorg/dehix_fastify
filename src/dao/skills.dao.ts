@@ -12,18 +12,15 @@ export class SkillDAO extends BaseDAO {
     this.model = SkillModel;
   }
 
-  async addSkills(skillsData: Partial<ISkill>[]) {
+  async addSkills(skillsData:any) {
     try {
-      const insertedSkills = await Promise.all(
-        skillsData.map(async (skillData) => {
           const skill = await this.model.create({
             _id: uuidv4(),
-            ...skillData,
+            ...skillsData,
           });
           return skill;
-        }),
-      );
-      return insertedSkills;
+       
+      
     } catch (error: any) {
       throw new Error(`Failed to add skills: ${error.message}`);
     }

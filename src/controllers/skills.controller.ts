@@ -16,6 +16,9 @@ import {
 } from "../constants/skills.constant";
 import { getSkillsSchema } from "../schema/v1/skills/getAll";
 import { AuthController } from "../common/auth.controller";
+import { createSkillSchema } from "../schema/v1/skills/create";
+import { deleteSkillSchema } from "../schema/v1/skills/delete";
+import { DeleteSkillPathParams } from "../types/v1/skill/delete";
 
 @Controller({ route: SKILLS_ENDPOINT })
 export default class SkillsController extends AuthController {
@@ -45,7 +48,7 @@ export default class SkillsController extends AuthController {
     }
   }
 
-  @POST(CREATE_SKILL)
+  @POST(CREATE_SKILL,{schema:createSkillSchema})
   async createSkill(request: FastifyRequest, reply: FastifyReply) {
     try {
       this.logger.info(`SkillsController -> createSkill -> Creating skill`);
@@ -61,21 +64,21 @@ export default class SkillsController extends AuthController {
     }
   }
 
-  @DELETE(DELETE_SKILL)
+  @DELETE(DELETE_SKILL,{schema:deleteSkillSchema})
   async deleteSkill(
-    request: FastifyRequest<{ Params: { skill_id: string } }>,
+    request: FastifyRequest<{Params:DeleteSkillPathParams}>,
     reply: FastifyReply
   ) {
     try {
       this.logger.info(`SkillsController -> deleteSkill -> Deleting skill`);
 
       const data = await this.skillsService.deleteSkill(request.params.skill_id);
-      reply.status(STATUS_CODES.SUCCESS).send({ data });
+      reply.status(STATUS_CODES.SUCCESS).send({ message:"skill deleted" });
     } catch (error: any) {
       this.logger.error(`Error in deleteSkill: ${error.message}`);
       if (
-        error.ERROR_CODES === "SKILL_NOT_FOUND" ||
-        error.message.includes("Skill with provided ID could not be found.")
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Skills not found")
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Skills"),

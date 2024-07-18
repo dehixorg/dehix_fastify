@@ -40,7 +40,7 @@ import { IProject } from "../models/project.entity";
 import { getProjectSchema } from "../schema/v1/project/get";
 import { createProjectSchema } from "../schema/v1/project/create";
 import { deleteProjectSchema } from "../schema/v1/project/delete";
-import { GetProjectPathParams } from "src/types/v1/project/get";
+import { GetProjectPathParams } from "../types/v1/project/get";
 
 @Controller({ route: BUSINESS_END_POINT })
 export default class BusinessController extends AuthController {

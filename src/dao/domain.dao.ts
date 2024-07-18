@@ -12,18 +12,15 @@ export class DomainDAO extends BaseDAO {
     this.model = DomainModel;
   }
 
-  async addDomain(domainsData: Partial<IDomain>[]) {
+  async addDomain(domainsData: any) {
     try {
-      const insertedDomain = await Promise.all(
-        domainsData.map(async (domainData) => {
+     
           const domain = await this.model.create({
             _id: uuidv4(),
-            ...domainData,
+            ...domainsData,
           });
           return domain;
-        }),
-      );
-      return insertedDomain;
+        
     } catch (error: any) {
       throw new Error(`Failed to add domains: ${error.message}`);
     }

@@ -1,113 +1,115 @@
 import { FastifySchema } from "fastify";
 
-export const updateProjectSchema: FastifySchema = {
-  description: "API to update project",
-  tags: ["Project"],
-  body: {
-    type: "object",
-    required: [
-      "projectName",
-      "description",
-      "email",
-      "companyName",
-      "skillsRequired",
-      "role",
-      "projectType",
-    ],
-    properties: {
-      _id: {
-        type: "string",
-        format: "uuid",
-      },
-      projectName: {
-        type: "string",
-      },
-      description: {
-        type: "string",
-      },
-      email: {
-        type: "string",
-      },
-      verified: {
-        type: "string",
-      },
-      isVerified: {
-        type: "boolean",
-        default: false,
-      },
-      companyName: {
-        type: "string",
-      },
-      start: {
-        type: "string",
-        format: "date-time",
-      },
-      end: {
-        type: "string",
-        format: "date-time",
-      },
-      skillsRequired: {
-        type: "array",
-        items: {
-          type: "string",
-        },
-      },
-      experience: {
+export const updateProjectSchemaBody = {
+  type: "object",
+  required: [
+    "projectName",
+    "description",
+    "email",
+    "companyName",
+    "skillsRequired",
+    "role",
+    "projectType",
+  ],
+  properties: {
+    _id: {
+      type: "string",
+      format: "uuid",
+    },
+    projectName: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    email: {
+      type: "string",
+    },
+    verified: {
+      type: "string",
+    },
+    isVerified: {
+      type: "boolean",
+      default: false,
+    },
+    companyName: {
+      type: "string",
+    },
+    start: {
+      type: "string",
+      format: "date-time",
+    },
+    end: {
+      type: "string",
+      format: "date-time",
+    },
+    skillsRequired: {
+      type: "array",
+      items: {
         type: "string",
       },
-      role: {
-        type: "string",
-      },
-      projectType: {
-        type: "string",
-      },
-      totalNeedOfFreelancer: {
-        type: "array",
-        items: {
-          type: "object",
-          properties: {
-            category: {
-              type: "string",
-            },
-            needOfFreelancer: {
-              type: "integer",
-            },
-            appliedCandidates: {
-              type: "array",
-              items: {
-                type: "string",
-              },
-            },
-            rejected: {
-              type: "array",
-              items: {
-                type: "string",
-              },
-            },
-            accepted: {
-              type: "array",
-              items: {
-                type: "string",
-              },
-            },
-            status: {
+    },
+    experience: {
+      type: "string",
+    },
+    role: {
+      type: "string",
+    },
+    projectType: {
+      type: "string",
+    },
+    totalNeedOfFreelancer: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          category: {
+            type: "string",
+          },
+          needOfFreelancer: {
+            type: "integer",
+          },
+          appliedCandidates: {
+            type: "array",
+            items: {
               type: "string",
             },
           },
-        },
-      },
-      status: {
-        type: "string",
-        default: "Pending",
-      },
-      team: {
-        type: "array",
-        items: {
-          type: "string",
+          rejected: {
+            type: "array",
+            items: {
+              type: "string",
+            },
+          },
+          accepted: {
+            type: "array",
+            items: {
+              type: "string",
+            },
+          },
+          status: {
+            type: "string",
+          },
         },
       },
     },
+    status: {
+      type: "string",
+      default: "Pending",
+    },
+    team: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
   },
+};
+
+export const updateProjectSchema: FastifySchema = {
+  description: "API to update project",
+  tags: ["Project"],
+  body: updateProjectSchemaBody,
   response: {
     200: {
       description: "Success",
