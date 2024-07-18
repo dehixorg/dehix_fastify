@@ -6,6 +6,7 @@ export interface IProject extends Document {
   _id: string;
   projectName: string;
   description: string;
+  companyId: string;
   email: string;
   verified?: any;
   isVerified?: string;
@@ -24,7 +25,11 @@ export interface IProject extends Document {
     accepted?: string[];
     status?: string;
   }[];
-  status?: string;
+  status?:
+    | "Active"
+    | "Pending"
+    | "Completed"
+    | "Rejected";
   team?: string[];
 }
 
@@ -40,6 +45,10 @@ const ProjectSchema: Schema<IProject> = new Schema(
       required: true,
     },
     description: {
+      type: String,
+      required: true,
+    },
+    companyId: {
       type: String,
       required: true,
     },
@@ -98,6 +107,7 @@ const ProjectSchema: Schema<IProject> = new Schema(
     },
     status: {
       type: String,
+      enum: ["Active", "Pending", "Completed", "Rejected"],
       default: "Pending",
     },
     team: {
