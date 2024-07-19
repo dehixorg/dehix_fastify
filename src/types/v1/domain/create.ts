@@ -1,3 +1,3 @@
 export interface CreateDomainBody {
-    label: string;
-  }
+  label: string;
+}

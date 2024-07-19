@@ -25,13 +25,13 @@ export class DomainService extends BaseService {
 
     return domain;
   }
-  async addDomain(data:any){
+  async addDomain(data: any) {
     this.logger.info("DomainService: add Domain: Adding Domain ");
-    const domain :any= await this.DomainDAO.addDomain(data)
+    await this.DomainDAO.addDomain(data);
   }
-  async deleteDomain(domain_id:string){
+  async deleteDomain(domain_id: string) {
     this.logger.info("DomainService: Delete Domain: Deleting Domain ");
-    const domainExist= await this.DomainDAO.getDomainById(domain_id);
+    const domainExist = await this.DomainDAO.getDomainById(domain_id);
     if (!domainExist) {
       this.logger.error("DomainService: getAllDomain: Domain not found ");
       throw new NotFoundError(
@@ -39,7 +39,7 @@ export class DomainService extends BaseService {
         ERROR_CODES.NOT_FOUND,
       );
     }
-    const data= await this.DomainDAO.deleteDomain(domain_id);
-    return data
+    const data = await this.DomainDAO.deleteDomain(domain_id);
+    return data;
   }
 }

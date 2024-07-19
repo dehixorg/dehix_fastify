@@ -148,7 +148,6 @@ export const updateBusinessEmailAndPhoneSchema: FastifySchema = {
       phone: {
         type: "string",
       },
-      
     },
   },
   response: {
@@ -309,4 +308,3 @@ export const appliedCandidateSchema: FastifySchema = {
     },
   },
 };
-

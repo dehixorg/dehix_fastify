@@ -17,9 +17,9 @@ export const addDomainSchema: FastifySchema = {
       description: "Success",
       type: "object",
       properties: {
-        message:{
-          type:"string"
-        }
+        message: {
+          type: "string",
+        },
       },
     },
     400: {

@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, GET, PATCH, POST, DELETE, Inject } from "fastify-decorators";
+import {
+  Controller,
+  GET,
+  PATCH,
+  POST,
+  DELETE,
+  Inject,
+} from "fastify-decorators";
 import { DomainService } from "../services/domain.service";
 import {
   STATUS_CODES,
@@ -48,13 +55,13 @@ export default class DomainController extends AuthController {
     }
   }
 
-  @POST(CREATE_DOMAIN,{schema:addDomainSchema})
+  @POST(CREATE_DOMAIN, { schema: addDomainSchema })
   async addDomain(request: FastifyRequest, reply: FastifyReply) {
     try {
       this.logger.info(`DomainController -> addDomain -> Adding domain`);
 
       const data = await this.domainService.addDomain(request.body);
-      reply.status(STATUS_CODES.SUCCESS).send({ message:"Domain created"});
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "Domain created" });
     } catch (error: any) {
       this.logger.error(`Error in addDomain: ${error.message}`);
       reply.status(STATUS_CODES.SERVER_ERROR).send({
@@ -64,16 +71,18 @@ export default class DomainController extends AuthController {
     }
   }
 
-  @DELETE(DELETE_DOMAIN,{schema:deleteDomainSchema})
+  @DELETE(DELETE_DOMAIN, { schema: deleteDomainSchema })
   async deleteDomain(
-    request: FastifyRequest<{ Params:DeleteDomainPathParams }>,
-    reply: FastifyReply
+    request: FastifyRequest<{ Params: DeleteDomainPathParams }>,
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(`DomainController -> deleteDomain -> Deleting domain`);
 
-      const data = await this.domainService.deleteDomain(request.params.domain_id);
-      reply.status(STATUS_CODES.SUCCESS).send({message:"Domain deleted" });
+      const data = await this.domainService.deleteDomain(
+        request.params.domain_id,
+      );
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "Domain deleted" });
     } catch (error: any) {
       this.logger.error(`Error in deleteDomain: ${error.message}`);
       if (

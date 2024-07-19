@@ -25,24 +25,23 @@ export class SkillsService extends BaseService {
 
     return skills;
   }
-  async createSkill(skillData:any){
+  async createSkill(skillData: any) {
     this.logger.info("SkillsService: Create Skills: Creating Skills ");
-    const data= await this.SkillDAO.addSkills(skillData);
-    return data
+    const data = await this.SkillDAO.addSkills(skillData);
+    return data;
   }
-  async deleteSkill(skill_id:string){
+  async deleteSkill(skill_id: string) {
     this.logger.info("SkillsService: Delete Skills: Deleting Skills ");
-    const skillExist= await this.SkillDAO.getSkillById(skill_id);
-    
+    const skillExist = await this.SkillDAO.getSkillById(skill_id);
+
     if (!skillExist) {
-      
       throw new NotFoundError(
         RESPONSE_MESSAGE.NOT_FOUND("Skills"),
         ERROR_CODES.NOT_FOUND,
       );
     }
 
-    const data= await this.SkillDAO.deleteSkills(skill_id);
-    return data
+    const data = await this.SkillDAO.deleteSkills(skill_id);
+    return data;
   }
 }

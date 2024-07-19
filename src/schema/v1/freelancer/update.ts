@@ -920,7 +920,7 @@ export const updateProjectSchema: FastifySchema = {
       verificationUpdateTime: { type: "string", format: "date-time" },
       comments: { type: "string" },
     },
-    required: ["projectName", "description"] 
+    required: ["projectName", "description"],
   },
   response: {
     200: {

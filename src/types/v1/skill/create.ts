@@ -1,6 +1,3 @@
-
-  
-  export interface CreateSkillBody {
-    label: string;
-  }
-  
+export interface CreateSkillBody {
+  label: string;
+}

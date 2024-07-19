@@ -745,7 +745,9 @@ export default class FreelancerController extends AuthController {
     }
   }
 
-  @DELETE(FREELANCER_PROJECT_DELETE_BY_ID, { schema: deleteFreelancerProjectSchema })
+  @DELETE(FREELANCER_PROJECT_DELETE_BY_ID, {
+    schema: deleteFreelancerProjectSchema,
+  })
   async deleteProjectById(
     request: FastifyRequest<{ Params: DeleteFreelancerProjectPathParams }>,
     reply: FastifyReply,
@@ -789,5 +791,4 @@ export default class FreelancerController extends AuthController {
       }
     }
   }
-
 }

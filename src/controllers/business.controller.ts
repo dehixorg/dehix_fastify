@@ -24,10 +24,12 @@ import {
   GET_ALL_BUSINESS_PROJECT_END_POINT,
   GET_PROJECT_BY_EMAIL,
   UPDATE_EMAIL_AND_PHONE,
-  GET_BUSINESS_PROJECT_BY_ID,
 } from "../constants/business.constant";
-import { getBusinessProjectSchema, getBusinessSchema } from "../schema/v1/business/get";
-import { updateBusinessEmailAndPhoneSchema, updateBusinessSchema } from "../schema/v1/business/update";
+import { getBusinessSchema } from "../schema/v1/business/get";
+import {
+  updateBusinessEmailAndPhoneSchema,
+  updateBusinessSchema,
+} from "../schema/v1/business/update";
 import { BusinessService } from "../services";
 import { GetBusinessPathParams } from "../types/v1/business/get";
 import {
@@ -42,7 +44,6 @@ import { getProjectSchema } from "../schema/v1/project/get";
 import { createProjectSchema } from "../schema/v1/project/create";
 import { deleteProjectSchema } from "../schema/v1/project/delete";
 import { GetProjectPathParams } from "../types/v1/project/get";
-import { GetBusinessProjectQueryParams } from "src/types/v1/business/getProject";
 
 @Controller({ route: BUSINESS_END_POINT })
 export default class BusinessController extends AuthController {
@@ -157,7 +158,7 @@ export default class BusinessController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       }
-      reply.status(STATUS_CODES.SUCCESS).send({data});
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error) {
       this.logger.info(error, "error in getAllBusiness");
       reply.status(STATUS_CODES.SERVER_ERROR).send({

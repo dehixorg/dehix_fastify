@@ -12,15 +12,13 @@ export class SkillDAO extends BaseDAO {
     this.model = SkillModel;
   }
 
-  async addSkills(skillsData:any) {
+  async addSkills(skillsData: any) {
     try {
-          const skill = await this.model.create({
-            _id: uuidv4(),
-            ...skillsData,
-          });
-          return skill;
-       
-      
+      const skill = await this.model.create({
+        _id: uuidv4(),
+        ...skillsData,
+      });
+      return skill;
     } catch (error: any) {
       throw new Error(`Failed to add skills: ${error.message}`);
     }
@@ -34,10 +32,10 @@ export class SkillDAO extends BaseDAO {
       throw new Error(`Failed to fetch skills: ${error.message}`);
     }
   }
-  async deleteSkills(skill_id:string){
-    return this.model.findByIdAndDelete(skill_id)
+  async deleteSkills(skill_id: string) {
+    return this.model.findByIdAndDelete(skill_id);
   }
-  async getSkillById(skill_id:string){
-    return this.model.findById(skill_id)
+  async getSkillById(skill_id: string) {
+    return this.model.findById(skill_id);
   }
 }

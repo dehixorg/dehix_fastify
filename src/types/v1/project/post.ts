@@ -25,6 +25,6 @@ export interface PostBusinessProjectBody {
     accepted?: string[];
     status?: string;
   }[];
-  status?: "Active" | "Pending" | "Completed" | "Rejected" ;
+  status?: "Active" | "Pending" | "Completed" | "Rejected";
   team?: string[];
 }

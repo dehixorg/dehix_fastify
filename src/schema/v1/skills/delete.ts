@@ -1,4 +1,3 @@
-
 import { FastifySchema } from "fastify";
 
 export const deleteSkillSchema: FastifySchema = {

@@ -88,12 +88,12 @@ export const updateBidStatus: FastifySchema = {
     200: {
       type: "object",
       properties: {
-       message:{
-        type:"string"
-      },
+        message: {
+          type: "string",
+        },
         code: {
-        type: "string",
-      },
+          type: "string",
+        },
       },
     },
     401: {

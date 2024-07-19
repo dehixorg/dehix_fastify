@@ -103,14 +103,12 @@ export default class BidController extends AuthController {
         request.body.bid_status,
       );
 
-      reply.status(STATUS_CODES.SUCCESS).send({message:"Status Updated"});
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "Status Updated" });
     } catch (error: any) {
       this.logger.error(`Error in CreateEducation: ${error.message}`);
       if (
         error.ERROR_CODES === "BID_NOT_FOUND" ||
-        error.message.includes(
-          "Bid not found by id",
-        )
+        error.message.includes("Bid not found by id")
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Bid"),
@@ -151,9 +149,7 @@ export default class BidController extends AuthController {
       this.logger.error(`Error in CreateEducation: ${error.message}`);
       if (
         error.ERROR_CODES === "BID_NOT_FOUND" ||
-        error.message.includes(
-          "Bid not found by id",
-        )
+        error.message.includes("Bid not found by id")
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Bid"),
@@ -194,9 +190,7 @@ export default class BidController extends AuthController {
       this.logger.error(`Error in CreateEducation: ${error.message}`);
       if (
         error.ERROR_CODES === "BID_NOT_FOUND" ||
-        error.message.includes(
-          "Bid not found by id",
-        )
+        error.message.includes("Bid not found by id")
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Bid"),
@@ -222,14 +216,14 @@ export default class BidController extends AuthController {
       );
 
       const data = await this.bidService.deleteBid(request.params.bid_id);
-      return reply.status(STATUS_CODES.SUCCESS).send({ message:"Bid deleted"});
+      return reply
+        .status(STATUS_CODES.SUCCESS)
+        .send({ message: "Bid deleted" });
     } catch (error: any) {
       this.logger.error(`Error in CreateEducation: ${error.message}`);
       if (
         error.ERROR_CODES === "BID_NOT_FOUND" ||
-        error.message.includes(
-          "Bid not found by id",
-        )
+        error.message.includes("Bid not found by id")
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Bid"),

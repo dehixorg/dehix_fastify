@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, GET, PATCH, POST, DELETE, Inject } from "fastify-decorators";
+import {
+  Controller,
+  GET,
+  PATCH,
+  POST,
+  DELETE,
+  Inject,
+} from "fastify-decorators";
 import { SkillsService } from "../services/skills.service";
 import {
   STATUS_CODES,
@@ -48,7 +55,7 @@ export default class SkillsController extends AuthController {
     }
   }
 
-  @POST(CREATE_SKILL,{schema:createSkillSchema})
+  @POST(CREATE_SKILL, { schema: createSkillSchema })
   async createSkill(request: FastifyRequest, reply: FastifyReply) {
     try {
       this.logger.info(`SkillsController -> createSkill -> Creating skill`);
@@ -64,16 +71,18 @@ export default class SkillsController extends AuthController {
     }
   }
 
-  @DELETE(DELETE_SKILL,{schema:deleteSkillSchema})
+  @DELETE(DELETE_SKILL, { schema: deleteSkillSchema })
   async deleteSkill(
-    request: FastifyRequest<{Params:DeleteSkillPathParams}>,
-    reply: FastifyReply
+    request: FastifyRequest<{ Params: DeleteSkillPathParams }>,
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(`SkillsController -> deleteSkill -> Deleting skill`);
 
-      const data = await this.skillsService.deleteSkill(request.params.skill_id);
-      reply.status(STATUS_CODES.SUCCESS).send({ message:"skill deleted" });
+      const data = await this.skillsService.deleteSkill(
+        request.params.skill_id,
+      );
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "skill deleted" });
     } catch (error: any) {
       this.logger.error(`Error in deleteSkill: ${error.message}`);
       if (

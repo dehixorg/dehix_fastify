@@ -59,7 +59,7 @@ export class businessDAO extends BaseDAO {
     return this.projectmodel.create(data);
   }
   async findBusinessProjectByEmail(email: string) {
-    return this.projectmodel.find({email: email});
+    return this.projectmodel.find({ email: email });
   }
   async updateBusinessProject(id: string, update: any) {
     return this.projectmodel.findByIdAndUpdate(id, update);

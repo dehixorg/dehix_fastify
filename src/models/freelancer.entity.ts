@@ -59,7 +59,7 @@ export interface IFreelancer extends Document {
   >;
   role?: string;
   projects?: Map<
-    string, 
+    string,
     {
       _id?: string;
       projectName?: string;
@@ -237,32 +237,31 @@ const FreelancerSchema: Schema = new Schema(
     },
     projects: {
       type: Map,
-      of: new Schema(
-        {
-          _id: { type: String, default: uuidv4, required: true },
-          projectName: { type: String, required: true },
-          description: { type: String, required: true },
-          verified: { type: Schema.Types.Mixed },
-          githubLink: { type: String, required: true },
-          start: { type: Date },
-          end: { type: Date },
-          refer: { type: String, required: true },
-          techUsed: [{ type: String, required: true }],
-          role: { type: String, required: true },
-          projectType: { type: String },
-          oracleAssigned: {
-            type: ObjectId,
-            ref: "Freelancer",
-          },
-          verificationStatus: {
-            type: String,
-            enum: ["added", "verified", "rejected", "reapplied"],
-            default: "added",
-          },
-          verificationUpdateTime: { type: Date },
-          comments: { type: String },
-        }),
-        require: false,
+      of: new Schema({
+        _id: { type: String, default: uuidv4, required: true },
+        projectName: { type: String, required: true },
+        description: { type: String, required: true },
+        verified: { type: Schema.Types.Mixed },
+        githubLink: { type: String, required: true },
+        start: { type: Date },
+        end: { type: Date },
+        refer: { type: String, required: true },
+        techUsed: [{ type: String, required: true }],
+        role: { type: String, required: true },
+        projectType: { type: String },
+        oracleAssigned: {
+          type: ObjectId,
+          ref: "Freelancer",
+        },
+        verificationStatus: {
+          type: String,
+          enum: ["added", "verified", "rejected", "reapplied"],
+          default: "added",
+        },
+        verificationUpdateTime: { type: Date },
+        comments: { type: String },
+      }),
+      require: false,
     },
     refer: {
       name: { type: String, required: false },
