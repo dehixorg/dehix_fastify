@@ -157,12 +157,22 @@ export default class BusinessController extends AuthController {
         });
       }
       return reply.status(STATUS_CODES.SUCCESS).send({ data });
-    } catch (error) {
-      this.logger.info(error, "error in Post Business");
-      return reply.status(STATUS_CODES.SERVER_ERROR).send({
-        message: RESPONSE_MESSAGE.SERVER_ERROR,
-        code: ERROR_CODES.SERVER_ERROR,
-      });
+    } catch (error: any) {
+      this.logger.error(`Error in getBusiness: ${error.message}`);
+      if (
+        error.ERROR_CODES === "BUSINESS_NOT_FOUND" ||
+        error.message.includes("Business with provided ID could not be found.")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Business"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
     }
   }
 
