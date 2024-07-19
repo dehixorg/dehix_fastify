@@ -122,7 +122,7 @@ export default class FreelancerController extends AuthController {
     }
   }
 
-  @GET(FREELANCER_PROJECT_ID_ENDPOINT, { schema:getFreelancerProjectSchema})
+  @GET(FREELANCER_PROJECT_ID_ENDPOINT, { schema: getFreelancerProjectSchema })
   async getFreelancerProjects(
     request: FastifyRequest<{
       Params: GetFreelancerPathParams;
