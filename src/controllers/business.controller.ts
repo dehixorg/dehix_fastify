@@ -26,11 +26,13 @@ import {
   GET_PROJECT_BY_ID,
   UPDATE_EMAIL_AND_PHONE,
 } from "../constants/business.constant";
+
 import { getBusinessSchema } from "../schema/v1/business/get";
 import {
   updateBusinessEmailAndPhoneSchema,
   updateBusinessSchema,
 } from "../schema/v1/business/update";
+
 import { BusinessService } from "../services";
 import { GetBusinessPathParams } from "../types/v1/business/get";
 import {
@@ -202,6 +204,7 @@ export default class BusinessController extends AuthController {
           code: ERROR_CODES.INVALID_DATA,
         });
       }
+
       reply
         .status(STATUS_CODES.SUCCESS)
         .send({ message: RESPONSE_MESSAGE.CREATED });
@@ -221,6 +224,7 @@ export default class BusinessController extends AuthController {
           code: ERROR_CODES.SERVER_ERROR,
         });
       }
+
     }
   }
 
@@ -263,8 +267,10 @@ export default class BusinessController extends AuthController {
     } catch (error: any) {
       this.logger.error(`error in getProjectByEmail${error}`);
       if (
+
         error.ERROR_CODES === "PROJECT_NOT_FOUND" ||
         error.message.includes("Project not found by email.")
+
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Project"),

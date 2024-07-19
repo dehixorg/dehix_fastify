@@ -9,3 +9,4 @@ export const DELETE_BUSINESS_PROJECT_END_POINT = "project/:project_id";
 export const UPDATE_EMAIL_AND_PHONE = "/email_and_phone/:business_id";
 export const GET_PROJECT_BY_EMAIL = "/project/:email";
 export const GET_PROJECT_BY_ID="/project/business/:project_id"
+
