@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
-const { ObjectId } = Schema.Types;
+const { String } = Schema.Types;
 
 export interface ISkill extends Document {
   _id: string;
@@ -168,7 +168,7 @@ const FreelancerSchema: Schema = new Schema(
         referencePersonContact: { type: String, required: false },
         githubRepoLink: { type: String, required: false },
         oracleAssigned: {
-          type: ObjectId,
+          type: String,
           ref: "Freelancer",
           required: false,
         },
@@ -199,7 +199,7 @@ const FreelancerSchema: Schema = new Schema(
           required: false,
         },
         interviewInfo: {
-          type: ObjectId,
+          type: String,
           ref: "Interview",
           required: false,
         },
@@ -217,7 +217,7 @@ const FreelancerSchema: Schema = new Schema(
         endDate: { type: Date, required: false },
         grade: { type: String, required: false },
         oracleAssigned: {
-          type: ObjectId,
+          type: String,
           ref: "Freelancer",
           required: false,
         },
@@ -250,7 +250,7 @@ const FreelancerSchema: Schema = new Schema(
         role: { type: String, required: true },
         projectType: { type: String },
         oracleAssigned: {
-          type: ObjectId,
+          type: String,
           ref: "Freelancer",
         },
         verificationStatus: {
@@ -302,14 +302,14 @@ const FreelancerSchema: Schema = new Schema(
         required: false,
       },
     },
-    pendingProject: [{ type: ObjectId, ref: "Project", required: false }],
-    rejectedProject: [{ type: ObjectId, ref: "Project", required: false }],
-    acceptedProject: [{ type: ObjectId, ref: "Project", required: false }],
-    oracleProject: [{ type: ObjectId, ref: "Project", required: false }],
+    pendingProject: [{ type: String, ref: "Project", required: false }],
+    rejectedProject: [{ type: String, ref: "Project", required: false }],
+    acceptedProject: [{ type: String, ref: "Project", required: false }],
+    oracleProject: [{ type: String, ref: "Project", required: false }],
     userDataForVerification: [
-      { type: ObjectId, ref: "Verification", required: false },
+      { type: String, ref: "Verification", required: false },
     ],
-    interviewsAligned: [{ type: ObjectId, ref: "Interview", required: false }],
+    interviewsAligned: [{ type: String, ref: "Interview", required: false }],
   },
   {
     timestamps: true,
