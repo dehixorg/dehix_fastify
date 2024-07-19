@@ -312,7 +312,7 @@ export class FreelancerDAO extends BaseDAO {
       },
       { new: true, upsert: true },
     );
-  }  
+  }
 
   async getProjectById(freelancerId: string, project_id: string) {
     return this.model.findOne(
@@ -321,11 +321,7 @@ export class FreelancerDAO extends BaseDAO {
     );
   }
 
-  async putProjectById(
-    freelancer_id: string,
-    project_id: string,
-    update: any,
-  ) {
+  async putProjectById(freelancer_id: string, project_id: string, update: any) {
     return this.model.findOneAndUpdate(
       { _id: freelancer_id, [`projects.${project_id}`]: { $exists: true } },
       {

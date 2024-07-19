@@ -16,7 +16,10 @@ import {
   GET_ALL_BUSINESS_PROJECT_END_POINT,
   GET_BUSINESS_PROJECT_BY_ID,
 } from "../constants/business.constant";
-import { getBusinessProjectSchema, getBusinessSchema } from "../schema/v1/business/get";
+import {
+  getBusinessProjectSchema,
+  getBusinessSchema,
+} from "../schema/v1/business/get";
 import { updateBusinessSchema } from "../schema/v1/business/update";
 import { BusinessService } from "../services";
 import { GetBusinessPathParams } from "../types/v1/business/get";
@@ -152,9 +155,7 @@ export default class BusinessController extends AuthController {
           code: ERROR_CODES.INVALID_DATA,
         });
       }
-      return reply
-        .status(STATUS_CODES.SUCCESS)
-        .send({ data });
+      return reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error) {
       this.logger.info(error, "error in Post Business");
       return reply.status(STATUS_CODES.SERVER_ERROR).send({
@@ -213,9 +214,7 @@ export default class BusinessController extends AuthController {
       this.logger.error(`Error in getBusiness: ${error.message}`);
       if (
         error.ERROR_CODES === "BUSINESS_NOT_FOUND" ||
-        error.message.includes(
-          "Business with provided ID could not be found.",
-        )
+        error.message.includes("Business with provided ID could not be found.")
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Business"),

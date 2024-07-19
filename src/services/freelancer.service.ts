@@ -28,7 +28,6 @@ export class FreelancerService extends BaseService {
   @Inject(SESService)
   private sesService!: SESService;
 
-
   async deleteFreelancerSkill(freelancer_id: string, skill_id: string) {
     this.logger.info(
       `FreelancerService: deleteFreelancerSkill: Deleting skill for Freelancer ID:${freelancer_id} and Skill ID:${skill_id}`,
@@ -480,16 +479,17 @@ export class FreelancerService extends BaseService {
         "FreelancerService: create freelancer project ",
         freelancer_id,
       );
-  
+
       // Check if freelancer exists
-      const userExist = await this.FreelancerDAO.findFreelancerById(freelancer_id);
+      const userExist =
+        await this.FreelancerDAO.findFreelancerById(freelancer_id);
       if (!userExist) {
         throw new NotFoundError(
           RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
           ERROR_CODES.FREELANCER_NOT_FOUND,
         );
       }
-  
+
       // Create new project entry
       const createdProject = await this.FreelancerDAO.addProjectById(
         freelancer_id,
@@ -497,9 +497,7 @@ export class FreelancerService extends BaseService {
       );
       return createdProject;
     } catch (error: any) {
-      throw new Error(
-        `Failed to create freelancer project: ${error.message}`,
-      );
+      throw new Error(`Failed to create freelancer project: ${error.message}`);
     }
   }
 

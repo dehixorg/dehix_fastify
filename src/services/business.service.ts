@@ -138,10 +138,7 @@ export class BusinessService extends BaseService {
     business_id: string,
     status?: "Active" | "Pending" | "Completed" | "Rejected",
   ) {
-    this.logger.info(
-      "BusinessService: business get projects",
-      business_id,
-    );
+    this.logger.info("BusinessService: business get projects", business_id);
 
     const businessExist = await this.businessDao.findBusinessById(business_id);
     if (!businessExist) {
