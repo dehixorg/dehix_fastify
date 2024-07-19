@@ -15,6 +15,7 @@ import {
   DELETE_BUSINESS_PROJECT_END_POINT,
   GET_ALL_BUSINESS_PROJECT_END_POINT,
   GET_BUSINESS_PROJECT_BY_ID,
+  GET_BUSINESS_SINGLE_PROJECT_BY_ID,
 } from "../constants/business.constant";
 import {
   getBusinessProjectSchema,
@@ -218,6 +219,37 @@ export default class BusinessController extends AuthController {
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Business"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+  @GET(GET_BUSINESS_SINGLE_PROJECT_BY_ID, { schema: getProjectSchema })
+  async getSingleProject(
+    request: FastifyRequest<{ Params: getProjectPathParams }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `BusinessController -> getBusinessSingleProjects -> Fetching business projects for ID: ${request.params.project_id}`,
+      );
+      const data = await this.BusinessService.getSingleProjectById(
+        request.params.project_id,
+      );
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getBusinessSingleProject: ${error.message}`);
+      if (
+        error.ERROR_CODES === "PROJECT_NOT_FOUND" ||
+        error.message.includes("Project by provided ID was not found.")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {

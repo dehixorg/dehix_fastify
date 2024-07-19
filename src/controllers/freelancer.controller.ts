@@ -33,7 +33,6 @@ import {
   FREELANCER_UPDATE_PROJECT_BY_ID,
 } from "../constants/freelancer.constant";
 import {
-  getFreelancerProjectSchema,
   getFreelancerSchema,
 } from "../schema/v1/freelancer/get";
 import { AuthController } from "../common/auth.controller";
