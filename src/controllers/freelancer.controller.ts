@@ -33,6 +33,7 @@ import {
   FREELANCER_UPDATE_PROJECT_BY_ID,
 } from "../constants/freelancer.constant";
 import {
+  getFreelancerProjectSchema,
   getFreelancerSchema,
 } from "../schema/v1/freelancer/get";
 import { AuthController } from "../common/auth.controller";
@@ -121,7 +122,7 @@ export default class FreelancerController extends AuthController {
     }
   }
 
-  @GET(FREELANCER_PROJECT_ID_ENDPOINT, { schema: getFreelancerProjectSchema })
+  @GET(FREELANCER_PROJECT_ID_ENDPOINT, { schema:getFreelancerProjectSchema})
   async getFreelancerProjects(
     request: FastifyRequest<{
       Params: GetFreelancerPathParams;
