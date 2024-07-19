@@ -1,7 +1,15 @@
 /* eslint-disable @typescript-eslint/return-await */
 import { FastifyInstance } from "fastify";
 import { FastifyInstanceToken, Inject, Service } from "fastify-decorators";
-import mongoose, { Model, Document, Types, ClientSession } from "mongoose";
+import mongoose, {
+  Model,
+  Document,
+  Types,
+  ClientSession,
+  FilterQuery,
+  ProjectionType,
+  QueryOptions,
+} from "mongoose";
 import { logger } from "./services/logger.service";
 
 @Service()
@@ -29,9 +37,9 @@ export abstract class BaseDAO {
    */
   async updateById<T extends Document>(
     model: Model<T>,
-    id: any,
+    id: Types.ObjectId | string,
     data: any,
-  ): Promise<any> {
+  ): Promise<T | null> {
     return await model.findByIdAndUpdate(id, data, { new: true }).exec();
   }
 
@@ -44,7 +52,7 @@ export abstract class BaseDAO {
   async delete<T extends Document>(
     model: Model<T>,
     id: Types.ObjectId | string,
-  ): Promise<any> {
+  ): Promise<T | null> {
     logger.info(
       `Deleting in collection ${model.collection.name} for id : ${id}`,
     );
@@ -61,8 +69,8 @@ export abstract class BaseDAO {
   async upsert<T extends Document>(
     model: Model<T>,
     data: any,
-    condition: any,
-  ): Promise<any> {
+    condition: FilterQuery<T>,
+  ): Promise<T | null> {
     return await model
       .findOneAndUpdate(condition, data, { upsert: true, new: true })
       .exec();
@@ -76,7 +84,7 @@ export abstract class BaseDAO {
    */
   async findByIdsAndDateDeletedIsNull<T extends Document>(
     model: Model<T>,
-    ids: any[],
+    ids: (Types.ObjectId | string)[],
   ): Promise<T[]> {
     return model
       .find({
@@ -97,7 +105,7 @@ export abstract class BaseDAO {
     model: Model<T>,
     data: any,
     id: Types.ObjectId | string,
-  ): Promise<any> {
+  ): Promise<T | null> {
     logger.info(
       `BaseDAO -> update :: updating the details on collection ${model.collection.name} with row id = ${id} `,
     );
@@ -129,12 +137,15 @@ export abstract class BaseDAO {
    */
   async findOne<T extends Document>(
     model: Model<T>,
-    condition: { [k: string]: any },
+    condition: FilterQuery<T>,
     attributes?: string[],
   ): Promise<T | null> {
     logger.info(condition);
     const projection = attributes
-      ? attributes.reduce((acc, attr) => ({ ...acc, [attr]: 1 }), {})
+      ? attributes.reduce((acc, attr) => {
+          acc[attr] = 1;
+          return acc;
+        }, {} as ProjectionType<T>)
       : {};
     const result = await model.findOne(condition, projection).exec();
     logger.info(result);
@@ -159,12 +170,15 @@ export abstract class BaseDAO {
    */
   async findAll<T extends Document>(
     model: Model<T>,
-    condition: { [k: string]: any },
+    condition: FilterQuery<T>,
     attributes?: string[],
-    paginationOptions?: { limit: number; offset: number },
+    paginationOptions?: QueryOptions<T>,
   ): Promise<T[]> {
     const projection = attributes
-      ? attributes.reduce((acc, attr) => ({ ...acc, [attr]: 1 }), {})
+      ? attributes.reduce((acc, attr) => {
+          acc[attr] = 1;
+          return acc;
+        }, {} as ProjectionType<T>)
       : {};
     return await model.find(condition, projection, paginationOptions).exec();
   }
@@ -179,7 +193,7 @@ export abstract class BaseDAO {
   async bulkUpdate<T extends Document>(
     model: Model<T>,
     data: any,
-    ids: Types.ObjectId[] | string[],
+    ids: (Types.ObjectId | string)[],
   ): Promise<any> {
     logger.info(
       `BaseDAO -> bulkUpdate :: updating in collection ${model.collection.name} with data = ${data}, ids = ${ids} `,
@@ -195,7 +209,7 @@ export abstract class BaseDAO {
    */
   async bulkDelete<T extends Document>(
     model: Model<T>,
-    ids: Types.ObjectId[] | string[],
+    ids: (Types.ObjectId | string)[],
   ): Promise<any> {
     logger.info(
       `BaseDAO -> bulkDelete :: deleting in collection ${model.collection.name} where ids = ${ids} `,
@@ -211,7 +225,7 @@ export abstract class BaseDAO {
    */
   async bulkDeleteByConditions<T extends Document>(
     model: Model<T>,
-    conditions: any[],
+    conditions: FilterQuery<T>[],
   ): Promise<any> {
     logger.info(
       `BaseDAO -> bulkDeleteByConditions :: deleting in collection ${model.collection.name} by conditions: ${conditions} `,
@@ -243,7 +257,7 @@ export abstract class BaseDAO {
    */
   async softDelete<T extends Document>(
     model: Model<T>,
-    whereCondition: any,
+    whereCondition: FilterQuery<T>,
   ): Promise<any> {
     logger.info(
       `BaseDAO -> softDelete :: soft delete in collection ${model.collection.name}`,
@@ -264,10 +278,10 @@ export abstract class BaseDAO {
   async findAllExcept<T extends Document>(
     model: Model<T>,
     primaryKeyField: string,
-    excludedIds: Types.ObjectId[] | string[],
-    conditions: any,
+    excludedIds: (Types.ObjectId | string)[],
+    conditions: FilterQuery<T>,
   ): Promise<T[]> {
-    const whereCondition = {
+    const whereCondition: FilterQuery<T> = {
       [primaryKeyField]: { $nin: excludedIds },
       ...conditions,
     };

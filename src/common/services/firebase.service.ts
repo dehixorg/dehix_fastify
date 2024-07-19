@@ -19,7 +19,7 @@ class FirebaseClient {
   async init() {
     const dirName = path.dirname(new URL(import.meta.url).pathname);
     const serviceAccountPath = path
-      .join(dirName, `../../../config/firebase-${process.env.NODE_ENV}.json`)
+      .join(dirName, `../../common/config/firebase-dev.json`)
       .replace(/^\\([A-Za-z]:)/, "$1");
     const serviceAccount = JSON.parse(
       fs.readFileSync(serviceAccountPath, "utf8"),
@@ -38,12 +38,14 @@ class FirebaseClient {
   async createUserByEmail(
     emailAddress: string,
     password: string,
+    phoneNumber?: string,
   ): Promise<any> {
     try {
       const userRecord = await this.admin.auth().createUser({
         email: emailAddress,
         password: password,
         emailVerified: true,
+        phoneNumber: phoneNumber,
       });
       const reset_link = await this.sendPasswordResetLink(emailAddress);
       return [userRecord.uid, reset_link];
@@ -125,13 +127,18 @@ class FirebaseClient {
     email: string,
     password: string,
     customClaims: { [key: string]: any },
+    phoneNumber?: string,
   ): Promise<string> {
     try {
       logger.info(
         `FirebaseClient-> createFireBaseUserWithCustomClaims -> creating firebase user:`,
         customClaims,
       );
-      const [userId, _] = await this.createUserByEmail(email, password);
+      const [userId, _] = await this.createUserByEmail(
+        email,
+        password,
+        phoneNumber,
+      );
       await this.setCustomClaims(userId, customClaims);
       return userId;
     } catch (error: any) {

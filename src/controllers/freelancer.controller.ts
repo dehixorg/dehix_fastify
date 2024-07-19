@@ -10,6 +10,7 @@ import {
 import {
   CreateFreelancerEducationBody,
   CreateFreelancerExperienceBody,
+  CreateFreelancerProjectBody,
   GetFreelancerPathParams,
 } from "../types/v1";
 import {
@@ -29,6 +30,7 @@ import {
   FREELANCER_UPDATE_EDUCATION_BY_ID,
   FREELANCER_DELETE_EDUCATION_BY_ID,
   FREELANCER_PROJECT_ID_ENDPOINT,
+  FREELANCER_UPDATE_PROJECT_BY_ID,
 } from "../constants/freelancer.constant";
 import {
   getFreelancerProjectSchema,
@@ -42,6 +44,7 @@ import {
   oracleStatusSchema,
   updateEducationSchema,
   updateFreelancerSchema,
+  updateProjectSchema,
 } from "../schema/v1/freelancer/update";
 import {
   PutFreelancerPathParams,
@@ -53,6 +56,7 @@ import {
   PutFreelancerExperinceBody,
   PutEducationPathParams,
   PutFreelancerEducationBody,
+  PutProjectPathParams,
 } from "../types/v1/freelancer/updateProfile";
 import {
   deleteEducationSchema,
@@ -73,6 +77,7 @@ import { IFreelancer } from "../models/freelancer.entity";
 import {
   createEducationSchema,
   createProfessionalInfoSchema,
+  createProjectSchema,
 } from "../schema/v1/freelancer/create";
 import { GetFreelancerProjectQueryParams } from "src/types/v1/freelancer/getProject";
 
@@ -188,38 +193,6 @@ export default class FreelancerController extends AuthController {
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(`Error in updateFreelancer: ${error.message}`);
-      reply.status(STATUS_CODES.SERVER_ERROR).send({
-        message: RESPONSE_MESSAGE.SERVER_ERROR,
-        code: ERROR_CODES.SERVER_ERROR,
-      });
-    }
-  }
-
-  @DELETE(FREELANCER_PROJECT_DELETE_BY_ID, {
-    schema: deleteFreelancerProjectSchema,
-  })
-  async deleteProjectById(
-    request: FastifyRequest<{ Params: DeleteFreelancerProjectPathParams }>,
-    reply: FastifyReply,
-  ) {
-    try {
-      this.logger.info(
-        `FreelancerController -> deleteProjectById -> Deleting project using: ${request.params}`,
-      );
-      const data = await this.freelancerService.deleteFreelancerProject(
-        request.params.freelancer_id,
-        request.params.project_id,
-      );
-      if (!data) {
-        return reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
-          code: ERROR_CODES.NOT_FOUND,
-        });
-      }
-
-      reply.status(STATUS_CODES.SUCCESS).send({ data });
-    } catch (error: any) {
-      this.logger.error(`Error in deleteProjectById: ${error.message}`);
       reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
@@ -672,6 +645,142 @@ export default class FreelancerController extends AuthController {
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Education"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @POST(FREELANCER_PROJECT_ID_ENDPOINT, { schema: createProjectSchema })
+  async createProject(
+    request: FastifyRequest<{
+      Params: GetFreelancerPathParams;
+      Body: CreateFreelancerProjectBody;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FreelancerController -> createProject -> Create project using ID: ${request.params.freelancer_id}`,
+      );
+
+      const data = await this.freelancerService.createFreelancerProject(
+        request.params.freelancer_id,
+        request.body,
+      );
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in CreateProject: ${error.message}`);
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found.",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @PUT(FREELANCER_UPDATE_PROJECT_BY_ID, { schema: updateProjectSchema })
+  async updateProjectFreelancer(
+    request: FastifyRequest<{
+      Params: PutProjectPathParams;
+      Body: PutFreelancerProjectBody;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FreelancerController -> updateProjectFreelancer-> update project freelancer using ID: ${request.params.freelancer_id}`,
+      );
+
+      const data = await this.freelancerService.putFreelancerProject(
+        request.params.freelancer_id,
+        request.params.project_id,
+        request.body,
+      );
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in project update: ${error.message}`);
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found.",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else if (
+        error.ERROR_CODES === "PROJECT_NOT_FOUND" ||
+        error.message.includes("Freelancer project not found by id")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @DELETE(FREELANCER_PROJECT_DELETE_BY_ID, {
+    schema: deleteFreelancerProjectSchema,
+  })
+  async deleteProjectById(
+    request: FastifyRequest<{ Params: DeleteFreelancerProjectPathParams }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FreelancerController -> deleteProjectById -> Deleting project using ID: ${request.params.freelancer_id}`,
+      );
+
+      const data = await this.freelancerService.deleteFreelancerProject(
+        request.params.freelancer_id,
+        request.params.project_id,
+      );
+
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "Project deleted" });
+    } catch (error: any) {
+      this.logger.error(`Error in deleteProjectFreelancer: ${error.message}`);
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found.",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else if (
+        error.ERROR_CODES === "FREELANCER_PROJECT_NOT_FOUND" ||
+        error.message.includes("Freelancer project not found by id")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {

@@ -3,12 +3,15 @@ import { BaseService } from "../common/base.service";
 import { businessDAO } from "../dao";
 import { IBusiness } from "../models/business.entity";
 import { firebaseClient } from "../common/services";
-import { ConflictError } from "../common/errors";
+import { ConflictError, NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
+import { ProjectDAO } from "../dao/project.dao";
 @Service()
 export class BusinessService extends BaseService {
   @Inject(businessDAO)
   private businessDao!: businessDAO;
+  @Inject(ProjectDAO)
+  private ProjectDAO!: ProjectDAO;
   // @Inject(FreelancerDAO)
   // private FreelancerDAO!: FreelancerDAO;
   async createBusiness(business: IBusiness) {
@@ -19,6 +22,7 @@ export class BusinessService extends BaseService {
           business.email,
           business.password,
           { type: "business" },
+          business.phone,
         );
       business._id = business_id;
 
@@ -127,6 +131,28 @@ export class BusinessService extends BaseService {
         deleting business projects`,
     );
     const data = await this.businessDao.deleteBusinessProject(id);
+    return data;
+  }
+
+  async getBusinessProjectsById(
+    business_id: string,
+    status?: "Active" | "Pending" | "Completed" | "Rejected",
+  ) {
+    this.logger.info("BusinessService: business get projects", business_id);
+
+    const businessExist = await this.businessDao.findBusinessById(business_id);
+    if (!businessExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.BUSINESS_NOT_FOUND,
+        ERROR_CODES.BUSINESS_NOT_FOUND,
+      );
+    }
+
+    const data = await this.ProjectDAO.getBusinessProjectsById(
+      business_id,
+      status,
+    );
+    this.logger.info(data, "in get business projects");
     return data;
   }
 }

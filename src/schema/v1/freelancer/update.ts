@@ -892,3 +892,101 @@ export const updateEducationSchema: FastifySchema = {
     },
   },
 };
+
+export const updateProjectSchema: FastifySchema = {
+  description: "API to update project data",
+  tags: ["Freelancer"],
+  body: {
+    type: "object",
+    properties: {
+      projectName: { type: "string" },
+      description: { type: "string" },
+      verified: { type: "boolean" },
+      githubLink: { type: "string" },
+      start: { type: "string", format: "date-time" },
+      end: { type: "string", format: "date-time" },
+      refer: { type: "string" },
+      techUsed: {
+        type: "array",
+        items: { type: "string" },
+      },
+      role: { type: "string" },
+      projectType: { type: "string" },
+      oracleAssigned: { type: "string" },
+      verificationStatus: {
+        type: "string",
+        enum: ["added", "verified", "rejected", "reapplied"],
+      },
+      verificationUpdateTime: { type: "string", format: "date-time" },
+      comments: { type: "string" },
+    },
+    required: ["projectName", "description"],
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: {
+          type: "object",
+          properties: {
+            email: { type: "string" },
+            projects: {
+              type: "object",
+              properties: {
+                projectName: { type: "string" },
+                description: { type: "string" },
+                verified: { type: "boolean" },
+                githubLink: { type: "string" },
+                start: { type: "string", format: "date-time" },
+                end: { type: "string", format: "date-time" },
+                refer: { type: "string" },
+                techUsed: {
+                  type: "array",
+                  items: { type: "string" },
+                },
+                role: { type: "string" },
+                projectType: { type: "string" },
+                oracleAssigned: { type: "string" },
+                verificationStatus: {
+                  type: "string",
+                  enum: ["added", "verified", "rejected", "reapplied"],
+                },
+                verificationUpdateTime: { type: "string", format: "date-time" },
+                comments: { type: "string" },
+              },
+            },
+          },
+        },
+      },
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};

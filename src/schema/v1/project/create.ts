@@ -8,6 +8,7 @@ export const createProjectSchema: FastifySchema = {
     required: [
       "projectName",
       "description",
+      "companyId",
       "email",
       "companyName",
       "skillsRequired",
@@ -23,6 +24,9 @@ export const createProjectSchema: FastifySchema = {
         type: "string",
       },
       description: {
+        type: "string",
+      },
+      companyId: {
         type: "string",
       },
       email: {
@@ -97,6 +101,7 @@ export const createProjectSchema: FastifySchema = {
       },
       status: {
         type: "string",
+        enum: ["Active", "Pending", "Completed", "Rejected"],
         default: "Pending",
       },
       team: {
@@ -115,6 +120,7 @@ export const createProjectSchema: FastifySchema = {
         data: {
           type: "object",
           properties: {
+            companyId: { type: "string" },
             email: { type: "string" },
           },
         },

@@ -106,7 +106,7 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
     },
     ProjectList: [
       {
-        type: ObjectId,
+        type: String,
         ref: "Project",
       },
     ],
@@ -123,7 +123,7 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
           ref: "Freelancer",
         },
         status: {
-          type: String,
+          type: ObjectId,
           default: "Pending",
         },
       },
