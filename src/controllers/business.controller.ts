@@ -24,8 +24,9 @@ import {
   GET_ALL_BUSINESS_PROJECT_END_POINT,
   GET_PROJECT_BY_EMAIL,
   UPDATE_EMAIL_AND_PHONE,
+  GET_BUSINESS_PROJECT_BY_ID,
 } from "../constants/business.constant";
-import { getBusinessSchema } from "../schema/v1/business/get";
+import { getBusinessProjectSchema, getBusinessSchema } from "../schema/v1/business/get";
 import { updateBusinessEmailAndPhoneSchema, updateBusinessSchema } from "../schema/v1/business/update";
 import { BusinessService } from "../services";
 import { GetBusinessPathParams } from "../types/v1/business/get";
@@ -41,6 +42,7 @@ import { getProjectSchema } from "../schema/v1/project/get";
 import { createProjectSchema } from "../schema/v1/project/create";
 import { deleteProjectSchema } from "../schema/v1/project/delete";
 import { GetProjectPathParams } from "../types/v1/project/get";
+import { GetBusinessProjectQueryParams } from "src/types/v1/business/getProject";
 
 @Controller({ route: BUSINESS_END_POINT })
 export default class BusinessController extends AuthController {
@@ -189,7 +191,7 @@ export default class BusinessController extends AuthController {
       this.logger.info(`BusinessController -> create business project`);
 
       const data = await this.BusinessService.createBusinessProject(
-        request.params.project_id,
+        request.params.business_id,
         request.body,
       );
       if (!data) {
