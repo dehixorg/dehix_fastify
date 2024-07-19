@@ -35,6 +35,7 @@ export const RESPONSE_MESSAGE = {
   PROJECT_NOT_FOUND: "Subscription by provided ID was not found.",
   DRAFT_SUB_NOT_FOUND: "No subscription found for this draft owner",
   FREELANCER_NOT_FOUND: "Freelancer with provided ID could not be found.",
+  BUSINESS_NOT_FOUND: "Business with provided ID could not be found.",
 
   EXPERIENCE_NOT_FOUND: "Freelancer experience  not found by id",
   EDUCATION_NOT_FOUND: "Freelancer education not found by id",
@@ -81,6 +82,7 @@ export const ERROR_CODES = {
   PASSWORDS_DO_NOT_MATCH: "PASSWORDS_DO_NOT_MATCH",
   USER_ALREADY_REGISTERED: "USER_ALREADY_REGISTERED",
   FREELANCER_NOT_FOUND: "FREELANCER_NOT_FOUND",
+  BUSINESS_NOT_FOUND: "BUSINESS_NOT_FOUND",
   EXPERIENCE_NOT_FOUND: "EXPERIENCE_NOT_FOUND",
   EDUCATION_NOT_FOUND: "EDUCATION_NOT_FOUND",
   FREELANCER_PROJECT_NOT_FOUND: "PROJECT_NOT_FOUND",

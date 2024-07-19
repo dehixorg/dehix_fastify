@@ -1,10 +1,12 @@
 export interface getProjectPathParams {
+  business_id: string;
   project_id: string;
 }
 export interface PostBusinessProjectBody {
   _id: string;
   projectName: string;
   description: string;
+  companyId: string;
   email: string;
   verified?: any;
   isVerified?: string;
@@ -23,6 +25,6 @@ export interface PostBusinessProjectBody {
     accepted?: string[];
     status?: string;
   }[];
-  status?: string;
+  status?: "Active" | "Pending" | "Completed" | "Rejected" ;
   team?: string[];
 }

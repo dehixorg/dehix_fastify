@@ -14,8 +14,9 @@ import {
   CREATE_BUSINESS_PROJECT_END_POINT,
   DELETE_BUSINESS_PROJECT_END_POINT,
   GET_ALL_BUSINESS_PROJECT_END_POINT,
+  GET_BUSINESS_PROJECT_BY_ID,
 } from "../constants/business.constant";
-import { getBusinessSchema } from "../schema/v1/business/get";
+import { getBusinessProjectSchema, getBusinessSchema } from "../schema/v1/business/get";
 import { updateBusinessSchema } from "../schema/v1/business/update";
 import { BusinessService } from "../services";
 import { GetBusinessPathParams } from "../types/v1/business/get";
@@ -29,6 +30,7 @@ import { IProject } from "../models/project.entity";
 import { getProjectSchema } from "../schema/v1/project/get";
 import { createProjectSchema } from "../schema/v1/project/create";
 import { deleteProjectSchema } from "../schema/v1/project/delete";
+import { GetBusinessProjectQueryParams } from "src/types/v1/business/getProject";
 
 @Controller({ route: BUSINESS_END_POINT })
 export default class BusinessController extends AuthController {
@@ -141,7 +143,7 @@ export default class BusinessController extends AuthController {
       this.logger.info(`BusinessController -> create business project`);
 
       const data = await this.BusinessService.createBusinessProject(
-        request.params.project_id,
+        request.params.business_id,
         request.body,
       );
       if (!data) {
@@ -152,7 +154,7 @@ export default class BusinessController extends AuthController {
       }
       return reply
         .status(STATUS_CODES.SUCCESS)
-        .send({ message: RESPONSE_MESSAGE.CREATED });
+        .send({ data });
     } catch (error) {
       this.logger.info(error, "error in Post Business");
       return reply.status(STATUS_CODES.SERVER_ERROR).send({
@@ -182,6 +184,49 @@ export default class BusinessController extends AuthController {
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });
+    }
+  }
+
+  @GET(GET_BUSINESS_PROJECT_BY_ID, { schema: getBusinessProjectSchema })
+  async getProjectById(
+    request: FastifyRequest<{
+      Params: GetBusinessPathParams;
+      Querystring: GetBusinessProjectQueryParams;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `BusinessController -> getBusinessProjects -> Fetching business projects for ID: ${request.params.business_id}`,
+      );
+
+      const { business_id } = request.params;
+      const { status } = request.query;
+
+      const data = await this.BusinessService.getBusinessProjectsById(
+        business_id,
+        status,
+      );
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getBusiness: ${error.message}`);
+      if (
+        error.ERROR_CODES === "BUSINESS_NOT_FOUND" ||
+        error.message.includes(
+          "Business with provided ID could not be found.",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Business"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
     }
   }
 }

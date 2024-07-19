@@ -27,4 +27,21 @@ export class ProjectDAO extends BaseDAO {
       throw error;
     }
   }
+
+  async getBusinessProjectsById(
+    business_id: string,
+    status?: "Active" | "Pending" | "Completed" | "Rejected",
+  ) {
+    try {
+      const query = {
+        companyId: { $eq: `${business_id}` },
+        ...(status && { status }),
+      };
+
+      return await this.model.find(query);
+    } catch (error) {
+      console.error("Error fetching business projects:", error);
+      throw error;
+    }
+  }
 }
