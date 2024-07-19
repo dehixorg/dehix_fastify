@@ -300,4 +300,38 @@ export class FreelancerDAO extends BaseDAO {
       { new: true },
     );
   }
+
+  async addProjectById(id: string, update: any) {
+    const projectId = uuidv4();
+    return this.model.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          [`projects.${projectId}`]: { _id: projectId, ...update },
+        },
+      },
+      { new: true, upsert: true },
+    );
+  }  
+
+  async getProjectById(freelancerId: string, project_id: string) {
+    return this.model.findOne(
+      { _id: freelancerId, [`projects.${project_id}`]: { $exists: true } },
+      { [`projects.${project_id}`]: 1 },
+    );
+  }
+
+  async putProjectById(
+    freelancer_id: string,
+    project_id: string,
+    update: any,
+  ) {
+    return this.model.findOneAndUpdate(
+      { _id: freelancer_id, [`projects.${project_id}`]: { $exists: true } },
+      {
+        $set: { [`projects.${project_id}`]: { _id: project_id, ...update } },
+      },
+      { new: true },
+    );
+  }
 }

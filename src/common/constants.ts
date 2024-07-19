@@ -38,6 +38,7 @@ export const RESPONSE_MESSAGE = {
 
   EXPERIENCE_NOT_FOUND: "Freelancer experience  not found by id",
   EDUCATION_NOT_FOUND: "Freelancer education not found by id",
+  FREELANCER_PROJECT_NOT_FOUND: "Freelancer project not found by id",
   DRAFT_NOT_FOUND: "Draft with provided ID could not be found.",
   DRAFT_IS_INCOMPLETE:
     "This draft is incomplete and cannot be submitted for review",
@@ -82,6 +83,7 @@ export const ERROR_CODES = {
   FREELANCER_NOT_FOUND: "FREELANCER_NOT_FOUND",
   EXPERIENCE_NOT_FOUND: "EXPERIENCE_NOT_FOUND",
   EDUCATION_NOT_FOUND: "EDUCATION_NOT_FOUND",
+  FREELANCER_PROJECT_NOT_FOUND: "PROJECT_NOT_FOUND",
   OFFERS_NOT_FOUND: "OFFERS_NOT_FOUND",
   OTP_MISMATCH: "OTP_MISMATCH",
   OTP_EXPIRED: "OTP_EXPIRED",
