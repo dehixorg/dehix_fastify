@@ -41,6 +41,6 @@ export class BusinessMiddleware extends BaseController {
         `${STATUS_CODES.NOT_FOUND}`,
       );
     }
-    request.metadata = { project };
-  };
+    request.metadata={project}
+  }
 }

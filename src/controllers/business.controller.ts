@@ -23,6 +23,7 @@ import {
   DELETE_BUSINESS_PROJECT_END_POINT,
   GET_ALL_BUSINESS_PROJECT_END_POINT,
   GET_PROJECT_BY_EMAIL,
+  GET_PROJECT_BY_ID,
   UPDATE_EMAIL_AND_PHONE,
 } from "../constants/business.constant";
 import { getBusinessSchema } from "../schema/v1/business/get";
@@ -146,7 +147,7 @@ export default class BusinessController extends AuthController {
     }
   }
   @GET(ALL_BUSINESS_END_POINT, { schema: getBusinessSchema })
-  async getAllBusinessData(reply: FastifyReply) {
+  async getAllBusinessData(request:FastifyRequest,reply: FastifyReply) {
     try {
       this.logger.info(
         `BusinessController -> getAllBusiness -> Fetching Business All profile `,
@@ -263,7 +264,7 @@ export default class BusinessController extends AuthController {
       this.logger.error(`error in getProjectByEmail${error}`);
       if (
         error.ERROR_CODES === "PROJECT_NOT_FOUND" ||
-        error.message.include("Project not found by email.")
+        error.message.includes("Project not found by email.")
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
@@ -276,5 +277,32 @@ export default class BusinessController extends AuthController {
         });
       }
     }
+  }
+  @GET(GET_PROJECT_BY_ID,{schema:getProjectSchema})
+  async getProjectById(request:FastifyRequest<{Params:getProjectPathParams}>,reply:FastifyReply){
+try {
+  this.logger.info(
+    `BusinessController -> Getting ProjectBusiness -> Getting Business Project by id `,
+  );
+const data= await this.BusinessService.getProjectById(request.params.project_id)
+reply.status(STATUS_CODES.SUCCESS).send({data})
+
+} catch (error:any)  {
+  this.logger.error(`error in getProjectById${error}`);
+  if (
+    error.ERROR_CODES === "PROJECT_NOT_FOUND" ||
+    error.message.includes("Project not found by id")
+  ) {
+    reply.status(STATUS_CODES.NOT_FOUND).send({
+      message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+      code: ERROR_CODES.NOT_FOUND,
+    });
+  } else {
+    reply.status(STATUS_CODES.SERVER_ERROR).send({
+      message: RESPONSE_MESSAGE.SERVER_ERROR,
+      code: ERROR_CODES.SERVER_ERROR,
+    });
+  }
+}
   }
 }

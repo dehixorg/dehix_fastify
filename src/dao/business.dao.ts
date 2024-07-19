@@ -15,7 +15,7 @@ export class businessDAO extends BaseDAO {
   }
 
   async getBusinessByEmail(email: string) {
-    return this.model.findOne({ email });
+    return this.model.findOne({email:email});
   }
 
   async getBusinessById(id: string) {
@@ -60,6 +60,9 @@ export class businessDAO extends BaseDAO {
   }
   async findBusinessProjectByEmail(email: string) {
     return this.projectmodel.find({ email: email });
+  }
+  async findBusinessProjectById(project_id:string){
+    return this.projectmodel.findById(project_id)
   }
   async updateBusinessProject(id: string, update: any) {
     return this.projectmodel.findByIdAndUpdate(id, update);
@@ -107,6 +110,6 @@ export class businessDAO extends BaseDAO {
     return this.projectmodel.find();
   }
   async updateEmailAndPhone(business_id: string, update: any) {
-    return this.model.findByIdAndUpdate({ _id: business_id }, update);
+    return this.model.findByIdAndUpdate({ _id: business_id }, update,{new:true});
   }
 }

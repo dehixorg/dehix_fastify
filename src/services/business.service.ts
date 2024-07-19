@@ -112,7 +112,7 @@ export class BusinessService extends BaseService {
       `Business Service: 
         Fetching business project by email`,
     );
-    const data = await this.businessDao.getBusinessByEmail(email);
+    const data = await this.businessDao.findBusinessProjectByEmail(email);
     if (!data) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.PROJECT_NOT_FOUND,
@@ -129,7 +129,20 @@ export class BusinessService extends BaseService {
     const data = await this.businessDao.findAllProjects();
     return data;
   }
-
+async getProjectById(project_id:string){
+  this.logger.info(
+    `Business Service: 
+      Fetching  business project by id`,
+  );
+  const data= await this.businessDao.findBusinessProjectById(project_id)
+  if (!data) {
+    throw new NotFoundError(
+      RESPONSE_MESSAGE.PROJECT_NOT_FOUND_BY_ID,
+      ERROR_CODES.PROJECT_NOT_FOUND,
+    );
+  }
+  return data
+}
   async updateBusinessProjectData(id: string, update: any) {
     this.logger.info(
       `Business Service: 
@@ -157,7 +170,10 @@ export class BusinessService extends BaseService {
       );
     }
     let data: any;
-    if (update.email != "") {
+    if (update.email!="" && update.phone!="") {
+      data = await this.businessDao.updateEmailAndPhone(business_id,update);
+    }
+   else if (update.email != "") {
       data = await this.businessDao.updateEmailAndPhone(business_id, {
         email: update.email,
       });
