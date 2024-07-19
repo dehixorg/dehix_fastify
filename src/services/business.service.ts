@@ -133,7 +133,21 @@ export class BusinessService extends BaseService {
     const data = await this.businessDao.deleteBusinessProject(id);
     return data;
   }
+  async getSingleProjectById(project_id: string) {
+    this.logger.info(
+      "BusinessService: business get projects by id",
+      project_id,
+    );
 
+    const data = await this.businessDao.getProjectById(project_id);
+    if (!data) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.PROJECT_NOT_FOUND,
+        ERROR_CODES.BUSINESS_PROJECT_NOT_FOUND,
+      );
+    }
+    return data;
+  }
   async getBusinessProjectsById(
     business_id: string,
     status?: "Active" | "Pending" | "Completed" | "Rejected",

@@ -134,31 +134,6 @@ export class FreelancerService extends BaseService {
     }
   }
 
-  async addFreelancerProject(freelancer_id: string, project: any) {
-    this.logger.info(
-      "FreelancerService: addFreelancerProject: Creating Freelancer Project: ",
-      freelancer_id,
-      project,
-    );
-    const freelancerExist =
-      await this.FreelancerDAO.findFreelancerById(freelancer_id);
-    if (!freelancerExist) {
-      this.logger.error(
-        `FreelancerService: getFreelancerProfile: Freelancer not found with ID: ${freelancer_id} `,
-      );
-      throw new NotFoundError(
-        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
-        ERROR_CODES.FREELANCER_NOT_FOUND,
-      );
-    }
-    const data: any = await this.FreelancerDAO.createProjectById(
-      freelancer_id,
-      project,
-    );
-
-    return data;
-  }
-
   async addFreelancerSkills(freelancer_id: string, skills: string[]) {
     this.logger.info(
       `FreelancerService -> addFreelancerSkills -> Adding skills for freelancer ID: ${freelancer_id}`,

@@ -106,4 +106,7 @@ export class businessDAO extends BaseDAO {
   async findAllProjects() {
     return this.projectmodel.find();
   }
+  async getProjectById(project_id: string) {
+    return this.projectmodel.findById(project_id);
+  }
 }
