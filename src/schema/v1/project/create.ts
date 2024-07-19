@@ -47,7 +47,6 @@ export const createProjectSchema: FastifySchema = {
       },
       end: {
         type: "string",
-       
       },
       skillsRequired: {
         type: "array",

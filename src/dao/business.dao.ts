@@ -19,7 +19,7 @@ export class businessDAO extends BaseDAO {
   }
 
   async getBusinessById(id: string) {
-    return this.model.findOne({_id:id});
+    return this.model.findOne({ _id: id });
   }
   async populateBusiness(business_id: string) {
     return this.model.findById(business_id).populate("ProjectList").populate({

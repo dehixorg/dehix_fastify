@@ -95,16 +95,20 @@ export class BusinessService extends BaseService {
       `Business Service: 
         Creating business Project`,
     );
-   const BusinessExist= await this.businessDao.getBusinessById(business_id);
-   if (!BusinessExist) {
-    throw new NotFoundError(
-      RESPONSE_MESSAGE.BUSINESS_NOT_FOUND,
-      ERROR_CODES.BUSINESS_NOT_FOUND
-    )
-   }
-  const compnaydata=BusinessExist
-    const Project = await this.businessDao.createProjectBusiness({...data,companyName:compnaydata.companyName,companyId:compnaydata._id});
-    const {_id} = Project;
+    const BusinessExist = await this.businessDao.getBusinessById(business_id);
+    if (!BusinessExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.BUSINESS_NOT_FOUND,
+        ERROR_CODES.BUSINESS_NOT_FOUND,
+      );
+    }
+    const compnaydata = BusinessExist;
+    const Project = await this.businessDao.createProjectBusiness({
+      ...data,
+      companyName: compnaydata.companyName,
+      companyId: compnaydata._id,
+    });
+    const { _id } = Project;
     await this.businessDao.addProjectById(business_id, _id);
     return Project;
   }
