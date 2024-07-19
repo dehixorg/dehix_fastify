@@ -38,7 +38,6 @@ import {
 } from "../schema/v1/freelancer/get";
 import { AuthController } from "../common/auth.controller";
 import {
-  addFreelancerProjectSchema,
   experinceInProfessionalInfo,
   interviewsAlignedSchema,
   oracleStatusSchema,
@@ -230,47 +229,6 @@ export default class FreelancerController extends AuthController {
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });
-    }
-  }
-
-  @PUT(FREELANCER_PROJECT_ADD_BY_ID, { schema: addFreelancerProjectSchema })
-  async addProjectById(
-    request: FastifyRequest<{
-      Params: PutFreelancerPathParams;
-      Body: PutFreelancerProjectBody;
-    }>,
-    reply: FastifyReply,
-  ) {
-    try {
-      this.logger.info(
-        `FreelancerController -> addProjectById -> Adding project for freelancer using ID: ${request.params.freelancer_id}`,
-      );
-
-      const data = await this.freelancerService.addFreelancerProject(
-        request.params.freelancer_id,
-        request.body,
-      );
-
-      reply.status(STATUS_CODES.SUCCESS).send({ data });
-    } catch (error: any) {
-      this.logger.error(`Error in addProjectById: ${error.message}`);
-
-      if (
-        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
-        error.message.includes(
-          "Freelancer with provided ID could not be found.",
-        )
-      ) {
-        reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
-          code: ERROR_CODES.NOT_FOUND,
-        });
-      } else {
-        reply.status(STATUS_CODES.SERVER_ERROR).send({
-          message: RESPONSE_MESSAGE.SERVER_ERROR,
-          code: ERROR_CODES.SERVER_ERROR,
-        });
-      }
     }
   }
 

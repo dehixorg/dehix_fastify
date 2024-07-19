@@ -109,20 +109,6 @@ export class FreelancerDAO extends BaseDAO {
     );
   }
 
-  async createProjectById(id: string, project: any) {
-    const projectId = uuidv4();
-    try {
-      const result = await this.model.findByIdAndUpdate(
-        id,
-        { $set: { [`projects.${projectId}`]: { ...project, _id: projectId } } },
-        { new: true, upsert: true },
-      );
-      return result;
-    } catch (error: any) {
-      throw new Error(`Failed to add project to freelancer: ${error.message}`);
-    }
-  }
-
   async createFreelancer(freelancer: IFreelancer) {
     try {
       const createdFreelancer = await this.model.create(freelancer);
