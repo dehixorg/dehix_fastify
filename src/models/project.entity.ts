@@ -98,11 +98,11 @@ const ProjectSchema: Schema<IProject> = new Schema(
     },
     role: {
       type: String,
-      required: true,
+      required: false,
     },
     projectType: {
       type: String,
-      required: true,
+      required: false,
     },
 
     profile: [

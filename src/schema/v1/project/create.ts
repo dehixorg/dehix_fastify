@@ -8,9 +8,7 @@ export const createProjectSchema: FastifySchema = {
     required: [
       "projectName",
       "description",
-      "companyId",
       "email",
-      "companyName",
       "skillsRequired",
       "role",
       "projectType",
