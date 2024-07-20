@@ -27,6 +27,16 @@ export interface IProject extends Document {
   }[];
   status?: "Active" | "Pending" | "Completed" | "Rejected";
   team?: string[];
+  url?: { value: string }[];
+  profile?: {
+    domain: string;
+    freelancersRequired: string;
+    skills: string[];
+    experience: number;
+    minConnect: number;
+    rate: number;
+    description: string;
+  }[];
 }
 
 // Define the Project schema
@@ -52,6 +62,11 @@ const ProjectSchema: Schema<IProject> = new Schema(
       type: String,
       required: true,
     },
+    url: [
+      {
+        value: { type: String },
+      },
+    ],
     verified: {
       type: Schema.Types.Mixed,
       required: false,
@@ -71,6 +86,7 @@ const ProjectSchema: Schema<IProject> = new Schema(
     end: {
       type: Date,
       required: false,
+      default: null,
     },
     skillsRequired: {
       type: [String],
@@ -82,25 +98,24 @@ const ProjectSchema: Schema<IProject> = new Schema(
     },
     role: {
       type: String,
-      required: true,
+      required: false,
     },
     projectType: {
       type: String,
-      required: true,
-    },
-    totalNeedOfFreelancer: {
-      type: [
-        {
-          category: { type: String, required: false },
-          needOfFreelancer: { type: Number, required: false },
-          appliedCandidates: { type: [String], required: false },
-          rejected: { type: [String], required: false },
-          accepted: { type: [String], required: false },
-          status: { type: String, required: false },
-        },
-      ],
       required: false,
     },
+
+    profile: [
+      {
+        domain: { type: String },
+        freelancersRequired: { type: String },
+        skills: { type: [String] },
+        experience: { type: Number },
+        minConnect: { type: Number },
+        rate: { type: Number },
+        description: { type: String },
+      },
+    ],
     status: {
       type: String,
       enum: ["Active", "Pending", "Completed", "Rejected"],
@@ -109,13 +124,12 @@ const ProjectSchema: Schema<IProject> = new Schema(
     team: {
       type: [String],
       required: false,
+      default: [],
     },
   },
   {
     timestamps: true,
     versionKey: false,
-    paranoid: true,
-    underscored: true,
   },
 );
 
