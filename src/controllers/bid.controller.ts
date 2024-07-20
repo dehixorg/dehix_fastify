@@ -26,7 +26,7 @@ import {
   PutBidBody,
   PutBidPathParams,
 } from "../types/v1/bid/updateBid";
-import { updateBidSchema } from "../schema/v1/bid/update";
+import { updateBidSchema, updateBidStatusSchema } from "../schema/v1/bid/update";
 import {
   getBidForBidderIdSchema,
   getBidForProjectIdSchema,
@@ -85,7 +85,7 @@ export default class BidController extends AuthController {
     }
   }
 
-  @PUT(UPDATE_BID_STATUS_BY_ID_ENDPOINT, { schema: updateBidSchema })
+  @PUT(UPDATE_BID_STATUS_BY_ID_ENDPOINT, { schema: updateBidStatusSchema })
   async updateBidStatusById(
     request: FastifyRequest<{
       Params: PutBidPathParams;
@@ -100,16 +100,27 @@ export default class BidController extends AuthController {
 
       const data = await this.bidService.bidStatusUpdate(
         request.params.bid_id,
-        request.body.status,
+        request.body.bid_status,
       );
-
-      reply.status(STATUS_CODES.SUCCESS).send({ data });
+      reply.status(STATUS_CODES.SUCCESS).send({message:"Status Update Sucessfull"});
     } catch (error: any) {
-      this.logger.error(`Error in updateBidStatusById: ${error.message}`);
-      reply.status(STATUS_CODES.SERVER_ERROR).send({
-        message: RESPONSE_MESSAGE.SERVER_ERROR,
-        code: ERROR_CODES.SERVER_ERROR,
-      });
+      this.logger.error(`Error in Update status: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes(
+          "Bid not found",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Bid"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }  else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
     }
   }
 

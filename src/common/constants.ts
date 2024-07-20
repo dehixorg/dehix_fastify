@@ -27,8 +27,7 @@ export const RESPONSE_MESSAGE = {
   EXPIRED_TOKEN: "This token is expired",
   AUTHENTICATION_FAILED: "Failed to authenticate token.",
   SERVER_ERROR: "Internal server Error",
-  TOKEN_VERIFICATION_FAILED:
-    "Something went wrong with the token verification.",
+  TOKEN_VERIFICATION_FAILED: "Something went wrong with the token verification.",
   NOT_FOUND: (entity: string = "User") => `${entity} not found`,
   USER_NOT_FOUND: "User not found",
   USER_EXISTS: "User already exists",
@@ -36,16 +35,15 @@ export const RESPONSE_MESSAGE = {
   DRAFT_SUB_NOT_FOUND: "No subscription found for this draft owner",
   FREELANCER_NOT_FOUND: "Freelancer with provided ID could not be found.",
   BUSINESS_NOT_FOUND: "Business with provided ID could not be found.",
-
-  EXPERIENCE_NOT_FOUND: "Freelancer experience  not found by id",
+  EXPERIENCE_NOT_FOUND: "Freelancer experience not found by id",
   EDUCATION_NOT_FOUND: "Freelancer education not found by id",
-  FREELANCER_PROJECT_NOT_FOUND: "Freelancer project not found by id",
+  PROJECT_NOT_FOUND_EMAIL: "Project not found by email.",
+  PROJECT_NOT_FOUND_BY_ID: "Project not found by id",
+  BID_NOT_FOUND: "Bid not found by id",
   DRAFT_NOT_FOUND: "Draft with provided ID could not be found.",
-  DRAFT_IS_INCOMPLETE:
-    "This draft is incomplete and cannot be submitted for review",
+  DRAFT_IS_INCOMPLETE: "This draft is incomplete and cannot be submitted for review",
   HOTEL_LIMIT_REACHED: "The limit for adding new hotels has been reached",
-  RESTAURANT_LIMIT_REACHED:
-    "The limit for adding new restaurants has been reached",
+  RESTAURANT_LIMIT_REACHED: "The limit for adding new restaurants has been reached",
   ALREADY_UNDER_APPROVAL: "This draft is already under approval process",
   VERIFIED_OWNERS_NOT_ALLOWED: "Verified owners are not allowed to proceed",
   STAFF_REGISTERATION_NOT_ALLOWED: "Staff members are not allowed to proceed",
@@ -78,11 +76,11 @@ export const EMAIL_VERIFICATION_EMAIL_CONSTANTS = {
 };
 
 export const ERROR_CODES = {
-  USER_ALREADY_EXIST: "USER ALREADY EXIST",
+  BUSINESS_NOT_FOUND: "BUSINESS_NOT_FOUND",
+  USER_ALREADY_EXIST: "USER_ALREADY_EXIST",
   PASSWORDS_DO_NOT_MATCH: "PASSWORDS_DO_NOT_MATCH",
   USER_ALREADY_REGISTERED: "USER_ALREADY_REGISTERED",
   FREELANCER_NOT_FOUND: "FREELANCER_NOT_FOUND",
-  BUSINESS_NOT_FOUND: "BUSINESS_NOT_FOUND",
   EXPERIENCE_NOT_FOUND: "EXPERIENCE_NOT_FOUND",
   EDUCATION_NOT_FOUND: "EDUCATION_NOT_FOUND",
   FREELANCER_PROJECT_NOT_FOUND: "PROJECT_NOT_FOUND",
@@ -183,4 +181,5 @@ export const AmenityCategoryMappings = {
   HOTEL: ["ROOM", "BUSINESS", "RECREATIONAL"],
   VENUE: ["EQUIPMENTS", "NONE"],
 };
+
 export const STRIPE_WEBHOOK_ENDPOINT = "v1/stripe-webhook";
