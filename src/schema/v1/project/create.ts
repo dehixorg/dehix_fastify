@@ -47,7 +47,6 @@ export const createProjectSchema: FastifySchema = {
       },
       end: {
         type: "string",
-        format: "date-time",
       },
       skillsRequired: {
         type: "array",
@@ -64,38 +63,34 @@ export const createProjectSchema: FastifySchema = {
       projectType: {
         type: "string",
       },
-      totalNeedOfFreelancer: {
+      url: {
         type: "array",
         items: {
           type: "object",
           properties: {
-            category: {
+            value: {
               type: "string",
             },
-            needOfFreelancer: {
-              type: "integer",
-            },
-            appliedCandidates: {
+          },
+        },
+      },
+      profile: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            domain: { type: "string" },
+            freelancersRequired: { type: "string" },
+            skills: {
               type: "array",
               items: {
                 type: "string",
               },
             },
-            rejected: {
-              type: "array",
-              items: {
-                type: "string",
-              },
-            },
-            accepted: {
-              type: "array",
-              items: {
-                type: "string",
-              },
-            },
-            status: {
-              type: "string",
-            },
+            experience: { type: "integer" },
+            minConnect: { type: "integer" },
+            rate: { type: "integer" },
+            description: { type: "string" },
           },
         },
       },
