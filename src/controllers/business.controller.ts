@@ -126,21 +126,27 @@ export default class BusinessController extends AuthController {
   async getAllProjectBusiness(request: FastifyRequest, reply: FastifyReply) {
     try {
       const { location, jobType, domain, skills } = request.query as {
-        location: string[];
-        jobType: string[];
-        domain: string[];
-        skills: string[];
+        location: string;
+        jobType: string;
+        domain: string;
+        skills: string;
       };
 
+      // Split comma-separated values into arrays
+      const locationArray = location ? location.split(",") : [];
+      const jobTypeArray = jobType ? jobType.split(",") : [];
+      const domainArray = domain ? domain.split(",") : [];
+      const skillsArray = skills ? skills.split(",") : [];
+
       this.logger.info(
-        `BusinessController -> getAllProjectBusiness -> Fetching Business all projects with filters: Location: ${location}, Job Type: ${jobType}, Domain: ${domain}, Skills: ${skills}`
+        `BusinessController -> getAllProjectBusiness -> Fetching Business all projects with filters: Location: ${locationArray}, Job Type: ${jobTypeArray}, Domain: ${domainArray}, Skills: ${skillsArray}`
       );
 
       const data = await this.BusinessService.getAllProjectsData({
-        location,
-        jobType,
-        domain,
-        skills,
+        location: locationArray,
+        jobType: jobTypeArray,
+        domain: domainArray,
+        skills: skillsArray,
       });
 
       return reply.status(STATUS_CODES.SUCCESS).send({ data });

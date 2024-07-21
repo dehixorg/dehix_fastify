@@ -119,7 +119,12 @@ export class BusinessService extends BaseService {
     );
     await this.businessDao.findBusinessProject(id);
   }
-  async getAllProjectsData(filters) {
+  async getAllProjectsData(filters: {
+    location?: string[];
+    jobType?: string[];
+    domain?: string[];
+    skills?: string[];
+  }) {
     const { location, jobType, domain, skills } = filters;
 
     this.logger.info(
