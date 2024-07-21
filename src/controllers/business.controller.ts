@@ -44,15 +44,15 @@ export default class BusinessController extends AuthController {
   @GET(BUSINESS_ID_END_POINT, { schema: getBusinessSchema })
   async getBusiness(
     request: FastifyRequest<{ Params: GetBusinessPathParams }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `BusinessController -> getBusiness -> Fetching Business profile for ID: ${request.params.business_id}`
+        `BusinessController -> getBusiness -> Fetching Business profile for ID: ${request.params.business_id}`,
       );
 
       const data = await this.BusinessService.getBusinessProfile(
-        request.params.business_id
+        request.params.business_id,
       );
 
       if (!data) {
@@ -76,16 +76,16 @@ export default class BusinessController extends AuthController {
       Params: PutBusinessPathParams;
       Body: PutBusinessBody;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `BusinessController -> updateBusiness -> updating Business profile for ID: ${request.params.business_id}`
+        `BusinessController -> updateBusiness -> updating Business profile for ID: ${request.params.business_id}`,
       );
 
       const data = await this.BusinessService.updateBusiness(
         request.params.business_id,
-        request.body
+        request.body,
       );
       if (!data) {
         return reply.status(STATUS_CODES.BAD_REQUEST).send({
@@ -105,7 +105,7 @@ export default class BusinessController extends AuthController {
   async getAllBusinessData(reply: FastifyReply) {
     try {
       this.logger.info(
-        `BusinessController -> getAllBusiness -> Fetching Business All profile `
+        `BusinessController -> getAllBusiness -> Fetching Business All profile `,
       );
       const data = await this.BusinessService.getAllBusinessInfo();
       if (!data) {
@@ -126,21 +126,27 @@ export default class BusinessController extends AuthController {
   async getAllProjectBusiness(request: FastifyRequest, reply: FastifyReply) {
     try {
       const { location, jobType, domain, skills } = request.query as {
-        location: string[];
-        jobType: string[];
-        domain: string[];
-        skills: string[];
+        location: string;
+        jobType: string;
+        domain: string;
+        skills: string;
       };
 
+      // Split comma-separated values into arrays
+      const locationArray = location ? location.split(",") : [];
+      const jobTypeArray = jobType ? jobType.split(",") : [];
+      const domainArray = domain ? domain.split(",") : [];
+      const skillsArray = skills ? skills.split(",") : [];
+
       this.logger.info(
-        `BusinessController -> getAllProjectBusiness -> Fetching Business all projects with filters: Location: ${location}, Job Type: ${jobType}, Domain: ${domain}, Skills: ${skills}`
+        `BusinessController -> getAllProjectBusiness -> Fetching Business all projects with filters: Location: ${locationArray}, Job Type: ${jobTypeArray}, Domain: ${domainArray}, Skills: ${skillsArray}`,
       );
 
       const data = await this.BusinessService.getAllProjectsData({
-        location,
-        jobType,
-        domain,
-        skills,
+        location: locationArray,
+        jobType: jobTypeArray,
+        domain: domainArray,
+        skills: skillsArray,
       });
 
       return reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -155,13 +161,13 @@ export default class BusinessController extends AuthController {
   @POST(CREATE_BUSINESS_PROJECT_END_POINT, { schema: createProjectSchema })
   async createBusinessProject(
     request: FastifyRequest<{ Params: getProjectPathParams; Body: IProject }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(`BusinessController -> create business project`);
       const data = await this.BusinessService.createBusinessProject(
         request.params.business_id,
-        request.body
+        request.body,
       );
       if (!data) {
         return reply.status(STATUS_CODES.NO_CONTENT).send({
@@ -192,15 +198,15 @@ export default class BusinessController extends AuthController {
   @DELETE(DELETE_BUSINESS_PROJECT_END_POINT, { schema: deleteProjectSchema })
   async deleteBusinessProject(
     request: FastifyRequest<{ Params: DeleteProjectPathParams }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `BusinessController -> Delete ProjectBusiness -> Deleting Business All Project `
+        `BusinessController -> Delete ProjectBusiness -> Deleting Business All Project `,
       );
 
       const data = await this.BusinessService.deleteBusinessProject(
-        request.params.project_id
+        request.params.project_id,
       );
       return reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error) {
@@ -218,11 +224,11 @@ export default class BusinessController extends AuthController {
       Params: GetBusinessPathParams;
       Querystring: GetBusinessProjectQueryParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `BusinessController -> getBusinessProjects -> Fetching business projects for ID: ${request.params.business_id}`
+        `BusinessController -> getBusinessProjects -> Fetching business projects for ID: ${request.params.business_id}`,
       );
 
       const { business_id } = request.params;
@@ -230,7 +236,7 @@ export default class BusinessController extends AuthController {
 
       const data = await this.BusinessService.getBusinessProjectsById(
         business_id,
-        status
+        status,
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -255,14 +261,14 @@ export default class BusinessController extends AuthController {
   @GET(GET_BUSINESS_SINGLE_PROJECT_BY_ID, { schema: getProjectSchema })
   async getSingleProject(
     request: FastifyRequest<{ Params: getProjectPathParams }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `BusinessController -> getBusinessSingleProjects -> Fetching business projects for ID: ${request.params.project_id}`
+        `BusinessController -> getBusinessSingleProjects -> Fetching business projects for ID: ${request.params.project_id}`,
       );
       const data = await this.BusinessService.getSingleProjectById(
-        request.params.project_id
+        request.params.project_id,
       );
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
