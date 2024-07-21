@@ -102,11 +102,11 @@ export class BusinessService extends BaseService {
         ERROR_CODES.BUSINESS_NOT_FOUND,
       );
     }
-    const compnaydata = BusinessExist;
+    const companyData = BusinessExist;
     const Project = await this.businessDao.createProjectBusiness({
       ...data,
-      companyName: compnaydata.companyName,
-      companyId: compnaydata._id,
+      companyName: companyData.companyName,
+      companyId: companyData._id,
     });
     const { _id } = Project;
     await this.businessDao.addProjectById(business_id, _id);
