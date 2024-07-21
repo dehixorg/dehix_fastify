@@ -8,5 +8,5 @@ export interface PutBidBody {
 }
 
 export interface BidStatusBody {
-  status: string;
+  bid_status: string;
 }

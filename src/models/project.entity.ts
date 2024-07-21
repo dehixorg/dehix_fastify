@@ -8,35 +8,29 @@ export interface IProject extends Document {
   description: string;
   companyId: string;
   email: string;
+  url?: { value: string }[];
   verified?: any;
   isVerified?: string;
   companyName: string;
   start?: Date;
-  end?: Date;
+  end?: Date | null;
   skillsRequired: string[];
   experience?: string;
-  role: string;
-  projectType: string;
-  totalNeedOfFreelancer?: {
-    category?: string;
-    needOfFreelancer?: number;
-    appliedCandidates?: string[];
-    rejected?: string[];
-    accepted?: string[];
-    status?: string;
+  role?: string;
+  projectType?: string;
+  profiles?: {
+    domain?: string;
+    freelancersRequired?: string;
+    skills?: string[];
+    experience?: number;
+    minConnect?: number;
+    rate?: number;
+    description?: string;
   }[];
   status?: "Active" | "Pending" | "Completed" | "Rejected";
   team?: string[];
-  url?: { value: string }[];
-  profile?: {
-    domain: string;
-    freelancersRequired: string;
-    skills: string[];
-    experience: number;
-    minConnect: number;
-    rate: number;
-    description: string;
-  }[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 // Define the Project schema
@@ -105,7 +99,7 @@ const ProjectSchema: Schema<IProject> = new Schema(
       required: false,
     },
 
-    profile: [
+    profiles: [
       {
         domain: { type: String },
         freelancersRequired: { type: String },

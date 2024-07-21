@@ -2,6 +2,8 @@ import { Service, Inject } from "fastify-decorators";
 import { BaseService } from "../common/base.service";
 import { BidApplyBody } from "../types/v1/bid/bidApplyBody";
 import { BidDAO } from "../dao/bid.dao";
+import { NotFoundError } from "../common/errors";
+import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 
 @Service()
 export class BidService extends BaseService {
@@ -25,7 +27,7 @@ export class BidService extends BaseService {
     return bid;
   }
 
-  async updateBid(bid_id: string, bid) {
+  async updateBid(bid_id: string, bid: any) {
     this.logger.info("BidService: updateBid: Updating Bid: ", bid_id, bid);
 
     const data: any = await this.BidDAO.updateBid({ _id: bid_id }, bid);
@@ -33,15 +35,28 @@ export class BidService extends BaseService {
     return data;
   }
 
-  async bidStatusUpdate(bid_id: string, status: string): Promise<any> {
-    const updateStatus = async (status: string) => {
-      return await this.BidDAO.updateStatus(bid_id, status);
+  async bidStatusUpdate(bid_id: string, bid_status: string): Promise<any> {
+    this.logger.info(
+      "BidService: updateBidStatus: Updating Bid Status: ",
+      bid_id,
+    );
+    const updateStatus = async (bid_status: string) => {
+      return await this.BidDAO.updateStatus(bid_id, bid_status);
     };
-    const data =
-      status === "Accepted"
-        ? await updateStatus("Accepted")
-        : await updateStatus("Rejected");
+    const bidExist = await this.BidDAO.findBidById(bid_id);
+    if (!bidExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Bid"),
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
 
+    const data =
+      bid_status == "Accepted"
+        ? await updateStatus("Accepted")
+        : bid_status == "Rejected"
+          ? await updateStatus("Rejected")
+          : await updateStatus("Pending");
     return data;
   }
 

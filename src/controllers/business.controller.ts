@@ -145,7 +145,6 @@ export default class BusinessController extends AuthController {
   ) {
     try {
       this.logger.info(`BusinessController -> create business project`);
-
       const data = await this.BusinessService.createBusinessProject(
         request.params.business_id,
         request.body,
