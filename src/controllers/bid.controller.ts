@@ -26,7 +26,10 @@ import {
   PutBidBody,
   PutBidPathParams,
 } from "../types/v1/bid/updateBid";
-import { updateBidSchema, updateBidStatusSchema } from "../schema/v1/bid/update";
+import {
+  updateBidSchema,
+  updateBidStatusSchema,
+} from "../schema/v1/bid/update";
 import {
   getBidForBidderIdSchema,
   getBidForProjectIdSchema,
@@ -102,20 +105,20 @@ export default class BidController extends AuthController {
         request.params.bid_id,
         request.body.bid_status,
       );
-      reply.status(STATUS_CODES.SUCCESS).send({message:"Status Update Sucessfull"});
+      reply
+        .status(STATUS_CODES.SUCCESS)
+        .send({ message: "Status Update Sucessfull" });
     } catch (error: any) {
       this.logger.error(`Error in Update status: ${error.message}`);
       if (
         error.ERROR_CODES === "NOT_FOUND" ||
-        error.message.includes(
-          "Bid not found",
-        )
+        error.message.includes("Bid not found")
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Bid"),
           code: ERROR_CODES.NOT_FOUND,
         });
-      }  else {
+      } else {
         reply.status(STATUS_CODES.SERVER_ERROR).send({
           message: RESPONSE_MESSAGE.SERVER_ERROR,
           code: ERROR_CODES.SERVER_ERROR,

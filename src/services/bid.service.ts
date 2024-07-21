@@ -27,7 +27,7 @@ export class BidService extends BaseService {
     return bid;
   }
 
-  async updateBid(bid_id: string, bid:any) {
+  async updateBid(bid_id: string, bid: any) {
     this.logger.info("BidService: updateBid: Updating Bid: ", bid_id, bid);
 
     const data: any = await this.BidDAO.updateBid({ _id: bid_id }, bid);
@@ -36,22 +36,27 @@ export class BidService extends BaseService {
   }
 
   async bidStatusUpdate(bid_id: string, bid_status: string): Promise<any> {
-    this.logger.info("BidService: updateBidStatus: Updating Bid Status: ", bid_id);
-    const updateStatus = async (status: string) => {
+    this.logger.info(
+      "BidService: updateBidStatus: Updating Bid Status: ",
+      bid_id,
+    );
+    const updateStatus = async (bid_status: string) => {
       return await this.BidDAO.updateStatus(bid_id, bid_status);
     };
-    const bidExist=await this.BidDAO.findBidById(bid_id);
+    const bidExist = await this.BidDAO.findBidById(bid_id);
     if (!bidExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.NOT_FOUND("Bid"),
-        ERROR_CODES.NOT_FOUND
-      )
+        ERROR_CODES.NOT_FOUND,
+      );
     }
 
     const data =
       bid_status == "Accepted"
         ? await updateStatus("Accepted")
-        :bid_status=="Rejected"? await updateStatus("Rejected"):await updateStatus("Pending");
+        : bid_status == "Rejected"
+          ? await updateStatus("Rejected")
+          : await updateStatus("Pending");
     return data;
   }
 

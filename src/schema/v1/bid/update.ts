@@ -71,9 +71,6 @@ export const updateBidSchema: FastifySchema = {
   },
 };
 
-
-
-
 export const updateBidStatusSchema: FastifySchema = {
   description: "API for update bidding",
   tags: ["Bid"],
@@ -93,7 +90,6 @@ export const updateBidStatusSchema: FastifySchema = {
       properties: {
         message: {
           type: "string",
-          
         },
       },
     },

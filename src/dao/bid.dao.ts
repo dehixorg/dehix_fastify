@@ -63,7 +63,10 @@ export class BidDAO extends BaseDAO {
     return this.model.findByIdAndDelete(id);
   }
   async updateStatus(bid_id: string, status: any) {
-    return this.model.updateOne({ _id: bid_id }, { $set: { bid_status: status } });
+    return this.model.updateOne(
+      { _id: bid_id },
+      { $set: { bid_status: status } },
+    );
   }
   async findBidByProjectId(project_id: string) {
     return this.model.find({ project_id: project_id });

@@ -27,7 +27,8 @@ export const RESPONSE_MESSAGE = {
   EXPIRED_TOKEN: "This token is expired",
   AUTHENTICATION_FAILED: "Failed to authenticate token.",
   SERVER_ERROR: "Internal server Error",
-  TOKEN_VERIFICATION_FAILED: "Something went wrong with the token verification.",
+  TOKEN_VERIFICATION_FAILED:
+    "Something went wrong with the token verification.",
   NOT_FOUND: (entity: string = "User") => `${entity} not found`,
   USER_NOT_FOUND: "User not found",
   USER_EXISTS: "User already exists",
@@ -41,9 +42,11 @@ export const RESPONSE_MESSAGE = {
   PROJECT_NOT_FOUND_BY_ID: "Project not found by id",
   BID_NOT_FOUND: "Bid not found by id",
   DRAFT_NOT_FOUND: "Draft with provided ID could not be found.",
-  DRAFT_IS_INCOMPLETE: "This draft is incomplete and cannot be submitted for review",
+  DRAFT_IS_INCOMPLETE:
+    "This draft is incomplete and cannot be submitted for review",
   HOTEL_LIMIT_REACHED: "The limit for adding new hotels has been reached",
-  RESTAURANT_LIMIT_REACHED: "The limit for adding new restaurants has been reached",
+  RESTAURANT_LIMIT_REACHED:
+    "The limit for adding new restaurants has been reached",
   ALREADY_UNDER_APPROVAL: "This draft is already under approval process",
   VERIFIED_OWNERS_NOT_ALLOWED: "Verified owners are not allowed to proceed",
   STAFF_REGISTERATION_NOT_ALLOWED: "Staff members are not allowed to proceed",
