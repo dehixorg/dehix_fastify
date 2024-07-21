@@ -30,7 +30,7 @@ export class businessDAO extends BaseDAO {
   async findOneByEmail(email: string) {
     return this.model.findOne(
       { email },
-      "id password firebase_id full_name email is_email_verified owner_id",
+      "id password firebase_id full_name email is_email_verified owner_id"
     );
   }
   async createBusiness(data: any) {
@@ -68,7 +68,7 @@ export class businessDAO extends BaseDAO {
     return this.model.findByIdAndUpdate(
       business_id,
       { $push: { ProjectList: project_id } },
-      { new: true },
+      { new: true }
     );
   }
   async deleteBusinessProject(id: string) {
@@ -85,7 +85,7 @@ export class businessDAO extends BaseDAO {
   async addCandidateByCategory(
     project_id: string,
     category: string,
-    candidate_id: string,
+    candidate_id: string
   ) {
     this.projectmodel.findOneAndUpdate(
       { _id: project_id, "TotalNeedOffreelancer.category": category },
@@ -94,17 +94,44 @@ export class businessDAO extends BaseDAO {
           "TotalNeedOffreelancer.$.appliedCandidates": candidate_id,
         },
       },
-      { new: true },
+      { new: true }
     );
   }
   async updateProjectStatus(project_id: string, category: string) {
     return this.projectmodel.updateOne(
       { _id: project_id, "TotalNeedOffreelancer.category": category },
-      { $set: { "TotalNeedOffreelancer.$.status": "not assigned" } },
+      { $set: { "TotalNeedOffreelancer.$.status": "not assigned" } }
     );
   }
-  async findAllProjects() {
-    return this.projectmodel.find();
+  async findAllProjects(filters: {
+    location?: string[];
+    jobType?: string[];
+    domain?: string[];
+    skills?: string[];
+  }) {
+    const { location, jobType, domain, skills } = filters;
+
+    // Build the query object based on the provided filters
+    const query: any = {};
+
+    if (location && location.length > 0) {
+      query.location = { $in: location };
+    }
+
+    if (jobType && jobType.length > 0) {
+      query.jobType = { $in: jobType };
+    }
+
+    // Handling nested fields in profiles array
+    if (domain && domain.length > 0) {
+      query["profiles.domain"] = { $in: domain };
+    }
+
+    if (skills && skills.length > 0) {
+      query["profiles.skills"] = { $in: skills };
+    }
+
+    return await this.projectmodel.find(query);
   }
   async getProjectById(project_id: string) {
     return this.projectmodel.findById(project_id);
