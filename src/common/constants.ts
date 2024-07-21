@@ -35,7 +35,7 @@ export const RESPONSE_MESSAGE = {
   PROJECT_NOT_FOUND: "Project by provided ID was not found.",
   DRAFT_SUB_NOT_FOUND: "No subscription found for this draft owner",
   FREELANCER_NOT_FOUND: "Freelancer with provided ID could not be found.",
-  FREELANCER_PROJECT_NOT_FOUND:"Freelancer project not found by id",
+  FREELANCER_PROJECT_NOT_FOUND: "Freelancer project not found by id",
   BUSINESS_NOT_FOUND: "Business with provided ID could not be found.",
   EXPERIENCE_NOT_FOUND: "Freelancer experience not found by id",
   EDUCATION_NOT_FOUND: "Freelancer education not found by id",

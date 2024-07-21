@@ -28,13 +28,14 @@ export class FreelancerService extends BaseService {
   @Inject(SESService)
   private sesService!: SESService;
 
-  async getAllFreelancer(){
-    this.logger.info( "FreelancerService: getAllFreelancer")
-    const data= await this.FreelancerDAO.findAllFreelancer()
-    if (!data || data.length===0) {
-      throw new NotFoundError(RESPONSE_MESSAGE.DATA_NOT_FOUND,
-        ERROR_CODES.NOT_FOUND
-      )
+  async getAllFreelancer() {
+    this.logger.info("FreelancerService: getAllFreelancer");
+    const data = await this.FreelancerDAO.findAllFreelancer();
+    if (!data || data.length === 0) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.DATA_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND,
+      );
     }
     return data;
   }
