@@ -1,23 +1,24 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
+import { string } from "zod";
 
 export interface IInterview extends Document {
-  interviewer: string;
-  interviewee: string;
+  interviewer: mongoose.Schema.Types.ObjectId;
+  interviewee: mongoose.Schema.Types.ObjectId;
   skill: string;
   interviewDate: Date;
-  rating: number | string;
+  rating: number ;
   comments?: string;
 }
 
 const InterviewSchema: Schema<IInterview> = new Schema(
   {
     interviewer: {
-      type: String,
+      type: Schema.Types.ObjectId,
       ref: "Freelancer",
       required: true,
     },
     interviewee: {
-      type: String,
+      type: Schema.Types.ObjectId,
       ref: "Freelancer",
       required: true,
     },
@@ -30,8 +31,8 @@ const InterviewSchema: Schema<IInterview> = new Schema(
       required: true,
     },
     rating: {
-      type: Schema.Types.Mixed,
-      default: "pending",
+      type: Number,
+      default: 0,
     },
     comments: {
       type: String,
