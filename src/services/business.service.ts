@@ -22,7 +22,7 @@ export class BusinessService extends BaseService {
           business.email,
           business.password,
           { type: "business" },
-          business.phone,
+          business.phone
         );
       business._id = business_id;
 
@@ -33,18 +33,18 @@ export class BusinessService extends BaseService {
         try {
           await firebaseClient.deleteFireBaseUser(business._id);
           this.logger.info(
-            `Rolled back Firebase user creation for ID: ${business._id}`,
+            `Rolled back Firebase user creation for ID: ${business._id}`
           );
         } catch (rollbackError) {
           this.logger.error(
-            `Error rolling back Firebase user creation: ${rollbackError}`,
+            `Error rolling back Firebase user creation: ${rollbackError}`
           );
         }
       }
       if (error.code === "USER_ALREADY_EXISTS") {
         throw new ConflictError(
           RESPONSE_MESSAGE.USER_EXISTS,
-          ERROR_CODES.USER_ALREADY_EXIST,
+          ERROR_CODES.USER_ALREADY_EXIST
         );
       } else {
         this.logger.error("Error in createBusiness:", error);
@@ -56,7 +56,7 @@ export class BusinessService extends BaseService {
   async updateBusiness(business_id: string, update: any) {
     this.logger.info(
       `Business Service: business id:${business_id}
-        updating business profile`,
+        updating business profile`
     );
 
     const data = await this.businessDao.updateBusinessData(business_id, update);
@@ -66,7 +66,7 @@ export class BusinessService extends BaseService {
   async getAllBusinessInfo() {
     this.logger.info(
       `Business Service: 
-        Fetching all business profile`,
+        Fetching all business profile`
     );
     const data = await this.businessDao.findAllBusiness();
     return data;
@@ -74,7 +74,7 @@ export class BusinessService extends BaseService {
   async getBusinessByEmail(email: string) {
     this.logger.info(
       `Business Service: 
-        Fetching  business profile with Email`,
+        Fetching  business profile with Email`
     );
     const data = await this.businessDao.findOneByEmail(email);
     return data;
@@ -83,7 +83,7 @@ export class BusinessService extends BaseService {
     this.logger.info(
       `Business Service: 
         Fetching  business profile with Id `,
-      id,
+      id
     );
 
     const business: any = await this.businessDao.getById(id);
@@ -93,13 +93,13 @@ export class BusinessService extends BaseService {
   async createBusinessProject(business_id: string, data: any) {
     this.logger.info(
       `Business Service: 
-        Creating business Project`,
+        Creating business Project`
     );
     const BusinessExist = await this.businessDao.getBusinessById(business_id);
     if (!BusinessExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.BUSINESS_NOT_FOUND,
-        ERROR_CODES.BUSINESS_NOT_FOUND,
+        ERROR_CODES.BUSINESS_NOT_FOUND
       );
     }
     const companyData = BusinessExist;
@@ -115,23 +115,31 @@ export class BusinessService extends BaseService {
   async getBusinessProjectById(id: string) {
     this.logger.info(
       `Business Service: 
-        Fetching business project by id`,
+        Fetching business project by id`
     );
     await this.businessDao.findBusinessProject(id);
   }
-  async getAllProjectsData() {
+  async getAllProjectsData(filters) {
+    const { location, jobType, domain, skills } = filters;
+
     this.logger.info(
-      `Business Service: 
-        Fetching all business project`,
+      `Business Service: Fetching all business projects with filters - Location: ${location}, Job Type: ${jobType}, Domain: ${domain}, Skills: ${skills}`
     );
-    const data = await this.businessDao.findAllProjects();
+
+    const data = await this.businessDao.findAllProjects({
+      location,
+      jobType,
+      domain,
+      skills,
+    });
+
     return data;
   }
 
   async updateBusinessProjectData(id: string, update: any) {
     this.logger.info(
       `Business Service: 
-        updating business projects`,
+        updating business projects`
     );
     const data = await this.businessDao.updateBusinessProject(id, update);
     return data;
@@ -139,7 +147,7 @@ export class BusinessService extends BaseService {
   async deleteBusinessProject(id: string) {
     this.logger.info(
       `Business Service: 
-        deleting business projects`,
+        deleting business projects`
     );
     const data = await this.businessDao.deleteBusinessProject(id);
     return data;
@@ -147,21 +155,21 @@ export class BusinessService extends BaseService {
   async getSingleProjectById(project_id: string) {
     this.logger.info(
       "BusinessService: business get projects by id",
-      project_id,
+      project_id
     );
 
     const data = await this.businessDao.getProjectById(project_id);
     if (!data) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.PROJECT_NOT_FOUND,
-        ERROR_CODES.BUSINESS_PROJECT_NOT_FOUND,
+        ERROR_CODES.BUSINESS_PROJECT_NOT_FOUND
       );
     }
     return data;
   }
   async getBusinessProjectsById(
     business_id: string,
-    status?: "Active" | "Pending" | "Completed" | "Rejected",
+    status?: "Active" | "Pending" | "Completed" | "Rejected"
   ) {
     this.logger.info("BusinessService: business get projects", business_id);
 
@@ -169,13 +177,13 @@ export class BusinessService extends BaseService {
     if (!businessExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.BUSINESS_NOT_FOUND,
-        ERROR_CODES.BUSINESS_NOT_FOUND,
+        ERROR_CODES.BUSINESS_NOT_FOUND
       );
     }
 
     const data = await this.ProjectDAO.getBusinessProjectsById(
       business_id,
-      status,
+      status
     );
     this.logger.info(data, "in get business projects");
     return data;
