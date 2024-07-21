@@ -310,7 +310,7 @@ const FreelancerSchema: Schema = new Schema(
     userDataForVerification: [
       { type: String, ref: "Verification", required: false },
     ],
-    interviewsAligned: [{ type:Schema.Types.ObjectId, ref: "Interview", required: false }],
+    interviewsAligned: [{ type:String, ref: "Interview", required: false }],
     interviewee:{
       type:Boolean,
       default:false,

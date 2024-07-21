@@ -112,18 +112,18 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
     ],
     Appliedcandidates: [
       {
-        type: ObjectId,
+        type: String,
         ref: "Applicationforwork",
       },
     ],
     hirefreelancer: [
       {
         freelancer: {
-          type: ObjectId,
+          type: String,
           ref: "Freelancer",
         },
         status: {
-          type: ObjectId,
+          type: String,
           default: "Pending",
         },
       },
