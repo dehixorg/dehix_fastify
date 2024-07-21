@@ -138,7 +138,7 @@ export class FreelancerService extends BaseService {
           ERROR_CODES.USER_ALREADY_EXIST,
         );
       } else {
-        this.logger.error("Error in createBusiness:", error);
+        this.logger.error("Error in createFreelancer:", error);
         throw error; // Pass the error to the parent for proper handling
       }
     }
