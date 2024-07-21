@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
-const { ObjectId } = Schema.Types;
+const { String } = Schema.Types;
 
 export interface IBusiness extends Document {
   _id: string;
@@ -112,18 +112,18 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
     ],
     Appliedcandidates: [
       {
-        type: ObjectId,
+        type: String,
         ref: "Applicationforwork",
       },
     ],
     hirefreelancer: [
       {
         freelancer: {
-          type: ObjectId,
+          type: String,
           ref: "Freelancer",
         },
         status: {
-          type: ObjectId,
+          type: String,
           default: "Pending",
         },
       },

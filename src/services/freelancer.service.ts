@@ -28,6 +28,16 @@ export class FreelancerService extends BaseService {
   @Inject(SESService)
   private sesService!: SESService;
 
+  async getAllFreelancer(){
+    this.logger.info( "FreelancerService: getAllFreelancer")
+    const data= await this.FreelancerDAO.findAllFreelancer()
+    if (!data || data.length===0) {
+      throw new NotFoundError(RESPONSE_MESSAGE.DATA_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND
+      )
+    }
+    return data;
+  }
   async deleteFreelancerSkill(freelancer_id: string, skill_id: string) {
     this.logger.info(
       `FreelancerService: deleteFreelancerSkill: Deleting skill for Freelancer ID:${freelancer_id} and Skill ID:${skill_id}`,

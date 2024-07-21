@@ -1,7 +1,7 @@
 export const FREELANCER_ENDPOINT = "/freelancer";
 export const FREELANCER_CREATE_ENDPOINT = "/create";
 export const FREELANCER_ID_ENDPOINT = "/:freelancer_id";
-
+export const ALL_FREELANCER="/allfreelancer"
 // project endpoint
 export const FREELANCER_PROJECT_ID_ENDPOINT = "/:freelancer_id/project";
 export const FREELANCER_PROJECT_ADD_BY_ID = "/:freelancer_id/project";

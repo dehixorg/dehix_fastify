@@ -31,6 +31,7 @@ import {
   FREELANCER_DELETE_EDUCATION_BY_ID,
   FREELANCER_PROJECT_ID_ENDPOINT,
   FREELANCER_UPDATE_PROJECT_BY_ID,
+  ALL_FREELANCER,
 } from "../constants/freelancer.constant";
 import {
   getFreelancerProjectSchema,
@@ -79,6 +80,7 @@ import {
   createProjectSchema,
 } from "../schema/v1/freelancer/create";
 import { GetFreelancerProjectQueryParams } from "src/types/v1/freelancer/getProject";
+
 
 @Controller({ route: FREELANCER_ENDPOINT })
 export default class FreelancerController extends AuthController {
@@ -748,5 +750,34 @@ export default class FreelancerController extends AuthController {
         });
       }
     }
+  }
+
+  @GET(ALL_FREELANCER,{schema:getFreelancerSchema})
+  async getAllFreelancer(request:FastifyRequest,reply:FastifyReply){
+try {
+  this.logger.info(
+    `FreelancerController -> getAllFreelancer`,
+  );
+  const data= await  this.freelancerService.getAllFreelancer()
+  reply.status(STATUS_CODES.SUCCESS).send({data})
+} catch (error: any) {
+  this.logger.error(`Error in getAllProject: ${error.message}`);
+  if (
+    error.ERROR_CODES === "NOT_FOUND" ||
+    error.message.includes(
+      "Data not found",
+    )
+  ) {
+    reply.status(STATUS_CODES.NOT_FOUND).send({
+      message: RESPONSE_MESSAGE.NOT_FOUND("Freelancers"),
+      code: ERROR_CODES.NOT_FOUND,
+    });
+  } else {
+    reply.status(STATUS_CODES.SERVER_ERROR).send({
+      message: RESPONSE_MESSAGE.SERVER_ERROR,
+      code: ERROR_CODES.SERVER_ERROR,
+    });
+  }
+}
   }
 }
