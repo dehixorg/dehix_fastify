@@ -7,31 +7,22 @@ export const getProjectSchema: FastifySchema = {
     type: "object",
     properties: {
       location: {
-        type: "array",
-        items: {
-          type: "string",
-        },
+        type: "string",
+        description: "Comma-separated list of locations",
       },
       jobType: {
-        type: "array",
-        items: {
-          type: "string",
-        },
+        type: "string",
+        description: "Comma-separated list of job types",
       },
       domain: {
-        type: "array",
-        items: {
-          type: "string",
-        },
+        type: "string",
+        description: "Comma-separated list of domains",
       },
       skills: {
-        type: "array",
-        items: {
-          type: "string",
-        },
+        type: "string",
+        description: "Comma-separated list of skills",
       },
     },
-
   },
   response: {
     404: {
