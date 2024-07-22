@@ -10,6 +10,28 @@ import { FastifySchema } from "fastify";
 export const getFreelancerSchema: FastifySchema = {
   description: "API to get FREELANCER profile data",
   tags: ["Freelancer"],
+  querystring: {
+    type: "object",
+    properties: {
+      experience: {
+        type: "string",
+        description: "Comma-separated list of experience",
+      },
+      jobType: {
+        type: "string",
+        description: "Comma-separated list of job types",
+      },
+      domain: {
+        type: "string",
+        description: "Comma-separated list of domains",
+      },
+      skills: {
+        type: "string",
+        description: "Comma-separated list of skills",
+      },
+    },
+    required: [],
+  },
   response: {
     404: {
       type: "object",

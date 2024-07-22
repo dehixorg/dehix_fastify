@@ -28,15 +28,25 @@ export class FreelancerService extends BaseService {
   @Inject(SESService)
   private sesService!: SESService;
 
-  async getAllFreelancer() {
-    this.logger.info("FreelancerService: getAllFreelancer");
-    const data = await this.FreelancerDAO.findAllFreelancer();
-    if (!data || data.length === 0) {
-      throw new NotFoundError(
-        RESPONSE_MESSAGE.DATA_NOT_FOUND,
-        ERROR_CODES.NOT_FOUND,
-      );
-    }
+  async getAllFreelancer(filters: {
+    experience?: string[];
+    jobType?: string[];
+    domain?: string[];
+    skills?: string[];
+  }) {
+    const { experience, jobType, domain, skills } = filters;
+
+    this.logger.info(
+      `FreelancerService: Fetching all freelancers with filters - Experience: ${experience}, Job Type: ${jobType}, Domain: ${domain}, Skills: ${skills}`,
+    );
+
+    const data = await this.FreelancerDAO.findAllFreelancers({
+      experience,
+      jobType,
+      domain,
+      skills,
+    });
+
     return data;
   }
   async deleteFreelancerSkill(freelancer_id: string, skill_id: string) {
