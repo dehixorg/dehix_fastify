@@ -754,11 +754,33 @@ export default class FreelancerController extends AuthController {
   @GET(ALL_FREELANCER, { schema: getFreelancerSchema })
   async getAllFreelancer(request: FastifyRequest, reply: FastifyReply) {
     try {
-      this.logger.info(`FreelancerController -> getAllFreelancer`);
-      const data = await this.freelancerService.getAllFreelancer();
+      const { experience, jobType, domain, skills } = request.query as {
+        experience: string;
+        jobType: string;
+        domain: string;
+        skills: string;
+      };
+
+      // Split comma-separated values into arrays
+      const experienceArray = experience ? experience.split(",") : [];
+      const jobTypeArray = jobType ? jobType.split(",") : [];
+      const domainArray = domain ? domain.split(",") : [];
+      const skillsArray = skills ? skills.split(",") : [];
+
+      this.logger.info(
+        `FreelancerController -> getAllFreelancer -> Fetching freelancers with filters: Experiance: ${experienceArray}, Job Type: ${jobTypeArray}, Domain: ${domainArray}, Skills: ${skillsArray}`,
+      );
+
+      const data = await this.freelancerService.getAllFreelancer({
+        experience: experienceArray,
+        jobType: jobTypeArray,
+        domain: domainArray,
+        skills: skillsArray,
+      });
+
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
-      this.logger.error(`Error in getAllProject: ${error.message}`);
+      this.logger.error(`Error in getAllFreelancer: ${error.message}`);
       if (
         error.ERROR_CODES === "NOT_FOUND" ||
         error.message.includes("Data not found")
