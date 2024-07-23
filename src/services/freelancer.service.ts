@@ -28,6 +28,27 @@ export class FreelancerService extends BaseService {
   @Inject(SESService)
   private sesService!: SESService;
 
+  async getAllFreelancer(filters: {
+    experience?: string[];
+    jobType?: string[];
+    domain?: string[];
+    skills?: string[];
+  }) {
+    const { experience, jobType, domain, skills } = filters;
+
+    this.logger.info(
+      `FreelancerService: Fetching all freelancers with filters - Experience: ${experience}, Job Type: ${jobType}, Domain: ${domain}, Skills: ${skills}`,
+    );
+
+    const data = await this.FreelancerDAO.findAllFreelancers({
+      experience,
+      jobType,
+      domain,
+      skills,
+    });
+
+    return data;
+  }
   async deleteFreelancerSkill(freelancer_id: string, skill_id: string) {
     this.logger.info(
       `FreelancerService: deleteFreelancerSkill: Deleting skill for Freelancer ID:${freelancer_id} and Skill ID:${skill_id}`,
@@ -128,7 +149,7 @@ export class FreelancerService extends BaseService {
           ERROR_CODES.USER_ALREADY_EXIST,
         );
       } else {
-        this.logger.error("Error in createBusiness:", error);
+        this.logger.error("Error in createFreelancer:", error);
         throw error; // Pass the error to the parent for proper handling
       }
     }

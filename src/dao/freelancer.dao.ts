@@ -54,8 +54,35 @@ export class FreelancerDAO extends BaseDAO {
   async updateFreelancerData(id: string, update: any) {
     return this.model.findByIdAndUpdate({ _id: id }, update);
   }
-  async findAllFreelancer() {
-    return this.model.find();
+  async findAllFreelancers(filters: {
+    experience?: string[];
+    jobType?: string[];
+    domain?: string[];
+    skills?: string[];
+  }) {
+    const { experience, jobType, domain, skills } = filters;
+
+    // Build the query object based on the provided filters
+    const query: any = {};
+
+    if (experience && experience.length > 0) {
+      query.workExperience = { $in: experience };
+    }
+
+    if (jobType && jobType.length > 0) {
+      query.jobType = { $in: jobType };
+    }
+
+    // Handling nested fields in profiles array
+    if (domain && domain.length > 0) {
+      query["domain"] = { $in: domain };
+    }
+
+    if (skills && skills.length > 0) {
+      query["skills.name"] = { $in: skills };
+    }
+
+    return await this.model.find(query);
   }
 
   async addFreelancerSkill(id: string, skills: any) {

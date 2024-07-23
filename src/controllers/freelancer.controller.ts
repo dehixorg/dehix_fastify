@@ -31,6 +31,7 @@ import {
   FREELANCER_DELETE_EDUCATION_BY_ID,
   FREELANCER_PROJECT_ID_ENDPOINT,
   FREELANCER_UPDATE_PROJECT_BY_ID,
+  ALL_FREELANCER,
 } from "../constants/freelancer.constant";
 import {
   getFreelancerProjectSchema,
@@ -739,6 +740,53 @@ export default class FreelancerController extends AuthController {
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @GET(ALL_FREELANCER, { schema: getFreelancerSchema })
+  async getAllFreelancer(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      const { experience, jobType, domain, skills } = request.query as {
+        experience: string;
+        jobType: string;
+        domain: string;
+        skills: string;
+      };
+
+      // Split comma-separated values into arrays
+      const experienceArray = experience ? experience.split(",") : [];
+      const jobTypeArray = jobType ? jobType.split(",") : [];
+      const domainArray = domain ? domain.split(",") : [];
+      const skillsArray = skills ? skills.split(",") : [];
+
+      this.logger.info(
+        `FreelancerController -> getAllFreelancer -> Fetching freelancers with filters: Experiance: ${experienceArray}, Job Type: ${jobTypeArray}, Domain: ${domainArray}, Skills: ${skillsArray}`,
+      );
+
+      const data = await this.freelancerService.getAllFreelancer({
+        experience: experienceArray,
+        jobType: jobTypeArray,
+        domain: domainArray,
+        skills: skillsArray,
+      });
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getAllFreelancer: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Data not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancers"),
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {

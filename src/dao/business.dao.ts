@@ -103,8 +103,35 @@ export class businessDAO extends BaseDAO {
       { $set: { "TotalNeedOffreelancer.$.status": "not assigned" } },
     );
   }
-  async findAllProjects() {
-    return this.projectmodel.find();
+  async findAllProjects(filters: {
+    location?: string[];
+    jobType?: string[];
+    domain?: string[];
+    skills?: string[];
+  }) {
+    const { location, jobType, domain, skills } = filters;
+
+    // Build the query object based on the provided filters
+    const query: any = {};
+
+    if (location && location.length > 0) {
+      query.location = { $in: location };
+    }
+
+    if (jobType && jobType.length > 0) {
+      query.jobType = { $in: jobType };
+    }
+
+    // Handling nested fields in profiles array
+    if (domain && domain.length > 0) {
+      query["profiles.domain"] = { $in: domain };
+    }
+
+    if (skills && skills.length > 0) {
+      query.skillsRequired = { $in: skills };
+    }
+
+    return await this.projectmodel.find(query);
   }
   async getProjectById(project_id: string) {
     return this.projectmodel.findById(project_id);

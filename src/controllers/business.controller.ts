@@ -125,13 +125,33 @@ export default class BusinessController extends AuthController {
   @GET(GET_ALL_BUSINESS_PROJECT_END_POINT, { schema: getProjectSchema })
   async getAllProjectBusiness(request: FastifyRequest, reply: FastifyReply) {
     try {
+      const { location, jobType, domain, skills } = request.query as {
+        location: string;
+        jobType: string;
+        domain: string;
+        skills: string;
+      };
+
+      // Split comma-separated values into arrays
+      const locationArray = location ? location.split(",") : [];
+      const jobTypeArray = jobType ? jobType.split(",") : [];
+      const domainArray = domain ? domain.split(",") : [];
+      const skillsArray = skills ? skills.split(",") : [];
+
       this.logger.info(
-        `BusinessController -> getAllProjectBusiness -> Fetching Business all project `,
+        `BusinessController -> getAllProjectBusiness -> Fetching Business all projects with filters: Location: ${locationArray}, Job Type: ${jobTypeArray}, Domain: ${domainArray}, Skills: ${skillsArray}`,
       );
-      const data = await this.BusinessService.getAllProjectsData();
+
+      const data = await this.BusinessService.getAllProjectsData({
+        location: locationArray,
+        jobType: jobTypeArray,
+        domain: domainArray,
+        skills: skillsArray,
+      });
+
       return reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error) {
-      this.logger.info(error, "error in getAllProjectBusiness");
+      this.logger.error(error, "error in getAllProjectBusiness");
       return reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
