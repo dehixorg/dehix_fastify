@@ -74,4 +74,15 @@ export class InterviewService extends BaseService {
     }
     return data
   }
+  async getInterviewWithInterviewerId(interviewer_id:string){
+    this.logger.info("service->interview.service->getInterviewWithInterviewerId");
+    const data= await this.interviewDao.getInterviewByInterviewerId(interviewer_id);
+    if (!data) {
+      throw new NotFoundError(
+          RESPONSE_MESSAGE.INTERVIEW_NOT_FOUND,
+          ERROR_CODES.NOT_FOUND
+      )
+  }
+  return data
+  }
 }

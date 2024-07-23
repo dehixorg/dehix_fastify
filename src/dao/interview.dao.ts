@@ -26,4 +26,7 @@ return this.model.findOneAndUpdate({_id:interview_id},update);
 async getInterviewByRating(rating:Number){
 return this.model.find({rating:rating})
 }
+async getInterviewByInterviewerId(interviwer_id:string){
+    return this.model.find({interviewer:interviwer_id})
+}
 }

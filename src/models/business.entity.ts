@@ -8,7 +8,6 @@ export interface IBusiness extends Document {
   lastName: string;
   companyName: string;
   companySize: string;
-  password: string;
   email: string;
   phone: string;
   position?: string;
@@ -48,10 +47,6 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
       required: true,
     },
     companySize: {
-      type: String,
-      required: true,
-    },
-    password: {
       type: String,
       required: true,
     },
