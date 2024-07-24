@@ -2,8 +2,8 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 import { string } from "zod";
 
 export interface IInterview extends Document {
-  interviewer: mongoose.Schema.Types.ObjectId;
-  interviewee: mongoose.Schema.Types.ObjectId;
+  interviewer: string;
+  interviewee: string;
   skill: string;
   interviewDate: Date;
   rating: number ;

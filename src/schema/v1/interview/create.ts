@@ -3,14 +3,20 @@ import { FastifySchema } from "fastify";
 export const createInterviewSchema: FastifySchema = {
   description: "API to create interview data",
   tags: ["Interview"],
-  body: {
+  params: {
     type: "object",
-    required: ["interviewer", "interviewee", "skill", "interviewDate"],
+    required: ["interviewee_id"],
     properties: {
-      interviewer: {
+      interviewee: {
         type: "string",
       },
-      interviewee: {
+    },
+  },
+  body: {
+    type: "object",
+    required: ["interviewer", "skill", "interviewDate"],
+    properties: {
+      interviewer: {
         type: "string",
       },
       skill: {

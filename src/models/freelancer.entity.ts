@@ -18,6 +18,7 @@ export interface IFreelancer extends Document {
   firstName: string;
   lastName: string;
   userName: string;
+  password: string;
   email: string;
   phone: string;
   dob?: Date;
@@ -133,6 +134,10 @@ const FreelancerSchema: Schema = new Schema(
       type: String,
       required: true,
       unique: true,
+    },
+    password: {
+      type: String,
+      required: false,
     },
     email: {
       type: String,

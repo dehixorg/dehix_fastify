@@ -8,10 +8,10 @@ export const updateInterviewSchema: FastifySchema = {
     properties: {
       id: {
         type: "string",
-        description: "Interview ID",
+        description: "interview_id",
       },
     },
-    required: ["id"],
+    required: ["interview_id"],
   },
   body: {
     type: "object",
