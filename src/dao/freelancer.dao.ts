@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from "uuid";
 import ApplicationForWorkModel, {
   IApplicationForWork,
 } from "../models/applyforwork.entity";
-import { string } from "zod";
 
 @Service()
 export class FreelancerDAO extends BaseDAO {
@@ -344,19 +343,15 @@ export class FreelancerDAO extends BaseDAO {
       { new: true },
     );
   }
-  async interviewStatusUpdate(id:string,update:string){
-return this.model.findByIdAndUpdate(id,{interviewee:update})
+  async interviewStatusUpdate(id: string, update: string) {
+    return this.model.findByIdAndUpdate(id, { interviewee: update });
   }
-  async getInterviewer(id:string){
+  async getInterviewer(id: string) {
     return this.model.aggregate([
       {
-        $match:{_id:{$ne:id},
-        workExperience:{$gte:3}
+        $match: { _id: { $ne: id }, workExperience: { $gte: 3 } },
       },
-      
-      },
-      { $sample:{size:1}}
-
-    ])
+      { $sample: { size: 1 } },
+    ]);
   }
 }

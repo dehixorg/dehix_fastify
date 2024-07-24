@@ -1,12 +1,11 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
-import { string } from "zod";
 
 export interface IInterview extends Document {
   interviewer: string;
   interviewee: string;
   skill: string;
   interviewDate: Date;
-  rating: number ;
+  rating: number;
   comments?: string;
 }
 
