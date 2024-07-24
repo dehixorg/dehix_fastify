@@ -5,7 +5,7 @@ export const createInterviewSchema: FastifySchema = {
   tags: ["Interview"],
   params: {
     type: "object",
-    required: ["interviewee_id"],
+    required: ["interviewee"],
     properties: {
       interviewee: {
         type: "string",

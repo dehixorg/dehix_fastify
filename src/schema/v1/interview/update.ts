@@ -6,7 +6,7 @@ export const updateInterviewSchema: FastifySchema = {
   params: {
     type: "object",
     properties: {
-      id: {
+      interview_id: {
         type: "string",
         description: "interview_id",
       },
@@ -16,12 +16,6 @@ export const updateInterviewSchema: FastifySchema = {
   body: {
     type: "object",
     properties: {
-      interviewer: {
-        type: "string",
-      },
-      interviewee: {
-        type: "string",
-      },
       skill: {
         type: "string",
       },

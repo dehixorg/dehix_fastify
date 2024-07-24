@@ -3,17 +3,17 @@ import { FastifySchema } from "fastify";
 export const getInterviewSchema: FastifySchema = {
   description: "API to get interview data",
   tags: ["Interview"],
-  querystring: {
-    type: "object",
-    properties: {
-      interviewer: { type: "string" },
-      interviewee: { type: "string" },
-      skill: { type: "string" },
-      interviewDate: { type: "string", format: "date-time" },
-      rating: { type: "number" },
-      comments: { type: "string" },
-    },
-  },
+  // querystring: {
+  //   type: "object",
+  //   properties: {
+  //     interviewer: { type: "string" },
+  //     interviewee: { type: "string" },
+  //     skill: { type: "string" },
+  //     interviewDate: { type: "string", format: "date-time" },
+  //     rating: { type: "number" },
+  //     comments: { type: "string" },
+  //   },
+  // },
   response: {
     200: {
       description: "Success",

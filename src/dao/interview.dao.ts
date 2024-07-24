@@ -17,11 +17,11 @@ async createInterview(data:string){
 async getInterviewById(id:string){
     return this.model.findById(id);
 }
-async getAllInterview(){
+async getAllInterviews(){
     return this.model.find();
 }
 async updateInterviewById(interview_id:string,update:any){
-return this.model.findOneAndUpdate({_id:interview_id},update);
+return this.model.findOneAndUpdate({_id:interview_id},update,{new:true});
 }
 async getInterviewByRating(rating:Number){
 return this.model.find({rating:rating})

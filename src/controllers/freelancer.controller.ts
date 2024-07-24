@@ -79,7 +79,7 @@ import {
   createProfessionalInfoSchema,
   createProjectSchema,
 } from "../schema/v1/freelancer/create";
-import { GetFreelancerProjectQueryParams } from "src/types/v1/freelancer/getProject";
+import { GetFreelancerProjectQueryParams } from "../types/v1/freelancer/getProject";
 
 @Controller({ route: FREELANCER_ENDPOINT })
 export default class FreelancerController extends AuthController {

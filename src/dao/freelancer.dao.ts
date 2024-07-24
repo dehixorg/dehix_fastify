@@ -347,10 +347,10 @@ export class FreelancerDAO extends BaseDAO {
   async interviewStatusUpdate(id:string,update:string){
 return this.model.findByIdAndUpdate(id,{interviewee:update})
   }
-  async getInterviewee(id:string){
+  async getInterviewer(id:string){
     return this.model.aggregate([
       {
-        $match:{interviewee:true, _id:{$ne:id},
+        $match:{_id:{$ne:id},
         workExperience:{$gte:3}
       },
       

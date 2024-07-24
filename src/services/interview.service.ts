@@ -24,7 +24,7 @@ export class InterviewService extends BaseService {
       );
     }
 
-    const findFreelancer = await this.freelancerDao.getInterviewee(interviewee_id);
+    const findFreelancer = await this.freelancerDao.getInterviewer(interviewee_id);
     if (!findFreelancer || findFreelancer.length === 0) {
       throw new NotFoundError(RESPONSE_MESSAGE.DATA_NOT_FOUND, ERROR_CODES.NOT_FOUND);
     }
@@ -47,6 +47,7 @@ export class InterviewService extends BaseService {
     this.logger.info("service->interview.service->updateInterview");
 
     const interviewExist = await this.interviewDao.getInterviewById(interview_id);
+    this.logger.info(interviewExist,"ksjdujdcnbfe","kdmdjwnd")
     if (!interviewExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.INTERVIEW_NOT_FOUND,
@@ -60,7 +61,7 @@ export class InterviewService extends BaseService {
 
   async getAllInterview(){
     this.logger.info("service->interview.service->getAllInterview");
-    const data= await this.getAllInterview();
+    const data= await this.interviewDao.getAllInterviews();
     return data;
   }
   async getSingleInterview(interview_id:string){
