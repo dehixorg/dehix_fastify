@@ -189,3 +189,51 @@ export const deleteEducationSchema: FastifySchema = {
     },
   },
 };
+
+export const deleteFreelancerDomainSchema: FastifySchema = {
+  description: "API to delete a domain of a freelancer",
+  tags: ["Freelancer"],
+  params: {
+    type: "object",
+    properties: {
+      freelancer_id: {
+        type: "string",
+        description: "The ID of the freelancer",
+      },
+      domain_id: {
+        type: "string",
+        description: "The ID of the domain to be deleted",
+      },
+    },
+    required: ["freelancer_id", "domain_id"],
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: { type: "object" },
+      },
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+        code: {
+          type: "string",
+        },
+      },
+    },
+  },
+};

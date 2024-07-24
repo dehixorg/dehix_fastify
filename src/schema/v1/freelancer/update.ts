@@ -378,26 +378,43 @@ export const addFreelancerSkillsSchema: FastifySchema = {
   },
 };
 
-export const createDomainSchema: FastifySchema = {
-  description: "API to create business data",
-  tags: ["Business"],
+export const addFreelancerDomainSchema: FastifySchema = {
+  description: "API to add domain to a freelancer",
+  tags: ["Freelancer"],
   body: {
     type: "object",
     properties: {
-      _id: {
-        type: "string",
-        format: "uuid",
-      },
-      name: {
-        type: "string",
-      },
-      description: {
-        type: "string",
+      domain: {
+        type: "array",
+        description: "An array of domain to be added",
+        items: {
+          type: "object",
+          properties: {
+            name: { type: "string" },
+            level: { type: "string" },
+            category: { type: "string" },
+            subCategory: { type: "string" },
+            experience: { type: "string" },
+          }
+        },
+        minItems: 1,
       },
     },
-    required: ["name"],
+    required: ["domain"],
+    additionalProperties: false,
   },
-
+  params: {
+    type: "object",
+    properties: {
+      freelancer_id: {
+        type: "string",
+        description:
+          "The ID of the freelancer to whom the domain are being added",
+      },
+    },
+    required: ["freelancer_id"],
+    additionalProperties: false,
+  },
   response: {
     200: {
       description: "Success",
@@ -406,7 +423,20 @@ export const createDomainSchema: FastifySchema = {
         data: {
           type: "object",
           properties: {
-            email: { type: "string" },
+            freelancer_id: { type: "string" },
+            domain: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  name: { type: "string" },
+                  level: { type: "string" },
+                  category: { type: "string" },
+                  subCategory: { type: "string" },
+                  experience: { type: "string" },
+                },
+              },
+            },
           },
         },
       },

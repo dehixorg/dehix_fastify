@@ -12,6 +12,14 @@ export interface ISkill extends Document {
   interviewInfo?: string;
   interviewerRating?: number;
 }
+export interface IDomain extends Document {
+  _id: string;
+  name: string;
+  level: string;
+  category: string;
+  subCategory: string;
+  experience: string;
+}
 
 export interface IFreelancer extends Document {
   _id?: string;
@@ -41,6 +49,7 @@ export interface IFreelancer extends Document {
     }
   >;
   skills?: ISkill[];
+  domain?: IDomain[];
   education?: Map<
     string,
     {
@@ -204,6 +213,20 @@ const FreelancerSchema: Schema = new Schema(
           required: false,
         },
         interviewerRating: { type: Number, required: false },
+      },
+    ],
+    domain: [
+      {
+        _id: {
+          type: String,
+          default: uuidv4,
+          required: true,
+        },
+        name: { type: String, required: false },
+        level: { type: String, required: false },
+        category: { type: String, required: false, },    
+        subCategory: { type: String, required: false, },    
+        experience: { type: String, required: false },
       },
     ],
     education: {
