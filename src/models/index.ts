@@ -5,6 +5,7 @@ import { ProjectModel, IProject } from "./project.entity";
 import { BidModel, IBid } from "./bid.entity";
 import { InterviewModel, IInterview } from "./interview.entity";
 import { SkillModel, ISkill } from "./skill.entity";
+import { HireModel, IHire } from "./hireDehixTalent";
 
 export interface DBModels {
   FreelancerModel?: Model<IFreelancer>;
@@ -13,6 +14,7 @@ export interface DBModels {
   BidModel?: Model<IBid>;
   InterviewModel?: Model<IInterview>;
   SkillModel?: Model<ISkill>;
+  HireModel?: Model<IHire>;
 }
 
 const models: DBModels = {
@@ -22,6 +24,7 @@ const models: DBModels = {
   BidModel,
   InterviewModel,
   SkillModel,
+  HireModel,
 };
 
 export default models;
