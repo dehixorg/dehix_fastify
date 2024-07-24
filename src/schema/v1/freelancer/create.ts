@@ -59,6 +59,27 @@ export const createFreelancerSchema: FastifySchema = {
           ],
         },
       },
+      domin: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            name: { type: "string" },
+            level: { type: "string" },
+            category: { type: "string" },
+            subCategory: { type: "string" },
+            experience: { type: "string" },
+          },
+          required: [
+            "name",
+            "level",
+            "experience",
+            "interviewStatus",
+            "interviewInfo",
+            "interviewerRating",
+          ],
+        },
+      },
       education: {
         type: "object",
         properties: {
@@ -201,6 +222,7 @@ export const createFreelancerSchema: FastifySchema = {
       "phone",
       "dob",
       "skills",
+      "domain",
       "role",
       "refer",
       "githubLink",
