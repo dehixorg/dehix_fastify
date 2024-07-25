@@ -1,3 +1,3 @@
-export interface GetconsultantPathParams{
-    consultant_id:string ;
+export interface GetconsultantPathParams {
+  consultant_id: string;
 }

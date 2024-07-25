@@ -1,3 +1,3 @@
-export interface DeleteconsultantPathParams{
-    consultant_id:string ;
+export interface DeleteconsultantPathParams {
+  consultant_id: string;
 }

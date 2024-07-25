@@ -33,13 +33,13 @@ export const getConsultantSchema: FastifySchema = {
         },
       },
     },
-    204:{
-      type:"object",
-      properties:{
-        message:{
-          type:"string"
-        }
-      }
+    204: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+      },
     },
     404: {
       type: "object",
@@ -63,7 +63,6 @@ export const getConsultantSchema: FastifySchema = {
     },
   },
 };
-
 
 export const getAllConsultantSchema: FastifySchema = {
   description: "API to get consultant data",
@@ -89,14 +88,14 @@ export const getAllConsultantSchema: FastifySchema = {
         },
       },
     },
-    204:{
-      type:"object",
-      properties:{
-        message:{
-          type:"string"
+    204: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
         },
         code: { type: "string" },
-      }
+      },
     },
     404: {
       type: "object",
