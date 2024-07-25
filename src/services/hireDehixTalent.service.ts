@@ -39,5 +39,27 @@ export class HireService extends BaseService {
         );
         this.logger.info(data, "in update hireDehixTalent");
         return data;
+    }
+
+    async deleteHireDehixTalent(hireDehixTalent_id: string) {
+        this.logger.info(
+          "HireService: deleteHireDehixTalent",
+          hireDehixTalent_id,
+        );
+        
+        const hireDehixTalentExist = await this.HireDAO.findHireDehixTalentById(
+          hireDehixTalent_id
+        );
+        if (!hireDehixTalentExist) {
+          throw new NotFoundError(
+            RESPONSE_MESSAGE.HIRE_DEHIX_TALENT_NOT_FOUND,
+            ERROR_CODES.HIRE_DEHIX_TALENT_NOT_FOUND,
+          );
+        }
+    
+        const data = await this.HireDAO.deleteHireDehixTalentById(
+          hireDehixTalent_id
+        );
+        return data;
       }
 }

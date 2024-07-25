@@ -42,6 +42,7 @@ export const RESPONSE_MESSAGE = {
   PROJECT_NOT_FOUND_EMAIL: "Project not found by email.",
   PROJECT_NOT_FOUND_BY_ID: "Project not found by id",
   BID_NOT_FOUND: "Bid not found by id",
+  HIRE_DEHIX_TALENT_NOT_FOUND: "Hire Dehix Talent not found by id",
   DRAFT_NOT_FOUND: "Draft with provided ID could not be found.",
   DRAFT_IS_INCOMPLETE:
     "This draft is incomplete and cannot be submitted for review",
@@ -89,6 +90,7 @@ export const ERROR_CODES = {
   EDUCATION_NOT_FOUND: "EDUCATION_NOT_FOUND",
   FREELANCER_PROJECT_NOT_FOUND: "PROJECT_NOT_FOUND",
   BUSINESS_PROJECT_NOT_FOUND: "PROJECT_NOT_FOUND",
+  HIRE_DEHIX_TALENT_NOT_FOUND: "HIRE_DEHIX_TALENT_NOT_FOUND",
   OFFERS_NOT_FOUND: "OFFERS_NOT_FOUND",
   OTP_MISMATCH: "OTP_MISMATCH",
   OTP_EXPIRED: "OTP_EXPIRED",

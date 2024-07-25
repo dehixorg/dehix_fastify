@@ -12,6 +12,10 @@ export class HireDAO extends BaseDAO {
     this.model = HireModel;
   }
 
+  async findHireDehixTalentById(id: string) {
+    return this.model.findById(id);
+  }
+
   async createHireDehixTalent(data: any) {
     return this.model.create(data);
   }
@@ -22,5 +26,9 @@ export class HireDAO extends BaseDAO {
       newData,
       { new: true }
     );
+  }
+
+  async deleteHireDehixTalentById(id: string) {
+    return this.model.findByIdAndDelete( id );
   }
 }
