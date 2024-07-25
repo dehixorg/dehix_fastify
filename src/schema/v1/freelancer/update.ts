@@ -75,6 +75,31 @@ export const updateFreelancerSchema: FastifySchema = {
           ],
         },
       },
+      domain: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            name: { type: "string" },
+            level: { type: "string" },
+            experience: { type: "string" },
+            interviewStatus: {
+              type: "string",
+              enum: ["pending", "accepted", "rejected", "reapplied"],
+            },
+            interviewInfo: { type: "string" },
+            interviewerRating: { type: "number" },
+          },
+          required: [
+            "name",
+            "level",
+            "experience",
+            "interviewStatus",
+            "interviewInfo",
+            "interviewerRating",
+          ],
+        },
+      },
       education: {
         type: "array",
         items: {
@@ -378,26 +403,62 @@ export const addFreelancerSkillsSchema: FastifySchema = {
   },
 };
 
-export const createDomainSchema: FastifySchema = {
-  description: "API to create business data",
-  tags: ["Business"],
+export const addFreelancerDomainSchema: FastifySchema = {
+  description: "API to add domain to a freelancer",
+  tags: ["Freelancer"],
   body: {
     type: "object",
     properties: {
-      _id: {
-        type: "string",
-        format: "uuid",
-      },
-      name: {
-        type: "string",
-      },
-      description: {
-        type: "string",
+      domain: {
+        type: "array",
+        description: "An array of domain to be added",
+        items: {
+          type: "object",
+          properties: {
+            name: { type: "string", description: "The name of the domain" },
+            level: {
+              type: "string",
+              description: "The level of proficiency in the domain",
+            },
+            experience: {
+              type: "string",
+              description: "The years of experience with the domain",
+            },
+            interviewStatus: {
+              type: "string",
+              description: "The interview status for the domain",
+              enum: ["pending", "accepted", "rejected", "reapplied"],
+            },
+            interviewInfo: {
+              type: "string",
+              description: "The ObjectId of the interview information",
+              nullable: true,
+            },
+            interviewerRating: {
+              type: "number",
+              description: "The rating given by the interviewer",
+              nullable: true,
+            },
+          }
+        },
+        minItems: 1,
       },
     },
-    required: ["name"],
+    required: ["domain"],
+    additionalProperties: false,
   },
-
+  params: {
+    type: "object",
+    properties: {
+      freelancer_id: {
+        type: "string",
+        description:
+          "The ID of the freelancer to whom the domain are being added",
+      },
+    },
+    required: ["freelancer_id"],
+    additionalProperties: false,
+  },
   response: {
     200: {
       description: "Success",
@@ -406,7 +467,39 @@ export const createDomainSchema: FastifySchema = {
         data: {
           type: "object",
           properties: {
-            email: { type: "string" },
+            freelancer_id: { type: "string" },
+            domain: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  name: { type: "string", description: "The name of the domain" },
+                  level: {
+                    type: "string",
+                    description: "The level of proficiency in the domain",
+                  },
+                  experience: {
+                    type: "string",
+                    description: "The years of experience with the domain",
+                  },
+                  interviewStatus: {
+                    type: "string",
+                    description: "The interview status for the domain",
+                    enum: ["pending", "accepted", "rejected", "reapplied"],
+                  },
+                  interviewInfo: {
+                    type: "string",
+                    description: "The ObjectId of the interview information",
+                    nullable: true,
+                  },
+                  interviewerRating: {
+                    type: "number",
+                    description: "The rating given by the interviewer",
+                    nullable: true,
+                  },
+                },
+              },
+            },
           },
         },
       },

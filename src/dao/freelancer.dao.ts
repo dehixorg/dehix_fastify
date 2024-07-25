@@ -99,10 +99,16 @@ export class FreelancerDAO extends BaseDAO {
     }; // Fetch and return the updated document
   }
 
-  async findSkillExistInFreelancer(freelancer_id: string, skills_id: any) {
+  async findDomainExistInFreelancer(freelancer_id: string, domain_id: any) {
     return this.model.findOne({
       _id: freelancer_id,
-      skills: { $elemMatch: { _id: skills_id } },
+      domain: { $elemMatch: { _id: domain_id } },
+    });
+  }
+  async findSkillExistInFreelancer(freelancer_id: string, skill_id: any) {
+    return this.model.findOne({
+      _id: freelancer_id,
+      skills: { $elemMatch: { _id: skill_id } },
     });
   }
   async sendFreelancerInfo(id: string) {
@@ -342,5 +348,20 @@ export class FreelancerDAO extends BaseDAO {
       },
       { new: true },
     );
+  }
+
+  async addFreelancerDomain(id: string, domain: any) {
+    const result = await this.model.updateOne(
+      { _id: id },
+      { $addToSet: { domain: { $each: domain } } },
+      { new: true },
+    );
+    if (!result) {
+      throw new Error("Freelancer not found or domain could not be added");
+    }
+    return {
+      id,
+      domain,
+    }; // Fetch and return the updated document
   }
 }

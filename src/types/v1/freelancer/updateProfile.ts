@@ -33,6 +33,14 @@ export interface PutFreelancerBody {
     interviewInfo?: string;
     interviewerRating?: number;
   }[];
+  domain?: {
+    name: string;
+    level: string;
+    experience: string;
+    interviewStatus?: "pending" | "accepted" | "rejected" | "reapplied";
+    interviewInfo?: string;
+    interviewerRating?: number;
+  }[];
   education?: {
     degree?: string;
     universityName?: string;
@@ -103,6 +111,9 @@ export interface PutFreelancerBody {
 
 export interface PutFreelancerSkillsBody {
   skills: string[];
+}
+export interface PutFreelancerDomainBody {
+  domain: string[];
 }
 export interface PutFreelancerOracleStatusBody {
   oracleStatus: string;

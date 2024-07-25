@@ -557,6 +557,64 @@ export class FreelancerService extends BaseService {
 
     return delete_project;
   }
+
+  async addFreelancerDomain(freelancer_id: string, domain: string[]) {
+    this.logger.info(
+      `FreelancerService -> addFreelancerDomain -> Adding domain for freelancer ID: ${freelancer_id}`,
+    );
+
+    const freelancerExist = await this.FreelancerDAO.getById(freelancer_id);
+    if (!freelancerExist) {
+      this.logger.error(
+        "FreelancerService: getFreelancerProfile: Freelancer not found with ID: ",
+        freelancer_id,
+      );
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const updatedFreelancer = await this.FreelancerDAO.addFreelancerDomain(
+      freelancer_id,
+      domain,
+    );
+
+    return updatedFreelancer;
+  }
+
+  async deleteFreelancerDomain(freelancer_id: string, domain_id: string) {
+    this.logger.info(
+      `FreelancerService: deleteFreelancerDomain: Deleting domain for Freelancer ID:${freelancer_id} and Domain ID:${domain_id}`,
+    );
+    const freelancerExist = await this.FreelancerDAO.getById(freelancer_id);
+    if (!freelancerExist) {
+      this.logger.error(
+        "FreelancerService: getFreelancerProfile: Freelancer not found with ID: ",
+        freelancer_id,
+      );
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+    const checkDomain = await this.FreelancerDAO.findDomainExistInFreelancer(
+      freelancer_id,
+      domain_id,
+    );
+    if (!checkDomain) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.DATA_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+    const delete_domain = await this.FreelancerDAO.updateFreelancer(
+      { _id: freelancer_id },
+      { $pull: { domain: { _id: domain_id } } },
+    );
+
+    return delete_domain;
+  }
 }
 /**
  * Service method for FREELANCER login

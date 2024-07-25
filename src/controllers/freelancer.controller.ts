@@ -32,6 +32,8 @@ import {
   FREELANCER_PROJECT_ID_ENDPOINT,
   FREELANCER_UPDATE_PROJECT_BY_ID,
   ALL_FREELANCER,
+  FREELANCER_DOMAIN_ADD_BY_ID,
+  FREELANCER_DOMAIN_DELETE_BY_ID,
 } from "../constants/freelancer.constant";
 import {
   getFreelancerProjectSchema,
@@ -39,6 +41,7 @@ import {
 } from "../schema/v1/freelancer/get";
 import { AuthController } from "../common/auth.controller";
 import {
+  addFreelancerDomainSchema,
   experinceInProfessionalInfo,
   interviewsAlignedSchema,
   oracleStatusSchema,
@@ -57,14 +60,17 @@ import {
   PutEducationPathParams,
   PutFreelancerEducationBody,
   PutProjectPathParams,
+  PutFreelancerDomainBody,
 } from "../types/v1/freelancer/updateProfile";
 import {
   deleteEducationSchema,
+  deleteFreelancerDomainSchema,
   deleteFreelancerProjectSchema,
   deleteFreelancerSkillSchema,
   deleteProfessionalInfoSchema,
 } from "../schema/v1/freelancer/delete";
 import {
+  DeleteFreelancerDomainPathParams,
   DeleteFreelancerEducationPathParams,
   DeleteFreelancerExperiencePathParams,
   DeleteFreelancerProjectPathParams,
@@ -795,6 +801,76 @@ export default class FreelancerController extends AuthController {
           code: ERROR_CODES.SERVER_ERROR,
         });
       }
+    }
+  }
+
+  @PUT(FREELANCER_DOMAIN_ADD_BY_ID, { schema: addFreelancerDomainSchema })
+  async addDomainById(
+    request: FastifyRequest<{
+      Params: PutFreelancerPathParams;
+      Body: PutFreelancerDomainBody;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FreelancerController -> addDomainById -> Adding domain for freelancer using ID: ${request.params.freelancer_id}`,
+      );
+
+      const updatedFreelancer =
+        await this.freelancerService.addFreelancerDomain(
+          request.params.freelancer_id,
+          request.body.domain,
+        );
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data: updatedFreelancer });
+    } catch (error: any) {
+      this.logger.error(`Error in addDomainById: ${error.message}`);
+
+      if (error.message.includes(RESPONSE_MESSAGE.FREELANCER_NOT_FOUND)) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+          code: ERROR_CODES.FREELANCER_NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @DELETE(FREELANCER_DOMAIN_DELETE_BY_ID, {
+    schema: deleteFreelancerDomainSchema,
+  })
+  async deleteDomainById(
+    request: FastifyRequest<{ Params: DeleteFreelancerDomainPathParams }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FreelancerController -> deleteDomainById -> Deleting domain using: ${request.params}`,
+      );
+      const data = await this.freelancerService.deleteFreelancerDomain(
+        request.params.freelancer_id,
+        request.params.domain_id,
+      );
+
+      if (data.modifiedCount == 0) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Domain"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in deleteDomainById: ${error.message}`);
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
+        message: RESPONSE_MESSAGE.SERVER_ERROR,
+        code: ERROR_CODES.SERVER_ERROR,
+      });
     }
   }
 }
