@@ -5,13 +5,14 @@ import { ERROR_CODES, RESPONSE_MESSAGE, STATUS_CODES } from "../common/constants
 import { CONSULTANT_END_POINT, CREATE_CONSULTANT_END_POINT, DELETE_CONSULTANT_END_POINT, GET_ALL_CONSULTANT_END_POINT, GET_CONSULTANT_BY_ID_END_POINT, UPDATE_CONSULTANT_END_POINT } from "../constants/consultant.constant";
 import { updateBidSchema } from "../schema/v1/bid/update";
 import { createConsultantSchema } from "../schema/v1/consultant/create";
-import { getConsultantSchema } from "../schema/v1/consultant/get";
+import { getAllConsultantSchema, getConsultantSchema } from "../schema/v1/consultant/get";
 import { ConsultantService } from "../services/consultant.service";
 import { GetconsultantPathParams } from "../types/v1/consultant/get";
 import { PostConsultantBody } from "../types/v1/consultant/post";
 import { PutConsultantBody, PutconsultantPathParams } from "../types/v1/consultant/put";
 import { deleteConsultantSchema } from "../schema/v1/consultant/delete";
 import { DeleteconsultantPathParams } from "../types/v1/consultant/delete";
+import { updateConsultantSchema } from "../schema/v1/consultant/update";
 
 @Controller({ route: CONSULTANT_END_POINT })
 export default class ConsultantController extends AuthController {
@@ -35,7 +36,7 @@ export default class ConsultantController extends AuthController {
         }
 
     }
-    @PUT(UPDATE_CONSULTANT_END_POINT, { schema: updateBidSchema })
+    @PUT(UPDATE_CONSULTANT_END_POINT, { schema: updateConsultantSchema })
     async updateConsultant(request: FastifyRequest<{ Params: PutconsultantPathParams, Body: PutConsultantBody }>, reply: FastifyReply) {
         try {
             this.logger.info("Controllers->consultant.controller-> updateConsultant");
@@ -56,23 +57,20 @@ export default class ConsultantController extends AuthController {
             }
         }
     }
-    @GET(GET_ALL_CONSULTANT_END_POINT,{schema:getConsultantSchema})
-    async getAllConsultant(request:FastifyRequest,reply:FastifyReply){
+    @GET(GET_ALL_CONSULTANT_END_POINT, { schema: getAllConsultantSchema })
+    async getAllConsultant(request: FastifyRequest, reply: FastifyReply) {
         try {
-            this.logger.info("Controllers->consultant.controller-> getAllConsultant"); 
-            const data= await this.ConsultantService.getAllConsultant();
-            if (!data || data.length===0) {
-                reply.status(STATUS_CODES.NO_CONTENT).send({data})
-            }
+            this.logger.info("Controllers->consultant.controller-> getAllConsultant");
+            const data = await this.ConsultantService.getAllConsultant();
+            reply.status(STATUS_CODES.SUCCESS).send({ data });
         } catch (error: any) {
-
-            reply.status(STATUS_CODES.SERVER_ERROR).send({
+            return reply.status(STATUS_CODES.SERVER_ERROR).send({
                 message: RESPONSE_MESSAGE.SERVER_ERROR,
                 code: ERROR_CODES.SERVER_ERROR
-            })
-
+            });
         }
     }
+    
     @GET(GET_CONSULTANT_BY_ID_END_POINT,{schema:getConsultantSchema})
     async getConsultantById(request:FastifyRequest<{Params:GetconsultantPathParams}>,reply:FastifyReply){
         this.logger.info("Controllers->consultant.controller-> getConsultantById");
@@ -100,7 +98,7 @@ export default class ConsultantController extends AuthController {
         this.logger.info("Controllers->consultant.controller-> deleteConsultantById");
         try {
             const data= await this.ConsultantService.deleteConsultantById(request.params.consultant_id);
-            reply.status(STATUS_CODES.SUCCESS).send({data})
+            reply.status(STATUS_CODES.SUCCESS).send({message:"Consultant deleted"})
         } catch (error: any) {
             if (error.ERROR_CODES == "NOT_FOUND" || error.message.includes("Consultant with provided ID could not be found.")) {
                 reply.status(STATUS_CODES.NOT_FOUND).send({

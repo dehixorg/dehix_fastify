@@ -14,7 +14,7 @@ constructor() {
 
   }
   async updateConsultant(consultant_id:string,update:any){
-return this.model.findByIdAndUpdate(consultant_id,update);
+return this.model.findByIdAndUpdate(consultant_id,update,{new:true});
   }
   async getConsultantById(consulant_id:string){
 return this.model.findById(consulant_id);
