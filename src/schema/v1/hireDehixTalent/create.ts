@@ -5,20 +5,6 @@ export const createhireDehixTalentSchema: FastifySchema = {
   tags: ["Hire"],
   body: {
     type: "object",
-    required: [
-      "businessId",
-      "domanId",
-      "domainName",
-      "skillId",
-      "skillName",
-      "description",
-      "experience",
-      "freelancerRequired",
-      "status",
-      "visible",
-      "freelancerApplied",
-      "freelancerSelected"
-    ],
     properties: {
       _id: {
         type: "string",
@@ -61,13 +47,13 @@ export const createhireDehixTalentSchema: FastifySchema = {
       },
       freelancerApplied: {
         type: "array",
-        item: {
+        items: {
             type: "string",
         }
       },
       freelancerSelected: {
         type: "array",
-        item: {
+        items: {
             type: "string",
         }
       },
@@ -79,6 +65,14 @@ export const createhireDehixTalentSchema: FastifySchema = {
         type: "string",
       },
     },
+    required: [
+      "businessId",
+      "description",
+      "experience",
+      "freelancerRequired",
+      "status",
+      "visible",
+    ],
   },
   response: {
     200: {

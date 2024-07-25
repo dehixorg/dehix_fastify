@@ -5,7 +5,7 @@ import { ProjectModel, IProject } from "./project.entity";
 import { BidModel, IBid } from "./bid.entity";
 import { InterviewModel, IInterview } from "./interview.entity";
 import { SkillModel, ISkill } from "./skill.entity";
-import { HireModel, IHire } from "./hireDehixTalent";
+import { HireModel, IHire } from "./hireDehixTalent.entity";
 
 export interface DBModels {
   FreelancerModel?: Model<IFreelancer>;
