@@ -26,4 +26,18 @@ export class HireService extends BaseService {
             throw error; // Pass the error to the parent for proper handling
         }
     }
+
+    async putHireDehixTalent( hireDehixTalent_id: string, update: any ) {
+        this.logger.info(
+          "HireService: update hire dehix talent ",
+          hireDehixTalent_id,
+        );
+    
+        const data = await this.HireDAO.updateHireDehixTalent(
+          hireDehixTalent_id,
+          update,
+        );
+        this.logger.info(data, "in update hireDehixTalent");
+        return data;
+      }
 }

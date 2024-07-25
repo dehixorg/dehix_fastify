@@ -15,4 +15,12 @@ export class HireDAO extends BaseDAO {
   async createHireDehixTalent(data: any) {
     return this.model.create(data);
   }
+
+  async updateHireDehixTalent(hireDehixTalent_id: any, newData: any) {
+    return this.model.findByIdAndUpdate(
+      {_id: hireDehixTalent_id},
+      newData,
+      { new: true }
+    );
+  }
 }
