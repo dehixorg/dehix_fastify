@@ -10,14 +10,13 @@ import { ConsultantService } from "../services/consultant.service";
 import { GetconsultantPathParams } from "../types/v1/consultant/get";
 import { PostConsultantBody } from "../types/v1/consultant/post";
 import { PutConsultantBody, PutconsultantPathParams } from "../types/v1/consultant/put";
-import { Schema } from 'mongoose';
 import { deleteConsultantSchema } from "../schema/v1/consultant/delete";
 import { DeleteconsultantPathParams } from "../types/v1/consultant/delete";
 
 @Controller({ route: CONSULTANT_END_POINT })
 export default class ConsultantController extends AuthController {
     @Inject(ConsultantService)
-    private ConsultantService!: ConsultantService
+   ConsultantService!: ConsultantService
 
     @POST(CREATE_CONSULTANT_END_POINT, { schema: createConsultantSchema })
     async createConsultant(request: FastifyRequest<{ Body: PostConsultantBody }>, reply: FastifyReply) {

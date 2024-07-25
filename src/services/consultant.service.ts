@@ -1,9 +1,9 @@
-import { Inject } from "fastify-decorators";
+import { Inject, Service } from "fastify-decorators";
 import { BidService } from "./bid.service";
 import { ConsultantDao } from "../dao/consultant.dao";
 import { NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
-
+@Service()
 export class ConsultantService extends BidService {
   @Inject(ConsultantDao)
   private ConsultantDao!: ConsultantDao;
