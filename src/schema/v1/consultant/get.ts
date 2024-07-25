@@ -1,4 +1,5 @@
 import { FastifySchema } from "fastify";
+import { object } from "zod";
 
 export const getConsultantSchema: FastifySchema = {
   description: "API to get consultant data",
@@ -32,6 +33,14 @@ export const getConsultantSchema: FastifySchema = {
           },
         },
       },
+    },
+    204:{
+      type:"object",
+      properties:{
+        message:{
+          type:"string"
+        }
+      }
     },
     404: {
       type: "object",
