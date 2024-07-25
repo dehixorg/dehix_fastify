@@ -3,6 +3,13 @@ import { FastifySchema } from "fastify";
 export const updateConsultantSchema: FastifySchema = {
   description: "API to update consultant data",
   tags: ["Consultant"],
+  params: {
+    type: "object",
+    properties: {
+      consultant_id: { type: "string", format: "uuid" },
+    },
+    required: ["consultant_id"],
+  },
   body: {
     type: "object",
     properties: {
