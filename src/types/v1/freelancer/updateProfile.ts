@@ -33,6 +33,14 @@ export interface PutFreelancerBody {
     interviewInfo?: string;
     interviewerRating?: number;
   }[];
+  domain?: {
+    name: string;
+    level: string;
+    experience: string;
+    interviewStatus?: "pending" | "accepted" | "rejected" | "reapplied";
+    interviewInfo?: string;
+    interviewerRating?: number;
+  }[];
   education?: {
     degree?: string;
     universityName?: string;

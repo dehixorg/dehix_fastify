@@ -59,16 +59,20 @@ export const createFreelancerSchema: FastifySchema = {
           ],
         },
       },
-      domin: {
+      domain: {
         type: "array",
         items: {
           type: "object",
           properties: {
             name: { type: "string" },
             level: { type: "string" },
-            category: { type: "string" },
-            subCategory: { type: "string" },
             experience: { type: "string" },
+            interviewStatus: {
+              type: "string",
+              enum: ["pending", "accepted", "rejected", "reapplied"],
+            },
+            interviewInfo: { type: "string" },
+            interviewerRating: { type: "number" },
           },
           required: [
             "name",

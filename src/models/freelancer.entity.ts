@@ -16,9 +16,10 @@ export interface IDomain extends Document {
   _id: string;
   name: string;
   level: string;
-  category: string;
-  subCategory: string;
   experience: string;
+  interviewStatus?: "pending" | "accepted" | "rejected" | "reapplied";
+  interviewInfo?: string;
+  interviewerRating?: number;
 }
 
 export interface IFreelancer extends Document {
@@ -224,9 +225,19 @@ const FreelancerSchema: Schema = new Schema(
         },
         name: { type: String, required: false },
         level: { type: String, required: false },
-        category: { type: String, required: false, },    
-        subCategory: { type: String, required: false, },    
         experience: { type: String, required: false },
+        interviewStatus: {
+          type: String,
+          enum: ["pending", "accepted", "rejected", "reapplied"],
+          default: "pending",
+          required: false,
+        },
+        interviewInfo: {
+          type: String,
+          ref: "Interview",
+          required: false,
+        },
+        interviewerRating: { type: Number, required: false },
       },
     ],
     education: {

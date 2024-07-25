@@ -75,6 +75,31 @@ export const updateFreelancerSchema: FastifySchema = {
           ],
         },
       },
+      domain: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            name: { type: "string" },
+            level: { type: "string" },
+            experience: { type: "string" },
+            interviewStatus: {
+              type: "string",
+              enum: ["pending", "accepted", "rejected", "reapplied"],
+            },
+            interviewInfo: { type: "string" },
+            interviewerRating: { type: "number" },
+          },
+          required: [
+            "name",
+            "level",
+            "experience",
+            "interviewStatus",
+            "interviewInfo",
+            "interviewerRating",
+          ],
+        },
+      },
       education: {
         type: "array",
         items: {
@@ -390,11 +415,30 @@ export const addFreelancerDomainSchema: FastifySchema = {
         items: {
           type: "object",
           properties: {
-            name: { type: "string" },
-            level: { type: "string" },
-            category: { type: "string" },
-            subCategory: { type: "string" },
-            experience: { type: "string" },
+            name: { type: "string", description: "The name of the domain" },
+            level: {
+              type: "string",
+              description: "The level of proficiency in the domain",
+            },
+            experience: {
+              type: "string",
+              description: "The years of experience with the domain",
+            },
+            interviewStatus: {
+              type: "string",
+              description: "The interview status for the domain",
+              enum: ["pending", "accepted", "rejected", "reapplied"],
+            },
+            interviewInfo: {
+              type: "string",
+              description: "The ObjectId of the interview information",
+              nullable: true,
+            },
+            interviewerRating: {
+              type: "number",
+              description: "The rating given by the interviewer",
+              nullable: true,
+            },
           }
         },
         minItems: 1,
@@ -429,11 +473,30 @@ export const addFreelancerDomainSchema: FastifySchema = {
               items: {
                 type: "object",
                 properties: {
-                  name: { type: "string" },
-                  level: { type: "string" },
-                  category: { type: "string" },
-                  subCategory: { type: "string" },
-                  experience: { type: "string" },
+                  name: { type: "string", description: "The name of the domain" },
+                  level: {
+                    type: "string",
+                    description: "The level of proficiency in the domain",
+                  },
+                  experience: {
+                    type: "string",
+                    description: "The years of experience with the domain",
+                  },
+                  interviewStatus: {
+                    type: "string",
+                    description: "The interview status for the domain",
+                    enum: ["pending", "accepted", "rejected", "reapplied"],
+                  },
+                  interviewInfo: {
+                    type: "string",
+                    description: "The ObjectId of the interview information",
+                    nullable: true,
+                  },
+                  interviewerRating: {
+                    type: "number",
+                    description: "The rating given by the interviewer",
+                    nullable: true,
+                  },
                 },
               },
             },
