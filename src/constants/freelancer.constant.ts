@@ -30,6 +30,7 @@ export const FREELANCER_SKILLS_ADD_BY_ID = "/:freelancer_id/skill";
 export const FREELANCER_SKILL_DELETE_BY_ID = "/:freelancer_id/skill/:skill_id";
 
 // domian endpoint
+export const FREELANCER_DOMAIN_ENDPOINT = "/:freelancer_id/domain";
 export const FREELANCER_DOMAIN_ADD_BY_ID = "/:freelancer_id/domain";
 export const FREELANCER_DOMAIN_DELETE_BY_ID = "/:freelancer_id/domain/:domain_id";
 

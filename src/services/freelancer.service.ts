@@ -657,6 +657,27 @@ export class FreelancerService extends BaseService {
     this.logger.info(data, "in get freelancer skills");
     return data;
   }
+
+  async getFreelancerDomains( freelancer_id: string ) {
+    this.logger.info(
+      "FreelancerService: freelancer get domains",
+      freelancer_id,
+    );
+
+    const userExist = await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const data = await this.FreelancerDAO.getFreelancerDomains(
+      freelancer_id,
+    );
+    this.logger.info(data, "in get freelancer domains");
+    return data;
+  }
 }
 /**
  * Service method for FREELANCER login

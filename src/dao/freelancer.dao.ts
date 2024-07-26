@@ -388,4 +388,16 @@ export class FreelancerDAO extends BaseDAO {
       throw error;
     }
   }
+
+  async getFreelancerDomains( freelancer_id: string ) {
+    try {
+      return await this.model.find(
+        {_id: freelancer_id},
+        { domain: 1, _id: 0 }
+      );
+    } catch (error) {
+      console.error("Error fetching freelancer domains:", error);
+      throw error;
+    }
+  }
 }
