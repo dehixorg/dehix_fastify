@@ -58,6 +58,31 @@ export const createFreelancerSchema: FastifySchema = {
           ],
         },
       },
+      domain: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            name: { type: "string" },
+            level: { type: "string" },
+            experience: { type: "string" },
+            interviewStatus: {
+              type: "string",
+              enum: ["pending", "accepted", "rejected", "reapplied"],
+            },
+            interviewInfo: { type: "string" },
+            interviewerRating: { type: "number" },
+          },
+          required: [
+            "name",
+            "level",
+            "experience",
+            "interviewStatus",
+            "interviewInfo",
+            "interviewerRating",
+          ],
+        },
+      },
       education: {
         type: "object",
         properties: {
@@ -199,6 +224,7 @@ export const createFreelancerSchema: FastifySchema = {
       "phone",
       "dob",
       "skills",
+      "domain",
       "role",
       "refer",
       "githubLink",

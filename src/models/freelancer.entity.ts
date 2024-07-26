@@ -12,6 +12,15 @@ export interface ISkill extends Document {
   interviewInfo?: string;
   interviewerRating?: number;
 }
+export interface IDomain extends Document {
+  _id: string;
+  name: string;
+  level: string;
+  experience: string;
+  interviewStatus?: "pending" | "accepted" | "rejected" | "reapplied";
+  interviewInfo?: string;
+  interviewerRating?: number;
+}
 
 export interface IFreelancer extends Document {
   _id?: string;
@@ -41,6 +50,7 @@ export interface IFreelancer extends Document {
     }
   >;
   skills?: ISkill[];
+  domain?: IDomain[];
   education?: Map<
     string,
     {
@@ -184,6 +194,30 @@ const FreelancerSchema: Schema = new Schema(
       required: false,
     },
     skills: [
+      {
+        _id: {
+          type: String,
+          default: uuidv4,
+          required: true,
+        },
+        name: { type: String, required: false },
+        level: { type: String, required: false },
+        experience: { type: String, required: false },
+        interviewStatus: {
+          type: String,
+          enum: ["pending", "accepted", "rejected", "reapplied"],
+          default: "pending",
+          required: false,
+        },
+        interviewInfo: {
+          type: String,
+          ref: "Interview",
+          required: false,
+        },
+        interviewerRating: { type: Number, required: false },
+      },
+    ],
+    domain: [
       {
         _id: {
           type: String,
