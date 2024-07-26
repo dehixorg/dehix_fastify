@@ -18,3 +18,6 @@ export interface DeleteFreelancerEducationPathParams {
   freelancer_id: string;
   education_id: string;
 }
+export interface DeleteconsultantPathParams {
+  consultant_id: string;
+}

@@ -138,3 +138,11 @@ export interface CreateFreelancerProjectBody {
   verificationUpdateTime: string;
   comments: string;
 }
+
+export interface PostConsultantBody {
+  status: string;
+  description: string;
+  price: number;
+  experience: string;
+  links: string[];
+}
