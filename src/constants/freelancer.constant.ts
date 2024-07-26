@@ -4,7 +4,7 @@ export const FREELANCER_ID_ENDPOINT = "/:freelancer_id";
 export const ALL_FREELANCER = "/allfreelancer";
 // project endpoint
 export const FREELANCER_PROJECT_ID_ENDPOINT = "/:freelancer_id/project";
-export const FREELANCER_PROJECT_ADD_BY_ID = "/:freelancer_id/project";
+export const FREELANCER_OWN_PROJECT_ID_ENDPOINT = "/:freelancer_id/myproject";
 export const FREELANCER_UPDATE_PROJECT_BY_ID =
   "/:freelancer_id/project/:project_id";
 export const FREELANCER_PROJECT_DELETE_BY_ID =
@@ -25,6 +25,7 @@ export const FREELANCER_DELETE_EDUCATION_BY_ID =
   "/:freelancer_id/education/:education_id";
 
 // skills endpoint
+export const FREELANCER_SKILLS_ENDPOINT = "/:freelancer_id/skill";
 export const FREELANCER_SKILLS_ADD_BY_ID = "/:freelancer_id/skill";
 export const FREELANCER_SKILL_DELETE_BY_ID = "/:freelancer_id/skill/:skill_id";
 

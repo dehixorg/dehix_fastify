@@ -364,4 +364,28 @@ export class FreelancerDAO extends BaseDAO {
       domain,
     }; // Fetch and return the updated document
   }
+
+  async getFreelancerOwnProjects( freelancer_id: string ) {
+    try {
+      return await this.model.find(
+        {_id: freelancer_id},
+        { projects: 1, _id: 0 }
+      );
+    } catch (error) {
+      console.error("Error fetching freelancer projects:", error);
+      throw error;
+    }
+  }
+
+  async getFreelancerSkills( freelancer_id: string ) {
+    try {
+      return await this.model.find(
+        {_id: freelancer_id},
+        { skills: 1, _id: 0 }
+      );
+    } catch (error) {
+      console.error("Error fetching freelancer skills:", error);
+      throw error;
+    }
+  }
 }

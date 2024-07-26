@@ -108,3 +108,73 @@ export const getFreelancerProjectSchema: FastifySchema = {
     },
   },
 };
+
+export const getFreelancerOwnProjectSchema: FastifySchema = {
+  description: "API to get freelancer own projects data",
+  tags: ["Freelancer"],
+  response: {
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
+
+export const getFreelancerSkillsSchema: FastifySchema = {
+  description: "API to get freelancer skills data",
+  tags: ["Freelancer"],
+  response: {
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};

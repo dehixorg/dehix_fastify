@@ -16,7 +16,6 @@ import {
 import {
   FREELANCER_ENDPOINT,
   FREELANCER_ID_ENDPOINT,
-  FREELANCER_PROJECT_ADD_BY_ID,
   FREELANCER_CREATE_ENDPOINT,
   FREELANCER_PROJECT_DELETE_BY_ID,
   FREELANCER_SKILLS_ADD_BY_ID,
@@ -34,10 +33,14 @@ import {
   ALL_FREELANCER,
   FREELANCER_DOMAIN_ADD_BY_ID,
   FREELANCER_DOMAIN_DELETE_BY_ID,
+  FREELANCER_OWN_PROJECT_ID_ENDPOINT,
+  FREELANCER_SKILLS_ENDPOINT,
 } from "../constants/freelancer.constant";
 import {
+  getFreelancerOwnProjectSchema,
   getFreelancerProjectSchema,
   getFreelancerSchema,
+  getFreelancerSkillsSchema,
 } from "../schema/v1/freelancer/get";
 import { AuthController } from "../common/auth.controller";
 import {
@@ -873,4 +876,77 @@ export default class FreelancerController extends AuthController {
       });
     }
   }
+
+  @GET(FREELANCER_OWN_PROJECT_ID_ENDPOINT, { schema: getFreelancerOwnProjectSchema })
+  async getFreelancerOwnProjects(
+    request: FastifyRequest<{
+      Params: GetFreelancerPathParams;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FreelancerController -> getFreelancerOwnProjects -> Fetching freelancer own projects for ID: ${request.params.freelancer_id}`,
+      );
+
+      const data = await this.freelancerService.getFreelancerOwnProjects( request.params.freelancer_id );
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getFreelancerOwnProjects: ${error.message}`);
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found.",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @GET(FREELANCER_SKILLS_ENDPOINT, { schema: getFreelancerSkillsSchema })
+  async getFreelancerSkills(
+    request: FastifyRequest<{
+      Params: GetFreelancerPathParams;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FreelancerController -> getFreelancerSkills -> Fetching freelancer skills for ID: ${request.params.freelancer_id}`,
+      );
+
+      const data = await this.freelancerService.getFreelancerSkills( request.params.freelancer_id );
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getFreelancerSkills: ${error.message}`);
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found.",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
 }

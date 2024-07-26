@@ -615,6 +615,48 @@ export class FreelancerService extends BaseService {
 
     return delete_domain;
   }
+
+  async getFreelancerOwnProjects( freelancer_id: string ) {
+    this.logger.info(
+      "FreelancerService: freelancer get own projects",
+      freelancer_id,
+    );
+
+    const userExist = await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const data = await this.FreelancerDAO.getFreelancerOwnProjects(
+      freelancer_id,
+    );
+    this.logger.info(data, "in get freelancer projects");
+    return data;
+  }
+
+  async getFreelancerSkills( freelancer_id: string ) {
+    this.logger.info(
+      "FreelancerService: freelancer get skills",
+      freelancer_id,
+    );
+
+    const userExist = await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const data = await this.FreelancerDAO.getFreelancerSkills(
+      freelancer_id,
+    );
+    this.logger.info(data, "in get freelancer skills");
+    return data;
+  }
 }
 /**
  * Service method for FREELANCER login
