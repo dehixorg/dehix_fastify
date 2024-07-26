@@ -155,8 +155,13 @@ export const createFreelancerSchema: FastifySchema = {
           skillId: { type: "string" },
           skillName: { type: "string" },
           domainId: { type: "string" },
-          domainName: { type: "string", format: "date-time" },
+          domainName: { type: "string" },
           status: {
+            type: "string",
+            enum: ["added", "verified", "rejected"],
+            default: "added",
+          },
+          activeStatus: {
             type: "string",
             enum: ["Active", "Inactive"],
             default: "Active",
@@ -585,6 +590,79 @@ export const createProjectSchema: FastifySchema = {
         message: {
           type: "string",
         },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
+
+export const createDehixTalentSchema: FastifySchema = {
+  description: "API to create Dehix talent",
+  tags: ["Freelancer"],
+  body: {
+    type: "object",
+    properties: {
+      skillId: { type: "string" },
+      skillName: { type: "string" },
+      domainId: { type: "string" },
+      domainName: { type: "string", },
+      status: {
+        type: "string",
+        enum: ["added", "verified", "rejected"],
+        default: "added"
+      },
+      activeStatus: {
+        type: "string",
+        enum: ["Active", "Inactive"],
+        default: "Active"
+      },
+    },
+    required: [
+      "status",
+    ],
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: {
+          type: "object",
+          properties: {
+            _id: { type: "string", format: "uuid" },
+            skillId: { type: "string" },
+            skillName: { type: "string" },
+            domainId: { type: "string" },
+            domainName: { type: "string" },
+            status: {
+              type: "string",
+              enum: ["added", "verified", "rejected"],
+            },
+            activeStatus: {
+              type: "string",
+              enum: ["Active", "Inactive"],
+            },
+          },
+        },
+      },
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+        code: { type: "string" },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: { type: "string" },
+        message: { type: "string" },
       },
     },
     500: {

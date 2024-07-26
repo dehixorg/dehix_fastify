@@ -186,8 +186,13 @@ export const updateFreelancerSchema: FastifySchema = {
             skillId: { type: "string" },
             skillName: { type: "string" },
             domainId: { type: "string" },
-            domainName: { type: "string", format: "date-time" }, 
+            domainName: { type: "string" }, 
             status: {
+              type: "string",
+              enum: ["added", "verified", "rejected"],
+              default: "added",
+            },
+            activeStatus: {
               type: "string",
               enum: ["Active", "Inactive"],
               default: "Active",

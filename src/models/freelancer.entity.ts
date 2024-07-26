@@ -95,8 +95,9 @@ export interface IFreelancer extends Document {
       skillId?: string;
       skillName?: string;
       domainId?: string;
-      domainName?: Date;
-      status?: "Active" | "Inactive";
+      domainName?: string;
+      status?: "added" | "verified" | "rejected";
+      activeStatus?: "Active" | "Inactive";
     }
   >;
   refer?: {
@@ -321,6 +322,12 @@ const FreelancerSchema: Schema = new Schema(
         domainId: { type: String, required: false },
         domainName: { type: Date, required: false },
         status: {
+          type: String,
+          enum: ["added", "verified", "rejected"],
+          required: false,
+          default: "added",
+        },
+        activestatus: {
           type: String,
           enum: ["Active", "Inactive"],
           required: false,

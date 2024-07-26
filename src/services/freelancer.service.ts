@@ -678,6 +678,68 @@ export class FreelancerService extends BaseService {
     this.logger.info(data, "in get freelancer domains");
     return data;
   }
+
+  async createFreelancerDehixTalent(freelancer_id: string, dehixTalentData: any) {
+    try {
+      this.logger.info(
+        "FreelancerService: create freelancer dehix talent ",
+        freelancer_id,
+      );
+
+      // Check if freelancer exists
+      const userExist =
+        await this.FreelancerDAO.findFreelancerById(freelancer_id);
+      if (!userExist) {
+        throw new NotFoundError(
+          RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+          ERROR_CODES.FREELANCER_NOT_FOUND,
+        );
+      }
+
+      // Create new dehix talent entry
+      const createDehixTalent = await this.FreelancerDAO.addDehixTalentById(
+        freelancer_id,
+        dehixTalentData,
+      );
+      return createDehixTalent;
+    } catch (error: any) {
+      throw new Error(
+        `Failed to create freelancer dehix talent: ${error.message}`,
+      );
+    }
+  }
+
+  async deleteFreelancerDehixTalent(freelancerId: string, dehixTalentId: string) {
+    this.logger.info(
+      "FreelancerService: deleteFreelancerDehixTalent",
+      freelancerId,
+    );
+
+    const userExist = await this.FreelancerDAO.findFreelancerById(freelancerId);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const experienceExist = await this.FreelancerDAO.getDehixTalentById(
+      freelancerId,
+      dehixTalentId,
+    );
+    if (!experienceExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.DEHIX_TALENT_NOT_FOUND,
+        ERROR_CODES.DEHIX_TALENT_NOT_FOUND,
+      );
+    }
+
+    const data = await this.FreelancerDAO.deleteDehixTalentById(
+      freelancerId,
+      dehixTalentId,
+    );
+    return data;
+  }
 }
 /**
  * Service method for FREELANCER login

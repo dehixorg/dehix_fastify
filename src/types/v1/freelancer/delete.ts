@@ -18,3 +18,7 @@ export interface DeleteFreelancerEducationPathParams {
   freelancer_id: string;
   education_id: string;
 }
+export interface DeleteFreelancerDehixTalentPathParams {
+  freelancer_id: string;
+  dehixTalent_id: string;
+}

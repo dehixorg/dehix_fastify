@@ -400,4 +400,39 @@ export class FreelancerDAO extends BaseDAO {
       throw error;
     }
   }
+
+  async addDehixTalentById(id: string, update: any) {
+    const dehixTalentId = uuidv4();
+    return this.model.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          [`dehixTalent.${dehixTalentId}`]: {
+            _id: dehixTalentId,
+            ...update,
+          },
+        },
+      },
+      { new: true, upsert: true },
+    );
+  }
+
+  async getDehixTalentById(freelancerId: string, dehixTalentId: string) {
+    return this.model.findOne(
+      { _id: freelancerId },
+      { [`dehixTalent.${dehixTalentId}`]: 1 },
+    );
+  }
+
+  async deleteDehixTalentById(id: string, dehixTalentId: string) {
+    return this.model.findByIdAndUpdate(
+      id,
+      {
+        $unset: {
+          [`dehixTalent.${dehixTalentId}`]: "",
+        },
+      },
+      { new: true },
+    );
+  }
 }

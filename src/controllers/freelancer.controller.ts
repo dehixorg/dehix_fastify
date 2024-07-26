@@ -8,6 +8,7 @@ import {
   RESPONSE_MESSAGE,
 } from "../common/constants";
 import {
+  CreateDehixTalentBody,
   CreateFreelancerEducationBody,
   CreateFreelancerExperienceBody,
   CreateFreelancerProjectBody,
@@ -36,6 +37,8 @@ import {
   FREELANCER_OWN_PROJECT_ID_ENDPOINT,
   FREELANCER_SKILLS_ENDPOINT,
   FREELANCER_DOMAIN_ENDPOINT,
+  FREELANCER_DEHIX_TALENT_ADD_BY_ID,
+  FREELANCER_DEHIX_TALENT_DELETE_BY_ID,
 } from "../constants/freelancer.constant";
 import {
   getFreelancerDomainSchema,
@@ -68,6 +71,7 @@ import {
   PutFreelancerDomainBody,
 } from "../types/v1/freelancer/updateProfile";
 import {
+  deleteDehixTalentFreelancerSchema,
   deleteEducationSchema,
   deleteFreelancerDomainSchema,
   deleteFreelancerProjectSchema,
@@ -75,6 +79,7 @@ import {
   deleteProfessionalInfoSchema,
 } from "../schema/v1/freelancer/delete";
 import {
+  DeleteFreelancerDehixTalentPathParams,
   DeleteFreelancerDomainPathParams,
   DeleteFreelancerEducationPathParams,
   DeleteFreelancerExperiencePathParams,
@@ -86,6 +91,7 @@ import { PutFreelancerProjectBody } from "../types/v1/freelancer/updateProject";
 import { addFreelancerSkillsSchema } from "../schema/v1/freelancer/update";
 import { IFreelancer } from "../models/freelancer.entity";
 import {
+  createDehixTalentSchema,
   createEducationSchema,
   createProfessionalInfoSchema,
   createProjectSchema,
@@ -987,4 +993,98 @@ export default class FreelancerController extends AuthController {
     }
   }
 
+  @POST(FREELANCER_DEHIX_TALENT_ADD_BY_ID, {
+    schema: createDehixTalentSchema,
+  })
+  async createDehixTalent(
+    request: FastifyRequest<{
+      Params: GetFreelancerPathParams;
+      Body: CreateDehixTalentBody;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FreelancerController -> createDehixTalent -> Create Dehix Talent using ID: ${request.params.freelancer_id}`,
+      );
+
+      const data = await this.freelancerService.createFreelancerDehixTalent(
+        request.params.freelancer_id,
+        request.body,
+      );
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(
+        `Error in createFreelancerDehixTalent: ${error.message}`,
+      );
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found.",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+  
+  @DELETE(FREELANCER_DEHIX_TALENT_DELETE_BY_ID, {
+    schema: deleteDehixTalentFreelancerSchema,
+  })
+  async deleteDehixTalentFreelancer(
+    request: FastifyRequest<{ Params: DeleteFreelancerDehixTalentPathParams }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FreelancerController -> deleteDehixTalentFreelancer -> Deleting dehixTalent using ID: ${request.params.freelancer_id}`,
+      );
+
+      const data = await this.freelancerService.deleteFreelancerExperience(
+        request.params.freelancer_id,
+        request.params.dehixTalent_id,
+      );
+
+      reply
+        .status(STATUS_CODES.SUCCESS)
+        .send({ message: "Experience deleted" });
+    } catch (error: any) {
+      this.logger.error(
+        `Error in deleteExperienceFreelancer: ${error.message}`,
+      );
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found.",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else if (
+        error.ERROR_CODES === "EXPERIENCE_NOT_FOUND" ||
+        error.message.includes("Freelancer experience not found by id")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Experience"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
 }

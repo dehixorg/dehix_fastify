@@ -34,6 +34,10 @@ export const FREELANCER_DOMAIN_ENDPOINT = "/:freelancer_id/domain";
 export const FREELANCER_DOMAIN_ADD_BY_ID = "/:freelancer_id/domain";
 export const FREELANCER_DOMAIN_DELETE_BY_ID = "/:freelancer_id/domain/:domain_id";
 
+// Dehix Talent
+export const FREELANCER_DEHIX_TALENT_ADD_BY_ID = "/:freelancer_id/dehix-talent";
+export const FREELANCER_DEHIX_TALENT_DELETE_BY_ID = "/:freelancer_id/dehix-talent/:dehixTalent_id";
+
 export const FREELANCER_ORACLE_STATUS_BY_ID = "/:freelancer_id/oracle-status";
 export const FREELANCER_INTERVIEWS_ALIGNED_BY_ID = "/:freelancer_id/interviews-aligned";
 export const REGISTRATION_ENDPOINT = "/register";
