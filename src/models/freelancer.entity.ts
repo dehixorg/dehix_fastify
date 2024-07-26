@@ -115,7 +115,15 @@ export interface IFreelancer extends Document {
       | "failed"
       | "stopped"
       | "reapplied";
-  };
+      description?:
+        string,
+      
+      price?: string,
+
+      experience?:string,
+
+      links?:string[],
+  }
   pendingProject?: string[];
   rejectedProject?: string[];
   acceptedProject?: string[];
@@ -335,6 +343,22 @@ const FreelancerSchema: Schema = new Schema(
         default: "notApplied",
         required: false,
       },
+      description:{
+        type:String,
+        required:false
+      },
+      price:{
+        type:String,
+        required:false
+      },
+      experience:{
+        type:String,
+        required:false
+      },
+      links:{
+        type:[String],
+        required:false
+      }
     },
     pendingProject: [{ type: String, ref: "Project", required: false }],
     rejectedProject: [{ type: String, ref: "Project", required: false }],
