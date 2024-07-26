@@ -159,14 +159,13 @@ export const createFreelancerSchema: FastifySchema = {
           status: {
             type: "string",
             enum: ["added", "verified", "rejected"],
-            default: "added",
           },
           activeStatus: {
             type: "string",
             enum: ["Active", "Inactive"],
-            default: "Active",
           },
         },
+        required: [],
       },
       refer: {
         type: "object",

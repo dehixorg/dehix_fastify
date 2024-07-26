@@ -723,11 +723,11 @@ export class FreelancerService extends BaseService {
       );
     }
 
-    const experienceExist = await this.FreelancerDAO.getDehixTalentById(
+    const dehixTalentExist = await this.FreelancerDAO.getDehixTalentById(
       freelancerId,
       dehixTalentId,
     );
-    if (!experienceExist) {
+    if (!dehixTalentExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.DEHIX_TALENT_NOT_FOUND,
         ERROR_CODES.DEHIX_TALENT_NOT_FOUND,

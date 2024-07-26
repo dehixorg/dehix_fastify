@@ -1049,17 +1049,17 @@ export default class FreelancerController extends AuthController {
         `FreelancerController -> deleteDehixTalentFreelancer -> Deleting dehixTalent using ID: ${request.params.freelancer_id}`,
       );
 
-      const data = await this.freelancerService.deleteFreelancerExperience(
+      const data = await this.freelancerService.deleteFreelancerDehixTalent(
         request.params.freelancer_id,
         request.params.dehixTalent_id,
       );
 
       reply
         .status(STATUS_CODES.SUCCESS)
-        .send({ message: "Experience deleted" });
+        .send({ message: "dehixTalent deleted" });
     } catch (error: any) {
       this.logger.error(
-        `Error in deleteExperienceFreelancer: ${error.message}`,
+        `Error in deleteDehixTalentFreelancer: ${error.message}`,
       );
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
@@ -1072,11 +1072,11 @@ export default class FreelancerController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       } else if (
-        error.ERROR_CODES === "EXPERIENCE_NOT_FOUND" ||
-        error.message.includes("Freelancer experience not found by id")
+        error.ERROR_CODES === "DEHIX_TALENT_NOT_FOUND" ||
+        error.message.includes("Dehix Talent not found by id")
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.NOT_FOUND("Experience"),
+          message: RESPONSE_MESSAGE.NOT_FOUND("Dehix Talent"),
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {

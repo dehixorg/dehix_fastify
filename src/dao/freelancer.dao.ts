@@ -417,10 +417,10 @@ export class FreelancerDAO extends BaseDAO {
     );
   }
 
-  async getDehixTalentById(freelancerId: string, dehixTalentId: string) {
+    async getDehixTalentById(freelancerId: string, dehixTalent_id: string) {
     return this.model.findOne(
-      { _id: freelancerId },
-      { [`dehixTalent.${dehixTalentId}`]: 1 },
+      { _id: freelancerId, [`dehixTalent.${dehixTalent_id}`]: { $exists: true } },
+      { [`dehixTalent.${dehixTalent_id}`]: 1 },
     );
   }
 
@@ -429,7 +429,7 @@ export class FreelancerDAO extends BaseDAO {
       id,
       {
         $unset: {
-          [`dehixTalent.${dehixTalentId}`]: "",
+          [`dehixTalent.${dehixTalentId}`]: 1,
         },
       },
       { new: true },

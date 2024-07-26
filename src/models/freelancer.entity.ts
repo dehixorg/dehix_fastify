@@ -320,7 +320,7 @@ const FreelancerSchema: Schema = new Schema(
         skillId: { type: String, required: false },
         skillName: { type: String, required: false },
         domainId: { type: String, required: false },
-        domainName: { type: Date, required: false },
+        domainName: { type: String, required: false },
         status: {
           type: String,
           enum: ["added", "verified", "rejected"],

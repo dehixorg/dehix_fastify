@@ -248,12 +248,12 @@ export const deleteDehixTalentFreelancerSchema: FastifySchema = {
         type: "string",
         description: "The ID of the freelancer",
       },
-      experience_id: {
+      dehixTalent_id: {
         type: "string",
-        description: "The ID of the experience to be deleted",
+        description: "The ID of the dehix talent to be deleted",
       },
     },
-    required: ["freelancer_id", "experience_id"],
+    required: ["freelancer_id", "dehixTalent_id"],
   },
   response: {
     200: {
