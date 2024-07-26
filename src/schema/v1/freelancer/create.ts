@@ -148,6 +148,21 @@ export const createFreelancerSchema: FastifySchema = {
           ],
         },
       },
+      dehixTalent: {
+        type: "object",
+        properties: {
+          id: { type: "string" },
+          skillId: { type: "string" },
+          skillName: { type: "string" },
+          domainId: { type: "string" },
+          domainName: { type: "string", format: "date-time" },
+          status: {
+            type: "string",
+            enum: ["Active", "Inactive"],
+            default: "Active",
+          },
+        },
+      },
       refer: {
         type: "object",
         properties: {
