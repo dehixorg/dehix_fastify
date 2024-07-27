@@ -14,83 +14,79 @@ export interface IHire extends Document {
   status: string;
   visible: string;
   freelancerApplied: string[];
-  freelancerSelected: string[]; 
+  freelancerSelected: string[];
 }
 
 // Define the Hire schema
 const hireSchema: Schema<IHire> = new Schema(
   {
     _id: {
-        type: String,
-        default: uuidv4, // Use uuidv4 for generating unique IDs
-        required: true,
+      type: String,
+      default: uuidv4, // Use uuidv4 for generating unique IDs
+      required: true,
     },
     businessId: {
-        type: String,
-        ref: "Business",
-        required: true,
+      type: String,
+      ref: "Business",
+      required: true,
     },
     domainId: {
-        type: String,
-        ref: "Domain",
-        required: false,
+      type: String,
+      ref: "Domain",
+      required: false,
     },
     domainName: {
-        type: String,
-        ref: "Domain",
-        required: false,
+      type: String,
+      ref: "Domain",
+      required: false,
     },
     skillId: {
-        type: String,
-        ref: "Skill",
-        required: false,
+      type: String,
+      ref: "Skill",
+      required: false,
     },
     skillName: {
-        type: String,
-        ref: "Skill",
-        required: false,
+      type: String,
+      ref: "Skill",
+      required: false,
     },
     description: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     experience: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     freelancerRequired: {
-        type: Number,
-        default: 1,
-        required: true,
+      type: Number,
+      default: 1,
+      required: true,
     },
     status: {
-        type: String,
-        enum: [
-            "added",
-            "approved",
-            "closed",
-            "completed",
-          ],
-          default: "added",
+      type: String,
+      enum: ["added", "approved", "closed", "completed"],
+      default: "added",
     },
     visible: {
-        type: String,
-        enum: [
-            "on",
-            "off",
-          ],
-          default: "on",
+      type: String,
+      enum: ["on", "off"],
+      default: "on",
     },
-    freelancerApplied: [{
+    freelancerApplied: [
+      {
         type: String,
         ref: "Freelancer",
-        required: false,        
-    }],
-    freelancerSelected: [{
+        required: false,
+      },
+    ],
+    freelancerSelected: [
+      {
         type: String,
         ref: "Freelancer",
-        required: false,        
-    }],
+        required: false,
+      },
+    ],
   },
   {
     timestamps: true, // Add createdAt and updatedAt fields

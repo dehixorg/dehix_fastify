@@ -115,15 +115,14 @@ export interface IFreelancer extends Document {
       | "failed"
       | "stopped"
       | "reapplied";
-      description?:
-        string,
-      
-      price?: string,
+    description?: string;
 
-      experience?:string,
+    price?: string;
 
-      links?:string[],
-  }
+    experience?: string;
+
+    links?: string[];
+  };
   pendingProject?: string[];
   rejectedProject?: string[];
   acceptedProject?: string[];
@@ -330,39 +329,40 @@ const FreelancerSchema: Schema = new Schema(
       required: false,
     },
     consultant: {
-      type:Map,
-      of:new Schema
-     ( 
-     { _id: { type: String, default: uuidv4, required: true },status: {
-        type: String,
-        enum: [
-          "notApplied",
-          "applied",
-          "approved",
-          "failed",
-          "stopped",
-          "reapplied",
-        ],
-        default: "notApplied",
-        required: false,
-      },
-      description:{
-        type:String,
-        required:false
-      },
-      price:{
-        type:String,
-        required:false
-      },
-      experience:{
-        type:String,
-        required:false
-      },
-      links:{
-        type:[String],
-        required:false
-      }
-    })},
+      type: Map,
+      of: new Schema({
+        _id: { type: String, default: uuidv4, required: true },
+        status: {
+          type: String,
+          enum: [
+            "notApplied",
+            "applied",
+            "approved",
+            "failed",
+            "stopped",
+            "reapplied",
+          ],
+          default: "notApplied",
+          required: false,
+        },
+        description: {
+          type: String,
+          required: false,
+        },
+        price: {
+          type: String,
+          required: false,
+        },
+        experience: {
+          type: String,
+          required: false,
+        },
+        links: {
+          type: [String],
+          required: false,
+        },
+      }),
+    },
     pendingProject: [{ type: String, ref: "Project", required: false }],
     rejectedProject: [{ type: String, ref: "Project", required: false }],
     acceptedProject: [{ type: String, ref: "Project", required: false }],

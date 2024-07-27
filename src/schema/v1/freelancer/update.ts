@@ -439,7 +439,7 @@ export const addFreelancerDomainSchema: FastifySchema = {
               description: "The rating given by the interviewer",
               nullable: true,
             },
-          }
+          },
         },
         minItems: 1,
       },
@@ -473,7 +473,10 @@ export const addFreelancerDomainSchema: FastifySchema = {
               items: {
                 type: "object",
                 properties: {
-                  name: { type: "string", description: "The name of the domain" },
+                  name: {
+                    type: "string",
+                    description: "The name of the domain",
+                  },
                   level: {
                     type: "string",
                     description: "The level of proficiency in the domain",

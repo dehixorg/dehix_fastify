@@ -43,19 +43,19 @@ export const createhireDehixTalentSchema: FastifySchema = {
       visible: {
         type: "string",
         enum: ["on", "off"],
-        default: "on"
+        default: "on",
       },
       freelancerApplied: {
         type: "array",
         items: {
-            type: "string",
-        }
+          type: "string",
+        },
       },
       freelancerSelected: {
         type: "array",
         items: {
-            type: "string",
-        }
+          type: "string",
+        },
       },
       start: {
         type: "string",
