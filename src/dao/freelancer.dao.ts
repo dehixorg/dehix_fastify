@@ -362,6 +362,7 @@ export class FreelancerDAO extends BaseDAO {
     ]);
 
   }
+
   async addFreelancerDomain(id: string, domain: any) {
     const result = await this.model.updateOne(
       { _id: id },
@@ -447,6 +448,7 @@ export class FreelancerDAO extends BaseDAO {
       },
       { new: true },
     );
+
   }
   async addConsultant(freelancer_id: string, update: any) {
     const consultant_id = uuidv4();
@@ -485,5 +487,6 @@ export class FreelancerDAO extends BaseDAO {
       { $unset: { [`consultant.${consultant_id}`]: "" } },
       { new: true },
     );
+
   }
 }
