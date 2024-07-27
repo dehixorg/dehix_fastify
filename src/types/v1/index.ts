@@ -1,3 +1,3 @@
 export * from "./freelancer/getProfile";
 export * from "./freelancer/create";
-export * from "./hireDehixTalent/update"
+export * from "./hireDehixTalent/update";
