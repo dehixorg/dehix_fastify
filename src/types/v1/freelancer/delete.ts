@@ -21,3 +21,7 @@ export interface DeleteFreelancerEducationPathParams {
 export interface DeleteconsultantPathParams {
   consultant_id: string;
 }
+export interface DeleteFreelancerDehixTalentPathParams {
+  freelancer_id: string;
+  dehixTalent_id: string;
+}

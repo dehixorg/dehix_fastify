@@ -88,6 +88,18 @@ export interface IFreelancer extends Document {
       comments?: string;
     }
   >;
+  dehixTalent?: Map<
+    string,
+    {
+      _id?: string;
+      skillId?: string;
+      skillName?: string;
+      domainId?: string;
+      domainName?: string;
+      status?: "added" | "verified" | "rejected";
+      activeStatus?: "Active" | "Inactive";
+    }
+  >;
   refer?: {
     name?: string;
     contact?: string;
@@ -129,6 +141,7 @@ export interface IFreelancer extends Document {
   oracleProject?: string[];
   userDataForVerification?: string[];
   interviewsAligned?: string[];
+  interviewee?: boolean;
 }
 
 const FreelancerSchema: Schema = new Schema(
@@ -153,7 +166,7 @@ const FreelancerSchema: Schema = new Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: false,
     },
     email: {
       type: String,
@@ -304,6 +317,33 @@ const FreelancerSchema: Schema = new Schema(
       }),
       require: false,
     },
+    dehixTalent: {
+      type: Map,
+      of: new Schema({
+        _id: {
+          type: String,
+          default: uuidv4,
+          required: true,
+        },
+        skillId: { type: String, required: false },
+        skillName: { type: String, required: false },
+        domainId: { type: String, required: false },
+        domainName: { type: String, required: false },
+        status: {
+          type: String,
+          enum: ["added", "verified", "rejected"],
+          required: false,
+          default: "added",
+        },
+        activestatus: {
+          type: String,
+          enum: ["Active", "Inactive"],
+          required: false,
+          default: "Active",
+        },
+      }),
+      required: false,
+    },
     refer: {
       name: { type: String, required: false },
       contact: { type: String, required: false },
@@ -371,6 +411,11 @@ const FreelancerSchema: Schema = new Schema(
       { type: String, ref: "Verification", required: false },
     ],
     interviewsAligned: [{ type: String, ref: "Interview", required: false }],
+    interviewee: {
+      type: Boolean,
+      default: false,
+      require: false,
+    },
   },
   {
     timestamps: true,

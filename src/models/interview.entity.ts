@@ -5,7 +5,7 @@ export interface IInterview extends Document {
   interviewee: string;
   skill: string;
   interviewDate: Date;
-  rating: number | string;
+  rating: number;
   comments?: string;
 }
 
@@ -30,8 +30,8 @@ const InterviewSchema: Schema<IInterview> = new Schema(
       required: true,
     },
     rating: {
-      type: Schema.Types.Mixed,
-      default: "pending",
+      type: Number,
+      default: 0,
     },
     comments: {
       type: String,

@@ -34,7 +34,7 @@ import { IProject } from "../models/project.entity";
 import { getProjectSchema } from "../schema/v1/project/get";
 import { createProjectSchema } from "../schema/v1/project/create";
 import { deleteProjectSchema } from "../schema/v1/project/delete";
-import { GetBusinessProjectQueryParams } from "src/types/v1/business/getProject";
+import { GetBusinessProjectQueryParams } from "../types/v1/business/getProject";
 
 @Controller({ route: BUSINESS_END_POINT })
 export default class BusinessController extends AuthController {
