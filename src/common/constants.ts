@@ -32,10 +32,10 @@ export const RESPONSE_MESSAGE = {
   NOT_FOUND: (entity: string = "User") => `${entity} not found`,
   USER_NOT_FOUND: "User not found",
   USER_EXISTS: "User already exists",
+  FREELANCER_PROJECT_NOT_FOUND: "Freelancer project not found by id",
   PROJECT_NOT_FOUND: "Project by provided ID was not found.",
   DRAFT_SUB_NOT_FOUND: "No subscription found for this draft owner",
   FREELANCER_NOT_FOUND: "Freelancer with provided ID could not be found.",
-  FREELANCER_PROJECT_NOT_FOUND: "Freelancer project not found by id",
   BUSINESS_NOT_FOUND: "Business with provided ID could not be found.",
   CONSULTANT_NOT_FOUND: "Consultant with provided ID could not be found.",
   EXPERIENCE_NOT_FOUND: "Freelancer experience not found by id",
@@ -43,6 +43,9 @@ export const RESPONSE_MESSAGE = {
   PROJECT_NOT_FOUND_EMAIL: "Project not found by email.",
   PROJECT_NOT_FOUND_BY_ID: "Project not found by id",
   BID_NOT_FOUND: "Bid not found by id",
+
+  INTERVIEW_NOT_FOUND: "Interview not found by id",
+
   HIRE_DEHIX_TALENT_NOT_FOUND: "Hire Dehix Talent not found by id",
   DEHIX_TALENT_NOT_FOUND: "Dehix Talent not found by id",
   DRAFT_NOT_FOUND: "Draft with provided ID could not be found.",

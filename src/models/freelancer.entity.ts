@@ -134,6 +134,7 @@ export interface IFreelancer extends Document {
   oracleProject?: string[];
   userDataForVerification?: string[];
   interviewsAligned?: string[];
+  interviewee?: boolean;
 }
 
 const FreelancerSchema: Schema = new Schema(
@@ -158,7 +159,7 @@ const FreelancerSchema: Schema = new Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: false,
     },
     email: {
       type: String,
@@ -383,6 +384,11 @@ const FreelancerSchema: Schema = new Schema(
       { type: String, ref: "Verification", required: false },
     ],
     interviewsAligned: [{ type: String, ref: "Interview", required: false }],
+    interviewee: {
+      type: Boolean,
+      default: false,
+      require: false,
+    },
   },
   {
     timestamps: true,

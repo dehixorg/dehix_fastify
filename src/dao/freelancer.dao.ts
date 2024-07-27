@@ -350,6 +350,18 @@ export class FreelancerDAO extends BaseDAO {
     );
   }
 
+  async interviewStatusUpdate(id: string, update: string) {
+    return this.model.findByIdAndUpdate(id, { interviewee: update });
+  }
+  async getInterviewer(id: string) {
+    return this.model.aggregate([
+      {
+        $match: { _id: { $ne: id }, workExperience: { $gte: 3 } },
+      },
+      { $sample: { size: 1 } },
+    ]);
+
+
   async addFreelancerDomain(id: string, domain: any) {
     const result = await this.model.updateOne(
       { _id: id },
@@ -363,6 +375,7 @@ export class FreelancerDAO extends BaseDAO {
       id,
       domain,
     }; // Fetch and return the updated document
+
   }
 
   async getFreelancerOwnProjects( freelancer_id: string ) {

@@ -96,7 +96,7 @@ import {
   createProfessionalInfoSchema,
   createProjectSchema,
 } from "../schema/v1/freelancer/create";
-import { GetFreelancerProjectQueryParams } from "src/types/v1/freelancer/getProject";
+import { GetFreelancerProjectQueryParams } from "../types/v1/freelancer/getProject";
 
 @Controller({ route: FREELANCER_ENDPOINT })
 export default class FreelancerController extends AuthController {
@@ -706,7 +706,7 @@ export default class FreelancerController extends AuthController {
         });
       } else if (
         error.ERROR_CODES === "PROJECT_NOT_FOUND" ||
-        error.message.includes("Freelancer project not found by id")
+        error.message.includes("Project by provided ID was not found.")
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
@@ -753,7 +753,7 @@ export default class FreelancerController extends AuthController {
         });
       } else if (
         error.ERROR_CODES === "FREELANCER_PROJECT_NOT_FOUND" ||
-        error.message.includes("Freelancer project not found by id")
+        error.message.includes("Project by provided ID was not found.")
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
