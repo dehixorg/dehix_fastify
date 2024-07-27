@@ -330,7 +330,10 @@ const FreelancerSchema: Schema = new Schema(
       required: false,
     },
     consultant: {
-      status: {
+      type:Map,
+      of:new Schema
+     ( 
+     { _id: { type: String, default: uuidv4, required: true },status: {
         type: String,
         enum: [
           "notApplied",
@@ -359,7 +362,7 @@ const FreelancerSchema: Schema = new Schema(
         type:[String],
         required:false
       }
-    },
+    })},
     pendingProject: [{ type: String, ref: "Project", required: false }],
     rejectedProject: [{ type: String, ref: "Project", required: false }],
     acceptedProject: [{ type: String, ref: "Project", required: false }],

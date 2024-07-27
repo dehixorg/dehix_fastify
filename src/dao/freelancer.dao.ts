@@ -364,4 +364,33 @@ export class FreelancerDAO extends BaseDAO {
       domain,
     }; // Fetch and return the updated document
   }
+  async addConsultant(freelancer_id:string,update:any){
+    const consultant_id = uuidv4();
+    return this.model.findByIdAndUpdate(
+      freelancer_id,
+      {
+        $set: {
+          [`consultant.${consultant_id}`]: { _id: consultant_id, ...update },
+        },
+      },
+      { new: true, upsert: true },
+    );
+  }
+  async getConsultant(freelancer_id:string,consultant_id:string){
+    return this.model.findOne(
+      { _id: freelancer_id },
+      { [`professionalInfo.${consultant_id}`]: 1 },
+    );
+  }
+  async putConsultant(freelancer_id:string,consultant_id:string,update:any){
+    return this.model.findByIdAndUpdate({_id:freelancer_id,[`consultant.${consultant_id}`]:{$exists:true}},{$set:{[`consultant.${consultant_id}`]:{...update}}})
+  }
+  async deleteConsultant(freelancer_id: string, consultant_id: string) {
+    return this.model.findByIdAndUpdate(
+      freelancer_id,
+      { $unset: { [`consultant.${consultant_id}`]: "" } },
+      { new: true }
+    );
+  }
+
 }
