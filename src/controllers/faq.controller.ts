@@ -6,13 +6,68 @@ import {
   RESPONSE_MESSAGE,
 } from "../common/constants";
 import { AuthController } from "../common/auth.controller";
-import { FAQ_ENDPOINT } from "src/constants/faq.constant";
-import { FaqService } from "src/services";
+import { FAQ_ENDPOINT, FAQ_ID_ENDPOINT } from "../constants/faq.constant";
+import { FaqService } from "../services";
+import { createFaqSchema } from "../schema/v1/faq/create";
+import { createFaqBody } from "../types/v1/faq/create";
+import { DeleteFaqPathParams } from "src/types/v1/faq/delete";
 
 @Controller({ route: FAQ_ENDPOINT })
 export default class FaqController extends AuthController {
-    @Inject(FaqService)
-    faqService!: FaqService;
+  @Inject(FaqService)
+  faqService!: FaqService;
 
+  @POST(FAQ_ID_ENDPOINT, { schema: createFaqSchema })
+  async createFaq(
+    request: FastifyRequest<{ Body: createFaqBody }>,
+    reply: FastifyReply,
+  ) {
+    try{
+      this.logger.info(`FaqController  -> createFaq -> create FAQ}`);
+      const data = await this.faqService.create(request.body);
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    }catch (error: any) {
+      this.logger.error(`Error in CreateFaq: ${error.message}`);
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
+        message: RESPONSE_MESSAGE.SERVER_ERROR,
+        code: ERROR_CODES.SERVER_ERROR,
+      });
+    }
+  }
+
+  async deleteFaqById(
+    request: FastifyRequest<{ Params: DeleteFaqPathParams }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FaqController -> deleteFaqById -> Deleting FAQ using: ${request.params.faq_id}`,
+      );
+      const data = await this.faqService.deleteFaqById(
+        request.params.faq_id
+      );
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in delete faq: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes(
+          "Data not found",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
 
 }
