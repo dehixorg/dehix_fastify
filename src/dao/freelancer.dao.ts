@@ -377,4 +377,75 @@ export class FreelancerDAO extends BaseDAO {
     }; // Fetch and return the updated document
 
   }
+
+  async getFreelancerOwnProjects( freelancer_id: string ) {
+    try {
+      return await this.model.find(
+        {_id: freelancer_id},
+        { projects: 1, _id: 0 }
+      );
+    } catch (error) {
+      console.error("Error fetching freelancer projects:", error);
+      throw error;
+    }
+  }
+
+  async getFreelancerSkills( freelancer_id: string ) {
+    try {
+      return await this.model.find(
+        {_id: freelancer_id},
+        { skills: 1, _id: 0 }
+      );
+    } catch (error) {
+      console.error("Error fetching freelancer skills:", error);
+      throw error;
+    }
+  }
+
+  async getFreelancerDomains( freelancer_id: string ) {
+    try {
+      return await this.model.find(
+        {_id: freelancer_id},
+        { domain: 1, _id: 0 }
+      );
+    } catch (error) {
+      console.error("Error fetching freelancer domains:", error);
+      throw error;
+    }
+  }
+
+  async addDehixTalentById(id: string, update: any) {
+    const dehixTalentId = uuidv4();
+    return this.model.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          [`dehixTalent.${dehixTalentId}`]: {
+            _id: dehixTalentId,
+            ...update,
+          },
+        },
+      },
+      { new: true, upsert: true },
+    );
+  }
+
+    async getDehixTalentById(freelancerId: string, dehixTalent_id: string) {
+    return this.model.findOne(
+      { _id: freelancerId, [`dehixTalent.${dehixTalent_id}`]: { $exists: true } },
+      { [`dehixTalent.${dehixTalent_id}`]: 1 },
+    );
+  }
+
+  async deleteDehixTalentById(id: string, dehixTalentId: string) {
+    return this.model.findByIdAndUpdate(
+      id,
+      {
+        $unset: {
+          [`dehixTalent.${dehixTalentId}`]: 1,
+        },
+      },
+      { new: true },
+    );
+  }
 }
