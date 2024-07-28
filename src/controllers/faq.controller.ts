@@ -51,7 +51,7 @@ export default class FaqController extends AuthController {
         request.params.faq_id
       );
 
-      reply.status(STATUS_CODES.SUCCESS).send({ data });
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "Faq deleted" });
     } catch (error: any) {
       this.logger.error(`Error in delete faq: ${error.message}`);
       if (
