@@ -4,11 +4,20 @@ import { BidApplyBody } from "../types/v1/bid/bidApplyBody";
 import { BidDAO } from "../dao/bid.dao";
 import { NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
+import { businessDAO, FreelancerDAO } from "../dao";
+import { ProjectDAO } from "../dao/project.dao";
 
 @Service()
 export class BidService extends BaseService {
   @Inject(BidDAO)
   private BidDAO!: BidDAO;
+  @Inject(FreelancerDAO)
+  private FreelancerDao!:FreelancerDAO
+  @Inject(ProjectDAO)
+  private ProjectDao!:ProjectDAO
+  @Inject(businessDAO)
+  private BusinesssDao!:businessDAO
+
 
   /**
    * Service method to register a new FREELANCER
@@ -18,6 +27,18 @@ export class BidService extends BaseService {
    */
   async create(body: BidApplyBody) {
     const { bidder_id, project_id, domain_id, current_price } = body;
+    const bidderExist= await this.FreelancerDao.findFreelancerById(bidder_id);
+    const projectExist= await this.BusinesssDao.getProjectById(project_id);
+    if (!bidderExist) {
+      throw new NotFoundError(RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND
+      )
+    }
+    if (!projectExist) {
+      throw new NotFoundError(RESPONSE_MESSAGE.PROJECT_NOT_FOUND_BY_ID,
+        ERROR_CODES.NOT_FOUND
+      )
+    }
     const bid: any = await this.BidDAO.createOne(
       bidder_id,
       project_id,
@@ -28,8 +49,14 @@ export class BidService extends BaseService {
   }
 
   async updateBid(bid_id: string, bid: any) {
-    this.logger.info("BidService: updateBid: Updating Bid: ", bid_id, bid);
-
+    this.logger.info("BidService:Updating Bid: ", bid_id, bid);
+    const bidExist = await this.BidDAO.findBidById(bid_id);
+    if (!bidExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Bid"),
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
     const data: any = await this.BidDAO.updateBid({ _id: bid_id }, bid);
 
     return data;
@@ -62,16 +89,39 @@ export class BidService extends BaseService {
 
   async getBidBusiness(project_id: string) {
     this.logger.info(`Bid Service: Getting  business project bid`);
+    const projectExist= await this.BusinesssDao.getProjectById(project_id);
+   
+    if (!projectExist) {
+      throw new NotFoundError(RESPONSE_MESSAGE.PROJECT_NOT_FOUND_BY_ID,
+        ERROR_CODES.NOT_FOUND
+      )
+    }
     const data = await this.BidDAO.findBidByProjectId(project_id);
     return data;
   }
   async getBidfreelancer(bidder_id: string) {
     this.logger.info(`Bid Service: Getting  Freelancer project bid`);
+    const bidderExist= await this.FreelancerDao.findFreelancerById(bidder_id);
+    
+    if (!bidderExist) {
+      throw new NotFoundError(RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND
+      )
+    }
+   
     const data = await this.BidDAO.findBidByBidderId(bidder_id);
     return data;
   }
   async deleteBid(id: string) {
     this.logger.info(`Bid Service: Deleting  project bid`);
-    return await this.BidDAO.deleteBid(id);
+     const bidExist = await this.BidDAO.findBidById(id);
+    if (!bidExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Bid"),
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+     const data=await this.BidDAO.deleteBid(id);
+     return data
   }
 }

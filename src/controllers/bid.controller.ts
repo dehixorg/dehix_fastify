@@ -52,16 +52,50 @@ export default class BidController extends AuthController {
     request: FastifyRequest<{ Body: BidApplyBody }>,
     reply: FastifyReply,
   ) {
-    this.logger.info(`BidController -> getById -> Applying for bid}`);
-    const data = await this.bidService.create(request.body);
-
-    reply.status(STATUS_CODES.SUCCESS).send({
-      data,
-    });
+    try {
+      this.logger.info(`BidController -> getById -> Applying for bid}`);
+      const data = await this.bidService.create(request.body);
+  
+      reply.status(STATUS_CODES.SUCCESS).send({
+        data,
+      });
+    } catch (error: any) {
+      this.logger.error(`Error in create bid: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Bid not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Bid"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } 
+    else if (
+        error.message.includes("Freelancer with provided ID could not be found.",)){
+          reply.status(STATUS_CODES.NOT_FOUND).send({
+            message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+            code: ERROR_CODES.NOT_FOUND,
+          });
+      }
+      else if (
+        error.message.includes("Project not found by id")){
+          reply.status(STATUS_CODES.NOT_FOUND).send({
+            message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+            code: ERROR_CODES.NOT_FOUND,
+          });
+      }
+      else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+   
   }
 
   @PUT(UPDATE_BID_BY_ID_ENDPOINT, { schema: updateBidSchema }) //add schema
-  async addProjectById(
+  async updateBidById(
     request: FastifyRequest<{
       Params: PutBidPathParams;
       Body: PutBidBody;
@@ -78,13 +112,38 @@ export default class BidController extends AuthController {
         request.body,
       );
 
-      reply.status(STATUS_CODES.SUCCESS).send({ data });
+      reply.status(STATUS_CODES.SUCCESS).send({message:"Bid updated"});
     } catch (error: any) {
-      this.logger.error(`Error in addProjectById: ${error.message}`);
-      reply.status(STATUS_CODES.SERVER_ERROR).send({
-        message: RESPONSE_MESSAGE.SERVER_ERROR,
-        code: ERROR_CODES.SERVER_ERROR,
-      });
+      this.logger.error(`Error in update bid project: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Bid not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Bid"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } 
+    else if (
+        error.message.includes("Freelancer with provided ID could not be found.",)){
+          reply.status(STATUS_CODES.NOT_FOUND).send({
+            message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+            code: ERROR_CODES.NOT_FOUND,
+          });
+      }
+      else if (
+        error.message.includes("Project not found by id")){
+          reply.status(STATUS_CODES.NOT_FOUND).send({
+            message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+            code: ERROR_CODES.NOT_FOUND,
+          });
+      }
+      else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
     }
   }
 
@@ -149,12 +208,37 @@ export default class BidController extends AuthController {
       }
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
-    } catch (error) {
-      this.logger.error(`Error in getBidBusiness: ${error}`);
-      reply.status(STATUS_CODES.SERVER_ERROR).send({
-        message: RESPONSE_MESSAGE.SERVER_ERROR,
-        code: ERROR_CODES.SERVER_ERROR,
-      });
+    } catch (error: any) {
+      this.logger.error(`Error in get business bid: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Bid not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Bid"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } 
+    else if (
+        error.message.includes("Freelancer with provided ID could not be found.",)){
+          reply.status(STATUS_CODES.NOT_FOUND).send({
+            message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+            code: ERROR_CODES.NOT_FOUND,
+          });
+      }
+      else if (
+        error.message.includes("Project not found by id")){
+          reply.status(STATUS_CODES.NOT_FOUND).send({
+            message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+            code: ERROR_CODES.NOT_FOUND,
+          });
+      }
+      else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
     }
   }
 
@@ -180,12 +264,37 @@ export default class BidController extends AuthController {
       }
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
-    } catch (error) {
-      this.logger.error(`Error in getBidFreelancer: ${error}`);
-      reply.status(STATUS_CODES.SERVER_ERROR).send({
-        message: RESPONSE_MESSAGE.SERVER_ERROR,
-        code: ERROR_CODES.SERVER_ERROR,
-      });
+    } catch (error: any) {
+      this.logger.error(`Error in getBidFreelancer: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Bid not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Bid"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } 
+    else if (
+        error.message.includes("Freelancer with provided ID could not be found.",)){
+          reply.status(STATUS_CODES.NOT_FOUND).send({
+            message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+            code: ERROR_CODES.NOT_FOUND,
+          });
+      }
+      else if (
+        error.message.includes("Project not found by id")){
+          reply.status(STATUS_CODES.NOT_FOUND).send({
+            message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+            code: ERROR_CODES.NOT_FOUND,
+          });
+      }
+      else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
     }
   }
 
@@ -200,12 +309,24 @@ export default class BidController extends AuthController {
       );
 
       const data = await this.bidService.deleteBid(request.params.bid_id);
-      return reply.status(STATUS_CODES.SUCCESS).send({ data });
-    } catch (error) {
-      return reply.status(STATUS_CODES.SERVER_ERROR).send({
-        message: RESPONSE_MESSAGE.SERVER_ERROR,
-        code: ERROR_CODES.SERVER_ERROR,
-      });
+      return reply.status(STATUS_CODES.SUCCESS).send({message:"Bid deleted"});
+    } catch (error: any) {
+      this.logger.error(`Error in delete bid: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Bid not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Bid"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } 
+      else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
     }
   }
 }
