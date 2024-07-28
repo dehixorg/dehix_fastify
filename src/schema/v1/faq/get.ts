@@ -9,52 +9,56 @@ export const getAllFaqSchema: FastifySchema = {
       type: "object",
       properties: {
         data: {
-          type: "object",
-          properties: {
-            question: { type: "string" },
-            answer: { type: "string" },
-            type: { type: "string" },
-            status: { type: "string" },
-            importantUrl: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  urlName: { type: "string" },
-                  url: { type: "string" },
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              _id: { type: "string" },
+              question: { type: "string" },
+              answer: { type: "string" },
+              type: { type: "string" },
+              status: { type: "string" },
+              importantUrl: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    urlName: { type: "string" },
+                    url: { type: "string" },
+                  },
                 },
               },
             },
           },
         },
       },
-      404: {
-        type: "object",
-        properties: {
-          message: {
-            type: "string",
-          },
-          code: {
-            type: "string",
-          },
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
         },
       },
-      403: {
-        type: "object",
-        properties: {
-          code: {
-            type: "string",
-          },
-          message: {
-            type: "string",
-          },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
         },
       },
-      500: {
-        type: "object",
-        properties: {
-          message: { type: "string" },
-        },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
       },
     },
   },

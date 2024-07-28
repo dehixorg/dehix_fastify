@@ -6,7 +6,6 @@ export const createFaqSchema: FastifySchema = {
   body: {
     type: "object",
     properties: {
-      _id: { type: "string" },
       question: { type: "string" },
       answer: { type: "string" },
       type: {
@@ -37,6 +36,7 @@ export const createFaqSchema: FastifySchema = {
         data: {
           type: "object",
           properties: {
+            _id: { type: "string" },
             question: { type: "string" },
             answer: { type: "string" },
             type: { type: "string" },
