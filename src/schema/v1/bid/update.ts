@@ -13,14 +13,8 @@ export const updateBidSchema: FastifySchema = {
   body: {
     type: "object",
     properties: {
-      bidder_id: { type: "string" },
       current_price: { type: "number" },
-      project_id: { type: "string" },
       domain_id: { type: "string" },
-      bid_status: {
-        type: "string",
-        enum: ["Pending", "Accepted", "Rejected"],
-      },
     },
     required: [],
   },
@@ -28,14 +22,12 @@ export const updateBidSchema: FastifySchema = {
     200: {
       type: "object",
       properties: {
-        data: {
-          type: "object",
-          properties: {
-            bidder_id: { type: "string" },
-            project_id: { type: "string" },
-            bid_status: { type: "string" },
-            current_price: { type: "string" },
-            domain_id: { type: "string" },
+        properties: {
+          message: {
+            type: "string",
+          },
+          code: {
+            type: "string",
           },
         },
       },

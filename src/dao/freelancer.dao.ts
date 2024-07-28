@@ -361,6 +361,9 @@ export class FreelancerDAO extends BaseDAO {
       { $sample: { size: 1 } },
     ]);
 
+
+  }
+
   }
 
   async addFreelancerDomain(id: string, domain: any) {
@@ -376,14 +379,13 @@ export class FreelancerDAO extends BaseDAO {
       id,
       domain,
     }; // Fetch and return the updated document
-
   }
 
-  async getFreelancerOwnProjects( freelancer_id: string ) {
+  async getFreelancerOwnProjects(freelancer_id: string) {
     try {
       return await this.model.find(
-        {_id: freelancer_id},
-        { projects: 1, _id: 0 }
+        { _id: freelancer_id },
+        { projects: 1, _id: 0 },
       );
     } catch (error) {
       console.error("Error fetching freelancer projects:", error);
@@ -391,11 +393,11 @@ export class FreelancerDAO extends BaseDAO {
     }
   }
 
-  async getFreelancerSkills( freelancer_id: string ) {
+  async getFreelancerSkills(freelancer_id: string) {
     try {
       return await this.model.find(
-        {_id: freelancer_id},
-        { skills: 1, _id: 0 }
+        { _id: freelancer_id },
+        { skills: 1, _id: 0 },
       );
     } catch (error) {
       console.error("Error fetching freelancer skills:", error);
@@ -403,11 +405,11 @@ export class FreelancerDAO extends BaseDAO {
     }
   }
 
-  async getFreelancerDomains( freelancer_id: string ) {
+  async getFreelancerDomains(freelancer_id: string) {
     try {
       return await this.model.find(
-        {_id: freelancer_id},
-        { domain: 1, _id: 0 }
+        { _id: freelancer_id },
+        { domain: 1, _id: 0 },
       );
     } catch (error) {
       console.error("Error fetching freelancer domains:", error);
@@ -431,9 +433,12 @@ export class FreelancerDAO extends BaseDAO {
     );
   }
 
-    async getDehixTalentById(freelancerId: string, dehixTalent_id: string) {
+  async getDehixTalentById(freelancerId: string, dehixTalent_id: string) {
     return this.model.findOne(
-      { _id: freelancerId, [`dehixTalent.${dehixTalent_id}`]: { $exists: true } },
+      {
+        _id: freelancerId,
+        [`dehixTalent.${dehixTalent_id}`]: { $exists: true },
+      },
       { [`dehixTalent.${dehixTalent_id}`]: 1 },
     );
   }
