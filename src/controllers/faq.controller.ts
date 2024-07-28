@@ -6,11 +6,12 @@ import {
   RESPONSE_MESSAGE,
 } from "../common/constants";
 import { AuthController } from "../common/auth.controller";
-import { FAQ_ENDPOINT, FAQ_ID_ENDPOINT } from "../constants/faq.constant";
+import { FAQ_DELETE_BY_ID_ENDPOINT, FAQ_ENDPOINT, FAQ_ID_ENDPOINT } from "../constants/faq.constant";
 import { FaqService } from "../services";
 import { createFaqSchema } from "../schema/v1/faq/create";
 import { createFaqBody } from "../types/v1/faq/create";
-import { DeleteFaqPathParams } from "src/types/v1/faq/delete";
+import { DeleteFaqPathParams } from "../types/v1/faq/delete";
+import { deleteFaqSchema } from "../schema/v1/faq/delete";
 
 @Controller({ route: FAQ_ENDPOINT })
 export default class FaqController extends AuthController {
@@ -36,6 +37,7 @@ export default class FaqController extends AuthController {
     }
   }
 
+  @DELETE(FAQ_DELETE_BY_ID_ENDPOINT, { schema: deleteFaqSchema })
   async deleteFaqById(
     request: FastifyRequest<{ Params: DeleteFaqPathParams }>,
     reply: FastifyReply,
