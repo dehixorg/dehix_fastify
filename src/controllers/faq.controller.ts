@@ -6,12 +6,13 @@ import {
   RESPONSE_MESSAGE,
 } from "../common/constants";
 import { AuthController } from "../common/auth.controller";
-import { FAQ_DELETE_BY_ID_ENDPOINT, FAQ_ENDPOINT, FAQ_ID_ENDPOINT } from "../constants/faq.constant";
+import { FAQ_ALL_ENDPOINT, FAQ_DELETE_BY_ID_ENDPOINT, FAQ_ENDPOINT, FAQ_ID_ENDPOINT } from "../constants/faq.constant";
 import { FaqService } from "../services";
 import { createFaqSchema } from "../schema/v1/faq/create";
 import { createFaqBody } from "../types/v1/faq/create";
 import { DeleteFaqPathParams } from "../types/v1/faq/delete";
 import { deleteFaqSchema } from "../schema/v1/faq/delete";
+import { getAllFaqSchema } from "../schema/v1/faq/get";
 
 @Controller({ route: FAQ_ENDPOINT })
 export default class FaqController extends AuthController {
@@ -60,7 +61,37 @@ export default class FaqController extends AuthController {
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          message: RESPONSE_MESSAGE.NOT_FOUND("Faq"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @GET(FAQ_ALL_ENDPOINT, { schema: getAllFaqSchema })
+  async getAllFaqs(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      this.logger.info(`faqController -> getAllFaqs -> Fetching Faqs`);
+
+      const data = await this.faqService.getAllFaqs();
+
+      console.log("DATA:", data);
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getAllFaqs: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes(
+          "Faq not found",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Faq"),
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {

@@ -23,4 +23,13 @@ export class FaqDAO extends BaseDAO {
   async deleteFaq(id: string) {
     return this.model.findByIdAndDelete(id);
   }
+
+  async getAllFaqs() {
+    try {
+      const faqs = await this.model.find();
+      return faqs;
+    } catch (error: any) {
+      throw new Error(`Failed to fetch faqs: ${error.message}`);
+    }
+  }
 }

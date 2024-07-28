@@ -30,5 +30,21 @@ export class FaqService extends BaseService {
 
     return deleteFaq;
   }
+
+  async getAllFaqs() {
+    this.logger.info("FaqService: getAllFaqs: Fetching All Faqs ");
+
+    const faqs: any = await this.FaqDAO.getAllFaqs();
+
+    if (!faqs) {
+      this.logger.error("FaqService: getAllFaqs: Faq not found ");
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Faq"),
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+
+    return faqs;
+  }
   
 }
