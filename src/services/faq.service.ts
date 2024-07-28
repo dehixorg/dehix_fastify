@@ -36,7 +36,7 @@ export class FaqService extends BaseService {
 
     const faqs: any = await this.FaqDAO.getAllFaqs();
 
-    if (!faqs) {
+    if (faqs.length == 0) {
       this.logger.error("FaqService: getAllFaqs: Faq not found ");
       throw new NotFoundError(
         RESPONSE_MESSAGE.NOT_FOUND("Faq"),
