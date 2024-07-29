@@ -331,7 +331,6 @@ export const createProfessionalInfoSchema: FastifySchema = {
       "referencePersonName",
       "referencePersonContact",
       "githubRepoLink",
-      "oracleAssigned",
       "verificationStatus",
       "verificationUpdateTime",
       "comments",
