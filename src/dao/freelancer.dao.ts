@@ -460,13 +460,16 @@ export class FreelancerDAO extends BaseDAO {
       { new: true, upsert: true },
     );
   }
+  async getConsultantById(freelancer_id:string,consultant_id:string){
+return this.model.findOne({_id:freelancer_id,[`consultant.${consultant_id}`]:{$exists:true}})
+  }
   async getConsultant(freelancer_id: string, consultant_id: string) {
     return this.model.findOne(
       { _id: freelancer_id },
-      { [`professionalInfo.${consultant_id}`]: 1 },
+      { [`consultant.${consultant_id}`]: 1 },
     );
   }
-  async putConsultant(
+  async updateConsultant(
     freelancer_id: string,
     consultant_id: string,
     update: any,
@@ -476,7 +479,9 @@ export class FreelancerDAO extends BaseDAO {
         _id: freelancer_id,
         [`consultant.${consultant_id}`]: { $exists: true },
       },
-      { $set: { [`consultant.${consultant_id}`]: { ...update } } },
+      { $set: { [`consultant.${consultant_id}`]: { ...update } } },{
+        new:true
+      }
     );
   }
   async deleteConsultant(freelancer_id: string, consultant_id: string) {

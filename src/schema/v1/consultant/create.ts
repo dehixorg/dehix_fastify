@@ -7,10 +7,6 @@ export const createConsultantSchema: FastifySchema = {
     type: "object",
     required: [],
     properties: {
-      _id: {
-        type: "string",
-        format: "uuid",
-      },
       status: {
         type: "string",
       },

@@ -6,11 +6,10 @@ export const deleteConsultantSchema: FastifySchema = {
   params: {
     type: "object",
     properties: {
-      consultant_id: {
-        type: "string",
-        format: "uuid",
-      },
+      consultant_id: { type: "string", format: "uuid" },
+      freelancer_id:{type:"string"}
     },
+    required: ["consultant_id","freelancer_id"],
   },
   response: {
     200: {
