@@ -7,9 +7,9 @@ export const updateConsultantSchema: FastifySchema = {
     type: "object",
     properties: {
       consultant_id: { type: "string", format: "uuid" },
-      freelancer_id: { type: "string" }
+      freelancer_id: { type: "string" },
     },
-    required: ["consultant_id", "freelancer_id"]
+    required: ["consultant_id", "freelancer_id"],
   },
   body: {
     type: "object",
@@ -20,37 +20,37 @@ export const updateConsultantSchema: FastifySchema = {
       experience: { type: "string" },
       links: {
         type: "array",
-        items: { type: "string" }
-      }
-    }
+        items: { type: "string" },
+      },
+    },
   },
   response: {
-     200:{
+    200: {
       type: "object",
       properties: {
         message: { type: "string" },
-        code: { type: "string" }
-      }
+        code: { type: "string" },
+      },
     },
     404: {
       type: "object",
       properties: {
         message: { type: "string" },
-        code: { type: "string" }
-      }
+        code: { type: "string" },
+      },
     },
     403: {
       type: "object",
       properties: {
         code: { type: "string" },
-        message: { type: "string" }
-      }
+        message: { type: "string" },
+      },
     },
     500: {
       type: "object",
       properties: {
-        message: { type: "string" }
-      }
-    }
-  }
+        message: { type: "string" },
+      },
+    },
+  },
 };

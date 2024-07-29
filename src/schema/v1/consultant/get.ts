@@ -7,9 +7,9 @@ export const getConsultantSchema: FastifySchema = {
     type: "object",
     properties: {
       consultant_id: { type: "string", format: "uuid" },
-      freelancer_id:{type:"string"}
+      freelancer_id: { type: "string" },
     },
-    required: ["consultant_id","freelancer_id"],
+    required: ["consultant_id", "freelancer_id"],
   },
   response: {
     200: {
