@@ -1,37 +1,24 @@
 import { FastifySchema } from "fastify";
 
-export const updateConsultantSchema: FastifySchema = {
-
-  description: "API to update consultant data for a freelancer",
-
-  tags: ["Consultant"],
+export const deleteFaqSchema: FastifySchema = {
+  description: "API to faq data",
+  tags: ["Faq"],
   params: {
     type: "object",
     properties: {
-      consultant_id: { type: "string", format: "uuid" },
-      freelancer_id: { type: "string" },
-    },
-    required: ["consultant_id", "freelancer_id"],
-  },
-  body: {
-    type: "object",
-    properties: {
-      status: { type: "string" },
-      description: { type: "string" },
-      price: { type: "number" },
-      experience: { type: "string" },
-      links: {
-        type: "array",
-        items: { type: "string" },
+      faq_id: {
+        type: "string",
+        description: "The ID of the faq",
       },
     },
+    required: ["faq_id"],
   },
   response: {
     200: {
+      description: "Success",
       type: "object",
       properties: {
         message: { type: "string" },
-        code: { type: "string" },
       },
     },
     404: {

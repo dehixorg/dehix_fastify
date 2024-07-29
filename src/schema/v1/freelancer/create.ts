@@ -314,12 +314,6 @@ export const createProfessionalInfoSchema: FastifySchema = {
       referencePersonName: { type: "string" },
       referencePersonContact: { type: "string" },
       githubRepoLink: { type: "string" },
-      oracleAssigned: { type: "string" },
-      verificationStatus: {
-        type: "string",
-        enum: ["added", "verified", "rejected", "reapplied"],
-      },
-      verificationUpdateTime: { type: "string", format: "date-time" },
       comments: { type: "string" },
     },
     required: [
@@ -331,9 +325,6 @@ export const createProfessionalInfoSchema: FastifySchema = {
       "referencePersonName",
       "referencePersonContact",
       "githubRepoLink",
-      "oracleAssigned",
-      "verificationStatus",
-      "verificationUpdateTime",
       "comments",
     ],
   },

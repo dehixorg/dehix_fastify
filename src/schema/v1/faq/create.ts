@@ -1,54 +1,61 @@
 import { FastifySchema } from "fastify";
 
-export const createConsultantSchema: FastifySchema = {
-  description: "API to create consultant data in freelancer",
-  tags: ["Consultant"],
+export const createFaqSchema: FastifySchema = {
+  description: "API for creating Faq",
+  tags: ["Faq"],
   body: {
     type: "object",
-    required: [],
     properties: {
+      question: { type: "string" },
+      answer: { type: "string" },
+      type: {
+        type: "string",
+        enum: ["business", "freelancer", "both"],
+      },
       status: {
         type: "string",
+        enum: ["active", "inactive"],
       },
-      description: {
-        type: "string",
-      },
-      price: {
-        type: "number",
-      },
-      experience: {
-        type: "string",
-      },
-      links: {
+      importantUrl: {
         type: "array",
         items: {
-          type: "string",
+          type: "object",
+          properties: {
+            urlName: { type: "string" },
+            url: { type: "string" },
+          },
         },
       },
     },
+    required: ["question", "answer", "type", "status", "importantUrl"],
   },
   response: {
     200: {
-      description: "Success",
       type: "object",
       properties: {
         data: {
           type: "object",
           properties: {
-            _id: { type: "string", format: "uuid" },
+            _id: { type: "string" },
+            question: { type: "string" },
+            answer: { type: "string" },
+            type: { type: "string" },
             status: { type: "string" },
-            description: { type: "string" },
-            price: { type: "number" },
-            experience: { type: "string" },
-            links: {
+            importantUrl: {
               type: "array",
-              items: { type: "string" },
+              items: {
+                type: "object",
+                properties: {
+                  urlName: { type: "string" },
+                  url: { type: "string" },
+                },
+              },
             },
           },
         },
       },
     },
-    404: {
+    401: {
       type: "object",
       properties: {
         message: {
