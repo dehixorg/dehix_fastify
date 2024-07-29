@@ -314,11 +314,6 @@ export const createProfessionalInfoSchema: FastifySchema = {
       referencePersonName: { type: "string" },
       referencePersonContact: { type: "string" },
       githubRepoLink: { type: "string" },
-      verificationStatus: {
-        type: "string",
-        enum: ["added", "verified", "rejected", "reapplied"],
-      },
-      verificationUpdateTime: { type: "string", format: "date-time" },
       comments: { type: "string" },
     },
     required: [
@@ -330,8 +325,6 @@ export const createProfessionalInfoSchema: FastifySchema = {
       "referencePersonName",
       "referencePersonContact",
       "githubRepoLink",
-      "verificationStatus",
-      "verificationUpdateTime",
       "comments",
     ],
   },
