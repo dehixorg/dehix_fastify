@@ -186,7 +186,7 @@ export const updateFreelancerSchema: FastifySchema = {
             skillId: { type: "string" },
             skillName: { type: "string" },
             domainId: { type: "string" },
-            domainName: { type: "string" },
+            domainName: { type: "string" }, 
             status: {
               type: "string",
               enum: ["added", "verified", "rejected"],

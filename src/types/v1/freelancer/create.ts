@@ -139,6 +139,14 @@ export interface CreateFreelancerProjectBody {
   comments: string;
 }
 
+export interface PostConsultantBody {
+  status: string;
+  description: string;
+  price: number;
+  experience: string;
+  links: string[];
+}
+
 export interface CreateDehixTalentBody {
   skillId?: string;
   skillName?: string;

@@ -1,7 +1,7 @@
 import { FastifySchema } from "fastify";
 
 export const deleteConsultantSchema: FastifySchema = {
-  description: "API to delete consultant data",
+  description: "API to delete consultant data freelance",
   tags: ["Consultant"],
   params: {
     type: "object",

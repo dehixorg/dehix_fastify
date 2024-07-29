@@ -1,7 +1,7 @@
 import { FastifySchema } from "fastify";
 
 export const getConsultantSchema: FastifySchema = {
-  description: "API to get consultant data",
+  description: "API to get consultant data freelance",
   tags: ["Consultant"],
   params: {
     type: "object",

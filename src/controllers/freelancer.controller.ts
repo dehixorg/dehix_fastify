@@ -885,9 +885,7 @@ export default class FreelancerController extends AuthController {
     }
   }
 
-  @GET(FREELANCER_OWN_PROJECT_ID_ENDPOINT, {
-    schema: getFreelancerOwnProjectSchema,
-  })
+  @GET(FREELANCER_OWN_PROJECT_ID_ENDPOINT, { schema: getFreelancerOwnProjectSchema })
   async getFreelancerOwnProjects(
     request: FastifyRequest<{
       Params: GetFreelancerPathParams;
@@ -899,9 +897,7 @@ export default class FreelancerController extends AuthController {
         `FreelancerController -> getFreelancerOwnProjects -> Fetching freelancer own projects for ID: ${request.params.freelancer_id}`,
       );
 
-      const data = await this.freelancerService.getFreelancerOwnProjects(
-        request.params.freelancer_id,
-      );
+      const data = await this.freelancerService.getFreelancerOwnProjects( request.params.freelancer_id );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
@@ -937,9 +933,7 @@ export default class FreelancerController extends AuthController {
         `FreelancerController -> getFreelancerSkills -> Fetching freelancer skills for ID: ${request.params.freelancer_id}`,
       );
 
-      const data = await this.freelancerService.getFreelancerSkills(
-        request.params.freelancer_id,
-      );
+      const data = await this.freelancerService.getFreelancerSkills( request.params.freelancer_id );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
@@ -975,9 +969,7 @@ export default class FreelancerController extends AuthController {
         `FreelancerController -> getFreelancerDomain -> Fetching freelancer domains for ID: ${request.params.freelancer_id}`,
       );
 
-      const data = await this.freelancerService.getFreelancerDomains(
-        request.params.freelancer_id,
-      );
+      const data = await this.freelancerService.getFreelancerDomains( request.params.freelancer_id );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
@@ -1044,7 +1036,7 @@ export default class FreelancerController extends AuthController {
       }
     }
   }
-
+  
   @DELETE(FREELANCER_DEHIX_TALENT_DELETE_BY_ID, {
     schema: deleteDehixTalentFreelancerSchema,
   })
