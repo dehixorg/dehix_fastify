@@ -450,7 +450,7 @@ export class FreelancerDAO extends BaseDAO {
       { new: true },
     );
   }
-  
+
   async putConsultant(
     freelancer_id: string,
     consultant_id: string,

@@ -255,7 +255,6 @@ export const createFreelancerSchema: FastifySchema = {
       "workExperience",
       "isFreelancer",
       "oracleStatus",
-      "consultant",
       "pendingProject",
       "rejectedProject",
       "acceptedProject",
