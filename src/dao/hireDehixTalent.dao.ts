@@ -2,6 +2,7 @@ import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
 import { HireModel, IHire } from "../models/hireDehixTalent.entity";
+
 @Service()
 export class HireDAO extends BaseDAO {
   model: Model<IHire>;
