@@ -15,7 +15,7 @@ export class FaqDAO extends BaseDAO {
   async createFaq(data: any) {
     return this.model.create(data);
   }
-  
+
   async findFaq(faq_id: string) {
     return this.model.findById(faq_id);
   }
