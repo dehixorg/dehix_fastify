@@ -6,7 +6,12 @@ import {
   RESPONSE_MESSAGE,
 } from "../common/constants";
 import { AuthController } from "../common/auth.controller";
-import { FAQ_ALL_ENDPOINT, FAQ_DELETE_BY_ID_ENDPOINT, FAQ_ENDPOINT, FAQ_ID_ENDPOINT } from "../constants/faq.constant";
+import {
+  FAQ_ALL_ENDPOINT,
+  FAQ_DELETE_BY_ID_ENDPOINT,
+  FAQ_ENDPOINT,
+  FAQ_ID_ENDPOINT,
+} from "../constants/faq.constant";
 import { FaqService } from "../services";
 import { createFaqSchema } from "../schema/v1/faq/create";
 import { createFaqBody } from "../types/v1/faq/create";
@@ -24,12 +29,12 @@ export default class FaqController extends AuthController {
     request: FastifyRequest<{ Body: createFaqBody }>,
     reply: FastifyReply,
   ) {
-    try{
+    try {
       this.logger.info(`FaqController  -> createFaq -> create FAQ}`);
       const data = await this.faqService.create(request.body);
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
-    }catch (error: any) {
+    } catch (error: any) {
       this.logger.error(`Error in CreateFaq: ${error.message}`);
       reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
@@ -47,18 +52,14 @@ export default class FaqController extends AuthController {
       this.logger.info(
         `FaqController -> deleteFaqById -> Deleting FAQ using: ${request.params.faq_id}`,
       );
-      const data = await this.faqService.deleteFaqById(
-        request.params.faq_id
-      );
+      await this.faqService.deleteFaqById(request.params.faq_id);
 
       reply.status(STATUS_CODES.SUCCESS).send({ message: "Faq deleted" });
     } catch (error: any) {
       this.logger.error(`Error in delete faq: ${error.message}`);
       if (
         error.ERROR_CODES === "NOT_FOUND" ||
-        error.message.includes(
-          "Data not found",
-        )
+        error.message.includes("Data not found")
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Faq"),
@@ -86,9 +87,7 @@ export default class FaqController extends AuthController {
       this.logger.error(`Error in getAllFaqs: ${error.message}`);
       if (
         error.ERROR_CODES === "NOT_FOUND" ||
-        error.message.includes(
-          "Faq not found",
-        )
+        error.message.includes("Faq not found")
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Faq"),
@@ -102,5 +101,4 @@ export default class FaqController extends AuthController {
       }
     }
   }
-
 }

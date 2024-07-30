@@ -147,7 +147,6 @@ export interface PostConsultantBody {
   links: string[];
 }
 
-
 export interface CreateDehixTalentBody {
   skillId?: string;
   skillName?: string;

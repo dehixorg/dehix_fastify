@@ -18,7 +18,7 @@ export class FaqService extends BaseService {
     this.logger.info(
       `FaqService: deleteFaqById: Deleting FAQ for Faq ID:${faq_id}`,
     );
-    
+
     const checkFaq = await this.FaqDAO.findFaq(faq_id);
     if (!checkFaq) {
       throw new NotFoundError(
@@ -46,5 +46,4 @@ export class FaqService extends BaseService {
 
     return faqs;
   }
-  
 }
