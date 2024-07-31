@@ -27,7 +27,6 @@ export interface IFreelancer extends Document {
   firstName: string;
   lastName: string;
   userName: string;
-  password: string;
   email: string;
   phone: string;
   dob?: Date;
@@ -163,10 +162,6 @@ const FreelancerSchema: Schema = new Schema(
       type: String,
       required: true,
       unique: true,
-    },
-    password: {
-      type: String,
-      required: false,
     },
     email: {
       type: String,
@@ -371,7 +366,7 @@ const FreelancerSchema: Schema = new Schema(
     consultant: {
       type: Map,
       of: new Schema({
-        _id: { type: String, default: uuidv4, required: true },
+        _id: { type: String },
         status: {
           type: String,
           enum: [

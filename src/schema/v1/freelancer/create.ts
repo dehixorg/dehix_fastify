@@ -1,6 +1,6 @@
 import { FastifySchema } from "fastify";
 
-export const createFreelancerSchema: FastifySchema = {
+export const createFreelancerSchema: FastifySchema =  {
   description: "API to create freelancer data",
   tags: ["Register"],
   body: {
@@ -12,6 +12,7 @@ export const createFreelancerSchema: FastifySchema = {
       email: { type: "string" },
       phone: { type: "string" },
       dob: { type: "string", format: "date-time" },
+      password: { type: "string" },
       professionalInfo: {
         type: "object",
         properties: {
@@ -139,11 +140,7 @@ export const createFreelancerSchema: FastifySchema = {
             "refer",
             "techUsed",
             "role",
-            "projectType",
-            "oracleAssigned",
-            "verificationStatus",
-            "verificationUpdateTime",
-            "comments",
+            "projectType"
           ],
         },
       },
@@ -193,23 +190,32 @@ export const createFreelancerSchema: FastifySchema = {
           "reapplied",
         ],
       },
-      consultant: {
-        type: "object",
-        properties: {
-          status: {
-            type: "string",
-            enum: [
-              "notApplied",
-              "applied",
-              "approved",
-              "failed",
-              "stopped",
-              "reapplied",
-            ],
-          },
-        },
-        required: ["status"],
-      },
+      // consultant: {
+      //   type: "object",
+      //   properties: {
+      //     _id: { type: "string" },
+      //     status: {
+      //       type: "string",
+      //       enum: [
+      //         "notApplied",
+      //         "applied",
+      //         "approved",
+      //         "failed",
+      //         "stopped",
+      //         "reapplied",
+      //       ],
+      //       default: "notApplied",
+      //     },
+      //     description: { type: "string" },
+      //     price: { type: "string" },
+      //     experience: { type: "string" },
+      //     links: {
+      //       type: "array",
+      //       items: { type: "string" },
+      //     },
+      //   },
+      //   required: [],
+      // },
       pendingProject: {
         type: "array",
         items: { type: "string" },
@@ -242,24 +248,12 @@ export const createFreelancerSchema: FastifySchema = {
       "email",
       "phone",
       "dob",
-      "skills",
-      "role",
       "refer",
       "githubLink",
       "linkedin",
-      "personalWebsite",
       "perHourPrice",
-      "connects",
       "resume",
       "workExperience",
-      "isFreelancer",
-      "oracleStatus",
-      "pendingProject",
-      "rejectedProject",
-      "acceptedProject",
-      "oracleProject",
-      "userDataForVerification",
-      "interviewsAligned",
     ],
   },
   response: {

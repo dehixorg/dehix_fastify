@@ -105,7 +105,7 @@ export class FreelancerService extends BaseService {
     return freelancer;
   }
 
-  async createFreelancerProfile(freelancer: IFreelancer) {
+  async createFreelancerProfile(freelancer: any) {
     try {
       this.logger.info(
         "FreelancerService: createFreelancerProfile: Creating Freelancer: ",
@@ -127,7 +127,8 @@ export class FreelancerService extends BaseService {
       //   subject: SUBJECT,
       //   textBody: TEXTBODY.replace(":passLink", reset_link),
       // });
-      const data: any = await this.FreelancerDAO.createFreelancer(freelancer);
+      const userObj={...freelancer,password:""}
+      const data: any = await this.FreelancerDAO.createFreelancer(userObj);
 
       return data;
     } catch (error: any) {
@@ -834,6 +835,7 @@ export class FreelancerService extends BaseService {
     );
     return data;
   }
+  
 }
 /**
  * Service method for FREELANCER login
