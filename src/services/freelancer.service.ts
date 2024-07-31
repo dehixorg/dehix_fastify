@@ -557,6 +557,283 @@ export class FreelancerService extends BaseService {
 
     return delete_project;
   }
+
+  async addFreelancerDomain(freelancer_id: string, domain: string[]) {
+    this.logger.info(
+      `FreelancerService -> addFreelancerDomain -> Adding domain for freelancer ID: ${freelancer_id}`,
+    );
+
+    const freelancerExist = await this.FreelancerDAO.getById(freelancer_id);
+    if (!freelancerExist) {
+      this.logger.error(
+        "FreelancerService: getFreelancerProfile: Freelancer not found with ID: ",
+        freelancer_id,
+      );
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const updatedFreelancer = await this.FreelancerDAO.addFreelancerDomain(
+      freelancer_id,
+      domain,
+    );
+
+    return updatedFreelancer;
+  }
+
+  async deleteFreelancerDomain(freelancer_id: string, domain_id: string) {
+    this.logger.info(
+      `FreelancerService: deleteFreelancerDomain: Deleting domain for Freelancer ID:${freelancer_id} and Domain ID:${domain_id}`,
+    );
+    const freelancerExist = await this.FreelancerDAO.getById(freelancer_id);
+    if (!freelancerExist) {
+      this.logger.error(
+        "FreelancerService: getFreelancerProfile: Freelancer not found with ID: ",
+        freelancer_id,
+      );
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+    const checkDomain = await this.FreelancerDAO.findDomainExistInFreelancer(
+      freelancer_id,
+      domain_id,
+    );
+    if (!checkDomain) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.DATA_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+    const delete_domain = await this.FreelancerDAO.updateFreelancer(
+      { _id: freelancer_id },
+      { $pull: { domain: { _id: domain_id } } },
+    );
+
+    return delete_domain;
+  }
+
+  async getFreelancerOwnProjects(freelancer_id: string) {
+    this.logger.info(
+      "FreelancerService: freelancer get own projects",
+      freelancer_id,
+    );
+
+    const userExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const data =
+      await this.FreelancerDAO.getFreelancerOwnProjects(freelancer_id);
+    this.logger.info(data, "in get freelancer projects");
+    return data;
+  }
+
+  async getFreelancerSkills(freelancer_id: string) {
+    this.logger.info("FreelancerService: freelancer get skills", freelancer_id);
+
+    const userExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const data = await this.FreelancerDAO.getFreelancerSkills(freelancer_id);
+    this.logger.info(data, "in get freelancer skills");
+    return data;
+  }
+
+  async getFreelancerDomains(freelancer_id: string) {
+    this.logger.info(
+      "FreelancerService: freelancer get domains",
+      freelancer_id,
+    );
+
+    const userExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const data = await this.FreelancerDAO.getFreelancerDomains(freelancer_id);
+    this.logger.info(data, "in get freelancer domains");
+    return data;
+  }
+
+  async createFreelancerDehixTalent(
+    freelancer_id: string,
+    dehixTalentData: any,
+  ) {
+    try {
+      this.logger.info(
+        "FreelancerService: create freelancer dehix talent ",
+        freelancer_id,
+      );
+
+      // Check if freelancer exists
+      const userExist =
+        await this.FreelancerDAO.findFreelancerById(freelancer_id);
+      if (!userExist) {
+        throw new NotFoundError(
+          RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+          ERROR_CODES.FREELANCER_NOT_FOUND,
+        );
+      }
+
+      // Create new dehix talent entry
+      const createDehixTalent = await this.FreelancerDAO.addDehixTalentById(
+        freelancer_id,
+        dehixTalentData,
+      );
+      return createDehixTalent;
+    } catch (error: any) {
+      throw new Error(
+        `Failed to create freelancer dehix talent: ${error.message}`,
+      );
+    }
+  }
+
+  async deleteFreelancerDehixTalent(
+    freelancerId: string,
+    dehixTalentId: string,
+  ) {
+    this.logger.info(
+      "FreelancerService: deleteFreelancerDehixTalent",
+      freelancerId,
+    );
+
+    const userExist = await this.FreelancerDAO.findFreelancerById(freelancerId);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const dehixTalentExist = await this.FreelancerDAO.getDehixTalentById(
+      freelancerId,
+      dehixTalentId,
+    );
+    if (!dehixTalentExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.DEHIX_TALENT_NOT_FOUND,
+        ERROR_CODES.DEHIX_TALENT_NOT_FOUND,
+      );
+    }
+
+    const data = await this.FreelancerDAO.deleteDehixTalentById(
+      freelancerId,
+      dehixTalentId,
+    );
+    return data;
+  }
+  async createConsultant(freelancer_id: string, body: any) {
+    this.logger.info("FreelancerService: createConsultant", freelancer_id);
+    const freelancerExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!freelancerExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+    const data = await this.FreelancerDAO.addConsultant(freelancer_id, body);
+    return data;
+  }
+  async updateConsultant(
+    freelancer_id: string,
+    consultant_id: string,
+    update: any,
+  ) {
+    this.logger.info("FreelancerService: updateConsultant", freelancer_id);
+    const freelancerExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!freelancerExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+    const consultantExist = await this.FreelancerDAO.getConsultantById(
+      freelancer_id,
+      consultant_id,
+    );
+    if (!consultantExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.CONSULTANT_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+    const data = await this.FreelancerDAO.updateConsultant(
+      freelancer_id,
+      consultant_id,
+      update,
+    );
+    return data;
+  }
+  async getConsultantById(freelancer_id: string, consultant_id: string) {
+    this.logger.info("FreelancerService:  getConsultantById", freelancer_id);
+    const freelancerExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!freelancerExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+    const data = await this.FreelancerDAO.getConsultant(
+      freelancer_id,
+      consultant_id,
+    );
+    if (!data) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.CONSULTANT_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+    return data;
+  }
+
+  async deleteConsultant(freelancer_id: string, consultant_id: string) {
+    this.logger.info("FreelancerService: updateConsultant", freelancer_id);
+    const freelancerExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!freelancerExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+    const consultantExist = await this.FreelancerDAO.getConsultantById(
+      freelancer_id,
+      consultant_id,
+    );
+    if (!consultantExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.CONSULTANT_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+    const data = await this.FreelancerDAO.deleteConsultant(
+      freelancer_id,
+      consultant_id,
+    );
+    return data;
+  }
 }
 /**
  * Service method for FREELANCER login

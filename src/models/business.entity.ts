@@ -53,7 +53,7 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: false,
     },
     email: {
       type: String,

@@ -12,6 +12,15 @@ export interface ISkill extends Document {
   interviewInfo?: string;
   interviewerRating?: number;
 }
+export interface IDomain extends Document {
+  _id: string;
+  name: string;
+  level: string;
+  experience: string;
+  interviewStatus?: "pending" | "accepted" | "rejected" | "reapplied";
+  interviewInfo?: string;
+  interviewerRating?: number;
+}
 
 export interface IFreelancer extends Document {
   _id?: string;
@@ -41,6 +50,7 @@ export interface IFreelancer extends Document {
     }
   >;
   skills?: ISkill[];
+  domain?: IDomain[];
   education?: Map<
     string,
     {
@@ -78,6 +88,18 @@ export interface IFreelancer extends Document {
       comments?: string;
     }
   >;
+  dehixTalent?: Map<
+    string,
+    {
+      _id?: string;
+      skillId?: string;
+      skillName?: string;
+      domainId?: string;
+      domainName?: string;
+      status?: "added" | "verified" | "rejected";
+      activeStatus?: "Active" | "Inactive";
+    }
+  >;
   refer?: {
     name?: string;
     contact?: string;
@@ -105,6 +127,13 @@ export interface IFreelancer extends Document {
       | "failed"
       | "stopped"
       | "reapplied";
+    description?: string;
+
+    price?: string;
+
+    experience?: string;
+
+    links?: string[];
   };
   pendingProject?: string[];
   rejectedProject?: string[];
@@ -112,6 +141,7 @@ export interface IFreelancer extends Document {
   oracleProject?: string[];
   userDataForVerification?: string[];
   interviewsAligned?: string[];
+  interviewee?: boolean;
 }
 
 const FreelancerSchema: Schema = new Schema(
@@ -136,7 +166,7 @@ const FreelancerSchema: Schema = new Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: false,
     },
     email: {
       type: String,
@@ -183,6 +213,30 @@ const FreelancerSchema: Schema = new Schema(
       required: false,
     },
     skills: [
+      {
+        _id: {
+          type: String,
+          default: uuidv4,
+          required: true,
+        },
+        name: { type: String, required: false },
+        level: { type: String, required: false },
+        experience: { type: String, required: false },
+        interviewStatus: {
+          type: String,
+          enum: ["pending", "accepted", "rejected", "reapplied"],
+          default: "pending",
+          required: false,
+        },
+        interviewInfo: {
+          type: String,
+          ref: "Interview",
+          required: false,
+        },
+        interviewerRating: { type: Number, required: false },
+      },
+    ],
+    domain: [
       {
         _id: {
           type: String,
@@ -263,6 +317,33 @@ const FreelancerSchema: Schema = new Schema(
       }),
       require: false,
     },
+    dehixTalent: {
+      type: Map,
+      of: new Schema({
+        _id: {
+          type: String,
+          default: uuidv4,
+          required: true,
+        },
+        skillId: { type: String, required: false },
+        skillName: { type: String, required: false },
+        domainId: { type: String, required: false },
+        domainName: { type: String, required: false },
+        status: {
+          type: String,
+          enum: ["added", "verified", "rejected"],
+          required: false,
+          default: "added",
+        },
+        activestatus: {
+          type: String,
+          enum: ["Active", "Inactive"],
+          required: false,
+          default: "Active",
+        },
+      }),
+      required: false,
+    },
     refer: {
       name: { type: String, required: false },
       contact: { type: String, required: false },
@@ -288,19 +369,39 @@ const FreelancerSchema: Schema = new Schema(
       required: false,
     },
     consultant: {
-      status: {
-        type: String,
-        enum: [
-          "notApplied",
-          "applied",
-          "approved",
-          "failed",
-          "stopped",
-          "reapplied",
-        ],
-        default: "notApplied",
-        required: false,
-      },
+      type: Map,
+      of: new Schema({
+        _id: { type: String, default: uuidv4, required: true },
+        status: {
+          type: String,
+          enum: [
+            "notApplied",
+            "applied",
+            "approved",
+            "failed",
+            "stopped",
+            "reapplied",
+          ],
+          default: "notApplied",
+          required: false,
+        },
+        description: {
+          type: String,
+          required: false,
+        },
+        price: {
+          type: String,
+          required: false,
+        },
+        experience: {
+          type: String,
+          required: false,
+        },
+        links: {
+          type: [String],
+          required: false,
+        },
+      }),
     },
     pendingProject: [{ type: String, ref: "Project", required: false }],
     rejectedProject: [{ type: String, ref: "Project", required: false }],
@@ -310,6 +411,11 @@ const FreelancerSchema: Schema = new Schema(
       { type: String, ref: "Verification", required: false },
     ],
     interviewsAligned: [{ type: String, ref: "Interview", required: false }],
+    interviewee: {
+      type: Boolean,
+      default: false,
+      require: false,
+    },
   },
   {
     timestamps: true,

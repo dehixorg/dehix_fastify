@@ -138,3 +138,20 @@ export interface CreateFreelancerProjectBody {
   verificationUpdateTime: string;
   comments: string;
 }
+
+export interface PostConsultantBody {
+  status: string;
+  description: string;
+  price: number;
+  experience: string;
+  links: string[];
+}
+
+export interface CreateDehixTalentBody {
+  skillId?: string;
+  skillName?: string;
+  domainId?: string;
+  domainName?: string;
+  status?: "added" | "verified" | "rejected";
+  activeStatus?: "Active" | "Inactive";
+}

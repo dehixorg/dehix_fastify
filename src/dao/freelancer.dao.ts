@@ -99,10 +99,16 @@ export class FreelancerDAO extends BaseDAO {
     }; // Fetch and return the updated document
   }
 
-  async findSkillExistInFreelancer(freelancer_id: string, skills_id: any) {
+  async findDomainExistInFreelancer(freelancer_id: string, domain_id: any) {
     return this.model.findOne({
       _id: freelancer_id,
-      skills: { $elemMatch: { _id: skills_id } },
+      domain: { $elemMatch: { _id: domain_id } },
+    });
+  }
+  async findSkillExistInFreelancer(freelancer_id: string, skill_id: any) {
+    return this.model.findOne({
+      _id: freelancer_id,
+      skills: { $elemMatch: { _id: skill_id } },
     });
   }
   async sendFreelancerInfo(id: string) {
@@ -340,6 +346,169 @@ export class FreelancerDAO extends BaseDAO {
       {
         $set: { [`projects.${project_id}`]: { _id: project_id, ...update } },
       },
+      { new: true },
+    );
+  }
+
+  async interviewStatusUpdate(id: string, update: string) {
+    return this.model.findByIdAndUpdate(id, { interviewee: update });
+  }
+  async getInterviewer(id: string) {
+    return this.model.aggregate([
+      {
+        $match: { _id: { $ne: id }, workExperience: { $gte: 3 } },
+      },
+      { $sample: { size: 1 } },
+    ]);
+  }
+
+  async addFreelancerDomain(id: string, domain: any) {
+    const result = await this.model.updateOne(
+      { _id: id },
+      { $addToSet: { domain: { $each: domain } } },
+      { new: true },
+    );
+    if (!result) {
+      throw new Error("Freelancer not found or domain could not be added");
+    }
+    return {
+      id,
+      domain,
+    }; // Fetch and return the updated document
+  }
+
+  async getFreelancerOwnProjects(freelancer_id: string) {
+    try {
+      return await this.model.find(
+        { _id: freelancer_id },
+        { projects: 1, _id: 0 },
+      );
+    } catch (error) {
+      console.error("Error fetching freelancer projects:", error);
+      throw error;
+    }
+  }
+
+  async getFreelancerSkills(freelancer_id: string) {
+    try {
+      return await this.model.find(
+        { _id: freelancer_id },
+        { skills: 1, _id: 0 },
+      );
+    } catch (error) {
+      console.error("Error fetching freelancer skills:", error);
+      throw error;
+    }
+  }
+
+  async getFreelancerDomains(freelancer_id: string) {
+    try {
+      return await this.model.find(
+        { _id: freelancer_id },
+        { domain: 1, _id: 0 },
+      );
+    } catch (error) {
+      console.error("Error fetching freelancer domains:", error);
+      throw error;
+    }
+  }
+
+  async addDehixTalentById(id: string, update: any) {
+    const dehixTalentId = uuidv4();
+    return this.model.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          [`dehixTalent.${dehixTalentId}`]: {
+            _id: dehixTalentId,
+            ...update,
+          },
+        },
+      },
+      { new: true, upsert: true },
+    );
+  }
+
+  async getDehixTalentById(freelancerId: string, dehixTalent_id: string) {
+    return this.model.findOne(
+      {
+        _id: freelancerId,
+        [`dehixTalent.${dehixTalent_id}`]: { $exists: true },
+      },
+      { [`dehixTalent.${dehixTalent_id}`]: 1 },
+    );
+  }
+
+  async deleteDehixTalentById(id: string, dehixTalentId: string) {
+    return this.model.findByIdAndUpdate(
+      id,
+      {
+        $unset: {
+          [`dehixTalent.${dehixTalentId}`]: 1,
+        },
+      },
+      { new: true },
+    );
+  }
+
+  async putConsultant(
+    freelancer_id: string,
+    consultant_id: string,
+    update: any,
+  ) {
+    return this.model.findByIdAndUpdate(
+      {
+        _id: freelancer_id,
+        [`consultant.${consultant_id}`]: { $exists: true },
+      },
+      { $set: { [`consultant.${consultant_id}`]: { ...update } } },
+    );
+  }
+
+  async addConsultant(freelancer_id: string, update: any) {
+    const consultant_id = uuidv4();
+    return this.model.findByIdAndUpdate(
+      freelancer_id,
+      {
+        $set: {
+          [`consultant.${consultant_id}`]: { _id: consultant_id, ...update },
+        },
+      },
+      { new: true, upsert: true },
+    );
+  }
+  async getConsultantById(freelancer_id: string, consultant_id: string) {
+    return this.model.findOne({
+      _id: freelancer_id,
+      [`consultant.${consultant_id}`]: { $exists: true },
+    });
+  }
+  async getConsultant(freelancer_id: string, consultant_id: string) {
+    return this.model.findOne(
+      { _id: freelancer_id },
+      { [`consultant.${consultant_id}`]: 1 },
+    );
+  }
+  async updateConsultant(
+    freelancer_id: string,
+    consultant_id: string,
+    update: any,
+  ) {
+    return this.model.findByIdAndUpdate(
+      {
+        _id: freelancer_id,
+        [`consultant.${consultant_id}`]: { $exists: true },
+      },
+      { $set: { [`consultant.${consultant_id}`]: { ...update } } },
+      {
+        new: true,
+      },
+    );
+  }
+  async deleteConsultant(freelancer_id: string, consultant_id: string) {
+    return this.model.findByIdAndUpdate(
+      freelancer_id,
+      { $unset: { [`consultant.${consultant_id}`]: "" } },
       { new: true },
     );
   }
