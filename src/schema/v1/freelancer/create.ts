@@ -243,7 +243,6 @@ export const createFreelancerSchema: FastifySchema = {
       "phone",
       "dob",
       "skills",
-      "domain",
       "role",
       "refer",
       "githubLink",
