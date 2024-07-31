@@ -1,7 +1,6 @@
 import { Service, Inject } from "fastify-decorators";
 import { BaseService } from "../common/base.service";
 import { businessDAO } from "../dao";
-import { IBusiness } from "../models/business.entity";
 import { firebaseClient } from "../common/services";
 import { ConflictError, NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
@@ -14,7 +13,7 @@ export class BusinessService extends BaseService {
   private ProjectDAO!: ProjectDAO;
   // @Inject(FreelancerDAO)
   // private FreelancerDAO!: FreelancerDAO;
-  async createBusiness(business:any) {
+  async createBusiness(business: any) {
     try {
       this.logger.info("Business Service: creating business profile");
       const business_id =
@@ -25,8 +24,8 @@ export class BusinessService extends BaseService {
           business.phone,
         );
       business._id = business_id;
-const userObj={...business,password:""}
-      const data: any = await this.businessDao.createBusiness(business);
+      const userObj = { ...business, password: "" };
+      const data: any = await this.businessDao.createBusiness(userObj);
       return data;
     } catch (error: any) {
       if (business._id) {

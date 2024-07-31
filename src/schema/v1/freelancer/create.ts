@@ -1,5 +1,4 @@
 import { FastifySchema } from "fastify";
-import { string } from "zod";
 
 export const createFreelancerSchema: FastifySchema = {
   description: "API to create freelancer data",
@@ -11,7 +10,7 @@ export const createFreelancerSchema: FastifySchema = {
       lastName: { type: "string" },
       userName: { type: "string" },
       email: { type: "string" },
-      password:{type:"string"},
+      password: { type: "string" },
       phone: { type: "string" },
       dob: { type: "string", format: "date-time" },
       professionalInfo: {
