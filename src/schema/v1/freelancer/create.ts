@@ -10,6 +10,7 @@ export const createFreelancerSchema: FastifySchema = {
       lastName: { type: "string" },
       userName: { type: "string" },
       email: { type: "string" },
+      password: { type: "string" },
       phone: { type: "string" },
       dob: { type: "string", format: "date-time" },
       professionalInfo: {
@@ -239,6 +240,7 @@ export const createFreelancerSchema: FastifySchema = {
       "firstName",
       "lastName",
       "userName",
+      "password",
       "email",
       "phone",
       "dob",

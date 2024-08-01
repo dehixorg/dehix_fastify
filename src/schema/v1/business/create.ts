@@ -31,6 +31,9 @@ export const createBusinessSchema: FastifySchema = {
       companyName: {
         type: "string",
       },
+      password: {
+        type: "string",
+      },
       companySize: {
         type: "string",
       },

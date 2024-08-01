@@ -85,7 +85,7 @@ export interface CreateFreelancerBody {
   workExperience: number;
   isFreelancer: boolean;
   oracleStatus: string;
-  consultant: Consultant;
+  consultant: Consultant[];
   pendingProject: any[];
   rejectedProject: any[];
   acceptedProject: any[];
