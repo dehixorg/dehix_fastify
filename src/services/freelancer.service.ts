@@ -12,7 +12,6 @@ import { BaseService } from "../common/base.service";
 import { ConflictError, NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { FreelancerDAO } from "../dao/freelancer.dao";
-import { IFreelancer } from "../models/freelancer.entity";
 import { firebaseClient } from "../common/services";
 import { SESService } from "../common/services";
 import { ProjectDAO } from "../dao/project.dao";
@@ -105,7 +104,7 @@ export class FreelancerService extends BaseService {
     return freelancer;
   }
 
-  async createFreelancerProfile(freelancer: IFreelancer) {
+  async createFreelancerProfile(freelancer: any) {
     try {
       this.logger.info(
         "FreelancerService: createFreelancerProfile: Creating Freelancer: ",
@@ -127,7 +126,8 @@ export class FreelancerService extends BaseService {
       //   subject: SUBJECT,
       //   textBody: TEXTBODY.replace(":passLink", reset_link),
       // });
-      const data: any = await this.FreelancerDAO.createFreelancer(freelancer);
+      const userObj = { ...freelancer, password: "" };
+      const data: any = await this.FreelancerDAO.createFreelancer(userObj);
 
       return data;
     } catch (error: any) {

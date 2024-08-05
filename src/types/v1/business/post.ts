@@ -9,7 +9,7 @@ export interface BusinessBody {
   lastName: string;
   companyName: string;
   companySize: string;
-  // password: string;
+  password: string;
   email: string;
   phone: string;
   position?: string;
