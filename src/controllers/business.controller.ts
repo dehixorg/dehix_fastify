@@ -20,21 +20,21 @@ import {
 import {
   getBusinessProjectSchema,
   getBusinessSchema,
-} from "../schema/v1/business/get";
-import { updateBusinessSchema } from "../schema/v1/business/update";
+} from "../schema/v1/business/business.get";
+import { updateBusinessSchema } from "../schema/v1/business/business.update";
 import { BusinessService } from "../services";
-import { GetBusinessPathParams } from "../types/v1/business/get";
+import { GetBusinessPathParams } from "../types/v1/business/getBusiness";
 import {
   PutBusinessBody,
   PutBusinessPathParams,
-} from "../types/v1/business/update";
-import { getProjectPathParams } from "../types/v1/project/post";
-import { DeleteProjectPathParams } from "../types/v1/project/delete";
+} from "../types/v1/business/updateBusiness";
+import { getProjectPathParams } from "../types/v1/project/postProject";
+import { DeleteProjectPathParams } from "../types/v1/project/deleteProject";
 import { IProject } from "../models/project.entity";
-import { getProjectSchema } from "../schema/v1/project/get";
-import { createProjectSchema } from "../schema/v1/project/create";
-import { deleteProjectSchema } from "../schema/v1/project/delete";
-import { GetBusinessProjectQueryParams } from "../types/v1/business/getProject";
+import { getProjectSchema } from "../schema/v1/project/project.get";
+import { createProjectSchema } from "../schema/v1/project/project.create";
+import { deleteProjectSchema } from "../schema/v1/project/project.delete";
+import { GetBusinessProjectQueryParams } from "../types/v1/business/getProjectStatus";
 
 @Controller({ route: BUSINESS_END_POINT })
 export default class BusinessController extends AuthController {
@@ -61,6 +61,7 @@ export default class BusinessController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       }
+      
       reply.status(STATUS_CODES.SUCCESS).send({ ...data._doc });
     } catch (error) {
       this.logger.info(error, "error in getBusiness");

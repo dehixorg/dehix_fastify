@@ -1,5 +1,5 @@
 import { FastifySchema } from "fastify";
-import { updateBidSchema } from "./update";
+import { updateBidSchema } from "./bid.update";
 
 export const getBidSchema: FastifySchema = {
   description: "API to get Bid data",

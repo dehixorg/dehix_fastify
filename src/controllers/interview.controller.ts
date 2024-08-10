@@ -6,19 +6,19 @@ import {
   INTERVIEW,
   UPDATE_INTERVIEW_END_POINT,
 } from "../constants/interview.constant";
-import { createInterviewSchema } from "../schema/v1/interview/create";
+import { createInterviewSchema } from "../schema/v1/interview/interview.create";
 import { InterviewService } from "../services/interview.service";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { GetInterviewPathParams } from "../types/v1/interview/get";
-import { InterviewBody } from "../types/v1/interview/create";
+import { GetInterviewPathParams } from "../types/v1/interview/getInterview";
+import { InterviewBody } from "../types/v1/interview/createInterview";
 import {
   ERROR_CODES,
   RESPONSE_MESSAGE,
   STATUS_CODES,
 } from "../common/constants";
-import { updateInterviewSchema } from "../schema/v1/interview/update";
-import { updateInterviewBody } from "../types/v1/interview/update";
-import { getInterviewSchema } from "../schema/v1/interview/get";
+import { updateInterviewSchema } from "../schema/v1/interview/interview.update";
+import { updateInterviewBody } from "../types/v1/interview/updateInterview";
+import { getInterviewSchema } from "../schema/v1/interview/interview.get";
 
 @Controller({ route: INTERVIEW })
 export default class InterviewController extends AuthController {
