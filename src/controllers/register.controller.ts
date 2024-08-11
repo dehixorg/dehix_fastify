@@ -12,10 +12,10 @@ import {
   FREELANCER_ENDPOINT,
 } from "../constants/freelancer.constant";
 import { IFreelancer } from "../models/freelancer.entity";
-import { createFreelancerSchema } from "../schema/v1/freelancer/create";
+import { createFreelancerSchema } from "../schema/v1/freelancer/freelancer.create";
 import { BaseController } from "../common/base.controller";
 import { BUSINESS_END_POINT } from "../constants/business.constant";
-import { createBusinessSchema } from "../schema/v1/business/create";
+import { createBusinessSchema } from "../schema/v1/business/business.create";
 import { IBusiness } from "../models/business.entity";
 import { BusinessService } from "../services/business.service";
 

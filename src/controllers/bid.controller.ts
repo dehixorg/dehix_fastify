@@ -19,7 +19,7 @@ import {
 } from "../constants/bid.constant";
 import { UnAuthorisedError } from "../common/errors";
 import { AuthController } from "../common/auth.controller";
-import { bidApplySchema } from "../schema/v1/bid/apply";
+import { bidApplySchema } from "../schema/v1/bid/bid.apply";
 import { BidApplyBody } from "../types/v1/bid/bidApplyBody";
 import {
   BidStatusBody,
@@ -29,18 +29,18 @@ import {
 import {
   updateBidSchema,
   updateBidStatusSchema,
-} from "../schema/v1/bid/update";
+} from "../schema/v1/bid/bid.update";
 import {
   getBidForBidderIdSchema,
   getBidForProjectIdSchema,
   getBidSchema,
-} from "../schema/v1/bid/get";
+} from "../schema/v1/bid/bid.get";
 import {
   GetBidByBidderIdPathParams,
   GetBidByProjectIdPathParams,
 } from "../types/v1/bid/getBid";
 import { DeleteBidPathParams } from "../types/v1/bid/deleteBid";
-import { deleteBidSchema } from "../schema/v1/bid/delete";
+import { deleteBidSchema } from "../schema/v1/bid/bid.delete";
 
 @Controller({ route: BID_ENDPOINT })
 export default class BidController extends AuthController {

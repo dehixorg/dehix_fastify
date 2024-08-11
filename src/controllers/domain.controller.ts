@@ -12,7 +12,7 @@ import {
   DOMAIN_ENDPOINT,
   DOMAIN_ALL_ENDPOINT,
 } from "../constants/domain.constant";
-import { getDomainSchema } from "../schema/v1/domain/getAll";
+import { getDomainSchema } from "../schema/v1/domain/domain.getAll";
 import { AuthController } from "../common/auth.controller";
 
 @Controller({ route: DOMAIN_ENDPOINT })

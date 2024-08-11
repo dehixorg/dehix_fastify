@@ -13,11 +13,11 @@ import {
   FAQ_ID_ENDPOINT,
 } from "../constants/faq.constant";
 import { FaqService } from "../services";
-import { createFaqSchema } from "../schema/v1/faq/create";
-import { createFaqBody } from "../types/v1/faq/create";
-import { DeleteFaqPathParams } from "../types/v1/faq/delete";
-import { deleteFaqSchema } from "../schema/v1/faq/delete";
-import { getAllFaqSchema } from "../schema/v1/faq/get";
+import { createFaqSchema } from "../schema/v1/faq/faq.create";
+import { createFaqBody } from "../types/v1/faq/createFaq";
+import { DeleteFaqPathParams } from "../types/v1/faq/deleteFaq";
+import { deleteFaqSchema } from "../schema/v1/faq/faq.delete";
+import { getAllFaqSchema } from "../schema/v1/faq/faq.get";
 
 @Controller({ route: FAQ_ENDPOINT })
 export default class FaqController extends AuthController {
