@@ -102,22 +102,25 @@ export default class BusinessController extends AuthController {
       });
     }
   }
+  
   @GET(ALL_BUSINESS_END_POINT, { schema: getBusinessSchema })
-  async getAllBusinessData(reply: FastifyReply) {
+  async getAllBusinessData(request: FastifyRequest, reply: FastifyReply) {
     try {
-      this.logger.info(
-        `BusinessController -> getAllBusiness -> Fetching Business All profile `,
-      );
+      this.logger.info(`BusinessController -> getBusinessData -> Fetching business profiles`);
+
       const data = await this.BusinessService.getAllBusinessInfo();
+
       if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.NOT_FOUND,
+          message: RESPONSE_MESSAGE.NOT_FOUND("Business"),
           code: ERROR_CODES.NOT_FOUND,
         });
       }
-    } catch (error) {
-      this.logger.info(error, "error in getAllBusiness");
-      return reply.status(STATUS_CODES.SERVER_ERROR).send({
+      console.log("DATA:", data);
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getAllBusiness: ${error.message}`);
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });
