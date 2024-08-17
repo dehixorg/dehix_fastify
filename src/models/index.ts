@@ -7,6 +7,7 @@ import { InterviewModel, IInterview } from "./interview.entity";
 import { SkillModel, ISkill } from "./skill.entity";
 import { HireModel, IHire } from "./hireDehixTalent.entity";
 import { FaqModel, IFaq } from "./faq.entity";
+import { VerificationModel, IVerification } from "./verifications.entity";
 
 export interface DBModels {
   FreelancerModel?: Model<IFreelancer>;
@@ -17,6 +18,7 @@ export interface DBModels {
   SkillModel?: Model<ISkill>;
   HireModel?: Model<IHire>;
   FaqModel?: Model<IFaq>;
+  VerificationModel?: Model<IVerification>;
 }
 
 const models: DBModels = {
@@ -28,6 +30,7 @@ const models: DBModels = {
   SkillModel,
   HireModel,
   FaqModel,
+  VerificationModel,
 };
 
 export default models;

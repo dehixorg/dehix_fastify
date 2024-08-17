@@ -14,14 +14,14 @@ import {
   HIRE_UPDATE_BY_ID_ENDPOINT,
 } from "../constants/hireDehixTalent.constant";
 import { HireService } from "../services/hireDehixTalent.service";
-import { createhireDehixTalentSchema } from "../schema/v1/hireDehixTalent/create";
+import { createhireDehixTalentSchema } from "../schema/v1/hireDehixTalent/hireDehixTalent.create";
 import { IHire } from "../models/hireDehixTalent.entity";
-import { UpdateHireDehixTalent } from "../schema/v1/hireDehixTalent/update";
+import { UpdateHireDehixTalent } from "../schema/v1/hireDehixTalent/hireDehixTalent.update";
 import {
   PutHireDehixTalentBody,
   PutHireDehixTalentPathParams,
-} from "../types/v1/hireDehixTalent/update";
-import { deleteHireDehixTalentSchema } from "../schema/v1/hireDehixTalent/delete";
+} from "../types/v1/hireDehixTalent/updateHireDehixTalent";
+import { deleteHireDehixTalentSchema } from "../schema/v1/hireDehixTalent/hireDehixTalent.delete";
 
 @Controller({ route: HIRE_ENDPOINT })
 export default class HireController extends AuthController {

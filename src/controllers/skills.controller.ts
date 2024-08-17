@@ -12,7 +12,7 @@ import {
   SKILLS_ENDPOINT,
   SKILLS_ALL_ENDPOINT,
 } from "../constants/skills.constant";
-import { getSkillsSchema } from "../schema/v1/skills/getAll";
+import { getSkillsSchema } from "../schema/v1/skills/skills.getAll";
 import { AuthController } from "../common/auth.controller";
 
 @Controller({ route: SKILLS_ENDPOINT })

@@ -51,7 +51,7 @@ import {
   getFreelancerProjectSchema,
   getFreelancerSchema,
   getFreelancerSkillsSchema,
-} from "../schema/v1/freelancer/get";
+} from "../schema/v1/freelancer/freelancer.get";
 import { AuthController } from "../common/auth.controller";
 import {
   addFreelancerDomainSchema,
@@ -61,7 +61,7 @@ import {
   updateEducationSchema,
   updateFreelancerSchema,
   updateProjectSchema,
-} from "../schema/v1/freelancer/update";
+} from "../schema/v1/freelancer/freelancer.update";
 import {
   PutFreelancerPathParams,
   PutFreelancerBody,
@@ -82,7 +82,7 @@ import {
   deleteFreelancerProjectSchema,
   deleteFreelancerSkillSchema,
   deleteProfessionalInfoSchema,
-} from "../schema/v1/freelancer/delete";
+} from "../schema/v1/freelancer/freelancer.delete";
 import {
   DeleteFreelancerDehixTalentPathParams,
   DeleteFreelancerDomainPathParams,
@@ -90,24 +90,24 @@ import {
   DeleteFreelancerExperiencePathParams,
   DeleteFreelancerProjectPathParams,
   DeleteFreelancerSkillPathParams,
-} from "../types/v1/freelancer/delete";
+} from "../types/v1/freelancer/deleteFreelancer";
 import { PutFreelancerProjectBody } from "../types/v1/freelancer/updateProject";
 
-import { addFreelancerSkillsSchema } from "../schema/v1/freelancer/update";
+import { addFreelancerSkillsSchema } from "../schema/v1/freelancer/freelancer.update";
 import { IFreelancer } from "../models/freelancer.entity";
 import {
   createDehixTalentSchema,
   createEducationSchema,
   createProfessionalInfoSchema,
   createProjectSchema,
-} from "../schema/v1/freelancer/create";
-import { GetFreelancerProjectQueryParams } from "../types/v1/freelancer/getProject";
-import { createConsultantSchema } from "../schema/v1/consultant/create";
-import { GetconsultantPathParams } from "../types/v1/freelancer/getconsultant";
-import { updateConsultantSchema } from "../schema/v1/consultant/update";
+} from "../schema/v1/freelancer/freelancer.create";
+import { GetFreelancerProjectQueryParams } from "../types/v1/freelancer/getProjectStatus";
+import { createConsultantSchema } from "../schema/v1/consultant/consultant.create";
+import { GetconsultantPathParams } from "../types/v1/freelancer/getConsultant";
+import { updateConsultantSchema } from "../schema/v1/consultant/consultant.update";
 import { PutConsultantBody } from "../types/v1/freelancer/updateConsultant";
-import { getConsultantSchema } from "../schema/v1/consultant/get";
-import { deleteConsultantSchema } from "../schema/v1/consultant/delete";
+import { getConsultantSchema } from "../schema/v1/consultant/consultant.get";
+import { deleteConsultantSchema } from "../schema/v1/consultant/consultant.delete";
 
 @Controller({ route: FREELANCER_ENDPOINT })
 export default class FreelancerController extends AuthController {
