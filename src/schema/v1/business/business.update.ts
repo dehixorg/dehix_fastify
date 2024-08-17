@@ -8,10 +8,6 @@ export const updateBusinessSchema: FastifySchema = {
     type: "object",
     required: [],
     properties: {
-      _id: {
-        type: "string",
-        format: "uuid",
-      },
       firstName: {
         type: "string",
       },
