@@ -1,4 +1,5 @@
 import { FastifySchema } from "fastify";
+import { format } from "path";
 
 export const updateBusinessSchema: FastifySchema = {
   description: "API to update business",
@@ -9,6 +10,7 @@ export const updateBusinessSchema: FastifySchema = {
     properties: {
       _id: {
         type: "string",
+        format: "uuid",
       },
       firstName: {
         type: "string",
