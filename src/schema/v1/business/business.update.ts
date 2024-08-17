@@ -57,12 +57,6 @@ export const updateBusinessSchema: FastifySchema = {
         type: "integer",
         default: 0,
       },
-      otp: {
-        type: "string",
-      },
-      otpverified: {
-        type: "string",
-      },
       ProjectList: {
         type: "array",
         items: {
