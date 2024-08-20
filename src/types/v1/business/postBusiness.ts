@@ -20,8 +20,6 @@ export interface BusinessBody {
   personalWebsite?: string;
   isBusiness: boolean;
   connects: number;
-  otp?: string;
-  otpverified?: string;
   ProjectList: string[];
   Appliedcandidates: string[];
   hirefreelancer: {

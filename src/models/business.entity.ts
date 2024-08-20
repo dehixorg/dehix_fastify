@@ -18,8 +18,6 @@ export interface IBusiness extends Document {
   personalWebsite?: string;
   isBusiness: boolean;
   connects: number;
-  otp?: string;
-  otpverified?: string;
   ProjectList: string[];
   Appliedcandidates: string[];
   hirefreelancer: {
@@ -90,14 +88,6 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
     connects: {
       type: Number,
       default: 0,
-    },
-    otp: {
-      type: String,
-      required: false,
-    },
-    otpverified: {
-      type: String,
-      required: false,
     },
     ProjectList: [
       {

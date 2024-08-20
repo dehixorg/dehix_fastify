@@ -61,7 +61,7 @@ export default class BusinessController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       }
-      
+
       reply.status(STATUS_CODES.SUCCESS).send({ ...data._doc });
     } catch (error) {
       this.logger.info(error, "error in getBusiness");
@@ -105,7 +105,9 @@ export default class BusinessController extends AuthController {
   @GET(ALL_BUSINESS_END_POINT, { schema: getBusinessSchema })
   async getAllBusinessData(request: FastifyRequest, reply: FastifyReply) {
     try {
-      this.logger.info(`BusinessController -> getBusinessData -> Fetching business profiles`);
+      this.logger.info(
+        `BusinessController -> getBusinessData -> Fetching business profiles`,
+      );
 
       const data = await this.BusinessService.getAllBusinessInfo();
 
