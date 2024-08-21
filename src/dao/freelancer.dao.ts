@@ -484,10 +484,9 @@ export class FreelancerDAO extends BaseDAO {
     });
   }
   async getConsultant(freelancer_id: string, consultant_id: string) {
-    return this.model.findOne(
-      { _id: freelancer_id },
-      { [`consultant.${consultant_id}`]: 1 },
-    ).lean(); // Return a plain JS object instead of a Mongoose document(Map -> plain object)
+    return this.model
+      .findOne({ _id: freelancer_id }, { [`consultant.${consultant_id}`]: 1 })
+      .lean(); // Return a plain JS object instead of a Mongoose document(Map -> plain object)
   }
   async updateConsultant(
     freelancer_id: string,
