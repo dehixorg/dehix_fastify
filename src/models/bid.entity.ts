@@ -8,7 +8,7 @@ export interface IBid extends Document {
   current_price: number;
   project_id: string;
   domain_id: string; // Make sure to include domain_id in the interface
-  bid_status: "Pending" | "Accepted" | "Rejected";
+  bid_status: "Pending" | "Accepted" | "Rejected" | "Panel";
 }
 
 // Define the Bid schema
@@ -39,7 +39,7 @@ const BidSchema: Schema<IBid> = new Schema(
     },
     bid_status: {
       type: String,
-      enum: ["Pending", "Accepted", "Rejected"],
+      enum: ["Pending", "Accepted", "Rejected", "Panel"],
       default: "Pending",
     },
   },
