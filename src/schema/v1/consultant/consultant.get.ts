@@ -20,13 +20,22 @@ export const getConsultantSchema: FastifySchema = {
           type: "object",
           properties: {
             _id: { type: "string", format: "uuid" },
-            status: { type: "string" },
-            description: { type: "string" },
-            price: { type: "number" },
-            experience: { type: "string" },
-            links: {
-              type: "array",
-              items: { type: "string" },
+            consultant: {
+              type: "object",
+              additionalProperties: {
+                type: "object",
+                properties: {
+                  _id: { type: "string", format: "uuid" },
+                  status: { type: "string" },
+                  description: { type: "string" },
+                  price: { type: "number" },
+                  experience: { type: "string" },
+                  links: {
+                    type: "array",
+                    items: { type: "string" },
+                  },
+                },
+              },
             },
           },
         },
