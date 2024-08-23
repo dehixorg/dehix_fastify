@@ -10,6 +10,28 @@ export class DomainService extends BaseService {
   @Inject(DomainDAO)
   private DomainDAO!: DomainDAO;
 
+  async create(body: any) {
+    const domain: any = await this.DomainDAO.createDomain(body);
+    return domain;
+  }
+
+  async deleteDomainById(domain_id: string) {
+    this.logger.info(
+      `DomainService: deleteDomainById: Deleting Domain for Domain ID:${domain_id}`,
+    );
+
+    const checkDomain = await this.DomainDAO.findDomain(domain_id);
+    if (!checkDomain) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.DATA_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+    const deleteDomain = await this.DomainDAO.deleteDomain(domain_id);
+
+    return deleteDomain;
+  }
+
   async getAllDomain() {
     this.logger.info("DomainService: getAllDomain: Fetching All Domain ");
 

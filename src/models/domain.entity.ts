@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 export interface IDomain extends Document {
   _id: string;
   label: string;
+  description: string;
 }
 
 // Define the Skill schema
@@ -18,6 +19,10 @@ const DomainSchema: Schema<IDomain> = new Schema(
       type: String,
       required: true,
     },
+    description: {
+      type: String,
+      required: false,
+    }
   },
   {
     timestamps: true, // Add createdAt and updatedAt fields

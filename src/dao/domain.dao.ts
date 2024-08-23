@@ -29,6 +29,10 @@ export class DomainDAO extends BaseDAO {
     }
   }
 
+  async findDomain(domain_id: string) {
+    return this.model.findById(domain_id);
+  }
+  
   async getAllDomain() {
     try {
       const domains = await this.model.find();
@@ -36,5 +40,13 @@ export class DomainDAO extends BaseDAO {
     } catch (error: any) {
       throw new Error(`Failed to fetch domains: ${error.message}`);
     }
+  }
+
+  async deleteDomain(id: string) {
+    return this.model.findByIdAndDelete(id);
+  }
+
+  async createDomain(data: any) {
+    return this.model.create(data);
   }
 }
