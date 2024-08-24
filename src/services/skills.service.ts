@@ -10,6 +10,28 @@ export class SkillsService extends BaseService {
   @Inject(SkillDAO)
   private SkillDAO!: SkillDAO;
 
+  async create(body: any) {
+    const skill: any = await this.SkillDAO.createSkill(body);
+    return skill;
+  }
+
+  async deleteSkillById(skill_id: string) {
+    this.logger.info(
+      `SkillsService: deleteSkillById: Deleting Skill for Skill ID:${skill_id}`,
+    );
+
+    const checkSkill = await this.SkillDAO.findSkill(skill_id);
+    if (!checkSkill) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.DATA_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+    const deleteSkill = await this.SkillDAO.deleteSkill(skill_id);
+
+    return deleteSkill;
+  }
+
   async getAllSkills() {
     this.logger.info("SkillsService: getAllSkills: Fetching All Skills ");
 
