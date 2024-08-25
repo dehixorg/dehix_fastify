@@ -12,7 +12,7 @@ import {
   DOMAIN_ENDPOINT,
   DOMAIN_ALL_ENDPOINT,
   DOMAIN_DELETE_BY_ID_ENDPOINT,
-  DOMAIN_ID_ENDPOINT
+  DOMAIN_ID_ENDPOINT,
 } from "../constants/domain.constant";
 import { createDomainSchema } from "../schema/v1/domain/domain.create";
 import { createDomainBody } from "../types/v1/domain/createDomain";
@@ -29,7 +29,7 @@ export default class DomainController extends AuthController {
   @POST(DOMAIN_ID_ENDPOINT, { schema: createDomainSchema })
   async createDomain(
     request: FastifyRequest<{ Body: createDomainBody }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(`DomainController -> createDomain -> Creating domain`);
@@ -49,7 +49,7 @@ export default class DomainController extends AuthController {
   @DELETE(DOMAIN_DELETE_BY_ID_ENDPOINT, { schema: deleteDomainSchema })
   async deleteDomainById(
     request: FastifyRequest<{ Params: DeleteDomainPathParams }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(

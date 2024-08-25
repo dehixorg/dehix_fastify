@@ -1,3 +1,3 @@
 export interface DeleteDomainPathParams {
-    domain_id: string;
+  domain_id: string;
 }

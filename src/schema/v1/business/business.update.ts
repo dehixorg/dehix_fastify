@@ -1,5 +1,4 @@
 import { FastifySchema } from "fastify";
-import { format } from "path";
 
 export const updateBusinessSchema: FastifySchema = {
   description: "API to update business",

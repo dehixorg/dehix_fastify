@@ -1,3 +1,3 @@
 export interface DeleteSkillPathParams {
-    skill_id: string;
+  skill_id: string;
 }
