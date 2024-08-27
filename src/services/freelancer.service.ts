@@ -15,6 +15,7 @@ import { FreelancerDAO } from "../dao/freelancer.dao";
 import { firebaseClient } from "../common/services";
 import { SESService } from "../common/services";
 import { ProjectDAO } from "../dao/project.dao";
+import { VerificationService } from "./verifications.service";
 
 @Service()
 export class FreelancerService extends BaseService {
@@ -26,6 +27,9 @@ export class FreelancerService extends BaseService {
 
   @Inject(SESService)
   private sesService!: SESService;
+
+  @Inject(VerificationService)
+  private VerificationService!: VerificationService;
 
   async getAllFreelancer(filters: {
     experience?: string[];
@@ -359,9 +363,13 @@ export class FreelancerService extends BaseService {
       }
 
       // Create new education entry
-      const createdEducation = await this.FreelancerDAO.addEducationById(
+      const { educationId, result: createdEducation } =
+        await this.FreelancerDAO.addEducationById(freelancer_id, educationData);
+
+      await this.VerificationService.requestVerification(
+        educationId,
+        "education",
         freelancer_id,
-        educationData,
       );
       return createdEducation;
     } catch (error: any) {

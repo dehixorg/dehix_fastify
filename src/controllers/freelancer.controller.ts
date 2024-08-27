@@ -94,7 +94,6 @@ import {
 import { PutFreelancerProjectBody } from "../types/v1/freelancer/updateProject";
 
 import { addFreelancerSkillsSchema } from "../schema/v1/freelancer/freelancer.update";
-import { IFreelancer } from "../models/freelancer.entity";
 import {
   createDehixTalentSchema,
   createEducationSchema,

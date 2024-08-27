@@ -283,7 +283,7 @@ export class FreelancerDAO extends BaseDAO {
 
   async addEducationById(id: string, update: any) {
     const educationId = uuidv4();
-    return this.model.findByIdAndUpdate(
+    const result = await this.model.findByIdAndUpdate(
       id,
       {
         $set: {
@@ -292,6 +292,11 @@ export class FreelancerDAO extends BaseDAO {
       },
       { new: true, upsert: true },
     );
+
+    return {
+      educationId,
+      result,
+    };
   }
 
   async putEducationById(
@@ -510,5 +515,55 @@ export class FreelancerDAO extends BaseDAO {
       { $unset: { [`consultant.${consultant_id}`]: "" } },
       { new: true },
     );
+  }
+
+  async findOracle() {
+    try {
+      const freelancer = await this.model
+        .aggregate([
+          {
+            $match: {
+              oracleStatus: "approved",
+            },
+          },
+          {
+            $lookup: {
+              from: "verifications",
+              localField: "_id",
+              foreignField: "verifier_id",
+              as: "verifications",
+            },
+          },
+          {
+            $project: {
+              _id: 1,
+              userName: 1,
+              verificationCount: { $size: "$verifications" },
+            },
+          },
+          {
+            $sort: {
+              verificationCount: -1, // Sort in descending order to get the most verified
+            },
+          },
+          {
+            $limit: 1,
+          },
+        ])
+        .exec();
+
+      if (!freelancer || freelancer.length === 0) {
+        throw new Error("No approved oracle freelancers found");
+      }
+
+      // Return the freelancer object with id and username
+      return {
+        id: freelancer[0]._id,
+        username: freelancer[0].userName,
+      };
+    } catch (error: any) {
+      console.error("Error finding oracle freelancer:", error);
+      throw new Error(`Failed to find oracle freelancer: ${error.message}`);
+    }
   }
 }
