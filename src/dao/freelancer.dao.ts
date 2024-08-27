@@ -516,8 +516,7 @@ export class FreelancerDAO extends BaseDAO {
       { new: true },
     );
   }
-
-  async findOracle() {
+  async findOracle(requester_id: string) {
     try {
       const freelancer = await this.model
         .aggregate([
@@ -532,6 +531,12 @@ export class FreelancerDAO extends BaseDAO {
               localField: "_id",
               foreignField: "verifier_id",
               as: "verifications",
+            },
+          },
+          {
+            // Exclude the freelancer whose _id matches the requester_id
+            $match: {
+              _id: { $ne: requester_id },
             },
           },
           {

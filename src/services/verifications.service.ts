@@ -36,21 +36,14 @@ export class VerificationService extends BaseService {
     }
 
     // Find the verifier
-    const verifier = await this.freelancerDAO.findOracle();
+    const verifier = await this.freelancerDAO.findOracle(requester_id);
     if (!verifier) {
       throw new Error("Verifier not found"); // Handle case where no verifier is found
     }
 
     const verifier_id = verifier.id;
     const verifier_username = verifier.username; // Assuming `username` is the field for verifier's username
-    this.logger.info(
-      "TEST:",
-      verifier_id,
-      JSON.stringify(verifier),
-      requester_id,
-      doc_id,
-      doc_type,
-    );
+
     // Create a new verification entry
     const verification = await this.verificationDAO.createOne(
       verifier_id,
