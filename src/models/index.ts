@@ -9,7 +9,6 @@ import { HireModel, IHire } from "./hireDehixTalent.entity";
 import { FaqModel, IFaq } from "./faq.entity";
 import { DomainModel, IDomain } from "./domain.entity";
 import { VerificationModel, IVerification } from "./verifications.entity";
-import { NotificationModel, INotification } from "./notification.entity";
 
 export interface DBModels {
   FreelancerModel?: Model<IFreelancer>;
@@ -22,7 +21,7 @@ export interface DBModels {
   FaqModel?: Model<IFaq>;
   DomainModel?: Model<IDomain>;
   VerificationModel?: Model<IVerification>;
-  NotificationModel?: Model<INotification>;
+  // NotificationModel?: Model<INotification>;
 }
 
 const models: DBModels = {
@@ -36,7 +35,7 @@ const models: DBModels = {
   FaqModel,
   DomainModel,
   VerificationModel,
-  NotificationModel,
+  // NotificationModel,
 };
 
 export default models;
