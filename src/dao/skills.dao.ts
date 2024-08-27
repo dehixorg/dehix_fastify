@@ -44,7 +44,7 @@ export class SkillDAO extends BaseDAO {
 
   async deleteSkill(skill_id: string) {
     return this.model.findByIdAndDelete(skill_id);
-  } 
+  }
 
   async createSkill(data: any) {
     return this.model.create(data);

@@ -1,7 +1,7 @@
 import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
-import { BaseDAO } from "src/common/base.dao";
-import { ConsultantModel, IConsultant } from "src/models/consultant.entity";
+import { BaseDAO } from "../common/base.dao";
+import { ConsultantModel, IConsultant } from "../models/consultant.entity";
 @Service()
 export class ConsultantDao extends BaseDAO {
   model: Model<IConsultant>;

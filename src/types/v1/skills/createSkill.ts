@@ -1,4 +1,4 @@
 export interface createSkillBody {
-    label: string;
-    description: string;
+  label: string;
+  description: string;
 }

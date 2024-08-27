@@ -1,4 +1,4 @@
 export interface createDomainBody {
-    label: string;
-    description: string;
+  label: string;
+  description: string;
 }

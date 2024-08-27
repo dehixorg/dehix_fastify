@@ -9,7 +9,7 @@ export const createDomainSchema: FastifySchema = {
       label: { type: "string" },
       description: { type: "string" },
     },
-    required: ["label"]
+    required: ["label"],
   },
   response: {
     200: {

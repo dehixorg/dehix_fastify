@@ -11,13 +11,11 @@ import {
 import {
   BID_ENDPOINT,
   BID_ID_BUSINESS_END_POINT,
-  BID_ID_ENDPOINT,
   BID_ID_FREELANCER_END_POINT,
   DELETE_BID_END_POINT,
   UPDATE_BID_BY_ID_ENDPOINT,
   UPDATE_BID_STATUS_BY_ID_ENDPOINT,
 } from "../constants/bid.constant";
-import { UnAuthorisedError } from "../common/errors";
 import { AuthController } from "../common/auth.controller";
 import { bidApplySchema } from "../schema/v1/bid/bid.apply";
 import { BidApplyBody } from "../types/v1/bid/bidApplyBody";
@@ -33,7 +31,6 @@ import {
 import {
   getBidForBidderIdSchema,
   getBidForProjectIdSchema,
-  getBidSchema,
 } from "../schema/v1/bid/bid.get";
 import {
   GetBidByBidderIdPathParams,
@@ -47,7 +44,7 @@ export default class BidController extends AuthController {
   @Inject(BidService)
   bidService!: BidService;
 
-  @POST(BID_ID_ENDPOINT, { schema: bidApplySchema })
+  @POST("", { schema: bidApplySchema })
   async bidApply(
     request: FastifyRequest<{ Body: BidApplyBody }>,
     reply: FastifyReply,

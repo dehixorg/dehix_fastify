@@ -4,6 +4,6 @@ export * from "./business.dao";
 export * from "./hireDehixTalent.dao";
 export * from "./faq.dao";
 export * from "./verifications.dao";
-export * from "./notification.dao";
+// export * from "./notification.dao";
 export * from "./domain.dao";
 export * from "./skills.dao";

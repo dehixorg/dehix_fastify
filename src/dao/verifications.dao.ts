@@ -17,13 +17,17 @@ export class VerificationDAO extends BaseDAO {
 
   async createOne(
     verifier_id: string,
+    verifier_username: string,
     requester_id: string,
-    document_id: string,
+    doc_id: string,
+    doc_type: string,
   ) {
     return this.model.create({
       verifier_id,
+      verifier_username,
       requester_id,
-      document_id,
+      document_id: doc_id,
+      doc_type,
     });
   }
 
