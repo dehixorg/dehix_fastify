@@ -1,3 +1,3 @@
 export interface GetDomainPathParams {
-    domain_id: string;
+  domain_id: string;
 }

@@ -22,7 +22,7 @@ const DomainSchema: Schema<IDomain> = new Schema(
     description: {
       type: String,
       required: false,
-    }
+    },
   },
   {
     timestamps: true, // Add createdAt and updatedAt fields

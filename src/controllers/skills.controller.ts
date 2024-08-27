@@ -29,7 +29,7 @@ export default class SkillsController extends AuthController {
   @POST(SKILLS_ID_ENDPOINT, { schema: createSkillSchema })
   async createSkills(
     request: FastifyRequest<{ Body: createSkillBody }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(`SkillsController -> createSkills -> Creating skills`);
@@ -49,11 +49,11 @@ export default class SkillsController extends AuthController {
   @DELETE(SKILLS_DELETE_BY_ID_ENDPOINT, { schema: deleteSkillSchema })
   async deleteSkillById(
     request: FastifyRequest<{ Params: DeleteSkillPathParams }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `SkillsController -> deleteSkillById -> Deleting SKILL using: ${request.params.skill_id}`
+        `SkillsController -> deleteSkillById -> Deleting SKILL using: ${request.params.skill_id}`,
       );
       await this.skillsService.deleteSkillById(request.params.skill_id);
 

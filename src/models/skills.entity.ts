@@ -21,8 +21,8 @@ const SkillSchema: Schema<ISkill> = new Schema(
     },
     description: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   {
     timestamps: true, // Add createdAt and updatedAt fields

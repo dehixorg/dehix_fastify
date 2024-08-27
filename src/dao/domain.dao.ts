@@ -32,7 +32,7 @@ export class DomainDAO extends BaseDAO {
   async findDomain(domain_id: string) {
     return this.model.findById(domain_id);
   }
-  
+
   async getAllDomain() {
     try {
       const domains = await this.model.find();
@@ -55,10 +55,6 @@ export class DomainDAO extends BaseDAO {
   }
 
   async updateDomain(id: string, update: any) {
-    return this.model.findByIdAndUpdate(
-      { _id: id }, 
-      update, 
-      {  new: true }
-    );
+    return this.model.findByIdAndUpdate({ _id: id }, update, { new: true });
   }
 }

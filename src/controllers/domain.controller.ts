@@ -13,7 +13,7 @@ import {
   DOMAIN_ALL_ENDPOINT,
   DOMAIN_DELETE_BY_ID_ENDPOINT,
   DOMAIN_ID_ENDPOINT,
-  DOMAIN_BY_ID_ENDPOINT
+  DOMAIN_BY_ID_ENDPOINT,
 } from "../constants/domain.constant";
 import { createDomainSchema } from "../schema/v1/domain/domain.create";
 import { createDomainBody } from "../types/v1/domain/createDomain";
@@ -24,7 +24,10 @@ import { AuthController } from "../common/auth.controller";
 import { getDomainByIdSchema } from "../schema/v1/domain/domain.get";
 import { GetDomainPathParams } from "../types/v1/domain/getDomain";
 import { updateDomainSchema } from "../schema/v1/domain/domain.update";
-import { PutDomainBody, PutDomainPathParams } from "../types/v1/domain/updateDomain";
+import {
+  PutDomainBody,
+  PutDomainPathParams,
+} from "../types/v1/domain/updateDomain";
 
 @Controller({ route: DOMAIN_ENDPOINT })
 export default class DomainController extends AuthController {
@@ -34,7 +37,7 @@ export default class DomainController extends AuthController {
   @POST(DOMAIN_ID_ENDPOINT, { schema: createDomainSchema })
   async createDomain(
     request: FastifyRequest<{ Body: createDomainBody }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(`DomainController -> createDomain -> Creating domain`);
@@ -54,7 +57,7 @@ export default class DomainController extends AuthController {
   @DELETE(DOMAIN_DELETE_BY_ID_ENDPOINT, { schema: deleteDomainSchema })
   async deleteDomainById(
     request: FastifyRequest<{ Params: DeleteDomainPathParams }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
@@ -126,7 +129,9 @@ export default class DomainController extends AuthController {
         `DomainController -> getDomainById -> Fetching domain using: ${request.params.domain_id}`,
       );
 
-      const data = await this.domainService.getDomainById(request.params.domain_id);
+      const data = await this.domainService.getDomainById(
+        request.params.domain_id,
+      );
 
       if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
