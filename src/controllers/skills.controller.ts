@@ -12,7 +12,6 @@ import {
   SKILLS_ENDPOINT,
   SKILLS_ALL_ENDPOINT,
   SKILLS_DELETE_BY_ID_ENDPOINT,
-  SKILLS_ID_ENDPOINT,
 } from "../constants/skills.constant";
 import { getSkillsSchema } from "../schema/v1/skills/skills.getAll";
 import { AuthController } from "../common/auth.controller";
@@ -26,7 +25,7 @@ export default class SkillsController extends AuthController {
   @Inject(SkillsService)
   skillsService!: SkillsService;
 
-  @POST(SKILLS_ID_ENDPOINT, { schema: createSkillSchema })
+  @POST("", { schema: createSkillSchema })
   async createSkills(
     request: FastifyRequest<{ Body: createSkillBody }>,
     reply: FastifyReply,

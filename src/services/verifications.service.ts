@@ -4,7 +4,6 @@ import { VerificationDAO } from "../dao/verifications.dao";
 import { NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { FreelancerDAO } from "../dao/freelancer.dao";
-import { v4 as uuidv4 } from "uuid";
 
 @Service()
 export class VerificationService extends BaseService {
@@ -16,10 +15,16 @@ export class VerificationService extends BaseService {
   /**
    * Service method to request a new verification
    * @param doc_id
+   * @param doc_type
    * @param requester_id
    * @returns
    */
-  async requestVerification(doc_id: string, requester_id: string) {
+  async requestVerification(
+    doc_id: string,
+    doc_type: string,
+    requester_id: string,
+  ) {
+    // Check if the requester exists
     const requesterExist =
       await this.freelancerDAO.findFreelancerById(requester_id);
 
@@ -30,10 +35,22 @@ export class VerificationService extends BaseService {
       );
     }
 
-    const verification: any = await this.verificationDAO.createOne(
-      uuidv4(),
+    // Find the verifier
+    const verifier = await this.freelancerDAO.findOracle(requester_id);
+    if (!verifier) {
+      throw new Error("Verifier not found"); // Handle case where no verifier is found
+    }
+
+    const verifier_id = verifier.id;
+    const verifier_username = verifier.username; // Assuming `username` is the field for verifier's username
+
+    // Create a new verification entry
+    const verification = await this.verificationDAO.createOne(
+      verifier_id,
+      verifier_username,
       requester_id,
       doc_id,
+      doc_type,
     );
 
     return verification;

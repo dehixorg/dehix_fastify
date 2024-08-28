@@ -10,7 +10,6 @@ import {
   FAQ_ALL_ENDPOINT,
   FAQ_DELETE_BY_ID_ENDPOINT,
   FAQ_ENDPOINT,
-  FAQ_ID_ENDPOINT,
 } from "../constants/faq.constant";
 import { FaqService } from "../services";
 import { createFaqSchema } from "../schema/v1/faq/faq.create";
@@ -24,7 +23,7 @@ export default class FaqController extends AuthController {
   @Inject(FaqService)
   faqService!: FaqService;
 
-  @POST(FAQ_ID_ENDPOINT, { schema: createFaqSchema })
+  @POST("", { schema: createFaqSchema })
   async createFaq(
     request: FastifyRequest<{ Body: createFaqBody }>,
     reply: FastifyReply,

@@ -15,6 +15,7 @@ import {
   DOMAIN_ID_ENDPOINT,
   DOMAIN_BY_ID_ENDPOINT,
 } from "../constants/domain.constant";
+
 import { createDomainSchema } from "../schema/v1/domain/domain.create";
 import { createDomainBody } from "../types/v1/domain/createDomain";
 import { DeleteDomainPathParams } from "../types/v1/domain/deleteDomain";

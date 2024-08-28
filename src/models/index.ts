@@ -21,7 +21,6 @@ export interface DBModels {
   FaqModel?: Model<IFaq>;
   DomainModel?: Model<IDomain>;
   VerificationModel?: Model<IVerification>;
-  // NotificationModel?: Model<INotification>;
 }
 
 const models: DBModels = {
@@ -35,7 +34,6 @@ const models: DBModels = {
   FaqModel,
   DomainModel,
   VerificationModel,
-  // NotificationModel,
 };
 
 export default models;
