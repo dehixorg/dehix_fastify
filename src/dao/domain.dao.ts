@@ -49,4 +49,12 @@ export class DomainDAO extends BaseDAO {
   async createDomain(data: any) {
     return this.model.create(data);
   }
+
+  async findDomainById(id: string) {
+    return this.model.findById(id);
+  }
+
+  async updateDomain(id: string, update: any) {
+    return this.model.findByIdAndUpdate({ _id: id }, update, { new: true });
+  }
 }
