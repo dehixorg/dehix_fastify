@@ -176,7 +176,7 @@ export class FreelancerService extends BaseService {
       );
     }
 
-    const {skillIds, result: addSkills} = await this.FreelancerDAO.addFreelancerSkill(
+    const {skillIds, skillsWithId: addSkills} = await this.FreelancerDAO.addFreelancerSkill(
       freelancer_id,
       skills,
     );
@@ -193,7 +193,10 @@ export class FreelancerService extends BaseService {
       )
     );
 
-    return addSkills;
+    return {
+      addSkills,
+      freelancer_id,
+    };
   }
 
   async updateProfileFreelancer(freelancer_id: string, freelancer: any) {
@@ -595,7 +598,7 @@ export class FreelancerService extends BaseService {
       );
     }
 
-    const {domainIds, result: addDomains} = await this.FreelancerDAO.addFreelancerDomain(
+    const {domainIds, domainsWithId: addDomains} = await this.FreelancerDAO.addFreelancerDomain(
       freelancer_id,
       domains,
     );
@@ -612,7 +615,10 @@ export class FreelancerService extends BaseService {
       )
     );
 
-    return addDomains;
+    return {
+      addDomains,
+      freelancer_id,
+    };
   }
 
   async deleteFreelancerDomain(freelancer_id: string, domain_id: string) {

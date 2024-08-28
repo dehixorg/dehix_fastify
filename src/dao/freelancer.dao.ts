@@ -101,7 +101,7 @@ export class FreelancerDAO extends BaseDAO {
     const skillIds = skillsWithId.map(skill => skill._id);
     return {
       skillIds,
-      result
+      skillsWithId
     };
   }
 
@@ -381,7 +381,7 @@ export class FreelancerDAO extends BaseDAO {
     const result = await this.model.updateOne(
       { _id: id },
       { $addToSet: { domain: { $each: domainsWithId } } },
-      { new: true, projection: { skills: 1 } },
+      { new: true, projection: { domains: 1 } },
     );
     if (!result) {
       throw new Error("Freelancer not found or domains could not be added");
@@ -389,7 +389,7 @@ export class FreelancerDAO extends BaseDAO {
     const domainIds = domainsWithId.map(domain => domain._id);
     return {
       domainIds,
-      result
+      domainsWithId
     };
   }
 
