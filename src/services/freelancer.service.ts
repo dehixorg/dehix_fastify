@@ -333,9 +333,16 @@ export class FreelancerService extends BaseService {
       }
 
       // Create new experience entry
-      const createdExperience = await this.FreelancerDAO.addExperienceById(
+      const { experienceId, result: createdExperience} = 
+      await this.FreelancerDAO.addExperienceById(
         freelancer_id,
         experienceData,
+      );
+
+      await this.VerificationService.requestVerification(
+        experienceId,
+        "experience",
+        freelancer_id,
       );
       return createdExperience;
     } catch (error: any) {
@@ -495,9 +502,16 @@ export class FreelancerService extends BaseService {
       }
 
       // Create new project entry
-      const createdProject = await this.FreelancerDAO.addProjectById(
+      const { projectId, result: createdProject} = 
+      await this.FreelancerDAO.addProjectById(
         freelancer_id,
         projectData,
+      );
+      
+      await this.VerificationService.requestVerification(
+        projectId,
+        "project",
+        freelancer_id,
       );
       return createdProject;
     } catch (error: any) {
