@@ -82,7 +82,7 @@ export class businessDAO extends BaseDAO {
   //     },
   //   });
   // }
-  
+
   async addCandidateByCategory(
     project_id: string,
     category: string,

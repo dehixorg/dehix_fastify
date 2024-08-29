@@ -104,7 +104,3 @@ export const updateBusinessSchema: FastifySchema = {
     },
   },
 };
-
-
-
-
