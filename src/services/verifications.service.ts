@@ -91,4 +91,30 @@ export class VerificationService extends BaseService {
 
     return data;
   }
+
+  async getVerificationData(
+    verifier_id: string,
+    doc_type?: "skill" | "domain" | "education" | "project" | "experience",
+  ) {
+    this.logger.info(
+      "VerificationsService: verifier get verification request data",
+      verifier_id,
+    );
+
+    const verifierExist =
+      await this.freelancerDAO.findFreelancerById(verifier_id);
+    if (!verifierExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const data = await this.verificationDAO.getVerificationData(
+      verifier_id,
+      doc_type,
+    );
+    this.logger.info(data, "in get verification request data");
+    return data;
+  }
 }

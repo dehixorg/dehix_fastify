@@ -75,4 +75,21 @@ export class VerificationDAO extends BaseDAO {
   async findVerificationByDocumentId(document_id: string) {
     return this.model.find({ document_id: document_id });
   }
+
+  async getVerificationData(
+    verifier_id: string,
+    doc_type?: "skill" | "domain" | "education" | "project" | "experience",
+  ) {
+    try {
+      const query = {
+        verifier_id: verifier_id, 
+        ...(doc_type && { doc_type }),
+      };
+
+      return await this.model.find(query);
+    } catch (error) {
+      console.error("Error fetching verification requests data:", error);
+      throw error;
+    }
+  }
 }
