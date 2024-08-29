@@ -102,7 +102,7 @@ import {
 } from "../schema/v1/freelancer/freelancer.create";
 import { GetFreelancerProjectQueryParams } from "../types/v1/freelancer/getProjectStatus";
 import { createConsultantSchema } from "../schema/v1/consultant/consultant.create";
-import { GetconsultantPathParams } from "../types/v1/freelancer/getConsultant";
+import { GetconsultantPathParams } from "../types/v1/freelancer/getconsultant";
 import { updateConsultantSchema } from "../schema/v1/consultant/consultant.update";
 import { PutConsultantBody } from "../types/v1/freelancer/updateConsultant";
 import { getConsultantSchema } from "../schema/v1/consultant/consultant.get";
