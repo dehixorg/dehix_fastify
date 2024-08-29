@@ -176,12 +176,27 @@ export class FreelancerService extends BaseService {
       );
     }
 
-    const updatedFreelancer = await this.FreelancerDAO.addFreelancerSkill(
+    const {skillIds, skillsWithId: addSkills} = await this.FreelancerDAO.addFreelancerSkill(
       freelancer_id,
       skills,
     );
 
-    return updatedFreelancer;
+    console.log(skillIds);
+
+    await Promise.all(
+      skillIds.map(skillId => 
+        this.VerificationService.requestVerification(
+          skillId,
+          "skill",
+          freelancer_id,
+        )
+      )
+    );
+
+    return {
+      addSkills,
+      freelancer_id,
+    };
   }
 
   async updateProfileFreelancer(freelancer_id: string, freelancer: any) {
@@ -566,7 +581,7 @@ export class FreelancerService extends BaseService {
     return delete_project;
   }
 
-  async addFreelancerDomain(freelancer_id: string, domain: string[]) {
+  async addFreelancerDomain(freelancer_id: string, domains: string[]) {
     this.logger.info(
       `FreelancerService -> addFreelancerDomain -> Adding domain for freelancer ID: ${freelancer_id}`,
     );
@@ -583,12 +598,27 @@ export class FreelancerService extends BaseService {
       );
     }
 
-    const updatedFreelancer = await this.FreelancerDAO.addFreelancerDomain(
+    const {domainIds, domainsWithId: addDomains} = await this.FreelancerDAO.addFreelancerDomain(
       freelancer_id,
-      domain,
+      domains,
     );
 
-    return updatedFreelancer;
+    console.log(domainIds);
+
+    await Promise.all(
+      domainIds.map(domainId => 
+        this.VerificationService.requestVerification(
+          domainId,
+          "domain",
+          freelancer_id,
+        )
+      )
+    );
+
+    return {
+      addDomains,
+      freelancer_id,
+    };
   }
 
   async deleteFreelancerDomain(freelancer_id: string, domain_id: string) {

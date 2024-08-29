@@ -85,18 +85,24 @@ export class FreelancerDAO extends BaseDAO {
   }
 
   async addFreelancerSkill(id: string, skills: any) {
+    const skillsWithId = skills.map(skill => ({
+      ...skill,
+      _id: uuidv4(),
+    }));
+    
     const result = await this.model.updateOne(
       { _id: id },
-      { $addToSet: { skills: { $each: skills } } },
-      { new: true },
+      { $addToSet: { skills: { $each: skillsWithId } } },
+      { new: true, projection: { skills: 1 } }
     );
     if (!result) {
       throw new Error("Freelancer not found or skills could not be added");
     }
+    const skillIds = skillsWithId.map(skill => skill._id);
     return {
-      id,
-      skills,
-    }; // Fetch and return the updated document
+      skillIds,
+      skillsWithId
+    };
   }
 
   async findDomainExistInFreelancer(freelancer_id: string, domain_id: any) {
@@ -367,19 +373,24 @@ export class FreelancerDAO extends BaseDAO {
     ]);
   }
 
-  async addFreelancerDomain(id: string, domain: any) {
+  async addFreelancerDomain(id: string, domains: any) {
+    const domainsWithId = domains.map(domain => ({
+      ...domain,
+      _id: uuidv4(),
+    }));
     const result = await this.model.updateOne(
       { _id: id },
-      { $addToSet: { domain: { $each: domain } } },
-      { new: true },
+      { $addToSet: { domain: { $each: domainsWithId } } },
+      { new: true, projection: { domains: 1 } },
     );
     if (!result) {
-      throw new Error("Freelancer not found or domain could not be added");
+      throw new Error("Freelancer not found or domains could not be added");
     }
+    const domainIds = domainsWithId.map(domain => domain._id);
     return {
-      id,
-      domain,
-    }; // Fetch and return the updated document
+      domainIds,
+      domainsWithId
+    };
   }
 
   async getFreelancerOwnProjects(freelancer_id: string) {
