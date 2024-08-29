@@ -225,7 +225,7 @@ export class FreelancerDAO extends BaseDAO {
 
   async addExperienceById(id: string, update: any) {
     const experienceId = uuidv4();
-    return this.model.findByIdAndUpdate(
+    const result = await this.model.findByIdAndUpdate(
       id,
       {
         $set: {
@@ -237,6 +237,11 @@ export class FreelancerDAO extends BaseDAO {
       },
       { new: true, upsert: true },
     );
+
+    return {
+      experienceId,
+      result,
+    };
   }
 
   async deleteExperienceById(id: string, experienceId: string) {
@@ -333,7 +338,7 @@ export class FreelancerDAO extends BaseDAO {
 
   async addProjectById(id: string, update: any) {
     const projectId = uuidv4();
-    return this.model.findByIdAndUpdate(
+    const result = await this.model.findByIdAndUpdate(
       id,
       {
         $set: {
@@ -342,6 +347,11 @@ export class FreelancerDAO extends BaseDAO {
       },
       { new: true, upsert: true },
     );
+
+    return {
+      projectId,
+      result,
+    };
   }
 
   async getProjectById(freelancerId: string, project_id: string) {
