@@ -54,6 +54,7 @@ export class DomainService extends BaseService {
     );
 
     const checkDomain: any = await this.DomainDAO.findDomain(domain_id);
+    
     if (!checkDomain) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.DATA_NOT_FOUND,
