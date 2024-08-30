@@ -10,7 +10,8 @@ export class NotificationService extends BaseService {
   private NotificationDAO!: NotificationDAO;
 
   async create(body: any) {
-    const notification: any = await this.NotificationDAO.createNotification(body);
+    const notification: any =
+      await this.NotificationDAO.createNotification(body);
     return notification;
   }
 
@@ -19,7 +20,8 @@ export class NotificationService extends BaseService {
       `NotificationService: getNotificationById: Fetching Notification for Notification ID:${notification_id}`,
     );
 
-    const checkNotification: any = await this.NotificationDAO.findNotification(notification_id);
+    const checkNotification: any =
+      await this.NotificationDAO.findNotification(notification_id);
     if (!checkNotification) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.DATA_NOT_FOUND,
@@ -27,7 +29,8 @@ export class NotificationService extends BaseService {
       );
     }
 
-    const getNotification: any = await this.NotificationDAO.findNotificationById(notification_id);
+    const getNotification: any =
+      await this.NotificationDAO.findNotificationById(notification_id);
 
     return getNotification;
   }

@@ -1,3 +1,3 @@
 export interface GetNotificationPathParams {
-    notification_id: string;
+  notification_id: string;
 }

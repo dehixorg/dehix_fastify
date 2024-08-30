@@ -82,7 +82,7 @@ export class VerificationDAO extends BaseDAO {
   ) {
     try {
       const query = {
-        verifier_id: verifier_id, 
+        verifier_id: verifier_id,
         ...(doc_type && { doc_type }),
       };
 

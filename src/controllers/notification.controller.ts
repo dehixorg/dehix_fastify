@@ -47,7 +47,7 @@ export default class NotificationController extends AuthController {
 
   @GET(NOTIFICATION_BY_ID_ENDPOINT, { schema: getNotificationSchema })
   async getNotificationById(
-    request: FastifyRequest<{ Params: GetNotificationPathParams}>,
+    request: FastifyRequest<{ Params: GetNotificationPathParams }>,
     reply: FastifyReply,
   ) {
     try {

@@ -279,10 +279,12 @@ export default class FreelancerController extends AuthController {
           request.body.skills,
         );
 
-      reply.status(STATUS_CODES.SUCCESS).send({ data: {
-        freelancer_id,
-        skills: addSkills,
-      } });
+      reply.status(STATUS_CODES.SUCCESS).send({
+        data: {
+          freelancer_id,
+          skills: addSkills,
+        },
+      });
     } catch (error: any) {
       this.logger.error(`Error in addSkillsById: ${error.message}`);
 
@@ -847,10 +849,12 @@ export default class FreelancerController extends AuthController {
           request.body.domain,
         );
 
-      reply.status(STATUS_CODES.SUCCESS).send({ data: {
-        freelancer_id,
-        domain: addDomains,
-      } });
+      reply.status(STATUS_CODES.SUCCESS).send({
+        data: {
+          freelancer_id,
+          domain: addDomains,
+        },
+      });
     } catch (error: any) {
       this.logger.error(`Error in addDomainById: ${error.message}`);
 

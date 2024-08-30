@@ -1,3 +1,3 @@
 export interface DeleteNotificationPathParams {
-    notification_id: string;
+  notification_id: string;
 }
