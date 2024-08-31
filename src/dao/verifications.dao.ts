@@ -78,7 +78,7 @@ export class VerificationDAO extends BaseDAO {
 
   async getVerificationData(
     verifier_id: string,
-    doc_type?: "skill" | "domain" | "education" | "project" | "experience",
+    doc_type: "skill" | "domain" | "education" | "project" | "experience",
   ) {
     try {
       const query = {
@@ -86,7 +86,14 @@ export class VerificationDAO extends BaseDAO {
         ...(doc_type && { doc_type }),
       };
 
-      return await this.model.find(query);
+      const verificationData = await this.model.find(query);
+
+      const requesterData = verificationData.map((doc: any) => ({
+        requester_id: doc.requester_id,
+        document_id: doc.document_id,
+      }));
+
+      return requesterData;
     } catch (error) {
       console.error("Error fetching verification requests data:", error);
       throw error;

@@ -94,7 +94,7 @@ export class VerificationService extends BaseService {
 
   async getVerificationData(
     verifier_id: string,
-    doc_type?: "skill" | "domain" | "education" | "project" | "experience",
+    doc_type: "skill" | "domain" | "education" | "project" | "experience",
   ) {
     this.logger.info(
       "VerificationsService: verifier get verification request data",
@@ -114,7 +114,68 @@ export class VerificationService extends BaseService {
       verifier_id,
       doc_type,
     );
-    this.logger.info(data, "in get verification request data");
-    return data;
+
+    if(doc_type == "skill"){
+      const requesterData = await Promise.all(
+        data.map((doc: any) => 
+          this.freelancerDAO.findSkillExistInFreelancer(
+            doc.requester_id,
+            doc.document_id
+          )
+        )
+      );
+      this.logger.info(requesterData, "in get verification request data");
+      return requesterData;
+    }
+    else if(doc_type == "domain"){
+      const requesterData = await Promise.all(
+        data.map((doc: any) => 
+          this.freelancerDAO.findDomainExistInFreelancer(
+            doc.requester_id,
+            doc.document_id
+          )
+        )
+      );
+      this.logger.info(requesterData, "in get verification request data");
+      return requesterData;
+    }
+    else if(doc_type == "project"){
+      const requesterData = await Promise.all(
+        data.map((doc: any) => 
+          this.freelancerDAO.findProject(
+            doc.requester_id,
+            doc.document_id
+          )
+        )
+      );
+      this.logger.info(requesterData, "in get verification request data");
+      return requesterData;
+    }
+    else if(doc_type == "education"){
+      const requesterData = await Promise.all(
+        data.map((doc: any) => 
+          this.freelancerDAO.getEducationById(
+            doc.requester_id,
+            doc.document_id
+          )
+        )
+      );
+      this.logger.info(requesterData, "in get verification request data");
+      return requesterData;
+    }
+    else{
+      const requesterData = await Promise.all(
+        data.map((doc: any) => 
+          this.freelancerDAO.getExperienceById(
+            doc.requester_id,
+            doc.document_id
+          )
+        )
+      );
+      this.logger.info(requesterData, "in get verification request data");
+      return requesterData;
+    }
+    
+    
   }
 }
