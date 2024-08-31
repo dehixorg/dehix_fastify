@@ -118,7 +118,7 @@ export class VerificationService extends BaseService {
     if(doc_type == "skill"){
       const requesterData = await Promise.all(
         data.map((doc: any) => 
-          this.freelancerDAO.findSkillExistInFreelancer(
+          this.freelancerDAO.getSkillById(
             doc.requester_id,
             doc.document_id
           )
@@ -130,7 +130,7 @@ export class VerificationService extends BaseService {
     else if(doc_type == "domain"){
       const requesterData = await Promise.all(
         data.map((doc: any) => 
-          this.freelancerDAO.findDomainExistInFreelancer(
+          this.freelancerDAO.getDomainById(
             doc.requester_id,
             doc.document_id
           )
@@ -142,7 +142,7 @@ export class VerificationService extends BaseService {
     else if(doc_type == "project"){
       const requesterData = await Promise.all(
         data.map((doc: any) => 
-          this.freelancerDAO.findProject(
+          this.freelancerDAO.getProjectById(
             doc.requester_id,
             doc.document_id
           )

@@ -280,7 +280,7 @@ export class FreelancerDAO extends BaseDAO {
 
   async getExperienceById(freelancerId: string, experienceId: string) {
     return this.model.findOne(
-      { _id: freelancerId },
+      { _id: freelancerId, [`professionalInfo.${experienceId}`]: { $exists: true } },
       { [`professionalInfo.${experienceId}`]: 1 },
     );
   }
@@ -592,4 +592,19 @@ export class FreelancerDAO extends BaseDAO {
       throw new Error(`Failed to find oracle freelancer: ${error.message}`);
     }
   }
+
+  async getSkillById(freelancerId: string, skillId: string) {
+    return this.model.findOne(
+      { _id: freelancerId, 'skills._id': skillId }, // Use dot notation to match subdocument _id
+      { 'skills.$': 1 }, // Use $ to project only the matching element in the array
+    );
+  }
+
+  async getDomainById(freelancerId: string, domainId: string) {
+    return this.model.findOne(
+      { _id: freelancerId, 'domain._id': domainId }, // Use dot notation to match subdocument _id
+      { 'domain.$': 1 }, // Use $ to project only the matching element in the array
+    );
+  }
+
 }
