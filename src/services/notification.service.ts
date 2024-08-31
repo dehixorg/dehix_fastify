@@ -34,4 +34,25 @@ export class NotificationService extends BaseService {
 
     return getNotification;
   }
+
+  async deleteNotificationById(notification_id: string) {
+    this.logger.info(
+      `NotificationService: deleteNotificationById: Deleting Notification for Notification ID:${notification_id}`,
+    );
+
+    const checkNotification: any =
+      await this.NotificationDAO.findNotification(notification_id);
+  
+    if (!checkNotification) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.DATA_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+
+    const deleteNotification: any =
+      await this.NotificationDAO.deleteNotification(notification_id);
+
+    return deleteNotification;
+  }
 }

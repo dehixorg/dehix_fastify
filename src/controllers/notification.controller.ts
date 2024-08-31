@@ -10,6 +10,7 @@ import {
   NOTIFICATION_ENDPOINT,
   NOTIFICATION_BY_ID_ENDPOINT,
   NOTIFICATION_CREATE_ENDPOINT,
+  NOTIFICATION_DELETE_BY_ID_ENDPOINT,
   //todo: add more constants
 } from "../constants/notification.constant";
 import { NotificationService } from "../services";
@@ -17,6 +18,8 @@ import { createNotificationSchema } from "../schema/v1/notification/notification
 import { createNotificationBody } from "../types/v1/notification/createNotification";
 import { getNotificationSchema } from "../schema/v1/notification/notification.get";
 import { GetNotificationPathParams } from "../types/v1/notification/getNotification";
+import { deleteNotificationSchema } from "../schema/v1/notification/notification.delete";
+import { DeleteNotificationPathParams } from "../types/v1/notification/deleteNotification";
 //todo: add more types
 
 @Controller({ route: NOTIFICATION_ENDPOINT })
@@ -75,6 +78,38 @@ export default class NotificationController extends AuthController {
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @DELETE(NOTIFICATION_DELETE_BY_ID_ENDPOINT,{ schema: deleteNotificationSchema} )
+  async deleteNotificationById(
+    request: FastifyRequest<{ Params: DeleteNotificationPathParams }>,
+    reply: FastifyReply,
+  ){
+    try {
+      this.logger.info(
+        `NotificationController  -> deleteNotificationById -> delete Notification}`,
+      );
+      
+      await this.notificationService.deleteNotificationById(request.params.notification_id);
+
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "Notification deleted" });
+    } catch (error: any) {
+      this.logger.error(`Error in deleteNotificationById: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Data not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Notification"),
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {
