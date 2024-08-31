@@ -42,7 +42,7 @@ export class NotificationService extends BaseService {
 
     const checkNotification: any =
       await this.NotificationDAO.findNotification(notification_id);
-  
+
     if (!checkNotification) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.DATA_NOT_FOUND,

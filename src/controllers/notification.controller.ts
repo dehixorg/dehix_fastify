@@ -89,19 +89,25 @@ export default class NotificationController extends AuthController {
     }
   }
 
-  @DELETE(NOTIFICATION_DELETE_BY_ID_ENDPOINT,{ schema: deleteNotificationSchema} )
+  @DELETE(NOTIFICATION_DELETE_BY_ID_ENDPOINT, {
+    schema: deleteNotificationSchema,
+  })
   async deleteNotificationById(
     request: FastifyRequest<{ Params: DeleteNotificationPathParams }>,
     reply: FastifyReply,
-  ){
+  ) {
     try {
       this.logger.info(
         `NotificationController  -> deleteNotificationById -> delete Notification}`,
       );
-      
-      await this.notificationService.deleteNotificationById(request.params.notification_id);
 
-      reply.status(STATUS_CODES.SUCCESS).send({ message: "Notification deleted" });
+      await this.notificationService.deleteNotificationById(
+        request.params.notification_id,
+      );
+
+      reply
+        .status(STATUS_CODES.SUCCESS)
+        .send({ message: "Notification deleted" });
     } catch (error: any) {
       this.logger.error(`Error in deleteNotificationById: ${error.message}`);
       if (

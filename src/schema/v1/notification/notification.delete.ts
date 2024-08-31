@@ -9,7 +9,7 @@ export const deleteNotificationSchema: FastifySchema = {
       notification_id: {
         type: "string",
         description: "The ID of the notification",
-       },
+      },
     },
     required: ["notification_id"],
   },
