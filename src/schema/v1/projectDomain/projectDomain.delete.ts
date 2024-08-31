@@ -2,7 +2,7 @@ import { FastifySchema } from "fastify";
 
 export const deleteProjectDomainSchema: FastifySchema = {
   description: "API to delete project-domain data",
-  tags: ["ProjectDomain"],
+  tags: ["Project_Domain"],
   params: {
     type: "object",
     properties: {

@@ -32,23 +32,15 @@ export class ProjectDomainService extends BaseService {
     return deleteProjectDomain;
   }
 
-  async getAllDomain() {
-    this.logger.info("ProjectDomainService: getAllDomain: Fetching All Domain ");
+  async getAllProjectDomain() {
+    this.logger.info("ProjectDomainService: getAllProjectDomain: Fetching All project domain ");
 
-    const domain: any = await this.ProjectDomainDAO.getAllProjectDomain();
+    const projectDomains: any = await this.ProjectDomainDAO.getAllProjectDomain();
 
-    if (!domain) {
-      this.logger.error("ProjectDomainService: getAllDomain: Domain not found ");
-      throw new NotFoundError(
-        RESPONSE_MESSAGE.NOT_FOUND("Domain"),
-        ERROR_CODES.FREELANCER_NOT_FOUND,
-      );
-    }
-
-    return domain;
+    return projectDomains;
   }
 
-  async getDomainById(domain_id: string) {
+  async getProjectDomainById(domain_id: string) {
     this.logger.info(
       `ProjectDomainService: getDomainById: Fetching Domain for Domain ID:${domain_id}`,
     );
@@ -66,7 +58,7 @@ export class ProjectDomainService extends BaseService {
     return getDomain;
   }
 
-  async updateDomain(domain_id: string, body: any) {
+  async updateProjectDomain(domain_id: string, body: any) {
     this.logger.info(
       `ProjectDomainService: updateDomain: Updating Domain for Domain ID:${domain_id}`,
     );

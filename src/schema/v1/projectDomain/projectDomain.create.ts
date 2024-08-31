@@ -2,7 +2,7 @@ import { FastifySchema } from "fastify";
 
 export const createProjectDomainSchema: FastifySchema = {
   description: "API for creating Project-Domain",
-  tags: ["ProjectDomain"],
+  tags: ["Project_Domain"],
   body: {
     type: "object",
     properties: {

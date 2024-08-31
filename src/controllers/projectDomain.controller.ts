@@ -9,11 +9,12 @@ import {
 
 
 import { AuthController } from "../common/auth.controller";
-import { DELETE_PROJECT_DOMAIN_BY_ID_ENDPOINT, PROJECT_DOMAIN_ENDPOINT, PROJECT_DOMAIN_ID_ENDPOINT } from "../constants/projectDomain.constant";
+import { DELETE_PROJECT_DOMAIN_BY_ID_ENDPOINT, PROJECT_DOMAIN_ALL_ENDPOINT, PROJECT_DOMAIN_ENDPOINT, PROJECT_DOMAIN_ID_ENDPOINT } from "../constants/projectDomain.constant";
 import { createProjectDomainSchema } from "../schema/v1/projectDomain/projectDomain.create";
 import { CreateProjectDomainBody } from "../types/v1/projectDomain/createProjectDomain";
 import { deleteProjectDomainSchema } from "../schema/v1/projectDomain/projectDomain.delete";
 import { DeleteProjectDomainPathParams } from "../types/v1/projectDomain/deleteProjectDomain";
+import { getAllProjectDomainSchema } from "../schema/v1/projectDomain/projectDomain.get";
 
 @Controller({ route: PROJECT_DOMAIN_ENDPOINT })
 export default class ProjectDomainController extends AuthController {
@@ -69,6 +70,30 @@ export default class ProjectDomainController extends AuthController {
           code: ERROR_CODES.SERVER_ERROR,
         });
       }
+    }
+  }
+
+  @GET(PROJECT_DOMAIN_ALL_ENDPOINT, { schema: getAllProjectDomainSchema })
+  async getallProjectDomain(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      this.logger.info(`projectDomainController -> getallProjectDomain -> Fetching project domain`);
+
+      const data = await this.projectDomainService.getAllProjectDomain();
+
+      if (!data) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("project domain"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+      console.log("DATA:", data);
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getallProjectDomain: ${error.message}`);
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
+        message: RESPONSE_MESSAGE.SERVER_ERROR,
+        code: ERROR_CODES.SERVER_ERROR,
+      });
     }
   }
 
