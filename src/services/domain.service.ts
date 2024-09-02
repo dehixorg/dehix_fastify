@@ -47,4 +47,40 @@ export class DomainService extends BaseService {
 
     return domain;
   }
+
+  async getDomainById(domain_id: string) {
+    this.logger.info(
+      `DomainService: getDomainById: Fetching Domain for Domain ID:${domain_id}`,
+    );
+
+    const checkDomain: any = await this.DomainDAO.findDomain(domain_id);
+    if (!checkDomain) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.DATA_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const getDomain: any = await this.DomainDAO.findDomainById(domain_id);
+
+    return getDomain;
+  }
+
+  async updateDomain(domain_id: string, body: any) {
+    this.logger.info(
+      `DomainService: updateDomain: Updating Domain for Domain ID:${domain_id}`,
+    );
+
+    const checkDomain = await this.DomainDAO.findDomain(domain_id);
+    if (!checkDomain) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.DATA_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+
+    const data = await this.DomainDAO.updateDomain(domain_id, body);
+
+    return data;
+  }
 }

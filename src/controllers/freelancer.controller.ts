@@ -273,13 +273,16 @@ export default class FreelancerController extends AuthController {
         `FreelancerController -> addSkillsById -> Adding skills for freelancer using ID: ${request.params.freelancer_id}`,
       );
 
-      const updatedFreelancer =
+      const { addSkills, freelancer_id } =
         await this.freelancerService.addFreelancerSkills(
           request.params.freelancer_id,
           request.body.skills,
         );
 
-      reply.status(STATUS_CODES.SUCCESS).send({ data: updatedFreelancer });
+      reply.status(STATUS_CODES.SUCCESS).send({ data: {
+        freelancer_id,
+        skills: addSkills,
+      } });
     } catch (error: any) {
       this.logger.error(`Error in addSkillsById: ${error.message}`);
 
@@ -838,13 +841,16 @@ export default class FreelancerController extends AuthController {
         `FreelancerController -> addDomainById -> Adding domain for freelancer using ID: ${request.params.freelancer_id}`,
       );
 
-      const updatedFreelancer =
+      const { addDomains, freelancer_id } =
         await this.freelancerService.addFreelancerDomain(
           request.params.freelancer_id,
           request.body.domain,
         );
 
-      reply.status(STATUS_CODES.SUCCESS).send({ data: updatedFreelancer });
+      reply.status(STATUS_CODES.SUCCESS).send({ data: {
+        freelancer_id,
+        domain: addDomains,
+      } });
     } catch (error: any) {
       this.logger.error(`Error in addDomainById: ${error.message}`);
 

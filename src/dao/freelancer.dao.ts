@@ -35,8 +35,8 @@ export class FreelancerDAO extends BaseDAO {
     );
   }
 
-  async findProject(project_id: string, freelancer_id: string) {
-    return this.model.find({
+  async findProject(freelancer_id: string, project_id: string) {
+    return this.model.findOne({
       _id: freelancer_id,
       projects: { $elemMatch: { project_id: project_id } },
     });
@@ -85,18 +85,24 @@ export class FreelancerDAO extends BaseDAO {
   }
 
   async addFreelancerSkill(id: string, skills: any) {
+    const skillsWithId = skills.map(skill => ({
+      ...skill,
+      _id: uuidv4(),
+    }));
+    
     const result = await this.model.updateOne(
       { _id: id },
-      { $addToSet: { skills: { $each: skills } } },
-      { new: true },
+      { $addToSet: { skills: { $each: skillsWithId } } },
+      { new: true, projection: { skills: 1 } }
     );
     if (!result) {
       throw new Error("Freelancer not found or skills could not be added");
     }
+    const skillIds = skillsWithId.map(skill => skill._id);
     return {
-      id,
-      skills,
-    }; // Fetch and return the updated document
+      skillIds,
+      skillsWithId
+    };
   }
 
   async findDomainExistInFreelancer(freelancer_id: string, domain_id: any) {
@@ -219,7 +225,7 @@ export class FreelancerDAO extends BaseDAO {
 
   async addExperienceById(id: string, update: any) {
     const experienceId = uuidv4();
-    return this.model.findByIdAndUpdate(
+    const result = await this.model.findByIdAndUpdate(
       id,
       {
         $set: {
@@ -231,6 +237,11 @@ export class FreelancerDAO extends BaseDAO {
       },
       { new: true, upsert: true },
     );
+
+    return {
+      experienceId,
+      result,
+    };
   }
 
   async deleteExperienceById(id: string, experienceId: string) {
@@ -269,7 +280,7 @@ export class FreelancerDAO extends BaseDAO {
 
   async getExperienceById(freelancerId: string, experienceId: string) {
     return this.model.findOne(
-      { _id: freelancerId },
+      { _id: freelancerId, [`professionalInfo.${experienceId}`]: { $exists: true } },
       { [`professionalInfo.${experienceId}`]: 1 },
     );
   }
@@ -327,7 +338,7 @@ export class FreelancerDAO extends BaseDAO {
 
   async addProjectById(id: string, update: any) {
     const projectId = uuidv4();
-    return this.model.findByIdAndUpdate(
+    const result = await this.model.findByIdAndUpdate(
       id,
       {
         $set: {
@@ -336,6 +347,11 @@ export class FreelancerDAO extends BaseDAO {
       },
       { new: true, upsert: true },
     );
+
+    return {
+      projectId,
+      result,
+    };
   }
 
   async getProjectById(freelancerId: string, project_id: string) {
@@ -367,19 +383,24 @@ export class FreelancerDAO extends BaseDAO {
     ]);
   }
 
-  async addFreelancerDomain(id: string, domain: any) {
+  async addFreelancerDomain(id: string, domains: any) {
+    const domainsWithId = domains.map(domain => ({
+      ...domain,
+      _id: uuidv4(),
+    }));
     const result = await this.model.updateOne(
       { _id: id },
-      { $addToSet: { domain: { $each: domain } } },
-      { new: true },
+      { $addToSet: { domain: { $each: domainsWithId } } },
+      { new: true, projection: { domains: 1 } },
     );
     if (!result) {
-      throw new Error("Freelancer not found or domain could not be added");
+      throw new Error("Freelancer not found or domains could not be added");
     }
+    const domainIds = domainsWithId.map(domain => domain._id);
     return {
-      id,
-      domain,
-    }; // Fetch and return the updated document
+      domainIds,
+      domainsWithId
+    };
   }
 
   async getFreelancerOwnProjects(freelancer_id: string) {
@@ -571,4 +592,19 @@ export class FreelancerDAO extends BaseDAO {
       throw new Error(`Failed to find oracle freelancer: ${error.message}`);
     }
   }
+
+  async getSkillById(freelancerId: string, skillId: string) {
+    return this.model.findOne(
+      { _id: freelancerId, 'skills._id': skillId }, // Use dot notation to match subdocument _id
+      { 'skills.$': 1 }, // Use $ to project only the matching element in the array
+    );
+  }
+
+  async getDomainById(freelancerId: string, domainId: string) {
+    return this.model.findOne(
+      { _id: freelancerId, 'domain._id': domainId }, // Use dot notation to match subdocument _id
+      { 'domain.$': 1 }, // Use $ to project only the matching element in the array
+    );
+  }
+
 }

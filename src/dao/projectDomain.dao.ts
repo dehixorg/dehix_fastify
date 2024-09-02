@@ -1,18 +1,18 @@
 import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
-import { DomainModel, IDomain } from "../models/domain.entity";
 import { v4 as uuidv4 } from "uuid";
+import { ProjectDomainModel, IProjectDomain } from "../models/projectDomain.entity";
 @Service()
-export class DomainDAO extends BaseDAO {
-  model: Model<IDomain>;
+export class ProjectDomainDAO extends BaseDAO {
+  model: Model<IProjectDomain>;
 
   constructor() {
     super();
-    this.model = DomainModel;
+    this.model = ProjectDomainModel;
   }
 
-  async addDomain(domainsData: Partial<IDomain>[]) {
+  async addDomain(domainsData: Partial<IProjectDomain>[]) {
     try {
       const insertedDomain = await Promise.all(
         domainsData.map(async (domainData) => {
@@ -29,11 +29,11 @@ export class DomainDAO extends BaseDAO {
     }
   }
 
-  async findDomain(domain_id: string) {
+  async findProjectDomain(domain_id: string) {
     return this.model.findById(domain_id);
   }
 
-  async getAllDomain() {
+  async getAllProjectDomain() {
     try {
       const domains = await this.model.find();
       return domains;
@@ -42,19 +42,19 @@ export class DomainDAO extends BaseDAO {
     }
   }
 
-  async deleteDomain(id: string) {
+  async deleteProjectDomain(id: string) {
     return this.model.findByIdAndDelete(id);
   }
 
-  async createDomain(data: any) {
+  async createProjectDomain(data: any) {
     return this.model.create(data);
   }
 
-  async findDomainById(id: string) {
+  async findProjectDomainById(id: string) {
     return this.model.findById(id);
   }
 
-  async updateDomain(id: string, update: any) {
+  async updateProjectDomain(id: string, update: any) {
     return this.model.findByIdAndUpdate({ _id: id }, update, { new: true });
   }
 }

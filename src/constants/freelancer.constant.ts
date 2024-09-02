@@ -69,3 +69,7 @@ export const FREELANCER_GET_CONSULTANT_BY_ID =
   "/:freelancer_id/consultant/:consultant_id";
 export const FREELANCER_DELETE_CONSULTANT_BY_ID =
   "/:freelancer_id/consultant/:consultant_id";
+
+// Oracle endpoints
+export const ORACLE_ENDPOINT = "/oracle";
+export const ORACLE_ID_ENDPOINT = "/:verifier_id/oracle";

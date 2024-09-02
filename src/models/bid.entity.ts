@@ -8,7 +8,7 @@ export interface IBid extends Document {
   current_price: number;
   project_id: string;
   domain_id: string; // Make sure to include domain_id in the interface
-  bid_status: "Pending" | "Accepted" | "Rejected" | "Panel";
+  bid_status: "Pending" | "Accepted" | "Rejected" | "Panel" | "Interview";
 }
 
 // Define the Bid schema
