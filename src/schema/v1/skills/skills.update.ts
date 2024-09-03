@@ -1,6 +1,6 @@
 import { FastifySchema } from "fastify";
 
-export const updateSkillSchema : FastifySchema = {
+export const updateSkillSchema: FastifySchema = {
   description: "API for update skill",
   tags: ["Skills"],
   body: {

@@ -1,9 +1,9 @@
 export interface PutSkillPathParams {
-    skill_id: string;
+  skill_id: string;
 }
 
 export interface PutSkillBody {
-    label?: string;
-    description?: string;
-    domain_id?: string;
+  label?: string;
+  description?: string;
+  domain_id?: string;
 }

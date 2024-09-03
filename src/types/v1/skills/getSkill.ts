@@ -1,3 +1,3 @@
 export interface GetSkillPathParams {
-    skill_id: string;
+  skill_id: string;
 }

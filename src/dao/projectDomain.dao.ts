@@ -2,7 +2,10 @@ import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
 import { v4 as uuidv4 } from "uuid";
-import { ProjectDomainModel, IProjectDomain } from "../models/projectDomain.entity";
+import {
+  ProjectDomainModel,
+  IProjectDomain,
+} from "../models/projectDomain.entity";
 @Service()
 export class ProjectDomainDAO extends BaseDAO {
   model: Model<IProjectDomain>;

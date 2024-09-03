@@ -23,7 +23,10 @@ import { createSkillBody } from "../types/v1/skills/createSkill";
 import { DeleteSkillPathParams } from "../types/v1/skills/deleteSkill";
 import { deleteSkillSchema } from "../schema/v1/skills/skills.delete";
 import { GetSkillPathParams } from "../types/v1/skills/getSkill";
-import { PutSkillBody, PutSkillPathParams } from "../types/v1/skills/updateSkill";
+import {
+  PutSkillBody,
+  PutSkillPathParams,
+} from "../types/v1/skills/updateSkill";
 import { updateSkillSchema } from "../schema/v1/skills/skills.update";
 import { getSkillByIdSchema } from "../schema/v1/skills/skills.get";
 
@@ -129,7 +132,7 @@ export default class SkillsController extends AuthController {
       );
 
       const data = await this.skillsService.getSkillById(
-        request.params.skill_id
+        request.params.skill_id,
       );
 
       if (!data) {
@@ -161,9 +164,10 @@ export default class SkillsController extends AuthController {
 
   @PUT(SKILLS_BY_ID_ENDPOINT, { schema: updateSkillSchema })
   async updateSkill(
-    request: FastifyRequest<{ 
-      Params: PutSkillPathParams; 
-      Body: PutSkillBody }>,
+    request: FastifyRequest<{
+      Params: PutSkillPathParams;
+      Body: PutSkillBody;
+    }>,
     reply: FastifyReply,
   ) {
     try {
@@ -173,7 +177,7 @@ export default class SkillsController extends AuthController {
 
       const data = await this.skillsService.updateSkill(
         request.params.skill_id,
-        request.body
+        request.body,
       );
 
       if (!data) {
@@ -184,7 +188,7 @@ export default class SkillsController extends AuthController {
       }
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
-     } catch (error: any) {
+    } catch (error: any) {
       this.logger.error(`Error in updateSkill: ${error.message}`);
       if (
         error.ERROR_CODES === "NOT_FOUND" ||
@@ -203,4 +207,3 @@ export default class SkillsController extends AuthController {
     }
   }
 }
-

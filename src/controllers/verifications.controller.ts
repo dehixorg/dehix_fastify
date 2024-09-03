@@ -2,13 +2,17 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { Controller, GET, Inject, POST, DELETE } from "fastify-decorators";
 import {
-    STATUS_CODES,
-    ERROR_CODES,
-    RESPONSE_MESSAGE,
-  } from "../common/constants";
+  STATUS_CODES,
+  ERROR_CODES,
+  RESPONSE_MESSAGE,
+} from "../common/constants";
 import { AuthController } from "../common/auth.controller";
 import { VerificationService } from "../services";
-import { FREELANCER_ENDPOINT, ORACLE_ENDPOINT, ORACLE_ID_ENDPOINT } from "../constants/freelancer.constant";
+import {
+  FREELANCER_ENDPOINT,
+  ORACLE_ENDPOINT,
+  ORACLE_ID_ENDPOINT,
+} from "../constants/freelancer.constant";
 import { getVerificationDataSchema } from "../schema/v1/verifications/verifications.get";
 import { GetVerifierPathParams } from "../types/v1/verifications/getVerificationData";
 import { GetDocTypeQueryParams } from "../types/v1/verifications/getDocType";

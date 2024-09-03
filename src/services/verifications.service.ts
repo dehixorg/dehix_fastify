@@ -115,67 +115,52 @@ export class VerificationService extends BaseService {
       doc_type,
     );
 
-    if(doc_type == "skill"){
+    if (doc_type == "skill") {
       const requesterData = await Promise.all(
-        data.map((doc: any) => 
-          this.freelancerDAO.getSkillById(
-            doc.requester_id,
-            doc.document_id
-          )
-        )
+        data.map((doc: any) =>
+          this.freelancerDAO.getSkillById(doc.requester_id, doc.document_id),
+        ),
       );
       this.logger.info(requesterData, "in get verification request data");
       return requesterData;
-    }
-    else if(doc_type == "domain"){
+    } else if (doc_type == "domain") {
       const requesterData = await Promise.all(
-        data.map((doc: any) => 
-          this.freelancerDAO.getDomainById(
-            doc.requester_id,
-            doc.document_id
-          )
-        )
+        data.map((doc: any) =>
+          this.freelancerDAO.getDomainById(doc.requester_id, doc.document_id),
+        ),
       );
       this.logger.info(requesterData, "in get verification request data");
       return requesterData;
-    }
-    else if(doc_type == "project"){
+    } else if (doc_type == "project") {
       const requesterData = await Promise.all(
-        data.map((doc: any) => 
-          this.freelancerDAO.getProjectById(
-            doc.requester_id,
-            doc.document_id
-          )
-        )
+        data.map((doc: any) =>
+          this.freelancerDAO.getProjectById(doc.requester_id, doc.document_id),
+        ),
       );
       this.logger.info(requesterData, "in get verification request data");
       return requesterData;
-    }
-    else if(doc_type == "education"){
+    } else if (doc_type == "education") {
       const requesterData = await Promise.all(
-        data.map((doc: any) => 
+        data.map((doc: any) =>
           this.freelancerDAO.getEducationById(
             doc.requester_id,
-            doc.document_id
-          )
-        )
+            doc.document_id,
+          ),
+        ),
       );
       this.logger.info(requesterData, "in get verification request data");
       return requesterData;
-    }
-    else{
+    } else {
       const requesterData = await Promise.all(
-        data.map((doc: any) => 
+        data.map((doc: any) =>
           this.freelancerDAO.getExperienceById(
             doc.requester_id,
-            doc.document_id
-          )
-        )
+            doc.document_id,
+          ),
+        ),
       );
       this.logger.info(requesterData, "in get verification request data");
       return requesterData;
     }
-    
-    
   }
 }
