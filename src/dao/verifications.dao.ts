@@ -48,7 +48,9 @@ export class VerificationDAO extends BaseDAO {
   async findVerificationById(id: string) {
     return this.model.findById(id).lean().exec();
   }
-
+async findVerificationWithDocumentId(id:string){
+return  this.model.findOne({document_id:id})
+}
   async updateVerificationData(id: string, update: any) {
     return this.model.updateOne({ _id: id }, update).exec();
   }
@@ -73,7 +75,7 @@ export class VerificationDAO extends BaseDAO {
   }
 
   async findVerificationByDocumentId(document_id: string) {
-    return this.model.find({ document_id: document_id });
+    return this.model.findOne({ document_id: document_id });
   }
 
   async getVerificationData(

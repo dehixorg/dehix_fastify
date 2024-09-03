@@ -243,6 +243,19 @@ export class FreelancerDAO extends BaseDAO {
       result,
     };
   }
+  async updateExperienceVerification(id: string, document_id:string,update:any){
+  return await this.model.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          [`professionalInfo.${ document_id}`]: {
+            ...update
+          },
+        },
+      },
+      { new: true, upsert: true },
+    );
+  }
 
   async deleteExperienceById(id: string, experienceId: string) {
     return this.model.findByIdAndUpdate(
@@ -282,6 +295,15 @@ export class FreelancerDAO extends BaseDAO {
     return this.model.findOne(
       { _id: freelancerId, [`professionalInfo.${experienceId}`]: { $exists: true } },
       { [`professionalInfo.${experienceId}`]: 1 },
+    );
+  }
+  async updateEducationVerification(id: string, document_id:string, update:any){
+    return this.model.findOneAndUpdate(
+      { _id: id, [`education.${document_id}`]: { $exists: true } },
+      {
+        $set: { [`education.${document_id}`]: {...update } },
+      },
+      { new: true },
     );
   }
 
@@ -360,7 +382,15 @@ export class FreelancerDAO extends BaseDAO {
       { [`projects.${project_id}`]: 1 },
     );
   }
-
+async putProjectVerification(freelancer_id: string, project_id: string, update:any){
+  return this.model.findOneAndUpdate(
+    { _id: freelancer_id, [`projects.${project_id}`]: { $exists: true } },
+    {
+      $set: { [`projects.${project_id}`]: {...update} },
+    },
+    { new: true },
+  );
+}
   async putProjectById(freelancer_id: string, project_id: string, update: any) {
     return this.model.findOneAndUpdate(
       { _id: freelancer_id, [`projects.${project_id}`]: { $exists: true } },
@@ -592,6 +622,7 @@ export class FreelancerDAO extends BaseDAO {
       throw new Error(`Failed to find oracle freelancer: ${error.message}`);
     }
   }
+
 
   async getSkillById(freelancerId: string, skillId: string) {
     return this.model.findOne(

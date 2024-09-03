@@ -50,8 +50,8 @@ const VerificationSchema: Schema<IVerification> = new Schema(
     },
   },
   {
-    timestamps: true, // Add createdAt and updatedAt fields
-    versionKey: false, // Disable __v versioning field
+    timestamps: true, 
+    versionKey: false,
   },
 );
 
