@@ -176,21 +176,19 @@ export class FreelancerService extends BaseService {
       );
     }
 
-    const {skillIds, skillsWithId: addSkills} = await this.FreelancerDAO.addFreelancerSkill(
-      freelancer_id,
-      skills,
-    );
+    const { skillIds, skillsWithId: addSkills } =
+      await this.FreelancerDAO.addFreelancerSkill(freelancer_id, skills);
 
     console.log(skillIds);
 
     await Promise.all(
-      skillIds.map(skillId => 
+      skillIds.map((skillId) =>
         this.VerificationService.requestVerification(
           skillId,
           "skill",
           freelancer_id,
-        )
-      )
+        ),
+      ),
     );
 
     return {
@@ -609,21 +607,19 @@ export class FreelancerService extends BaseService {
       );
     }
 
-    const {domainIds, domainsWithId: addDomains} = await this.FreelancerDAO.addFreelancerDomain(
-      freelancer_id,
-      domains,
-    );
+    const { domainIds, domainsWithId: addDomains } =
+      await this.FreelancerDAO.addFreelancerDomain(freelancer_id, domains);
 
     console.log(domainIds);
 
     await Promise.all(
-      domainIds.map(domainId => 
+      domainIds.map((domainId) =>
         this.VerificationService.requestVerification(
           domainId,
           "domain",
           freelancer_id,
-        )
-      )
+        ),
+      ),
     );
 
     return {

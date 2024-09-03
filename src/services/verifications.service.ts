@@ -56,73 +56,130 @@ export class VerificationService extends BaseService {
     return verification;
   }
 
-  async updateVerificationStatus(document_id: string, status: string, comments: string, doc_type: string) {
-    this.logger.info("VerificationService: Updating Verification Status: ", document_id);
-  
-   
-    const documentExist = await this.verificationDAO.findVerificationByDocumentId(document_id);
+  async updateVerificationStatus(
+    document_id: string,
+    status: string,
+    comments: string,
+    doc_type: string,
+  ) {
+    this.logger.info(
+      "VerificationService: Updating Verification Status: ",
+      document_id,
+    );
+
+    const documentExist =
+      await this.verificationDAO.findVerificationByDocumentId(document_id);
     if (!documentExist) {
-      throw new NotFoundError(RESPONSE_MESSAGE.NOT_FOUND("Verification Document"), ERROR_CODES.NOT_FOUND);
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Verification Document"),
+        ERROR_CODES.NOT_FOUND,
+      );
     }
-  this.logger.info("document ",documentExist, "document id",documentExist._id)
-  
-    const verificationExist = await this.verificationDAO.findVerificationById(documentExist._id);
+    this.logger.info(
+      "document ",
+      documentExist,
+      "document id",
+      documentExist._id,
+    );
+
+    const verificationExist = await this.verificationDAO.findVerificationById(
+      documentExist._id,
+    );
     if (!verificationExist) {
-      throw new NotFoundError(RESPONSE_MESSAGE.NOT_FOUND("Verification"), ERROR_CODES.NOT_FOUND);
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Verification"),
+        ERROR_CODES.NOT_FOUND,
+      );
     }
-  
-  
+
     if (comments) {
       switch (doc_type) {
         case "project":
-          await this.updateProjectVerification(verificationExist, status, comments);
+          await this.updateProjectVerification(
+            verificationExist,
+            status,
+            comments,
+          );
           break;
-  
+
         case "experience":
-          await this.updateExperienceVerification(verificationExist, status, comments);
+          await this.updateExperienceVerification(
+            verificationExist,
+            status,
+            comments,
+          );
           break;
-  
+
         case "education":
-          await this.updateEducationVerification(verificationExist, status, comments);
+          await this.updateEducationVerification(
+            verificationExist,
+            status,
+            comments,
+          );
           break;
-  
+
         case "skill":
         case "domain":
-          await this.verificationDAO.updateStatus(verificationExist._id, status);
+          await this.verificationDAO.updateStatus(
+            verificationExist._id,
+            status,
+          );
           break;
-  
+
         default:
           throw new Error(`Unknown document type: ${doc_type}`);
       }
       // Delete the verification after updating
-     return await this.verificationDAO.deleteVerification(documentExist._id);
+      return await this.verificationDAO.deleteVerification(documentExist._id);
     }
   }
-  
-  private async updateProjectVerification(verificationExist: any, status: string, comments: string) {
+
+  private async updateProjectVerification(
+    verificationExist: any,
+    status: string,
+    comments: string,
+  ) {
     if (status === "Pending") {
-      await this.freelancerDAO.putProjectVerification(verificationExist.requester_id, verificationExist.document_id, {
+      await this.freelancerDAO.putProjectVerification(
+        verificationExist.requester_id,
+        verificationExist.document_id,
+        {
+          comments,
+          verificationStatus: status,
+        },
+      );
+    }
+  }
+
+  private async updateExperienceVerification(
+    verificationExist: any,
+    status: string,
+    comments: string,
+  ) {
+    await this.freelancerDAO.updateExperienceVerification(
+      verificationExist.requester_id,
+      verificationExist.document_id,
+      {
         comments,
         verificationStatus: status,
-      });
-    }
+      },
+    );
   }
-  
-  private async updateExperienceVerification(verificationExist: any, status: string, comments: string) {
-    await this.freelancerDAO.updateExperienceVerification(verificationExist.requester_id, verificationExist.document_id, {
-      comments,
-      verificationStatus: status,
-    });
+
+  private async updateEducationVerification(
+    verificationExist: any,
+    status: string,
+    comments: string,
+  ) {
+    await this.freelancerDAO.updateEducationVerification(
+      verificationExist.requester_id,
+      verificationExist.document_id,
+      {
+        comments,
+        verificationStatus: status,
+      },
+    );
   }
-  
-  private async updateEducationVerification(verificationExist: any, status: string, comments: string) {
-    await this.freelancerDAO.updateEducationVerification(verificationExist.requester_id, verificationExist.document_id, {
-      comments,
-      verificationStatus: status,
-    });
-  }
-  
-  
 
   async deleteVerification(id: string) {
     this.logger.info(`VerificationService: Deleting Verification: ${id}`);
@@ -165,67 +222,52 @@ export class VerificationService extends BaseService {
       doc_type,
     );
 
-    if(doc_type == "skill"){
+    if (doc_type == "skill") {
       const requesterData = await Promise.all(
-        data.map((doc: any) => 
-          this.freelancerDAO.getSkillById(
-            doc.requester_id,
-            doc.document_id
-          )
-        )
+        data.map((doc: any) =>
+          this.freelancerDAO.getSkillById(doc.requester_id, doc.document_id),
+        ),
       );
       this.logger.info(requesterData, "in get verification request data");
       return requesterData;
-    }
-    else if(doc_type == "domain"){
+    } else if (doc_type == "domain") {
       const requesterData = await Promise.all(
-        data.map((doc: any) => 
-          this.freelancerDAO.getDomainById(
-            doc.requester_id,
-            doc.document_id
-          )
-        )
+        data.map((doc: any) =>
+          this.freelancerDAO.getDomainById(doc.requester_id, doc.document_id),
+        ),
       );
       this.logger.info(requesterData, "in get verification request data");
       return requesterData;
-    }
-    else if(doc_type == "project"){
+    } else if (doc_type == "project") {
       const requesterData = await Promise.all(
-        data.map((doc: any) => 
-          this.freelancerDAO.getProjectById(
-            doc.requester_id,
-            doc.document_id
-          )
-        )
+        data.map((doc: any) =>
+          this.freelancerDAO.getProjectById(doc.requester_id, doc.document_id),
+        ),
       );
       this.logger.info(requesterData, "in get verification request data");
       return requesterData;
-    }
-    else if(doc_type == "education"){
+    } else if (doc_type == "education") {
       const requesterData = await Promise.all(
-        data.map((doc: any) => 
+        data.map((doc: any) =>
           this.freelancerDAO.getEducationById(
             doc.requester_id,
-            doc.document_id
-          )
-        )
+            doc.document_id,
+          ),
+        ),
       );
       this.logger.info(requesterData, "in get verification request data");
       return requesterData;
-    }
-    else{
+    } else {
       const requesterData = await Promise.all(
-        data.map((doc: any) => 
+        data.map((doc: any) =>
           this.freelancerDAO.getExperienceById(
             doc.requester_id,
-            doc.document_id
-          )
-        )
+            doc.document_id,
+          ),
+        ),
       );
       this.logger.info(requesterData, "in get verification request data");
       return requesterData;
     }
-    
-    
   }
 }

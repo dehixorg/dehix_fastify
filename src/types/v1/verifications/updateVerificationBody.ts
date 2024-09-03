@@ -1,4 +1,4 @@
-export interface PatchOracleBody{
-    verification_status:"Pending"| "Approved"| "Denied"
-    comments:string
+export interface PatchOracleBody {
+  verification_status: "Pending" | "Approved" | "Denied";
+  comments: string;
 }

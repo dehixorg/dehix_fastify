@@ -11,7 +11,8 @@ export class ProjectDomainService extends BaseService {
   private ProjectDomainDAO!: ProjectDomainDAO;
 
   async createProjectDomain(body: any) {
-    const projectDomain: any = await this.ProjectDomainDAO.createProjectDomain(body);
+    const projectDomain: any =
+      await this.ProjectDomainDAO.createProjectDomain(body);
     return projectDomain;
   }
 
@@ -20,22 +21,27 @@ export class ProjectDomainService extends BaseService {
       `ProjectDomainService: deleteProjectDomainById: Deleting ProjectDomain for ProjectDomain ID:${projectDomain_id}`,
     );
 
-    const checkProjectDomain = await this.ProjectDomainDAO.findProjectDomain(projectDomain_id);
+    const checkProjectDomain =
+      await this.ProjectDomainDAO.findProjectDomain(projectDomain_id);
     if (!checkProjectDomain) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.DATA_NOT_FOUND,
         ERROR_CODES.NOT_FOUND,
       );
     }
-    const deleteProjectDomain = await this.ProjectDomainDAO.deleteProjectDomain(projectDomain_id);
+    const deleteProjectDomain =
+      await this.ProjectDomainDAO.deleteProjectDomain(projectDomain_id);
 
     return deleteProjectDomain;
   }
 
   async getAllProjectDomain() {
-    this.logger.info("ProjectDomainService: getAllProjectDomain: Fetching All project domain ");
+    this.logger.info(
+      "ProjectDomainService: getAllProjectDomain: Fetching All project domain ",
+    );
 
-    const projectDomains: any = await this.ProjectDomainDAO.getAllProjectDomain();
+    const projectDomains: any =
+      await this.ProjectDomainDAO.getAllProjectDomain();
 
     return projectDomains;
   }
@@ -45,7 +51,8 @@ export class ProjectDomainService extends BaseService {
       `ProjectDomainService: getDomainById: Fetching Domain for Domain ID:${domain_id}`,
     );
 
-    const checkDomain: any = await this.ProjectDomainDAO.findProjectDomain(domain_id);
+    const checkDomain: any =
+      await this.ProjectDomainDAO.findProjectDomain(domain_id);
     if (!checkDomain) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.DATA_NOT_FOUND,
@@ -53,7 +60,8 @@ export class ProjectDomainService extends BaseService {
       );
     }
 
-    const getDomain: any = await this.ProjectDomainDAO.findProjectDomainById(domain_id);
+    const getDomain: any =
+      await this.ProjectDomainDAO.findProjectDomainById(domain_id);
 
     return getDomain;
   }
@@ -63,7 +71,8 @@ export class ProjectDomainService extends BaseService {
       `ProjectDomainService: updateDomain: Updating Domain for Domain ID:${domain_id}`,
     );
 
-    const checkDomain = await this.ProjectDomainDAO.findProjectDomain(domain_id);
+    const checkDomain =
+      await this.ProjectDomainDAO.findProjectDomain(domain_id);
     if (!checkDomain) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.DATA_NOT_FOUND,
@@ -71,7 +80,10 @@ export class ProjectDomainService extends BaseService {
       );
     }
 
-    const data = await this.ProjectDomainDAO.updateProjectDomain(domain_id, body);
+    const data = await this.ProjectDomainDAO.updateProjectDomain(
+      domain_id,
+      body,
+    );
 
     return data;
   }

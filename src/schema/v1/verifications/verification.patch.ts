@@ -28,13 +28,13 @@ export const updateVerificationStatusSchema: FastifySchema = {
     properties: {
       verification_status: {
         type: "string",
-        enum:  ["Pending", "Approved", "Denied"],
+        enum: ["Pending", "Approved", "Denied"],
         description: "The new verification status",
       },
-      comments:{
-        type:"string",
-        description: "The new verification comment"
-      }
+      comments: {
+        type: "string",
+        description: "The new verification comment",
+      },
     },
     required: [],
   },

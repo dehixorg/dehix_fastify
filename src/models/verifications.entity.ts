@@ -50,7 +50,7 @@ const VerificationSchema: Schema<IVerification> = new Schema(
     },
   },
   {
-    timestamps: true, 
+    timestamps: true,
     versionKey: false,
   },
 );
