@@ -4,6 +4,7 @@ import { BaseService } from "../common/base.service";
 import { NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { SkillDAO } from "../dao/skills.dao";
+import { get } from "http";
 
 @Service()
 export class SkillsService extends BaseService {
@@ -46,5 +47,41 @@ export class SkillsService extends BaseService {
     }
 
     return skills;
+  }
+
+  async getSkillById(skill_id: string) {
+    this.logger.info(
+      `SkillsService: getSkillById: Fetching Skill for Skill ID:${skill_id}`,
+    );
+
+    const checkSkill: any = await this.SkillDAO.findSkill(skill_id);
+    if (!checkSkill) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.DATA_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const getSkill: any = await this.SkillDAO.findSkillById(skill_id);
+
+    return getSkill;
+  }
+
+  async updateSkill(skill_id: string, body: any) {
+    this.logger.info(
+      `SkillsService: updateSkill: Updating Skill for Skill ID:${skill_id}`,
+    );
+
+    const checkSkill: any = await this.SkillDAO.findSkill(skill_id);
+    if (!checkSkill) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.DATA_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const updateSkill: any = await this.SkillDAO.updateSkill(skill_id, body);
+
+    return updateSkill;
   }
 }
