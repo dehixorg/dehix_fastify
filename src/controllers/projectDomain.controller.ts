@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, GET, Inject, POST, DELETE, PUT } from "fastify-decorators";
+import { Controller, GET, Inject, POST, DELETE } from "fastify-decorators";
 import { ProjectDomainService } from "../services";
 import {
   STATUS_CODES,
@@ -7,9 +7,13 @@ import {
   RESPONSE_MESSAGE,
 } from "../common/constants";
 
-
 import { AuthController } from "../common/auth.controller";
-import { DELETE_PROJECT_DOMAIN_BY_ID_ENDPOINT, PROJECT_DOMAIN_ALL_ENDPOINT, PROJECT_DOMAIN_ENDPOINT, PROJECT_DOMAIN_ID_ENDPOINT } from "../constants/projectDomain.constant";
+import {
+  DELETE_PROJECT_DOMAIN_BY_ID_ENDPOINT,
+  PROJECT_DOMAIN_ALL_ENDPOINT,
+  PROJECT_DOMAIN_ENDPOINT,
+  PROJECT_DOMAIN_ID_ENDPOINT,
+} from "../constants/projectDomain.constant";
 import { createProjectDomainSchema } from "../schema/v1/projectDomain/projectDomain.create";
 import { CreateProjectDomainBody } from "../types/v1/projectDomain/createProjectDomain";
 import { deleteProjectDomainSchema } from "../schema/v1/projectDomain/projectDomain.delete";
@@ -21,16 +25,19 @@ export default class ProjectDomainController extends AuthController {
   @Inject(ProjectDomainService)
   projectDomainService!: ProjectDomainService;
 
-
   @POST(PROJECT_DOMAIN_ID_ENDPOINT, { schema: createProjectDomainSchema })
   async createProjectDomain(
     request: FastifyRequest<{ Body: CreateProjectDomainBody }>,
     reply: FastifyReply,
   ) {
     try {
-      this.logger.info(`ProjectDomainController -> createProjectDomain -> Creating project-domain`);
+      this.logger.info(
+        `ProjectDomainController -> createProjectDomain -> Creating project-domain`,
+      );
 
-      const data = await this.projectDomainService.createProjectDomain(request.body);
+      const data = await this.projectDomainService.createProjectDomain(
+        request.body,
+      );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
@@ -42,7 +49,9 @@ export default class ProjectDomainController extends AuthController {
     }
   }
 
-  @DELETE(DELETE_PROJECT_DOMAIN_BY_ID_ENDPOINT, { schema: deleteProjectDomainSchema })
+  @DELETE(DELETE_PROJECT_DOMAIN_BY_ID_ENDPOINT, {
+    schema: deleteProjectDomainSchema,
+  })
   async deleteProjectDomainById(
     request: FastifyRequest<{ Params: DeleteProjectDomainPathParams }>,
     reply: FastifyReply,
@@ -51,9 +60,13 @@ export default class ProjectDomainController extends AuthController {
       this.logger.info(
         `ProjectDomainController -> deleteProjectDomainById -> Deleting ProjectDomain using: ${request.params.projectDomain_id}`,
       );
-      await this.projectDomainService.deleteProjectDomainById(request.params.projectDomain_id);
+      await this.projectDomainService.deleteProjectDomainById(
+        request.params.projectDomain_id,
+      );
 
-      reply.status(STATUS_CODES.SUCCESS).send({ message: "Project Domain deleted" });
+      reply
+        .status(STATUS_CODES.SUCCESS)
+        .send({ message: "Project Domain deleted" });
     } catch (error: any) {
       this.logger.error(`Error in delete domain: ${error.message}`);
       if (
@@ -76,7 +89,9 @@ export default class ProjectDomainController extends AuthController {
   @GET(PROJECT_DOMAIN_ALL_ENDPOINT, { schema: getAllProjectDomainSchema })
   async getallProjectDomain(request: FastifyRequest, reply: FastifyReply) {
     try {
-      this.logger.info(`projectDomainController -> getallProjectDomain -> Fetching project domain`);
+      this.logger.info(
+        `projectDomainController -> getallProjectDomain -> Fetching project domain`,
+      );
 
       const data = await this.projectDomainService.getAllProjectDomain();
 
@@ -96,6 +111,4 @@ export default class ProjectDomainController extends AuthController {
       });
     }
   }
-
-
 }

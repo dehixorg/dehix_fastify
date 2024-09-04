@@ -31,10 +31,8 @@ const ProjectDomainSchema: Schema<IProjectDomain> = new Schema(
 );
 
 // Create and export the Project_Domain model
-export const ProjectDomainModel: Model<IProjectDomain> = mongoose.model<IProjectDomain>(
-  "Project_Domain",
-  ProjectDomainSchema,
-);
+export const ProjectDomainModel: Model<IProjectDomain> =
+  mongoose.model<IProjectDomain>("Project_Domain", ProjectDomainSchema);
 
 export default {
   ProjectDomainModel,
