@@ -44,6 +44,7 @@ import {
   FREELANCER_UPDATE_CONSULTANT_BY_ID,
   FREELANCER_GET_CONSULTANT_BY_ID,
   FREELANCER_DELETE_CONSULTANT_BY_ID,
+  NOT_INTERESTED_PROJECT,
 } from "../constants/freelancer.constant";
 import {
   getFreelancerDomainSchema,
@@ -60,6 +61,7 @@ import {
   oracleStatusSchema,
   updateEducationSchema,
   updateFreelancerSchema,
+  updateNotInterestedProjectSchema,
   updateProjectSchema,
 } from "../schema/v1/freelancer/freelancer.update";
 import {
@@ -107,6 +109,7 @@ import { updateConsultantSchema } from "../schema/v1/consultant/consultant.updat
 import { PutConsultantBody } from "../types/v1/freelancer/updateConsultant";
 import { getConsultantSchema } from "../schema/v1/consultant/consultant.get";
 import { deleteConsultantSchema } from "../schema/v1/consultant/consultant.delete";
+import { updateNotinterestedPathParams } from "src/types/v1/freelancer/updateNotInterestedProject";
 
 @Controller({ route: FREELANCER_ENDPOINT })
 export default class FreelancerController extends AuthController {
@@ -1294,5 +1297,38 @@ export default class FreelancerController extends AuthController {
         });
       }
     }
+  }
+  @PUT(NOT_INTERESTED_PROJECT,{schema:updateNotInterestedProjectSchema})
+  async updateNotInterestedProject(request:FastifyRequest<{Params:updateNotinterestedPathParams}>,reply:FastifyReply){
+try {
+  const data= await this.freelancerService.notInterestedProject(request.params.freelancer_id,request.params.project_id)
+  reply.status(STATUS_CODES.SUCCESS).send({message:"update sucessfull"})
+}  catch (error: any) {
+  this.logger.error(`Error in updateNotInterestedProject: ${error.message}`);
+  if (
+    error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+    error.message.includes(
+      "Freelancer with provided ID could not be found.",
+    )
+  ) {
+    reply.status(STATUS_CODES.NOT_FOUND).send({
+      message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+      code: ERROR_CODES.NOT_FOUND,
+    });
+  }else if (
+    error.ERROR_CODES === "NOT_FOUND" ||
+    error.message.includes("Project not found")
+  ) {
+    reply.status(STATUS_CODES.NOT_FOUND).send({
+      message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+      code: ERROR_CODES.NOT_FOUND,
+    });
+  } else {
+    reply.status(STATUS_CODES.SERVER_ERROR).send({
+      message: RESPONSE_MESSAGE.SERVER_ERROR,
+      code: ERROR_CODES.SERVER_ERROR,
+    });
+  }
+}
   }
 }

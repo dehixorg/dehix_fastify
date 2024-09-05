@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
+import { isStringLiteralOrJsxExpression } from "typescript";
 import { v4 as uuidv4 } from "uuid";
 
 const { String } = Schema.Types;
@@ -141,6 +142,7 @@ export interface IFreelancer extends Document {
   userDataForVerification?: string[];
   interviewsAligned?: string[];
   interviewee?: boolean;
+  notInterestedProject?:string[]
 }
 
 const FreelancerSchema: Schema = new Schema(
@@ -411,6 +413,9 @@ const FreelancerSchema: Schema = new Schema(
       default: false,
       require: false,
     },
+    notInterestedProject:[{
+      type:String
+    }]
   },
   {
     timestamps: true,
