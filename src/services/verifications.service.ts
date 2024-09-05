@@ -36,24 +36,28 @@ export class VerificationService extends BaseService {
     }
 
     // Find the verifier
-    const verifier = await this.freelancerDAO.findOracle(requester_id);
-    if (!verifier) {
-      throw new Error("Verifier not found"); // Handle case where no verifier is found
+    if(!process.env.ADMIN){
+      const verifier = await this.freelancerDAO.findOracle(requester_id);
+      if (!verifier) {
+        throw new Error("Verifier not found"); // Handle case where no verifier is found
+      }
+
+      const verifier_id = verifier.id;
+      const verifier_username = verifier.username; // Assuming `username` is the field for verifier's username
+
+      // Create a new verification entry
+      const verification = await this.verificationDAO.createOne(
+        verifier_id,
+        verifier_username,
+        requester_id,
+        doc_id,
+        doc_type,
+      );
+
+      return verification;
+    }else{
+      // call dao function for find admin
     }
-
-    const verifier_id = verifier.id;
-    const verifier_username = verifier.username; // Assuming `username` is the field for verifier's username
-
-    // Create a new verification entry
-    const verification = await this.verificationDAO.createOne(
-      verifier_id,
-      verifier_username,
-      requester_id,
-      doc_id,
-      doc_type,
-    );
-
-    return verification;
   }
 
   async updateVerificationStatus(id: string, status: string) {
@@ -175,7 +179,21 @@ export class VerificationService extends BaseService {
       this.logger.info(requesterData, "in get verification request data");
       return requesterData;
     }
-    
-    
+  }
+
+  async getAllVerificationData() {
+    this.logger.info("SkillsService: getAllSkills: Fetching All Skills ");
+
+    const verification: any = await this.verificationDAO.getAllVerificationData();
+
+    if (!verification) {
+      this.logger.error("VerificationsService: getAllVerificationData: verification data not found ");
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Verification Data"),
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    return verification;
   }
 }

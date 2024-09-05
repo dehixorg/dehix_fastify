@@ -99,4 +99,13 @@ export class VerificationDAO extends BaseDAO {
       throw error;
     }
   }
+
+  async getAllVerificationData() {
+    try {
+      const verification = await this.model.find();
+      return verification;
+    } catch (error: any) {
+      throw new Error(`Failed to fetch verification data: ${error.message}`);
+    }
+  }
 }
