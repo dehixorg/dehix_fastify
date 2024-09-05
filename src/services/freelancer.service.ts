@@ -176,21 +176,19 @@ export class FreelancerService extends BaseService {
       );
     }
 
-    const {skillIds, skillsWithId: addSkills} = await this.FreelancerDAO.addFreelancerSkill(
-      freelancer_id,
-      skills,
-    );
+    const { skillIds, skillsWithId: addSkills } =
+      await this.FreelancerDAO.addFreelancerSkill(freelancer_id, skills);
 
     console.log(skillIds);
 
     await Promise.all(
-      skillIds.map(skillId => 
+      skillIds.map((skillId) =>
         this.VerificationService.requestVerification(
           skillId,
           "skill",
           freelancer_id,
-        )
-      )
+        ),
+      ),
     );
 
     return {
@@ -609,21 +607,19 @@ export class FreelancerService extends BaseService {
       );
     }
 
-    const {domainIds, domainsWithId: addDomains} = await this.FreelancerDAO.addFreelancerDomain(
-      freelancer_id,
-      domains,
-    );
+    const { domainIds, domainsWithId: addDomains } =
+      await this.FreelancerDAO.addFreelancerDomain(freelancer_id, domains);
 
     console.log(domainIds);
 
     await Promise.all(
-      domainIds.map(domainId => 
+      domainIds.map((domainId) =>
         this.VerificationService.requestVerification(
           domainId,
           "domain",
           freelancer_id,
-        )
-      )
+        ),
+      ),
     );
 
     return {
@@ -880,6 +876,29 @@ export class FreelancerService extends BaseService {
     const data = await this.FreelancerDAO.deleteConsultant(
       freelancer_id,
       consultant_id,
+    );
+    return data;
+  }
+  async notInterestedProject(freelancer_id: string, project_id: string) {
+    this.logger.info("services->freelancer.service->notInterestedProject");
+    const freelancerExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!freelancerExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+    const projectExist = await this.ProjectDAO.getProjectById(project_id);
+    if (!projectExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Project"),
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+    const data = await this.FreelancerDAO.updateNotInterestedProject(
+      freelancer_id,
+      project_id,
     );
     return data;
   }

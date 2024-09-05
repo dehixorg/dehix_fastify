@@ -19,11 +19,6 @@ export interface IBusiness extends Document {
   isBusiness: boolean;
   connects: number;
   ProjectList: string[];
-  Appliedcandidates: string[];
-  hirefreelancer: {
-    freelancer: string;
-    status: string;
-  }[];
 }
 
 const BusinessSchema: Schema<IBusiness> = new Schema(
@@ -93,24 +88,6 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
       {
         type: String,
         ref: "Project",
-      },
-    ],
-    Appliedcandidates: [
-      {
-        type: String,
-        ref: "Applicationforwork",
-      },
-    ],
-    hirefreelancer: [
-      {
-        freelancer: {
-          type: String,
-          ref: "Freelancer",
-        },
-        status: {
-          type: String,
-          default: "Pending",
-        },
       },
     ],
   },

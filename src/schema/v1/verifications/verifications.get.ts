@@ -15,31 +15,32 @@ export const getVerificationDataSchema: FastifySchema = {
   },
   response: {
     404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
+        type: "object",
+        properties: {
+          message: {
+            type: "string",
+          },
+          code: {
+            type: "string",
+          },
         },
       },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
+      403: {
+        type: "object",
+        properties: {
+          code: {
+            type: "string",
+          },
+          message: {
+            type: "string",
+          },
+        },
+      },
+      500: {
+        type: "object",
+        properties: {
+          message: { type: "string" },
+        },
       },
     },
   },
@@ -107,11 +108,10 @@ export const getAllVerificationDataSchema: FastifySchema = {
           },
         },
       },
-      500: {
-        type: "object",
-        properties: {
-          message: { type: "string" },
-        },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
       },
     },
   },
