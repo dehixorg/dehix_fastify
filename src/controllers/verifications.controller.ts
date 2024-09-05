@@ -7,7 +7,7 @@ import {
   POST,
   DELETE,
   PATCH,
-  PUT
+  PUT,
 } from "fastify-decorators";
 import {
   STATUS_CODES,

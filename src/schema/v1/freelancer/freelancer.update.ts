@@ -981,3 +981,48 @@ export const updateProjectSchema: FastifySchema = {
     },
   },
 };
+export const updateNotInterestedProjectSchema: FastifySchema = {
+  description: "API to update the not interested project list for a freelancer",
+  tags: ["Freelancer"],
+  params: {
+    type: "object",
+    properties: {
+      freelancer_id: { type: "string" },
+      project_id: { type: "string" },
+    },
+    required: ["freelancer_id", "project_id"],
+  },
+  response: {
+    200: {
+      description: "Successfully updated not interested project",
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+          example: "Not interested project updated successfully",
+        },
+      },
+    },
+    400: {
+      description: "Invalid request parameters",
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+    404: {
+      description: "Freelancer or project not found",
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+    500: {
+      description: "Internal server error",
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};

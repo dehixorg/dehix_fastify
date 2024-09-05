@@ -4,7 +4,6 @@ import { BaseService } from "../common/base.service";
 import { NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { SkillDAO } from "../dao/skills.dao";
-import { get } from "http";
 
 @Service()
 export class SkillsService extends BaseService {

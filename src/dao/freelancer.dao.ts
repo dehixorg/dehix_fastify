@@ -651,4 +651,13 @@ export class FreelancerDAO extends BaseDAO {
       { "domain.$": 1 }, // Use $ to project only the matching element in the array
     );
   }
+  async updateNotInterestedProject(freelancer_id: string, project_id: string) {
+    return this.model.findByIdAndUpdate(
+      freelancer_id,
+      {
+        $addToSet: { notInterestedProject: project_id },
+      },
+      { new: true },
+    );
+  }
 }
