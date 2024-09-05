@@ -74,3 +74,4 @@ export const FREELANCER_DELETE_CONSULTANT_BY_ID =
 export const ORACLE_ENDPOINT = "/oracle";
 export const ORACLE_ID_ENDPOINT = "/:verifier_id/oracle";
 export const ORACLE_UPDATE_END_POINT = "/:document_id/oracle";
+

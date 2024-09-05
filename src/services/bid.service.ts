@@ -84,7 +84,11 @@ export class BidService extends BaseService {
         ? await updateStatus("Accepted")
         : bid_status == "Rejected"
           ? await updateStatus("Rejected")
-          : await updateStatus("Pending");
+          : bid_status == "Interview"
+            ? await updateStatus("Interview")
+            : bid_status == "Panel"
+              ? await updateStatus("Panel")
+              : await updateStatus("Pending");
     return data;
   }
 
