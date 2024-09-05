@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, DELETE, GET, Inject, POST } from "fastify-decorators";
+import { Controller, DELETE, GET, Inject, POST, PUT } from "fastify-decorators";
 import {
   STATUS_CODES,
   ERROR_CODES,
@@ -10,6 +10,7 @@ import {
   FAQ_ALL_ENDPOINT,
   FAQ_DELETE_BY_ID_ENDPOINT,
   FAQ_ENDPOINT,
+  FAQ_UPDATE_BY_ID_ENDPOINT,
 } from "../constants/faq.constant";
 import { FaqService } from "../services";
 import { createFaqSchema } from "../schema/v1/faq/faq.create";
@@ -17,6 +18,8 @@ import { createFaqBody } from "../types/v1/faq/createFaq";
 import { DeleteFaqPathParams } from "../types/v1/faq/deleteFaq";
 import { deleteFaqSchema } from "../schema/v1/faq/faq.delete";
 import { getAllFaqSchema } from "../schema/v1/faq/faq.get";
+import { PutFaqBody } from "../types/v1/faq/updateFaq";
+import { updateFaqSchema } from "../schema/v1/faq/faq.update";
 
 @Controller({ route: FAQ_ENDPOINT })
 export default class FaqController extends AuthController {
@@ -90,6 +93,51 @@ export default class FaqController extends AuthController {
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Faq"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @PUT(FAQ_UPDATE_BY_ID_ENDPOINT, { schema: updateFaqSchema })
+  async updateFaqById(
+    request: FastifyRequest<{ 
+      Params: DeleteFaqPathParams; 
+      Body: PutFaqBody 
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FaqController -> updateFaqById -> Updating FAQ using: ${request.params.faq_id}`,
+      );
+      
+      const data = await this.faqService.updateFaqById(
+        request.params.faq_id,
+        request.body,
+      );
+
+      if (!data) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Faq"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in updateFaqById: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Data not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {

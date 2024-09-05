@@ -32,4 +32,10 @@ export class FaqDAO extends BaseDAO {
       throw new Error(`Failed to fetch faqs: ${error.message}`);
     }
   }
+
+  async updateFaq(faq_id: string, update: any) {
+    return this.model.findByIdAndUpdate(
+      { _id: faq_id }, update, { new: true }
+    );
+  }
 }
