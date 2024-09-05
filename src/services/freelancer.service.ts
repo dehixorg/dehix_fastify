@@ -879,6 +879,29 @@ export class FreelancerService extends BaseService {
     );
     return data;
   }
+  async notInterestedProject(freelancer_id: string, project_id: string) {
+    this.logger.info("services->freelancer.service->notInterestedProject");
+    const freelancerExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!freelancerExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+    const projectExist = await this.ProjectDAO.getProjectById(project_id);
+    if (!projectExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Project"),
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+    const data = await this.FreelancerDAO.updateNotInterestedProject(
+      freelancer_id,
+      project_id,
+    );
+    return data;
+  }
 }
 /**
  * Service method for FREELANCER login

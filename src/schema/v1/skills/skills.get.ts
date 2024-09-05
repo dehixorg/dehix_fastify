@@ -1,8 +1,8 @@
 import { FastifySchema } from "fastify";
 
-export const getDomainByIdSchema: FastifySchema = {
-  description: "API to get domain data",
-  tags: ["Domain"],
+export const getSkillByIdSchema: FastifySchema = {
+  description: "API to get skill data",
+  tags: ["Skills"],
   response: {
     200: {
       type: "object",

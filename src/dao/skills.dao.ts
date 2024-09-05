@@ -49,4 +49,12 @@ export class SkillDAO extends BaseDAO {
   async createSkill(data: any) {
     return this.model.create(data);
   }
+
+  async findSkillById(skill_id: string) {
+    return this.model.findById(skill_id);
+  }
+
+  async updateSkill(id: string, update: any) {
+    return this.model.findByIdAndUpdate({ _id: id }, update, { new: true });
+  }
 }

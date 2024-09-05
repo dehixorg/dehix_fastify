@@ -7,6 +7,7 @@ import {
   POST,
   DELETE,
   PATCH,
+  PUT,
 } from "fastify-decorators";
 import {
   STATUS_CODES,
@@ -75,7 +76,7 @@ export default class VerificationsController extends AuthController {
     }
   }
 
-  @PATCH(ORACLE_UPDATE_END_POINT, { schema: updateVerificationStatusSchema })
+  @PUT(ORACLE_UPDATE_END_POINT, { schema: updateVerificationStatusSchema })
   async updateVerificationStatus(
     request: FastifyRequest<{
       Body: PatchOracleBody;
