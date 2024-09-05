@@ -3,13 +3,6 @@ import { FastifySchema } from "fastify";
 export const getDomainByIdSchema: FastifySchema = {
   description: "API to get domain data",
   tags: ["Domain"],
-  querystring: {
-    type: "object",
-    properties: {
-      description: { type: "string" },
-    },
-    required: [],
-  },
   response: {
     200: {
       type: "object",
