@@ -414,10 +414,10 @@ const FreelancerSchema: Schema = new Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 export const FreelancerModel: Model<IFreelancer> = mongoose.model<IFreelancer>(
   "Freelancer",
-  FreelancerSchema,
+  FreelancerSchema
 );
