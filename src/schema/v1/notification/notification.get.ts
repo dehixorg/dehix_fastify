@@ -3,13 +3,6 @@ import { FastifySchema } from "fastify";
 export const getNotificationSchema: FastifySchema = {
   description: "API to get a Notification by ID",
   tags: ["Notification"],
-  querystring: {
-    type: "object",
-    properties: {
-      description: { type: "string" },
-    },
-    required: [],
-  },
   response: {
     200: {
       type: "object",
