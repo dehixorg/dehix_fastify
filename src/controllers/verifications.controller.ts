@@ -16,11 +16,9 @@ import {
 } from "../common/constants";
 import { AuthController } from "../common/auth.controller";
 import { VerificationService } from "../services";
-import { ALL_ORACLE_ENDPOINT, FREELANCER_ENDPOINT, ORACLE_ENDPOINT, ORACLE_ID_ENDPOINT } from "../constants/freelancer.constant";
 import { getAllVerificationDataSchema, getVerificationDataSchema } from "../schema/v1/verifications/verifications.get";
 import {
   FREELANCER_ENDPOINT,
-  ORACLE_ENDPOINT,
   ORACLE_ID_ENDPOINT,
   ORACLE_UPDATE_END_POINT,
   ALL_ORACLE_ENDPOINT,
@@ -99,6 +97,9 @@ export default class VerificationsController extends AuthController {
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });
+    }
+  }
+
   @PUT(ORACLE_UPDATE_END_POINT, { schema: updateVerificationStatusSchema })
   async updateVerificationStatus(
     request: FastifyRequest<{
@@ -145,4 +146,7 @@ export default class VerificationsController extends AuthController {
       }
     }
   }
+  
 }
+
+
