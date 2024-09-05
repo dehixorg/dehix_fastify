@@ -997,7 +997,10 @@ export const updateNotInterestedProjectSchema: FastifySchema = {
       description: "Successfully updated not interested project",
       type: "object",
       properties: {
-        message: { type: "string", example: "Not interested project updated successfully" },
+        message: {
+          type: "string",
+          example: "Not interested project updated successfully",
+        },
       },
     },
     400: {

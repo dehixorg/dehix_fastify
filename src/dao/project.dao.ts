@@ -44,7 +44,7 @@ export class ProjectDAO extends BaseDAO {
       throw error;
     }
   }
-  async getProjectById(project_id:string){
-return this.model.findById(project_id)
+  async getProjectById(project_id: string) {
+    return this.model.findById(project_id);
   }
 }
