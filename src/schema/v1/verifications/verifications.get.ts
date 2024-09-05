@@ -94,24 +94,21 @@ export const getAllVerificationDataSchema: FastifySchema = {
           code: {
             type: "string",
           },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
         },
       },
-      403: {
-        type: "object",
-        properties: {
-          code: {
-            type: "string",
-          },
-          message: {
-            type: "string",
-          },
-        },
-      },
-      500: {
-        type: "object",
-        properties: {
-          message: { type: "string" },
-        },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
       },
     },
   },

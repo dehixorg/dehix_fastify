@@ -1,8 +1,16 @@
 import { FastifySchema } from "fastify";
 
-export const getDomainByIdSchema: FastifySchema = {
-  description: "API to get domain data",
-  tags: ["Domain"],
+export const createProjectDomainSchema: FastifySchema = {
+  description: "API for creating Project-Domain",
+  tags: ["Project_Domain"],
+  body: {
+    type: "object",
+    properties: {
+      label: { type: "string" },
+      description: { type: "string" },
+    },
+    required: ["label"],
+  },
   response: {
     200: {
       type: "object",
@@ -17,7 +25,7 @@ export const getDomainByIdSchema: FastifySchema = {
         },
       },
     },
-    404: {
+    401: {
       type: "object",
       properties: {
         message: {

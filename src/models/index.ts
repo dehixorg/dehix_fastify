@@ -10,6 +10,7 @@ import { FaqModel, IFaq } from "./faq.entity";
 import { DomainModel, IDomain } from "./domain.entity";
 import { VerificationModel, IVerification } from "./verifications.entity";
 import { AdminModel, IAdmin } from "./admin.entity";
+import { ProjectDomainModel, IProjectDomain } from "./projectDomain.entity";
 
 export interface DBModels {
   FreelancerModel?: Model<IFreelancer>;
@@ -23,6 +24,7 @@ export interface DBModels {
   DomainModel?: Model<IDomain>;
   VerificationModel?: Model<IVerification>;
   AdminModel?: Model<IAdmin>;
+  ProjectDomainModel?: Model<IProjectDomain>;
 }
 
 const models: DBModels = {
@@ -37,6 +39,7 @@ const models: DBModels = {
   DomainModel,
   VerificationModel,
   AdminModel,
+  ProjectDomainModel,
 };
 
 export default models;
