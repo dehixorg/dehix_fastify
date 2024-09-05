@@ -48,7 +48,7 @@ export class BidDAO extends BaseDAO {
   }
 
   async updateBid(condition: any, newData: any) {
-    return this.model.updateOne(condition, newData).exec();
+    return this.model.findOneAndUpdate(condition, newData, { new: true }).exec();
   }
 
   async findBidById(id: string) {

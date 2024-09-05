@@ -59,7 +59,6 @@ export class BidService extends BaseService {
       );
     }
     const data: any = await this.BidDAO.updateBid({ _id: bid_id }, bid);
-
     return data;
   }
 

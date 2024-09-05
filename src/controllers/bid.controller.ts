@@ -107,7 +107,7 @@ export default class BidController extends AuthController {
         request.body,
       );
 
-      reply.status(STATUS_CODES.SUCCESS).send({ message: "Bid updated" });
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "Bid updated", data });
     } catch (error: any) {
       this.logger.error(`Error in update bid project: ${error.message}`);
       if (
