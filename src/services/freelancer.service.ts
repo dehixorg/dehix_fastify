@@ -888,7 +888,7 @@ if (!freelancerExist) {
     ERROR_CODES.FREELANCER_NOT_FOUND,
   );
 }
-const projectExist= await this.ProjectDAO.getBusinessProjectsById(project_id)
+const projectExist= await this.ProjectDAO.getProjectById(project_id)
 if (!projectExist) {
   throw new NotFoundError(
     RESPONSE_MESSAGE.NOT_FOUND("Project"),
