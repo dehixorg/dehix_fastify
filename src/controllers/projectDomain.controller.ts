@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, GET, Inject, POST, DELETE, PUT } from "fastify-decorators";
+import { Controller, GET, Inject, POST, DELETE } from "fastify-decorators";
 import { ProjectDomainService } from "../services";
 import {
   STATUS_CODES,

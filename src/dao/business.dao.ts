@@ -75,13 +75,14 @@ export class businessDAO extends BaseDAO {
     return this.projectmodel.findByIdAndDelete(id);
   }
 
-  async addAppliedCandidateById(business_id: string, candidate_id: string) {
-    return this.model.findByIdAndUpdate(business_id, {
-      $addToSet: {
-        Appliedcandidates: candidate_id,
-      },
-    });
-  }
+  // async addAppliedCandidateById(business_id: string, candidate_id: string) {
+  //   return this.model.findByIdAndUpdate(business_id, {
+  //     $addToSet: {
+  //       Appliedcandidates: candidate_id,
+  //     },
+  //   });
+  // }
+
   async addCandidateByCategory(
     project_id: string,
     category: string,

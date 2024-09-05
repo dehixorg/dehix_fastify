@@ -20,9 +20,4 @@ export interface PutBusinessBody {
   isBusiness: boolean;
   connects: number;
   ProjectList: string[];
-  Appliedcandidates: string[];
-  hirefreelancer: {
-    freelancer: string;
-    status: string;
-  }[];
 }
