@@ -35,8 +35,8 @@ export class FreelancerDAO extends BaseDAO {
     );
   }
 
-  async findProject(project_id: string, freelancer_id: string) {
-    return this.model.find({
+  async findProject(freelancer_id: string, project_id: string) {
+    return this.model.findOne({
       _id: freelancer_id,
       projects: { $elemMatch: { project_id: project_id } },
     });
@@ -243,6 +243,23 @@ export class FreelancerDAO extends BaseDAO {
       result,
     };
   }
+  async updateExperienceVerification(
+    id: string,
+    document_id: string,
+    update: any,
+  ) {
+    return await this.model.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          [`professionalInfo.${document_id}`]: {
+            ...update,
+          },
+        },
+      },
+      { new: true, upsert: true },
+    );
+  }
 
   async deleteExperienceById(id: string, experienceId: string) {
     return this.model.findByIdAndUpdate(
@@ -280,8 +297,24 @@ export class FreelancerDAO extends BaseDAO {
 
   async getExperienceById(freelancerId: string, experienceId: string) {
     return this.model.findOne(
-      { _id: freelancerId },
+      {
+        _id: freelancerId,
+        [`professionalInfo.${experienceId}`]: { $exists: true },
+      },
       { [`professionalInfo.${experienceId}`]: 1 },
+    );
+  }
+  async updateEducationVerification(
+    id: string,
+    document_id: string,
+    update: any,
+  ) {
+    return this.model.findOneAndUpdate(
+      { _id: id, [`education.${document_id}`]: { $exists: true } },
+      {
+        $set: { [`education.${document_id}`]: { ...update } },
+      },
+      { new: true },
     );
   }
 
@@ -360,7 +393,19 @@ export class FreelancerDAO extends BaseDAO {
       { [`projects.${project_id}`]: 1 },
     );
   }
-
+  async putProjectVerification(
+    freelancer_id: string,
+    project_id: string,
+    update: any,
+  ) {
+    return this.model.findOneAndUpdate(
+      { _id: freelancer_id, [`projects.${project_id}`]: { $exists: true } },
+      {
+        $set: { [`projects.${project_id}`]: { ...update } },
+      },
+      { new: true },
+    );
+  }
   async putProjectById(freelancer_id: string, project_id: string, update: any) {
     return this.model.findOneAndUpdate(
       { _id: freelancer_id, [`projects.${project_id}`]: { $exists: true } },
@@ -591,5 +636,19 @@ export class FreelancerDAO extends BaseDAO {
       console.error("Error finding oracle freelancer:", error);
       throw new Error(`Failed to find oracle freelancer: ${error.message}`);
     }
+  }
+
+  async getSkillById(freelancerId: string, skillId: string) {
+    return this.model.findOne(
+      { _id: freelancerId, "skills._id": skillId }, // Use dot notation to match subdocument _id
+      { "skills.$": 1 }, // Use $ to project only the matching element in the array
+    );
+  }
+
+  async getDomainById(freelancerId: string, domainId: string) {
+    return this.model.findOne(
+      { _id: freelancerId, "domain._id": domainId }, // Use dot notation to match subdocument _id
+      { "domain.$": 1 }, // Use $ to project only the matching element in the array
+    );
   }
 }
