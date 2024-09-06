@@ -51,9 +51,9 @@ export class FaqService extends BaseService {
     this.logger.info(
       `FaqService: updateFaqById: Updating FAQ for Faq ID:${faq_id}`,
     );
-    
+
     const checkFaq = await this.FaqDAO.findFaq(faq_id);
-    if(!checkFaq) {
+    if (!checkFaq) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.DATA_NOT_FOUND,
         ERROR_CODES.NOT_FOUND,

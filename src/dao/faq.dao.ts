@@ -34,8 +34,6 @@ export class FaqDAO extends BaseDAO {
   }
 
   async updateFaq(faq_id: string, update: any) {
-    return this.model.findByIdAndUpdate(
-      { _id: faq_id }, update, { new: true }
-    );
+    return this.model.findByIdAndUpdate({ _id: faq_id }, update, { new: true });
   }
 }

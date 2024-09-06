@@ -106,9 +106,9 @@ export default class FaqController extends AuthController {
 
   @PUT(FAQ_UPDATE_BY_ID_ENDPOINT, { schema: updateFaqSchema })
   async updateFaqById(
-    request: FastifyRequest<{ 
-      Params: DeleteFaqPathParams; 
-      Body: PutFaqBody 
+    request: FastifyRequest<{
+      Params: DeleteFaqPathParams;
+      Body: PutFaqBody;
     }>,
     reply: FastifyReply,
   ) {
@@ -116,7 +116,7 @@ export default class FaqController extends AuthController {
       this.logger.info(
         `FaqController -> updateFaqById -> Updating FAQ using: ${request.params.faq_id}`,
       );
-      
+
       const data = await this.faqService.updateFaqById(
         request.params.faq_id,
         request.body,
