@@ -5,12 +5,15 @@ import { firebaseClient } from "../common/services";
 import { ConflictError, NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { ProjectDAO } from "../dao/project.dao";
+import { VerificationService } from "./verifications.service";
 @Service()
 export class BusinessService extends BaseService {
   @Inject(businessDAO)
   private businessDao!: businessDAO;
   @Inject(ProjectDAO)
   private ProjectDAO!: ProjectDAO;
+  @Inject(VerificationService)
+  private VerificationService!: VerificationService;
   // @Inject(FreelancerDAO)
   // private FreelancerDAO!: FreelancerDAO;
   async createBusiness(business: any) {
@@ -26,6 +29,13 @@ export class BusinessService extends BaseService {
       business._id = business_id;
       const userObj = { ...business, password: "" };
       const data: any = await this.businessDao.createBusiness(userObj);
+
+      // Request for profile verification
+      await this.VerificationService.requestBusinessVerification(
+        business_id,
+        "business"
+      );
+
       return data;
     } catch (error: any) {
       if (business._id) {

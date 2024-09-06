@@ -77,6 +77,6 @@ export const ALL_ORACLE_ENDPOINT = "/all";
 export const ORACLE_UPDATE_END_POINT = "/:document_id/oracle";
 
 // notInterestedProject
-
 export const NOT_INTERESTED_PROJECT =
   "/:freelancer_id/:project_id/not_interested_project";
+

@@ -6,4 +6,6 @@ export * from "./faq.dao";
 export * from "./verifications.dao";
 export * from "./domain.dao";
 export * from "./skills.dao";
+export * from "./notification.dao";
 export * from "./projectDomain.dao";
+
