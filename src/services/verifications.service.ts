@@ -271,7 +271,7 @@ export class VerificationService extends BaseService {
     }
   }
 
-  async requestBusinessVerification(requester_id: string) {
+  async requestBusinessVerification(requester_id: string, doc_type: string) {
     // Check if the requester exists
     const requesterExist =
       await this.BusinessDAO.findBusinessById(requester_id);
@@ -296,7 +296,8 @@ export class VerificationService extends BaseService {
     const verification = await this.verificationDAO.createOneBusiness(
       verifier_id,
       verifier_username,
-      requester_id
+      requester_id,
+      doc_type
     );
 
     return verification;

@@ -34,12 +34,14 @@ export class VerificationDAO extends BaseDAO {
   async createOneBusiness(
     verifier_id: string,
     verifier_username: string,
-    requester_id: string
+    requester_id: string,
+    doc_type
   ) {
     return this.model.create({
       verifier_id,
       verifier_username,
       requester_id,
+      doc_type,
     });
   }
 
