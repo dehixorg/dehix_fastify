@@ -16,7 +16,7 @@ export class BidDAO extends BaseDAO {
     bidder_id: string,
     project_id: string,
     domain_id: string,
-    current_price: number,
+    current_price: number
   ) {
     return this.model.create({
       bidder_id,
@@ -34,7 +34,7 @@ export class BidDAO extends BaseDAO {
     return this.model
       .findOne(
         { email },
-        "id password firebase_id full_name email is_email_verified owner_id",
+        "id password firebase_id full_name email is_email_verified owner_id"
       )
       .lean()
       .exec();
@@ -65,7 +65,7 @@ export class BidDAO extends BaseDAO {
   async updateStatus(bid_id: string, status: any) {
     return this.model.updateOne(
       { _id: bid_id },
-      { $set: { bid_status: status } },
+      { $set: { bid_status: status } }
     );
   }
   async findBidByProjectId(project_id: string) {
@@ -73,5 +73,14 @@ export class BidDAO extends BaseDAO {
   }
   async findBidByBidderId(bidder_id: string) {
     return this.model.find({ bidder_id: bidder_id });
+  }
+
+  async getAllBids() {
+    try {
+      const bids = await this.model.find();
+      return bids;
+    } catch (error: any) {
+      throw new Error(`Failed to fetch bids: ${error.message}`);
+    }
   }
 }
