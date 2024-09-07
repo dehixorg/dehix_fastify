@@ -1,4 +1,3 @@
-export interface GetBusinessProjectForFreelancerPathParams{
-    freelancer_id:string,
-    
+export interface GetBusinessProjectForFreelancerPathParams {
+  freelancer_id: string;
 }

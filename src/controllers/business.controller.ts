@@ -129,7 +129,12 @@ export default class BusinessController extends AuthController {
     }
   }
   @GET(GET_ALL_BUSINESS_PROJECT_END_POINT, { schema: getProjectSchema })
-  async getAllProjectBusiness(request: FastifyRequest<{Params:GetBusinessProjectForFreelancerPathParams}>, reply: FastifyReply) {
+  async getAllProjectBusiness(
+    request: FastifyRequest<{
+      Params: GetBusinessProjectForFreelancerPathParams;
+    }>,
+    reply: FastifyReply,
+  ) {
     try {
       const { location, jobType, domain, skills } = request.query as {
         location: string;
@@ -148,12 +153,15 @@ export default class BusinessController extends AuthController {
         `BusinessController -> getAllProjectBusiness -> Fetching Business all projects with filters: Location: ${locationArray}, Job Type: ${jobTypeArray}, Domain: ${domainArray}, Skills: ${skillsArray}`,
       );
 
-      const data = await this.BusinessService.getAllProjectsData({
-        location: locationArray,
-        jobType: jobTypeArray,
-        domain: domainArray,
-        skills: skillsArray,
-      },request.params.freelancer_id);
+      const data = await this.BusinessService.getAllProjectsData(
+        {
+          location: locationArray,
+          jobType: jobTypeArray,
+          domain: domainArray,
+          skills: skillsArray,
+        },
+        request.params.freelancer_id,
+      );
 
       return reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error) {

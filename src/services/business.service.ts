@@ -33,7 +33,7 @@ export class BusinessService extends BaseService {
       // Request for profile verification
       await this.VerificationService.requestBusinessVerification(
         business_id,
-        "business"
+        "business",
       );
 
       return data;
@@ -135,36 +135,37 @@ export class BusinessService extends BaseService {
       domain?: string[];
       skills?: string[];
     },
-    freelancer_id: string
+    freelancer_id: string,
   ) {
     const { location, jobType, domain, skills } = filters;
-  
+
     this.logger.info(
-      `Business Service: Fetching all business projects with filters - Location: ${location}, Job Type: ${jobType}, Domain: ${domain}, Skills: ${skills}`
+      `Business Service: Fetching all business projects with filters - Location: ${location}, Job Type: ${jobType}, Domain: ${domain}, Skills: ${skills}`,
     );
-  
-    const freelancerExist = await this.FreelancerDAO.findFreelancerById(freelancer_id);
+
+    const freelancerExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
     if (!freelancerExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
-        ERROR_CODES.FREELANCER_NOT_FOUND
+        ERROR_CODES.FREELANCER_NOT_FOUND,
       );
     }
-  
+
     // Ensure notInterestedProject is defined
     const notInterestedProjects = freelancerExist.notInterestedProject || [];
-  
+
     const dataSet = await this.businessDao.findAllProjects({
       location,
       jobType,
       domain,
       skills,
     });
-  
+
     const data = dataSet.filter(
-      (project) => !notInterestedProjects.includes(project._id.toString())
+      (project) => !notInterestedProjects.includes(project._id.toString()),
     );
-  
+
     return data;
   }
 
