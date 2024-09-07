@@ -1,6 +1,6 @@
 import { Service, Inject } from "fastify-decorators";
 import { BaseService } from "../common/base.service";
-import { businessDAO } from "../dao";
+import { businessDAO, FreelancerDAO } from "../dao";
 import { firebaseClient } from "../common/services";
 import { ConflictError, NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
@@ -14,8 +14,8 @@ export class BusinessService extends BaseService {
   private ProjectDAO!: ProjectDAO;
   @Inject(VerificationService)
   private VerificationService!: VerificationService;
-  // @Inject(FreelancerDAO)
-  // private FreelancerDAO!: FreelancerDAO;
+  @Inject(FreelancerDAO)
+  private FreelancerDAO!: FreelancerDAO;
   async createBusiness(business: any) {
     try {
       this.logger.info("Business Service: creating business profile");
@@ -128,25 +128,43 @@ export class BusinessService extends BaseService {
     );
     await this.businessDao.findBusinessProject(id);
   }
-  async getAllProjectsData(filters: {
-    location?: string[];
-    jobType?: string[];
-    domain?: string[];
-    skills?: string[];
-  }) {
+  async getAllProjectsData(
+    filters: {
+      location?: string[];
+      jobType?: string[];
+      domain?: string[];
+      skills?: string[];
+    },
+    freelancer_id: string
+  ) {
     const { location, jobType, domain, skills } = filters;
-
+  
     this.logger.info(
-      `Business Service: Fetching all business projects with filters - Location: ${location}, Job Type: ${jobType}, Domain: ${domain}, Skills: ${skills}`,
+      `Business Service: Fetching all business projects with filters - Location: ${location}, Job Type: ${jobType}, Domain: ${domain}, Skills: ${skills}`
     );
-
-    const data = await this.businessDao.findAllProjects({
+  
+    const freelancerExist = await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!freelancerExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND
+      );
+    }
+  
+    // Ensure notInterestedProject is defined
+    const notInterestedProjects = freelancerExist.notInterestedProject || [];
+  
+    const dataSet = await this.businessDao.findAllProjects({
       location,
       jobType,
       domain,
       skills,
     });
-
+  
+    const data = dataSet.filter(
+      (project) => !notInterestedProjects.includes(project._id.toString())
+    );
+  
     return data;
   }
 
