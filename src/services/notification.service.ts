@@ -71,11 +71,10 @@ export class NotificationService extends BaseService {
       );
     }
 
-    const data =
-      await this.NotificationDAO.updateNotificationById(
-        notification_id, 
-        update
-      );
+    const data = await this.NotificationDAO.updateNotificationById(
+      notification_id,
+      update,
+    );
 
     return data;
   }

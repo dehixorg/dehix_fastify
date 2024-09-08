@@ -33,7 +33,7 @@ export class BusinessService extends BaseService {
       // Request for profile verification
       await this.VerificationService.requestBusinessVerification(
         business_id,
-        "business"
+        "business",
       );
 
       return data;
