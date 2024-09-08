@@ -20,7 +20,7 @@ export class VerificationDAO extends BaseDAO {
     verifier_username: string,
     requester_id: string,
     doc_id: string,
-    doc_type: string
+    doc_type: string,
   ) {
     return this.model.create({
       verifier_id,
@@ -35,7 +35,7 @@ export class VerificationDAO extends BaseDAO {
     verifier_id: string,
     verifier_username: string,
     requester_id: string,
-    doc_type
+    doc_type,
   ) {
     return this.model.create({
       verifier_id,
@@ -49,7 +49,7 @@ export class VerificationDAO extends BaseDAO {
     return this.model
       .findById(
         id,
-        "verifier_id requester_id document_id verification_status createdAt updatedAt"
+        "verifier_id requester_id document_id verification_status createdAt updatedAt",
       )
       .lean()
       .exec();
@@ -76,7 +76,7 @@ export class VerificationDAO extends BaseDAO {
   async updateStatus(verification_id: string, status: any) {
     return this.model.updateOne(
       { _id: verification_id },
-      { $set: { verification_status: status } }
+      { $set: { verification_status: status } },
     );
   }
 
@@ -94,7 +94,7 @@ export class VerificationDAO extends BaseDAO {
 
   async getVerificationData(
     verifier_id: string,
-    doc_type: "skill" | "domain" | "education" | "project" | "experience"
+    doc_type: "skill" | "domain" | "education" | "project" | "experience",
   ) {
     try {
       const query = {

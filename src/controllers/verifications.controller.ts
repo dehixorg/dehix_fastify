@@ -16,7 +16,10 @@ import {
 } from "../common/constants";
 import { AuthController } from "../common/auth.controller";
 import { VerificationService } from "../services";
-import { getAllVerificationDataSchema, getVerificationDataSchema } from "../schema/v1/verifications/verifications.get";
+import {
+  getAllVerificationDataSchema,
+  getVerificationDataSchema,
+} from "../schema/v1/verifications/verifications.get";
 import {
   FREELANCER_ENDPOINT,
   ORACLE_ENDPOINT,
@@ -80,7 +83,9 @@ export default class VerificationsController extends AuthController {
   @GET(ALL_ORACLE_ENDPOINT, { schema: getAllVerificationDataSchema })
   async getAllVerificationData(request: FastifyRequest, reply: FastifyReply) {
     try {
-      this.logger.info(`VerificationsController -> getAllVerificationData -> Fetching verification data`);
+      this.logger.info(
+        `VerificationsController -> getAllVerificationData -> Fetching verification data`,
+      );
 
       const data = await this.verificationService.getAllVerificationData();
 

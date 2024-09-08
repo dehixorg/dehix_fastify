@@ -1,7 +1,6 @@
 import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
-import { v4 as uuidv4 } from "uuid";
 import { AdminModel, IAdmin } from "../models/admin.entity";
 
 @Service()
@@ -60,5 +59,4 @@ export class AdminDAO extends BaseDAO {
       throw new Error(`Failed to find admin: ${error.message}`);
     }
   }
-
 }
