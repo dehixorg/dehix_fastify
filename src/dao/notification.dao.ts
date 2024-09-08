@@ -30,4 +30,14 @@ export class NotificationDAO extends BaseDAO {
   async deleteNotification(id: string) {
     return this.model.findByIdAndDelete(id);
   }
+
+  async updateNotificationById(notification_id: string, update: any) {
+    return this.model.findOneAndUpdate({ _id: notification_id }, update, {
+      new: true,
+    });
+  }
+
+  async getAllNotifications() {
+    return this.model.find();
+  }
 }
