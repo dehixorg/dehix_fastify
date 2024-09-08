@@ -15,6 +15,7 @@ export interface IHire extends Document {
   visible: string;
   freelancerApplied: string[];
   freelancerSelected: string[];
+  monthlyPay: number;
 }
 
 // Define the Hire schema
@@ -87,6 +88,9 @@ const hireSchema: Schema<IHire> = new Schema(
         required: false,
       },
     ],
+    monthlyPay: {
+      type: Number,
+    },
   },
   {
     timestamps: true, // Add createdAt and updatedAt fields
