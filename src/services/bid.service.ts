@@ -59,7 +59,6 @@ export class BidService extends BaseService {
       );
     }
     const data: any = await this.BidDAO.updateBid({ _id: bid_id }, bid);
-
     return data;
   }
 
@@ -129,6 +128,36 @@ export class BidService extends BaseService {
       );
     }
     const data = await this.BidDAO.deleteBid(id);
+    return data;
+  }
+
+  async getAllBids() {
+    this.logger.info("BidService: getAllBids: Fetching All Bids ");
+
+    const bids: any = await this.BidDAO.getAllBids();
+
+    if (!bids) {
+      this.logger.error("BidService: getAllBids: Bids not found ");
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Bids"),
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    return bids;
+  }
+  async getAllBidByProject(project_id: string) {
+    this.logger.info("BidService: getAllBidByProject: Fetching All Bids ");
+    const projectExist = await this.ProjectDao.getProjectById(project_id);
+
+    if (!projectExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.PROJECT_NOT_FOUND_BY_ID,
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+    const data = await this.BidDAO.getBidByProject(project_id);
+
     return data;
   }
 }

@@ -9,10 +9,12 @@ import {
 } from "../common/constants";
 // import { GetBidPathParams } from "../types/v1";
 import {
+  ALL_BID_ENDPOINT,
   BID_ENDPOINT,
   BID_ID_BUSINESS_END_POINT,
   BID_ID_FREELANCER_END_POINT,
   DELETE_BID_END_POINT,
+  GET_BID_BY_PROJECT_END_POINT,
   UPDATE_BID_BY_ID_ENDPOINT,
   UPDATE_BID_STATUS_BY_ID_ENDPOINT,
 } from "../constants/bid.constant";
@@ -29,6 +31,7 @@ import {
   updateBidStatusSchema,
 } from "../schema/v1/bid/bid.update";
 import {
+  getAllBidsSchema,
   getBidForBidderIdSchema,
   getBidForProjectIdSchema,
 } from "../schema/v1/bid/bid.get";
@@ -107,7 +110,7 @@ export default class BidController extends AuthController {
         request.body,
       );
 
-      reply.status(STATUS_CODES.SUCCESS).send({ message: "Bid updated" });
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "Bid updated", data });
     } catch (error: any) {
       this.logger.error(`Error in update bid project: ${error.message}`);
       if (
@@ -312,6 +315,67 @@ export default class BidController extends AuthController {
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Bid"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @GET(ALL_BID_ENDPOINT, { schema: getAllBidsSchema })
+  async getAllBids(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      this.logger.info(`BidController -> getAllBids -> Fetching bids`);
+
+      const data = await this.bidService.getAllBids();
+
+      if (!data) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Bids"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getAllBids: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Data not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+  @GET(GET_BID_BY_PROJECT_END_POINT, { schema: getBidForProjectIdSchema })
+  async GetAllBidsByProjectId(
+    request: FastifyRequest<{ Params: GetBidByProjectIdPathParams }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `BidController -> GetAllBidsByProjectId -> Fetching bids`,
+      );
+      const data = await this.bidService.getAllBidByProject(
+        request.params.project_id,
+      );
+      reply.status(STATUS_CODES.SUCCESS).send({ data: data });
+    } catch (error: any) {
+      if (error.message.includes("Project not found by id")) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {

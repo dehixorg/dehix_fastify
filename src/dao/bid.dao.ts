@@ -48,7 +48,9 @@ export class BidDAO extends BaseDAO {
   }
 
   async updateBid(condition: any, newData: any) {
-    return this.model.updateOne(condition, newData).exec();
+    return this.model
+      .findOneAndUpdate(condition, newData, { new: true })
+      .exec();
   }
 
   async findBidById(id: string) {
@@ -73,5 +75,17 @@ export class BidDAO extends BaseDAO {
   }
   async findBidByBidderId(bidder_id: string) {
     return this.model.find({ bidder_id: bidder_id });
+  }
+
+  async getAllBids() {
+    try {
+      const bids = await this.model.find();
+      return bids;
+    } catch (error: any) {
+      throw new Error(`Failed to fetch bids: ${error.message}`);
+    }
+  }
+  async getBidByProject(project_id: string) {
+    return this.model.find({ project_id: project_id });
   }
 }
