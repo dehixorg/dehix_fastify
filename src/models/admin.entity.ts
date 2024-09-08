@@ -51,10 +51,10 @@ const AdminSchema: Schema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export const AdminModel: Model<IAdmin> = mongoose.model<IAdmin>(
   "Admin",
-  AdminSchema
+  AdminSchema,
 );

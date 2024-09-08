@@ -63,7 +63,6 @@ export const getAllVerificationDataSchema: FastifySchema = {
               },
               verifier_id: {
                 type: "string",
-                
               },
               verifier_username: {
                 type: "string",
@@ -81,7 +80,15 @@ export const getAllVerificationDataSchema: FastifySchema = {
                 type: "string",
               },
             },
-            required: ["_id", "verifier_id", "verifier_username", "requester_id", "document_id", "doc_type", "verification_status"],
+            required: [
+              "_id",
+              "verifier_id",
+              "verifier_username",
+              "requester_id",
+              "document_id",
+              "doc_type",
+              "verification_status",
+            ],
           },
         },
       },

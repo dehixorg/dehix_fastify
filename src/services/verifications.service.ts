@@ -42,7 +42,7 @@ export class VerificationService extends BaseService {
     }
 
     // Find the verifier
-    if(!process.env.ADMIN){
+    if (!process.env.ADMIN) {
       const verifier = await this.freelancerDAO.findOracle(requester_id);
       if (!verifier) {
         throw new Error("Verifier not found"); // Handle case where no verifier is found
@@ -61,7 +61,7 @@ export class VerificationService extends BaseService {
       );
 
       return verification;
-    }else{
+    } else {
       // call dao function for find admin
       const verifier = await this.adminDAO.findOracle(requester_id);
       if (!verifier) {
@@ -302,10 +302,13 @@ export class VerificationService extends BaseService {
   async getAllVerificationData() {
     this.logger.info("SkillsService: getAllSkills: Fetching All Skills ");
 
-    const verification: any = await this.verificationDAO.getAllVerificationData();
+    const verification: any =
+      await this.verificationDAO.getAllVerificationData();
 
     if (!verification) {
-      this.logger.error("VerificationsService: getAllVerificationData: verification data not found ");
+      this.logger.error(
+        "VerificationsService: getAllVerificationData: verification data not found ",
+      );
       throw new NotFoundError(
         RESPONSE_MESSAGE.NOT_FOUND("Verification Data"),
         ERROR_CODES.FREELANCER_NOT_FOUND,
