@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, DELETE, GET, Inject, POST } from "fastify-decorators";
+import { Controller, DELETE, GET, Inject, POST, PUT } from "fastify-decorators";
 import {
   STATUS_CODES,
   ERROR_CODES,
@@ -11,7 +11,7 @@ import {
   NOTIFICATION_BY_ID_ENDPOINT,
   NOTIFICATION_CREATE_ENDPOINT,
   NOTIFICATION_DELETE_BY_ID_ENDPOINT,
-  //todo: add more constants
+  NOTIFICATION_GET_ALL_ENDPOINT,
 } from "../constants/notification.constant";
 import { NotificationService } from "../services";
 import { createNotificationSchema } from "../schema/v1/notification/notification.create";
@@ -20,7 +20,8 @@ import { getNotificationSchema } from "../schema/v1/notification/notification.ge
 import { GetNotificationPathParams } from "../types/v1/notification/getNotification";
 import { deleteNotificationSchema } from "../schema/v1/notification/notification.delete";
 import { DeleteNotificationPathParams } from "../types/v1/notification/deleteNotification";
-//todo: add more types
+import { PutNotificationBody } from "../types/v1/notification/updateNotification";
+import { updateNotificationSchema } from "../schema/v1/notification/notification.update";
 
 @Controller({ route: NOTIFICATION_ENDPOINT })
 export default class NotificationController extends AuthController {
@@ -124,6 +125,62 @@ export default class NotificationController extends AuthController {
           code: ERROR_CODES.SERVER_ERROR,
         });
       }
+    }
+  }
+
+  @PUT(NOTIFICATION_BY_ID_ENDPOINT, { schema: updateNotificationSchema })
+  async updateNotificationById(
+    request: FastifyRequest<{
+      Params: GetNotificationPathParams;
+      Body: PutNotificationBody;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `NotificationController  -> updateNotificationById -> update Notification}`,
+      );
+
+      const data = await this.notificationService.updateNotification(
+        request.params.notification_id,
+        request.body,
+      );
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in updateNotificationById: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Data not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Notification"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @GET(NOTIFICATION_GET_ALL_ENDPOINT, { schema: getNotificationSchema })
+  async getAllNotification(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      this.logger.info(
+        `NotificationController  -> getAllNotification -> get all Notification}`,
+      );
+
+      const data = await this.notificationService.getAllNotification();
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getAllNotification: ${error.message}`);
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
+        message: RESPONSE_MESSAGE.SERVER_ERROR,
+        code: ERROR_CODES.SERVER_ERROR,
+      });
     }
   }
 }

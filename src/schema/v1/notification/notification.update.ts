@@ -6,9 +6,9 @@ export const updateNotificationSchema: FastifySchema = {
   params: {
     type: "object",
     properties: {
-      notificationId: { type: "string" },
+      notification_id: { type: "string" },
     },
-    required: ["notificationId"],
+    required: ["notification_id"],
   },
   body: {
     type: "object",
