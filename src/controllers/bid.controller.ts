@@ -9,6 +9,7 @@ import {
 } from "../common/constants";
 // import { GetBidPathParams } from "../types/v1";
 import {
+  ALL_BID_ENDPOINT,
   BID_ENDPOINT,
   BID_ID_BUSINESS_END_POINT,
   BID_ID_FREELANCER_END_POINT,
@@ -29,6 +30,7 @@ import {
   updateBidStatusSchema,
 } from "../schema/v1/bid/bid.update";
 import {
+  getAllBidsSchema,
   getBidForBidderIdSchema,
   getBidForProjectIdSchema,
 } from "../schema/v1/bid/bid.get";
@@ -47,7 +49,7 @@ export default class BidController extends AuthController {
   @POST("", { schema: bidApplySchema })
   async bidApply(
     request: FastifyRequest<{ Body: BidApplyBody }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(`BidController -> getById -> Applying for bid}`);
@@ -68,7 +70,7 @@ export default class BidController extends AuthController {
         });
       } else if (
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -95,19 +97,19 @@ export default class BidController extends AuthController {
       Params: PutBidPathParams;
       Body: PutBidBody;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `BidController -> updateBidById -> Update bid for bidder using ID: ${request.params.bid_id}`,
+        `BidController -> updateBidById -> Update bid for bidder using ID: ${request.params.bid_id}`
       );
 
       const data = await this.bidService.updateBid(
         request.params.bid_id,
-        request.body,
+        request.body
       );
 
-      reply.status(STATUS_CODES.SUCCESS).send({ message: "Bid updated" });
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "Bid updated", data });
     } catch (error: any) {
       this.logger.error(`Error in update bid project: ${error.message}`);
       if (
@@ -120,7 +122,7 @@ export default class BidController extends AuthController {
         });
       } else if (
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -147,16 +149,16 @@ export default class BidController extends AuthController {
       Params: PutBidPathParams;
       Body: BidStatusBody;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `BidController -> updateBidStatusById -> Update bid status using ID: ${request.params.bid_id}`,
+        `BidController -> updateBidStatusById -> Update bid status using ID: ${request.params.bid_id}`
       );
 
       const data = await this.bidService.bidStatusUpdate(
         request.params.bid_id,
-        request.body.bid_status,
+        request.body.bid_status
       );
       reply
         .status(STATUS_CODES.SUCCESS)
@@ -183,15 +185,15 @@ export default class BidController extends AuthController {
   @GET(BID_ID_BUSINESS_END_POINT, { schema: getBidForProjectIdSchema })
   async getBidBusiness(
     request: FastifyRequest<{ Params: GetBidByProjectIdPathParams }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `BidController -> getBidBusiness -> Fetching Business Bid for project ID: ${request.params.project_id}`,
+        `BidController -> getBidBusiness -> Fetching Business Bid for project ID: ${request.params.project_id}`
       );
 
       const data = await this.bidService.getBidBusiness(
-        request.params.project_id,
+        request.params.project_id
       );
 
       if (!data || data.length === 0) {
@@ -214,7 +216,7 @@ export default class BidController extends AuthController {
         });
       } else if (
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -238,15 +240,15 @@ export default class BidController extends AuthController {
   @GET(BID_ID_FREELANCER_END_POINT, { schema: getBidForBidderIdSchema })
   async getBidFreelancer(
     request: FastifyRequest<{ Params: GetBidByBidderIdPathParams }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `BidController -> getBidFreelancer -> Fetching Freelancer Bid for Bidder ID: ${request.params.bidder_id}`,
+        `BidController -> getBidFreelancer -> Fetching Freelancer Bid for Bidder ID: ${request.params.bidder_id}`
       );
 
       const data = await this.bidService.getBidfreelancer(
-        request.params.bidder_id,
+        request.params.bidder_id
       );
 
       if (!data || data.length === 0) {
@@ -269,7 +271,7 @@ export default class BidController extends AuthController {
         });
       } else if (
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -293,11 +295,11 @@ export default class BidController extends AuthController {
   @DELETE(DELETE_BID_END_POINT, { schema: deleteBidSchema })
   async deleteBid(
     request: FastifyRequest<{ Params: DeleteBidPathParams }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `BidController -> Delete Bid -> Deleting Bid for Bid ID: ${request.params.bid_id} `,
+        `BidController -> Delete Bid -> Deleting Bid for Bid ID: ${request.params.bid_id} `
       );
 
       const data = await this.bidService.deleteBid(request.params.bid_id);
@@ -312,6 +314,41 @@ export default class BidController extends AuthController {
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Bid"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @GET(ALL_BID_ENDPOINT, { schema: getAllBidsSchema })
+  async getAllBids(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      this.logger.info(`BidController -> getAllBids -> Fetching bids`);
+
+      const data = await this.bidService.getAllBids();
+
+      if (!data) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Bids"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+      console.log("DATA:", data);
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getAllBids: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Data not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {

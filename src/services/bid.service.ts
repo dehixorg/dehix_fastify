@@ -31,20 +31,20 @@ export class BidService extends BaseService {
     if (!bidderExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
-        ERROR_CODES.NOT_FOUND,
+        ERROR_CODES.NOT_FOUND
       );
     }
     if (!projectExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.PROJECT_NOT_FOUND_BY_ID,
-        ERROR_CODES.NOT_FOUND,
+        ERROR_CODES.NOT_FOUND
       );
     }
     const bid: any = await this.BidDAO.createOne(
       bidder_id,
       project_id,
       domain_id,
-      current_price,
+      current_price
     );
     return bid;
   }
@@ -55,18 +55,17 @@ export class BidService extends BaseService {
     if (!bidExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.NOT_FOUND("Bid"),
-        ERROR_CODES.NOT_FOUND,
+        ERROR_CODES.NOT_FOUND
       );
     }
     const data: any = await this.BidDAO.updateBid({ _id: bid_id }, bid);
-
     return data;
   }
 
   async bidStatusUpdate(bid_id: string, bid_status: string): Promise<any> {
     this.logger.info(
       "BidService: updateBidStatus: Updating Bid Status: ",
-      bid_id,
+      bid_id
     );
     const updateStatus = async (bid_status: string) => {
       return await this.BidDAO.updateStatus(bid_id, bid_status);
@@ -75,7 +74,7 @@ export class BidService extends BaseService {
     if (!bidExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.NOT_FOUND("Bid"),
-        ERROR_CODES.NOT_FOUND,
+        ERROR_CODES.NOT_FOUND
       );
     }
 
@@ -99,7 +98,7 @@ export class BidService extends BaseService {
     if (!projectExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.PROJECT_NOT_FOUND_BY_ID,
-        ERROR_CODES.NOT_FOUND,
+        ERROR_CODES.NOT_FOUND
       );
     }
     const data = await this.BidDAO.findBidByProjectId(project_id);
@@ -112,7 +111,7 @@ export class BidService extends BaseService {
     if (!bidderExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
-        ERROR_CODES.NOT_FOUND,
+        ERROR_CODES.NOT_FOUND
       );
     }
 
@@ -125,10 +124,26 @@ export class BidService extends BaseService {
     if (!bidExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.NOT_FOUND("Bid"),
-        ERROR_CODES.NOT_FOUND,
+        ERROR_CODES.NOT_FOUND
       );
     }
     const data = await this.BidDAO.deleteBid(id);
     return data;
+  }
+
+  async getAllBids() {
+    this.logger.info("BidService: getAllBids: Fetching All Bids ");
+
+    const bids: any = await this.BidDAO.getAllBids();
+
+    if (!bids) {
+      this.logger.error("BidService: getAllBids: Bids not found ");
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Bids"),
+        ERROR_CODES.FREELANCER_NOT_FOUND
+      );
+    }
+
+    return bids;
   }
 }
