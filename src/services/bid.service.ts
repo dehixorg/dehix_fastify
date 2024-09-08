@@ -146,4 +146,18 @@ export class BidService extends BaseService {
 
     return bids;
   }
+  async getAllBidByProject(project_id:string){
+    this.logger.info("BidService: getAllBidByProject: Fetching All Bids ");
+    const projectExist= await this.ProjectDao.getProjectById(project_id);
+  
+    if (!projectExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.PROJECT_NOT_FOUND_BY_ID,
+        ERROR_CODES.NOT_FOUND
+      );
+    }
+    const data= await this.BidDAO.getBidByProject(project_id);
+ 
+    return data;
+  }
 }

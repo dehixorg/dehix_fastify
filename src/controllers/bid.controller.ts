@@ -14,6 +14,7 @@ import {
   BID_ID_BUSINESS_END_POINT,
   BID_ID_FREELANCER_END_POINT,
   DELETE_BID_END_POINT,
+  GET_BID_BY_PROJECT_END_POINT,
   UPDATE_BID_BY_ID_ENDPOINT,
   UPDATE_BID_STATUS_BY_ID_ENDPOINT,
 } from "../constants/bid.constant";
@@ -338,7 +339,7 @@ export default class BidController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       }
-      console.log("DATA:", data);
+   
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
@@ -349,6 +350,26 @@ export default class BidController extends AuthController {
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+  @GET(GET_BID_BY_PROJECT_END_POINT,{schema: getBidForProjectIdSchema})
+  async GetAllBidsByProjectId(request:FastifyRequest<{Params:GetBidByProjectIdPathParams}>,reply:FastifyReply){
+    try {
+      this.logger.info(`BidController -> GetAllBidsByProjectId -> Fetching bids`);
+      const data= await this.bidService.getAllBidByProject(request.params.project_id);
+      reply.status(STATUS_CODES.SUCCESS).send({data:data});
+    } catch (error:any) {
+      if (error.message.includes("Project not found by id")) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {

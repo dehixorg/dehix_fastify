@@ -83,4 +83,7 @@ export class BidDAO extends BaseDAO {
       throw new Error(`Failed to fetch bids: ${error.message}`);
     }
   }
+  async getBidByProject(project_id:string){
+    return this.model.find({project_id:project_id})
+  }
 }
