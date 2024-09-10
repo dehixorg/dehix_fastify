@@ -14,10 +14,6 @@ export const createProjectSchema: FastifySchema = {
       "projectType",
     ],
     properties: {
-      _id: {
-        type: "string",
-        format: "uuid",
-      },
       projectName: {
         type: "string",
       },
