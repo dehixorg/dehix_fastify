@@ -18,6 +18,7 @@ import { BUSINESS_END_POINT } from "../constants/business.constant";
 import { createBusinessSchema } from "../schema/v1/business/business.create";
 import { IBusiness } from "../models/business.entity";
 import { BusinessService } from "../services/business.service";
+import { handleFileUpload } from "../common/services/s3.service";
 
 @Controller({ route: REGISTRATION_ENDPOINT })
 export default class RegisterController extends BaseController {
@@ -88,6 +89,36 @@ export default class RegisterController extends BaseController {
         });
       }
 
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
+        message: RESPONSE_MESSAGE.SERVER_ERROR,
+        code: ERROR_CODES.SERVER_ERROR,
+      });
+    }
+  }
+
+  // New API to handle image upload to S3
+  @POST("/upload-image")
+  async uploadImage(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      const file = request.body.file; // Assuming the file is passed in the body
+      if (!file) {
+        return reply.status(STATUS_CODES.BAD_REQUEST).send({
+          message: "No file uploaded",
+          code: ERROR_CODES.BAD_REQUEST_ERROR,
+        });
+      }
+
+      const uploadResult = await handleFileUpload(file);
+
+      reply.status(STATUS_CODES.SUCCESS).send({
+        message: "File uploaded successfully",
+        data: uploadResult,
+      });
+    } catch (error: any) {
+      this.logger.error(
+        "Error in controller uploading image to S3",
+        error.message,
+      );
       reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
