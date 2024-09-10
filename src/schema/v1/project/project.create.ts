@@ -12,6 +12,7 @@ export const createProjectSchema: FastifySchema = {
       "skillsRequired",
       "role",
       "projectType",
+      
     ],
     properties: {
       _id: {
@@ -89,6 +90,7 @@ export const createProjectSchema: FastifySchema = {
             minConnect: { type: "integer" },
             rate: { type: "integer" },
             description: { type: "string" },
+            domain_id:{type:"string"}
           },
         },
       },

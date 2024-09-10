@@ -13,17 +13,9 @@ export class BidDAO extends BaseDAO {
   }
 
   async createOne(
-    bidder_id: string,
-    project_id: string,
-    domain_id: string,
-    current_price: number,
+    data:any
   ) {
-    return this.model.create({
-      bidder_id,
-      project_id,
-      domain_id,
-      current_price,
-    });
+    return this.model.create(data);
   }
 
   async getBidByEmail(email: string) {

@@ -26,6 +26,7 @@ export class BidService extends BaseService {
    */
   async create(body: BidApplyBody) {
     const { bidder_id, project_id, domain_id, current_price } = body;
+    this.logger.info("fvfvffgrbgbghghg")
     const bidderExist = await this.FreelancerDao.findFreelancerById(bidder_id);
     const projectExist = await this.BusinesssDao.getProjectById(project_id);
     if (!bidderExist) {
@@ -41,10 +42,8 @@ export class BidService extends BaseService {
       );
     }
     const bid: any = await this.BidDAO.createOne(
-      bidder_id,
-      project_id,
-      domain_id,
-      current_price,
+      {bidder_id, project_id, domain_id, current_price ,
+      userName:bidderExist.userName}
     );
     return bid;
   }
