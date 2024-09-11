@@ -124,4 +124,29 @@ export class VerificationDAO extends BaseDAO {
       throw new Error(`Failed to fetch verification data: ${error.message}`);
     }
   }
+
+  async findStaleVerifications() {
+    const currentTime = new Date();
+    const twoDaysAgo = new Date(currentTime.getTime() - 48 * 60 * 60 * 1000);
+
+    const data = await this.model.find({
+      verification_status: "Pending",
+      updatedAt: { $lt: twoDaysAgo },
+    });
+
+    return data;
+  }
+
+  async reassignOracle(verificationId: string, newOracle: any) {
+    const data = this.model.findByIdAndUpdate(
+      verificationId,
+      {
+        verifier_id: newOracle.id,
+        verifier_username: newOracle.username,
+      },
+      { new: true }
+    );
+
+    return data;
+  }
 }
