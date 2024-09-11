@@ -8,6 +8,7 @@ import {
 } from "../common/constants";
 import {
   ALL_BUSINESS_END_POINT,
+  ALL_PROJECT_ENDPOINT,
   BUSINESS_END_POINT,
   BUSINESS_ID_END_POINT,
   BUSINESS_UPDATE_END_POINT,
@@ -31,7 +32,7 @@ import {
 import { getProjectPathParams } from "../types/v1/project/postProject";
 import { DeleteProjectPathParams } from "../types/v1/project/deleteProject";
 import { IProject } from "../models/project.entity";
-import { getProjectSchema } from "../schema/v1/project/project.get";
+import { getAllProjectsSchema, getProjectSchema } from "../schema/v1/project/project.get";
 import { createProjectSchema } from "../schema/v1/project/project.create";
 import { deleteProjectSchema } from "../schema/v1/project/project.delete";
 import { GetBusinessProjectQueryParams } from "../types/v1/business/getProjectStatus";
@@ -293,6 +294,40 @@ export default class BusinessController extends AuthController {
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @GET(ALL_PROJECT_ENDPOINT, { schema: getAllProjectsSchema })
+  async getAllroject(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      this.logger.info(`BusinessController -> getAllProject -> Fetching all projects`);
+
+      const data = await this.BusinessService.getAllProject();
+
+      if(!data) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+          code: ERROR_CODES.NOT_FOUND,
+        })
+      }
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getAllroject: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Data not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {
