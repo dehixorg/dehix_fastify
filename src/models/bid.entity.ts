@@ -40,7 +40,7 @@ const BidSchema: Schema<IBid> = new Schema(
     },
     domain_id: {
       type: String,
-      required: true,
+     
     },
     bid_status: {
       type: String,
