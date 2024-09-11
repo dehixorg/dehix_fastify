@@ -221,4 +221,20 @@ export class BusinessService extends BaseService {
     this.logger.info(data, "in get business projects");
     return data;
   }
+
+  async getAllProject() {
+    this.logger.info("BusinessService: getAllProject: Fetching All Projects ");
+
+    const projects: any = await this.ProjectDAO.getAllProject();
+
+    if(!projects) {
+      this.logger.error("BusinessService: getAllProject: project not found ");
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Project"),
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    return projects
+  }
 }

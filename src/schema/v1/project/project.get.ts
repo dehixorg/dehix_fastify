@@ -55,3 +55,38 @@ export const getProjectSchema: FastifySchema = {
     },
   },
 };
+
+export const getAllProjectsSchema: FastifySchema = {
+  description: "API to get all projects",
+  tags: ["Project"],
+  response: {
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
