@@ -10,9 +10,9 @@ export const bidApplySchema: FastifySchema = {
       current_price: { type: "number" },
       project_id: { type: "string" },
       domain_id: { type: "string" },
-      description:{
-        type:"string"
-      }
+      description: {
+        type: "string",
+      },
     },
     required: ["bidder_id", "current_price", "project_id"],
   },

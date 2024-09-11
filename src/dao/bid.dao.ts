@@ -12,9 +12,7 @@ export class BidDAO extends BaseDAO {
     this.model = BidModel;
   }
 
-  async createOne(
-    data:any
-  ) {
+  async createOne(data: any) {
     return this.model.create(data);
   }
 

@@ -227,7 +227,7 @@ export class BusinessService extends BaseService {
 
     const projects: any = await this.ProjectDAO.getAllProject();
 
-    if(!projects) {
+    if (!projects) {
       this.logger.error("BusinessService: getAllProject: project not found ");
       throw new NotFoundError(
         RESPONSE_MESSAGE.NOT_FOUND("Project"),
@@ -235,6 +235,6 @@ export class BusinessService extends BaseService {
       );
     }
 
-    return projects
+    return projects;
   }
 }

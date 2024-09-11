@@ -20,8 +20,8 @@ export const getBidForProjectIdSchema: FastifySchema = {
             type: "object",
             properties: {
               _id: { type: "string" },
-              userName:{
-type: "string"
+              userName: {
+                type: "string",
               },
               bid_status: { type: "string" },
               project_id: { type: "string" },
