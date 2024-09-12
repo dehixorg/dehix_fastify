@@ -12,7 +12,7 @@ export const bidApplySchema: FastifySchema = {
       project_id: { type: "string" },
       domain_id: { type: "string" },
     },
-    required: ["bidder_id", "current_price", "project_id", "domain_id"],
+    required: ["bidder_id", "current_price", "project_id"],
   },
   response: {
     200: {
