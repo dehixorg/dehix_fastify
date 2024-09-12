@@ -1,6 +1,6 @@
 import { Service, Inject } from "fastify-decorators";
 import { BaseService } from "../common/base.service";
-import { businessDAO, FreelancerDAO } from "../dao";
+import { BidDAO, businessDAO, FreelancerDAO } from "../dao";
 import { firebaseClient } from "../common/services";
 import { ConflictError, NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
@@ -16,6 +16,8 @@ export class BusinessService extends BaseService {
   private VerificationService!: VerificationService;
   @Inject(FreelancerDAO)
   private FreelancerDAO!: FreelancerDAO;
+  @Inject(BidDAO)
+  private BidDAO!:BidDAO
   async createBusiness(business: any) {
     try {
       this.logger.info("Business Service: creating business profile");
@@ -185,18 +187,23 @@ export class BusinessService extends BaseService {
     const data = await this.businessDao.deleteBusinessProject(id);
     return data;
   }
-  async getSingleProjectById(project_id: string) {
+  async getSingleProjectById(project_id: string,freelancer_id:string) {
     this.logger.info(
       "BusinessService: business get projects by id",
       project_id,
     );
 
+   
     const data = await this.businessDao.getProjectById(project_id);
     if (!data) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.PROJECT_NOT_FOUND,
         ERROR_CODES.BUSINESS_PROJECT_NOT_FOUND,
       );
+    }
+    const bidExist= await this.BidDAO.findBidByBidderId(freelancer_id);
+    if (bidExist) {
+      return {...data,message:"Already Applied"};
     }
     return data;
   }
