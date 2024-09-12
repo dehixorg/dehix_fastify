@@ -660,4 +660,17 @@ export class FreelancerDAO extends BaseDAO {
       { new: true },
     );
   }
+
+  async getAllDehixTalent() {
+    try {
+      const freelancers = await this.model.find({ 'dehixTalent': { $exists: true, $ne: {} } })
+        .select('_id dehixTalent')  // Fetch only necessary fields
+        .exec();
+  
+      return freelancers;  // Return filtered freelancers directly
+    } catch (error: any) {
+      throw new Error(`Failed to fetch dehix talent: ${error.message}`);
+    }
+  }
+  
 }
