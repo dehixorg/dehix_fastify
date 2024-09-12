@@ -1,7 +1,7 @@
 export interface GetBusinessPathParams {
   project_id: string;
   business_id: string;
-  freelancer_id:string;
+  freelancer_id: string;
 }
 
 export interface BusinessBody {

@@ -17,7 +17,7 @@ export class BusinessService extends BaseService {
   @Inject(FreelancerDAO)
   private FreelancerDAO!: FreelancerDAO;
   @Inject(BidDAO)
-  private BidDAO!:BidDAO
+  private BidDAO!: BidDAO;
   async createBusiness(business: any) {
     try {
       this.logger.info("Business Service: creating business profile");
@@ -187,40 +187,42 @@ export class BusinessService extends BaseService {
     const data = await this.businessDao.deleteBusinessProject(id);
     return data;
   }
-  async getSingleProjectById(project_id: string, freelancer_id: string) {
+  async getSingleProjectById(project_id: string) {
     try {
-      this.logger.info("BusinessService: business get projects by id", project_id);
-  
+      this.logger.info(
+        "BusinessService: business get projects by id",
+        project_id,
+      );
+
       const data = await this.businessDao.getProjectById(project_id);
-  
+
       if (!data) {
         throw new NotFoundError(
           RESPONSE_MESSAGE.PROJECT_NOT_FOUND,
           ERROR_CODES.BUSINESS_PROJECT_NOT_FOUND,
         );
       }
-  
+
       const projectData = data.toObject();
-  
+
       const bidExist = await this.BidDAO.findBidByProjectId(project_id);
-  
-      const alreadyApplied = bidExist && bidExist.some((bids)=>bids.bidder_id);
+
+      const alreadyApplied =
+        bidExist && bidExist.some((bids) => bids.bidder_id);
       if (alreadyApplied) {
         return {
           data: projectData,
           message: "Already Applied",
         };
       }
-  
+
       return { data: projectData };
-  
     } catch (error) {
       this.logger.error("Error in getSingleProjectById:", error);
       throw error;
     }
   }
-  
-  
+
   async getBusinessProjectsById(
     business_id: string,
     status?: "Active" | "Pending" | "Completed" | "Rejected",
@@ -248,7 +250,7 @@ export class BusinessService extends BaseService {
 
     const projects: any = await this.ProjectDAO.getAllProject();
 
-    if(!projects) {
+    if (!projects) {
       this.logger.error("BusinessService: getAllProject: project not found ");
       throw new NotFoundError(
         RESPONSE_MESSAGE.NOT_FOUND("Project"),
@@ -256,6 +258,6 @@ export class BusinessService extends BaseService {
       );
     }
 
-    return projects
+    return projects;
   }
 }

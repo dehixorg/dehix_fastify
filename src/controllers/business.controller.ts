@@ -32,7 +32,10 @@ import {
 import { getProjectPathParams } from "../types/v1/project/postProject";
 import { DeleteProjectPathParams } from "../types/v1/project/deleteProject";
 import { IProject } from "../models/project.entity";
-import { getAllProjectsSchema, getProjectSchema } from "../schema/v1/project/project.get";
+import {
+  getAllProjectsSchema,
+  getProjectSchema,
+} from "../schema/v1/project/project.get";
 import { createProjectSchema } from "../schema/v1/project/project.create";
 import { deleteProjectSchema } from "../schema/v1/project/project.delete";
 import { GetBusinessProjectQueryParams } from "../types/v1/business/getProjectStatus";
@@ -283,7 +286,7 @@ export default class BusinessController extends AuthController {
         `BusinessController -> getBusinessSingleProjects -> Fetching business projects for ID: ${request.params.project_id}`,
       );
       const data = await this.BusinessService.getSingleProjectById(
-        request.params.project_id,request.params.freelancer_id
+        request.params.project_id,
       );
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
@@ -308,15 +311,17 @@ export default class BusinessController extends AuthController {
   @GET(ALL_PROJECT_ENDPOINT, { schema: getAllProjectsSchema })
   async getAllroject(request: FastifyRequest, reply: FastifyReply) {
     try {
-      this.logger.info(`BusinessController -> getAllProject -> Fetching all projects`);
+      this.logger.info(
+        `BusinessController -> getAllProject -> Fetching all projects`,
+      );
 
       const data = await this.BusinessService.getAllProject();
 
-      if(!data) {
+      if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
           code: ERROR_CODES.NOT_FOUND,
-        })
+        });
       }
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
