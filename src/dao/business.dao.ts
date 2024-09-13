@@ -131,6 +131,7 @@ export class businessDAO extends BaseDAO {
     if (skills && skills.length > 0) {
       query.skillsRequired = { $in: skills };
     }
+    query.status = { $ne: "Completed" };
 
     return await this.projectmodel.find(query);
   }
