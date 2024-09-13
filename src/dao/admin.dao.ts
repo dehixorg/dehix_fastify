@@ -15,7 +15,7 @@ export class AdminDAO extends BaseDAO {
     return this.model.findById(id);
   }
 
-  async findOracle(requester_id: string) {
+  async findOracle() {
     try {
       const admin = await this.model
         .aggregate([

@@ -45,8 +45,10 @@ import {
   FREELANCER_GET_CONSULTANT_BY_ID,
   FREELANCER_DELETE_CONSULTANT_BY_ID,
   NOT_INTERESTED_PROJECT,
+  ALL_DEHIX_TALENT_ENDPOINT,
 } from "../constants/freelancer.constant";
 import {
+  getAllDehixTalentSchema,
   getFreelancerDomainSchema,
   getFreelancerOwnProjectSchema,
   getFreelancerProjectSchema,
@@ -1329,6 +1331,40 @@ export default class FreelancerController extends AuthController {
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @GET(ALL_DEHIX_TALENT_ENDPOINT, { schema: getAllDehixTalentSchema })
+  async getAllDehixTalent(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      this.logger.info(`FreelancersController -> getAllDehixTalent -> Fetching dehix talent`);
+
+      const data = await this.freelancerService.getAllDehixTalent();
+
+      if (!data || data.length === 0) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Dehix Talent"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getAllDehixTalent: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Data not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {

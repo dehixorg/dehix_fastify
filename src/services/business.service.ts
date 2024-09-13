@@ -1,6 +1,6 @@
 import { Service, Inject } from "fastify-decorators";
 import { BaseService } from "../common/base.service";
-import { businessDAO, FreelancerDAO } from "../dao";
+import { BidDAO, businessDAO, FreelancerDAO } from "../dao";
 import { firebaseClient } from "../common/services";
 import { ConflictError, NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
@@ -16,6 +16,8 @@ export class BusinessService extends BaseService {
   private VerificationService!: VerificationService;
   @Inject(FreelancerDAO)
   private FreelancerDAO!: FreelancerDAO;
+  @Inject(BidDAO)
+  private BidDAO!: BidDAO;
   async createBusiness(business: any) {
     try {
       this.logger.info("Business Service: creating business profile");
@@ -186,20 +188,41 @@ export class BusinessService extends BaseService {
     return data;
   }
   async getSingleProjectById(project_id: string) {
-    this.logger.info(
-      "BusinessService: business get projects by id",
-      project_id,
-    );
-
-    const data = await this.businessDao.getProjectById(project_id);
-    if (!data) {
-      throw new NotFoundError(
-        RESPONSE_MESSAGE.PROJECT_NOT_FOUND,
-        ERROR_CODES.BUSINESS_PROJECT_NOT_FOUND,
+    try {
+      this.logger.info(
+        "BusinessService: business get projects by id",
+        project_id,
       );
+
+      const data = await this.businessDao.getProjectById(project_id);
+
+      if (!data) {
+        throw new NotFoundError(
+          RESPONSE_MESSAGE.PROJECT_NOT_FOUND,
+          ERROR_CODES.BUSINESS_PROJECT_NOT_FOUND,
+        );
+      }
+
+      const projectData = data.toObject();
+
+      const bidExist = await this.BidDAO.findBidByProjectId(project_id);
+
+      const alreadyApplied =
+        bidExist && bidExist.some((bids) => bids.bidder_id);
+      if (alreadyApplied) {
+        return {
+          data: projectData,
+          message: "Already Applied",
+        };
+      }
+
+      return { data: projectData };
+    } catch (error) {
+      this.logger.error("Error in getSingleProjectById:", error);
+      throw error;
     }
-    return data;
   }
+
   async getBusinessProjectsById(
     business_id: string,
     status?: "Active" | "Pending" | "Completed" | "Rejected",
@@ -227,7 +250,7 @@ export class BusinessService extends BaseService {
 
     const projects: any = await this.ProjectDAO.getAllProject();
 
-    if(!projects) {
+    if (!projects) {
       this.logger.error("BusinessService: getAllProject: project not found ");
       throw new NotFoundError(
         RESPONSE_MESSAGE.NOT_FOUND("Project"),
@@ -235,6 +258,6 @@ export class BusinessService extends BaseService {
       );
     }
 
-    return projects
+    return projects;
   }
 }

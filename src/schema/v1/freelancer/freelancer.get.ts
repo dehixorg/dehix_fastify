@@ -213,3 +213,38 @@ export const getFreelancerDomainSchema: FastifySchema = {
     },
   },
 };
+
+export const getAllDehixTalentSchema: FastifySchema = {
+  description: "API to get freelancer domain data",
+  tags: ["Freelancer"],
+  response: {
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
