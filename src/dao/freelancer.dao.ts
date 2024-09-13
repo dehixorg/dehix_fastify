@@ -661,6 +661,16 @@ export class FreelancerDAO extends BaseDAO {
     );
   }
 
+  async changeOracleStatus(verifier_id: string) {
+    try {
+      await this.model.findByIdAndUpdate(verifier_id, {
+        oracleStatus: "stopped",
+      });
+    } catch (error: any) {
+      throw new Error(`Unable to update oracleStatus to 'stopped': ${error.message}`);
+    }
+  }
+  
   async getAllDehixTalent() {
     try {
       const freelancers = await this.model.find({ 'dehixTalent': { $exists: true, $ne: {} } })
@@ -672,5 +682,4 @@ export class FreelancerDAO extends BaseDAO {
       throw new Error(`Failed to fetch dehix talent: ${error.message}`);
     }
   }
-  
 }
