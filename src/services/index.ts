@@ -8,3 +8,4 @@ export * from "./domain.service";
 export * from "./skills.service";
 export * from "./notification.service";
 export * from "./projectDomain.service";
+export * from "./admin.service";
