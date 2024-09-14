@@ -11,76 +11,56 @@ export class AdminsService extends BaseService {
   private AdminDAO!: AdminDAO;
 
   async create(body: any) {
-    const skill: any = await this.SkillDAO.createSkill(body);
-    return skill;
+    const admin: any = await this.AdminDAO.createAdmin(body);
+    return admin;
   }
 
-  async deleteSkillById(skill_id: string) {
+  async deleteAdminById(admin_id: string) {
     this.logger.info(
-      `SkillsService: deleteSkillById: Deleting Skill for Skill ID:${skill_id}`,
+      `AdminsService: deleteAdminById: Deleting Admin for AdminId:${admin_id}`,
     );
 
-    const checkSkill = await this.SkillDAO.findSkill(skill_id);
-    if (!checkSkill) {
+    const checkAdmin = await this.AdminDAO.findAdminById(admin_id);
+    if (!checkAdmin) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.DATA_NOT_FOUND,
         ERROR_CODES.NOT_FOUND,
       );
     }
-    const deleteSkill = await this.SkillDAO.deleteSkill(skill_id);
+    const deleteAdmin = await this.AdminDAO.deleteAdminById(admin_id);
 
-    return deleteSkill;
+    return deleteAdmin;
   }
 
-  async getAllSkills() {
-    this.logger.info("SkillsService: getAllSkills: Fetching All Skills ");
+  async getAllAdmins() {
+    this.logger.info("AdminsService: getAllAdmins: Fetching All Admins ");
 
-    const skills: any = await this.SkillDAO.getAllSkills();
+    const admins: any = await this.AdminDAO.getAllAdmins();
 
-    if (!skills) {
-      this.logger.error("SkillsService: getAllSkills: Skills not found ");
+    if (!admins) {
+      this.logger.error("AdminsService: getAllAdmins: Admin not found ");
       throw new NotFoundError(
-        RESPONSE_MESSAGE.NOT_FOUND("Skills"),
-        ERROR_CODES.FREELANCER_NOT_FOUND,
+        RESPONSE_MESSAGE.NOT_FOUND("Admin"),
+        ERROR_CODES.ADMIN_NOT_FOUND,
       );
     }
 
-    return skills;
+    return admins;
   }
 
-  async getSkillById(skill_id: string) {
+  async getAdminById(admin_id: string) {
     this.logger.info(
-      `SkillsService: getSkillById: Fetching Skill for Skill ID:${skill_id}`,
+      `AdminsService: getAdminById: Fetching Admin for Admin ID:${admin_id}`,
     );
 
-    const checkSkill: any = await this.SkillDAO.findSkill(skill_id);
-    if (!checkSkill) {
+    const admin: any = await this.AdminDAO.findAdminById(admin_id);
+    if (!admin) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.DATA_NOT_FOUND,
-        ERROR_CODES.FREELANCER_NOT_FOUND,
+        ERROR_CODES.ADMIN_NOT_FOUND,
       );
     }
 
-    const getSkill: any = await this.SkillDAO.findSkillById(skill_id);
-
-    return getSkill;
-  }
-
-  async updateSkill(skill_id: string, body: any) {
-    this.logger.info(
-      `SkillsService: updateSkill: Updating Skill for Skill ID:${skill_id}`,
-    );
-
-    const checkSkill: any = await this.SkillDAO.findSkill(skill_id);
-    if (!checkSkill) {
-      throw new NotFoundError(
-        RESPONSE_MESSAGE.DATA_NOT_FOUND,
-        ERROR_CODES.FREELANCER_NOT_FOUND,
-      );
-    }
-
-    const updateSkill: any = await this.SkillDAO.updateSkill(skill_id, body);
-
-    return updateSkill;
+    return admin;
   }
 }

@@ -1,3 +1,3 @@
-export interface deleteAdminPathParams {
+export interface adminPathParams {
   admin_id: string;
 }
