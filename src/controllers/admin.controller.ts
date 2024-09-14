@@ -42,25 +42,25 @@ export default class AdminsController extends AuthController {
   @Inject(AdminsService)
   adminsService!: AdminsService;
 
-  // @POST(ADMIN_ID_ENDPOINT, { schema: createAdminSchema })
-  // async createAdmin(
-  //   request: FastifyRequest<{ Body: createAdminBody }>,
-  //   reply: FastifyReply,
-  // ) {
-  //   try {
-  //     this.logger.info(`AdminsController -> createAdmin -> Creating admin`);
+  @POST(ADMIN_ID_ENDPOINT, { schema: createAdminSchema })
+  async createAdmin(
+    request: FastifyRequest<{ Body: createAdminBody }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(`AdminsController -> createAdmin -> Creating admin`);
 
-  //     const data = await this.adminsService.create(request.body);
+      const data = await this.adminsService.create(request.body);
 
-  //     reply.status(STATUS_CODES.SUCCESS).send({ data });
-  //   } catch (error: any) {
-  //     this.logger.error(`Error in createAdmin: ${error.message}`);
-  //     reply.status(STATUS_CODES.SERVER_ERROR).send({
-  //       message: RESPONSE_MESSAGE.SERVER_ERROR,
-  //       code: ERROR_CODES.SERVER_ERROR,
-  //     });
-  //   }
-  // }
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in createAdmin: ${error.message}`);
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
+        message: RESPONSE_MESSAGE.SERVER_ERROR,
+        code: ERROR_CODES.SERVER_ERROR,
+      });
+    }
+  }
 
   @DELETE(DELETE_ADMIN_BY_ID_ENDPOINT, { schema: deleteAdminSchema })
   async deleteAdminById(
