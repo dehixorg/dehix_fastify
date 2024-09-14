@@ -1,9 +1,12 @@
 import { Service, Inject } from "fastify-decorators";
+import cron from "node-cron";
 import { BaseService } from "../common/base.service";
 import { VerificationDAO } from "../dao/verifications.dao";
 import { NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { FreelancerDAO } from "../dao/freelancer.dao";
+import { AdminDAO } from "../dao/admin.dao";
+import { businessDAO } from "../dao/business.dao";
 
 @Service()
 export class VerificationService extends BaseService {
@@ -11,6 +14,10 @@ export class VerificationService extends BaseService {
   private verificationDAO!: VerificationDAO;
   @Inject(FreelancerDAO)
   private freelancerDAO!: FreelancerDAO;
+  @Inject(AdminDAO)
+  private adminDAO!: AdminDAO;
+  @Inject(businessDAO)
+  private BusinessDAO!: businessDAO;
 
   /**
    * Service method to request a new verification
@@ -19,6 +26,34 @@ export class VerificationService extends BaseService {
    * @param requester_id
    * @returns
    */
+
+  constructor() {
+    super();
+    
+    // Schedule the cron job within the constructor
+    cron.schedule("0 * * * *", async () => {
+      try {
+        const staleVerifications = await this.verificationDAO.findStaleVerifications();
+
+        for (const verification of staleVerifications) {
+          // Update oracleStatus to stopped of Oracle
+          await this.freelancerDAO.changeOracleStatus(verification.verifier_id);
+
+          // find new Oracle
+          const newOracle = await this.freelancerDAO.findOracle(verification.requester_id);
+
+          if (newOracle) {
+            await this.verificationDAO.reassignOracle(verification._id, newOracle);
+          }else {
+            throw new Error("newOracle not found");
+          }
+        }
+      } catch (error: any) {
+        throw new Error(`Error in cron job for oracle reassignment: ${error.message}`);
+      }
+    });
+  }
+
   async requestVerification(
     doc_id: string,
     doc_type: string,
@@ -36,24 +71,46 @@ export class VerificationService extends BaseService {
     }
 
     // Find the verifier
-    const verifier = await this.freelancerDAO.findOracle(requester_id);
-    if (!verifier) {
-      throw new Error("Verifier not found"); // Handle case where no verifier is found
+    if (!process.env.ADMIN) {
+      const verifier = await this.freelancerDAO.findOracle(requester_id);
+      if (!verifier) {
+        throw new Error("Verifier not found"); // Handle case where no verifier is found
+      }
+
+      const verifier_id = verifier.id;
+      const verifier_username = verifier.username; // Assuming `username` is the field for verifier's username
+
+      // Create a new verification entry
+      const verification = await this.verificationDAO.createOne(
+        verifier_id,
+        verifier_username,
+        requester_id,
+        doc_id,
+        doc_type,
+      );
+
+      return verification;
+    } else {
+      // call dao function for find admin
+      const verifier = await this.adminDAO.findOracle(requester_id);
+      if (!verifier) {
+        throw new Error("Verifier not found"); // Handle case where no verifier is found
+      }
+
+      const verifier_id = verifier.id;
+      const verifier_username = verifier.username; // Assuming `username` is the field for verifier's username
+
+      // Create a new verification entry
+      const verification = await this.verificationDAO.createOne(
+        verifier_id,
+        verifier_username,
+        requester_id,
+        doc_id,
+        doc_type,
+      );
+
+      return verification;
     }
-
-    const verifier_id = verifier.id;
-    const verifier_username = verifier.username; // Assuming `username` is the field for verifier's username
-
-    // Create a new verification entry
-    const verification = await this.verificationDAO.createOne(
-      verifier_id,
-      verifier_username,
-      requester_id,
-      doc_id,
-      doc_type,
-    );
-
-    return verification;
   }
 
   async updateVerificationStatus(
@@ -270,4 +327,56 @@ export class VerificationService extends BaseService {
       return requesterData;
     }
   }
+
+  async getAllVerificationData() {
+    this.logger.info("SkillsService: getAllSkills: Fetching All Skills ");
+
+    const verification: any =
+      await this.verificationDAO.getAllVerificationData();
+
+    if (!verification) {
+      this.logger.error(
+        "VerificationsService: getAllVerificationData: verification data not found ",
+      );
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Verification Data"),
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+    return verification;
+  }
+
+  async requestBusinessVerification(requester_id: string, doc_type: string) {
+    // Check if the requester exists
+    const requesterExist =
+      await this.BusinessDAO.findBusinessById(requester_id);
+
+    if (!requesterExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.BUSINESS_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+
+    // Find the verifier
+    const verifier = await this.freelancerDAO.findOracle(requester_id);
+    if (!verifier) {
+      throw new Error("Verifier not found"); // Handle case where no verifier is found
+    }
+
+    const verifier_id = verifier.id;
+    const verifier_username = verifier.username; // Assuming `username` is the field for verifier's username
+
+    // Create a new verification entry
+    const verification = await this.verificationDAO.createOneBusiness(
+      verifier_id,
+      verifier_username,
+      requester_id,
+      doc_type,
+    );
+
+    return verification;
+  }
+
+
 }

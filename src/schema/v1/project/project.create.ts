@@ -14,10 +14,6 @@ export const createProjectSchema: FastifySchema = {
       "projectType",
     ],
     properties: {
-      _id: {
-        type: "string",
-        format: "uuid",
-      },
       projectName: {
         type: "string",
       },
@@ -89,6 +85,7 @@ export const createProjectSchema: FastifySchema = {
             minConnect: { type: "integer" },
             rate: { type: "integer" },
             description: { type: "string" },
+            domain_id: { type: "string" },
           },
         },
       },

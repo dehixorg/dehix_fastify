@@ -37,8 +37,8 @@ export const FREELANCER_DOMAIN_DELETE_BY_ID =
 
 // Dehix Talent
 export const FREELANCER_DEHIX_TALENT_ADD_BY_ID = "/:freelancer_id/dehix-talent";
-export const FREELANCER_DEHIX_TALENT_DELETE_BY_ID =
-  "/:freelancer_id/dehix-talent/:dehixTalent_id";
+export const FREELANCER_DEHIX_TALENT_DELETE_BY_ID = "/:freelancer_id/dehix-talent/:dehixTalent_id";
+export const ALL_DEHIX_TALENT_ENDPOINT = "/dehixTalent";
 
 // Dehix Talent
 // export const FREELANCER_DEHIX_TALENT_ADD_BY_ID = "/:freelancer_id/dehix-talent";
@@ -73,4 +73,9 @@ export const FREELANCER_DELETE_CONSULTANT_BY_ID =
 // Oracle endpoints
 export const ORACLE_ENDPOINT = "/oracle";
 export const ORACLE_ID_ENDPOINT = "/:verifier_id/oracle";
+export const ALL_ORACLE_ENDPOINT = "/all";
 export const ORACLE_UPDATE_END_POINT = "/:document_id/oracle";
+
+// notInterestedProject
+export const NOT_INTERESTED_PROJECT =
+  "/:freelancer_id/:project_id/not_interested_project";

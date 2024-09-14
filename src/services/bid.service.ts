@@ -26,6 +26,7 @@ export class BidService extends BaseService {
    */
   async create(body: BidApplyBody) {
     const { bidder_id, project_id, domain_id, current_price } = body;
+    this.logger.info("fvfvffgrbgbghghg");
     const bidderExist = await this.FreelancerDao.findFreelancerById(bidder_id);
     const projectExist = await this.BusinesssDao.getProjectById(project_id);
     if (!bidderExist) {
@@ -40,12 +41,13 @@ export class BidService extends BaseService {
         ERROR_CODES.NOT_FOUND,
       );
     }
-    const bid: any = await this.BidDAO.createOne(
+    const bid: any = await this.BidDAO.createOne({
       bidder_id,
       project_id,
       domain_id,
       current_price,
-    );
+      userName: bidderExist.userName,
+    });
     return bid;
   }
 
@@ -59,7 +61,6 @@ export class BidService extends BaseService {
       );
     }
     const data: any = await this.BidDAO.updateBid({ _id: bid_id }, bid);
-
     return data;
   }
 
@@ -84,7 +85,11 @@ export class BidService extends BaseService {
         ? await updateStatus("Accepted")
         : bid_status == "Rejected"
           ? await updateStatus("Rejected")
-          : await updateStatus("Pending");
+          : bid_status == "Interview"
+            ? await updateStatus("Interview")
+            : bid_status == "Panel"
+              ? await updateStatus("Panel")
+              : await updateStatus("Pending");
     return data;
   }
 
@@ -125,6 +130,36 @@ export class BidService extends BaseService {
       );
     }
     const data = await this.BidDAO.deleteBid(id);
+    return data;
+  }
+
+  async getAllBids() {
+    this.logger.info("BidService: getAllBids: Fetching All Bids ");
+
+    const bids: any = await this.BidDAO.getAllBids();
+
+    if (!bids) {
+      this.logger.error("BidService: getAllBids: Bids not found ");
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Bids"),
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    return bids;
+  }
+  async getAllBidByProject(project_id: string) {
+    this.logger.info("BidService: getAllBidByProject: Fetching All Bids ");
+    const projectExist = await this.ProjectDao.getProjectById(project_id);
+
+    if (!projectExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.PROJECT_NOT_FOUND_BY_ID,
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+    const data = await this.BidDAO.getBidByProject(project_id);
+
     return data;
   }
 }

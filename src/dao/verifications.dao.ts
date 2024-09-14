@@ -31,6 +31,20 @@ export class VerificationDAO extends BaseDAO {
     });
   }
 
+  async createOneBusiness(
+    verifier_id: string,
+    verifier_username: string,
+    requester_id: string,
+    doc_type,
+  ) {
+    return this.model.create({
+      verifier_id,
+      verifier_username,
+      requester_id,
+      doc_type,
+    });
+  }
+
   async getVerificationById(id: string) {
     return this.model
       .findById(
@@ -100,5 +114,39 @@ export class VerificationDAO extends BaseDAO {
       console.error("Error fetching verification requests data:", error);
       throw error;
     }
+  }
+
+  async getAllVerificationData() {
+    try {
+      const verification = await this.model.find();
+      return verification;
+    } catch (error: any) {
+      throw new Error(`Failed to fetch verification data: ${error.message}`);
+    }
+  }
+
+  async findStaleVerifications() {
+    const currentTime = new Date();
+    const twoDaysAgo = new Date(currentTime.getTime() - 48 * 60 * 60 * 1000);
+
+    const data = await this.model.find({
+      verification_status: "Pending",
+      updatedAt: { $lt: twoDaysAgo },
+    });
+
+    return data;
+  }
+
+  async reassignOracle(verificationId: string, newOracle: any) {
+    const data = this.model.findByIdAndUpdate(
+      verificationId,
+      {
+        verifier_id: newOracle.id,
+        verifier_username: newOracle.username,
+      },
+      { new: true }
+    );
+
+    return data;
   }
 }

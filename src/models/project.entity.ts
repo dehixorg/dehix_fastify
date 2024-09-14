@@ -26,6 +26,7 @@ export interface IProject extends Document {
     minConnect?: number;
     rate?: number;
     description?: string;
+    domain_id: string;
   }[];
   status?: "Active" | "Pending" | "Completed" | "Rejected";
   team?: string[];
@@ -108,6 +109,9 @@ const ProjectSchema: Schema<IProject> = new Schema(
         minConnect: { type: Number },
         rate: { type: Number },
         description: { type: String },
+        domain_id: {
+          type: String,
+        },
       },
     ],
     status: {

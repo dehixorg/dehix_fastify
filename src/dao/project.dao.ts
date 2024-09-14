@@ -44,4 +44,15 @@ export class ProjectDAO extends BaseDAO {
       throw error;
     }
   }
+  async getProjectById(project_id: string) {
+    return this.model.findById(project_id);
+  }
+  async getAllProject() {
+    try {
+      const skills = await this.model.find();
+      return skills;
+    } catch (error: any) {
+      throw new Error(`Failed to fetch skills: ${error.message}`);
+    }
+  }
 }

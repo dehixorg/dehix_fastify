@@ -37,7 +37,7 @@ const VerificationSchema: Schema<IVerification> = new Schema(
     },
     document_id: {
       type: String,
-      required: true,
+      required: false,
     },
     doc_type: {
       type: String,

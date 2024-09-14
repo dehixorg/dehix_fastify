@@ -1,18 +1,23 @@
 import { Service, Inject } from "fastify-decorators";
 import { BaseService } from "../common/base.service";
-import { businessDAO } from "../dao";
+import { BidDAO, businessDAO, FreelancerDAO } from "../dao";
 import { firebaseClient } from "../common/services";
 import { ConflictError, NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { ProjectDAO } from "../dao/project.dao";
+import { VerificationService } from "./verifications.service";
 @Service()
 export class BusinessService extends BaseService {
   @Inject(businessDAO)
   private businessDao!: businessDAO;
   @Inject(ProjectDAO)
   private ProjectDAO!: ProjectDAO;
-  // @Inject(FreelancerDAO)
-  // private FreelancerDAO!: FreelancerDAO;
+  @Inject(VerificationService)
+  private VerificationService!: VerificationService;
+  @Inject(FreelancerDAO)
+  private FreelancerDAO!: FreelancerDAO;
+  @Inject(BidDAO)
+  private BidDAO!: BidDAO;
   async createBusiness(business: any) {
     try {
       this.logger.info("Business Service: creating business profile");
@@ -26,6 +31,13 @@ export class BusinessService extends BaseService {
       business._id = business_id;
       const userObj = { ...business, password: "" };
       const data: any = await this.businessDao.createBusiness(userObj);
+
+      // Request for profile verification
+      await this.VerificationService.requestBusinessVerification(
+        business_id,
+        "business",
+      );
+
       return data;
     } catch (error: any) {
       if (business._id) {
@@ -118,24 +130,43 @@ export class BusinessService extends BaseService {
     );
     await this.businessDao.findBusinessProject(id);
   }
-  async getAllProjectsData(filters: {
-    location?: string[];
-    jobType?: string[];
-    domain?: string[];
-    skills?: string[];
-  }) {
+  async getAllProjectsData(
+    filters: {
+      location?: string[];
+      jobType?: string[];
+      domain?: string[];
+      skills?: string[];
+    },
+    freelancer_id: string,
+  ) {
     const { location, jobType, domain, skills } = filters;
 
     this.logger.info(
       `Business Service: Fetching all business projects with filters - Location: ${location}, Job Type: ${jobType}, Domain: ${domain}, Skills: ${skills}`,
     );
 
-    const data = await this.businessDao.findAllProjects({
+    const freelancerExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!freelancerExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    // Ensure notInterestedProject is defined
+    const notInterestedProjects = freelancerExist.notInterestedProject || [];
+
+    const dataSet = await this.businessDao.findAllProjects({
       location,
       jobType,
       domain,
       skills,
     });
+
+    const data = dataSet.filter(
+      (project) => !notInterestedProjects.includes(project._id.toString()),
+    );
 
     return data;
   }
@@ -157,20 +188,41 @@ export class BusinessService extends BaseService {
     return data;
   }
   async getSingleProjectById(project_id: string) {
-    this.logger.info(
-      "BusinessService: business get projects by id",
-      project_id,
-    );
-
-    const data = await this.businessDao.getProjectById(project_id);
-    if (!data) {
-      throw new NotFoundError(
-        RESPONSE_MESSAGE.PROJECT_NOT_FOUND,
-        ERROR_CODES.BUSINESS_PROJECT_NOT_FOUND,
+    try {
+      this.logger.info(
+        "BusinessService: business get projects by id",
+        project_id,
       );
+
+      const data = await this.businessDao.getProjectById(project_id);
+
+      if (!data) {
+        throw new NotFoundError(
+          RESPONSE_MESSAGE.PROJECT_NOT_FOUND,
+          ERROR_CODES.BUSINESS_PROJECT_NOT_FOUND,
+        );
+      }
+
+      const projectData = data.toObject();
+
+      const bidExist = await this.BidDAO.findBidByProjectId(project_id);
+
+      const alreadyApplied =
+        bidExist && bidExist.some((bids) => bids.bidder_id);
+      if (alreadyApplied) {
+        return {
+          data: projectData,
+          message: "Already Applied",
+        };
+      }
+
+      return { data: projectData };
+    } catch (error) {
+      this.logger.error("Error in getSingleProjectById:", error);
+      throw error;
     }
-    return data;
   }
+
   async getBusinessProjectsById(
     business_id: string,
     status?: "Active" | "Pending" | "Completed" | "Rejected",
@@ -191,5 +243,21 @@ export class BusinessService extends BaseService {
     );
     this.logger.info(data, "in get business projects");
     return data;
+  }
+
+  async getAllProject() {
+    this.logger.info("BusinessService: getAllProject: Fetching All Projects ");
+
+    const projects: any = await this.ProjectDAO.getAllProject();
+
+    if (!projects) {
+      this.logger.error("BusinessService: getAllProject: project not found ");
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Project"),
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    return projects;
   }
 }
