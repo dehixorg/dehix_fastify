@@ -1,6 +1,5 @@
 import AWS from "aws-sdk";
 import path from "path";
-import sharp from "sharp";
 import dotenv from "dotenv";
 
 // Load environment variables from .env file
@@ -34,15 +33,14 @@ const uploadFileToS3 = async (
   return s3.upload(uploadParams).promise();
 };
 
-const compressImage = async (buffer: Buffer): Promise<Buffer> => {
-  return sharp(buffer)
-    .jpeg({ quality: 80 })
-    .png({ compressionLevel: 9 })
-    .toBuffer();
+// Placeholder for image compression if needed in the future
+const processImage = async (buffer: Buffer): Promise<Buffer> => {
+  // Add any image processing logic here, for now, just return the buffer as is
+  return buffer;
 };
 
-const compressPdf = async (buffer: Buffer): Promise<Buffer> => {
-  // Assuming you have a PDF compression logic, for now just returning the buffer
+const processPdf = async (buffer: Buffer): Promise<Buffer> => {
+  // Placeholder for PDF processing logic
   return buffer;
 };
 
@@ -54,9 +52,9 @@ export const handleFileUpload = async (
   let fileBuffer = await file.toBuffer();
 
   if (fileExt === ".jpg" || fileExt === ".jpeg" || fileExt === ".png") {
-    fileBuffer = await compressImage(fileBuffer);
+    fileBuffer = await processImage(fileBuffer); // No compression
   } else if (fileExt === ".pdf") {
-    fileBuffer = await compressPdf(fileBuffer);
+    fileBuffer = await processPdf(fileBuffer); // No compression
   }
 
   const fileKey = `${Date.now()}-${file.filename}`;

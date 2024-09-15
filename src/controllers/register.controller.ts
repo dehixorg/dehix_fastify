@@ -19,6 +19,7 @@ import { createBusinessSchema } from "../schema/v1/business/business.create";
 import { IBusiness } from "../models/business.entity";
 import { BusinessService } from "../services/business.service";
 import { handleFileUpload } from "../common/services/s3.service";
+import { uploadImageSchema } from "../schema/v1/upload/upload";
 
 @Controller({ route: REGISTRATION_ENDPOINT })
 export default class RegisterController extends BaseController {
@@ -100,7 +101,8 @@ export default class RegisterController extends BaseController {
   @POST("/upload-image")
   async uploadImage(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const file = request.body.file; // Assuming the file is passed in the body
+      const file = request.body; // Assuming the file is passed in the body
+      console.log("BODY:", file);
       if (!file) {
         return reply.status(STATUS_CODES.BAD_REQUEST).send({
           message: "No file uploaded",
