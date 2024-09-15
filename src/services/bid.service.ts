@@ -25,8 +25,8 @@ export class BidService extends BaseService {
    * @returns
    */
   async create(body: BidApplyBody) {
-    const { bidder_id, project_id, domain_id, current_price } = body;
-    this.logger.info("fvfvffgrbgbghghg");
+    const { bidder_id, project_id, domain_id, current_price,profile_id,description } = body;
+    this.logger.info("bid service:creating bid:create");
     const bidderExist = await this.FreelancerDao.findFreelancerById(bidder_id);
     const projectExist = await this.BusinesssDao.getProjectById(project_id);
     if (!bidderExist) {
@@ -47,7 +47,11 @@ export class BidService extends BaseService {
       domain_id,
       current_price,
       userName: bidderExist.userName,
+      profile_id,
+      description
     });
+    const bidValue=await this.BusinesssDao.updateTotalBidProfile(bidder_id,profile_id,project_id)
+    this.logger.info(bidValue,"bidder_id",bidder_id,"profile_id",profile_id,"project_id",project_id)
     return bid;
   }
 

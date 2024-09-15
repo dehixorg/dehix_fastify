@@ -4,4 +4,5 @@ export interface BidApplyBody {
   domain_id: string;
   current_price: number;
   description: string;
+  profile_id:string;
 }
