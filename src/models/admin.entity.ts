@@ -8,7 +8,7 @@ export interface IAdmin extends Document {
   userName: string;
   email: string;
   phone: string;
-  status: "Pending" | "Accept"| "Reject";
+  status: "Pending" | "Accept" | "Reject";
   type: "Admin" | "Super_Admin";
 }
 
