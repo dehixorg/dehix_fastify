@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, GET, Inject, POST, DELETE } from "fastify-decorators";
+import { Controller, GET, Inject, POST, DELETE, PUT } from "fastify-decorators";
 import { ProjectDomainService } from "../services";
 import {
   STATUS_CODES,
@@ -19,6 +19,11 @@ import { CreateProjectDomainBody } from "../types/v1/projectDomain/createProject
 import { deleteProjectDomainSchema } from "../schema/v1/projectDomain/projectDomain.delete";
 import { DeleteProjectDomainPathParams } from "../types/v1/projectDomain/deleteProjectDomain";
 import { getAllProjectDomainSchema } from "../schema/v1/projectDomain/projectDomain.get";
+import { updateProjectDomainSchema } from "../schema/v1/projectDomain/projectDomain.update";
+import {
+  PutProjectDomainBody,
+  PutProjectDomainPathParams,
+} from "../types/v1/projectDomain/updateProjectDomain";
 
 @Controller({ route: PROJECT_DOMAIN_ENDPOINT })
 export default class ProjectDomainController extends AuthController {
@@ -28,15 +33,15 @@ export default class ProjectDomainController extends AuthController {
   @POST(PROJECT_DOMAIN_ID_ENDPOINT, { schema: createProjectDomainSchema })
   async createProjectDomain(
     request: FastifyRequest<{ Body: CreateProjectDomainBody }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `ProjectDomainController -> createProjectDomain -> Creating project-domain`,
+        `ProjectDomainController -> createProjectDomain -> Creating project-domain`
       );
 
       const data = await this.projectDomainService.createProjectDomain(
-        request.body,
+        request.body
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -54,14 +59,14 @@ export default class ProjectDomainController extends AuthController {
   })
   async deleteProjectDomainById(
     request: FastifyRequest<{ Params: DeleteProjectDomainPathParams }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `ProjectDomainController -> deleteProjectDomainById -> Deleting ProjectDomain using: ${request.params.projectDomain_id}`,
+        `ProjectDomainController -> deleteProjectDomainById -> Deleting ProjectDomain using: ${request.params.projectDomain_id}`
       );
       await this.projectDomainService.deleteProjectDomainById(
-        request.params.projectDomain_id,
+        request.params.projectDomain_id
       );
 
       reply
@@ -90,7 +95,7 @@ export default class ProjectDomainController extends AuthController {
   async getallProjectDomain(request: FastifyRequest, reply: FastifyReply) {
     try {
       this.logger.info(
-        `projectDomainController -> getallProjectDomain -> Fetching project domain`,
+        `projectDomainController -> getallProjectDomain -> Fetching project domain`
       );
 
       const data = await this.projectDomainService.getAllProjectDomain();
@@ -109,6 +114,51 @@ export default class ProjectDomainController extends AuthController {
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });
+    }
+  }
+
+  @PUT(DELETE_PROJECT_DOMAIN_BY_ID_ENDPOINT, { schema: updateProjectDomainSchema })
+  async updateProjectDomain(
+    request: FastifyRequest<{
+      Params: PutProjectDomainPathParams;
+      Body: PutProjectDomainBody;
+    }>,
+    reply: FastifyReply
+  ) {
+    try {
+      this.logger.info(
+        `ProjectDomainController -> updateProjectDomain -> Updating ProjectDomain using: ${request.params.projectDomain_id}`
+      );
+
+      const data = await this.projectDomainService.updateProjectDomain(
+        request.params.projectDomain_id,
+        request.body,
+      );
+
+      if (!data) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("ProjectDomain"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in updateProjectDomain: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Data not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
     }
   }
 }
