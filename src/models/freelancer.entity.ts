@@ -331,13 +331,12 @@ const FreelancerSchema: Schema = new Schema(
         monthlyPay: { type: String, require: true },
         status: {
           type: String,
-          enum: ["added", "verified", "rejected"],
+          enum: ["pending", "verified", "rejected"],
           required: false,
-          default: "added",
+          default: "pending",
         },
-        activestatus: {
+        activeStatus: {
           type: Boolean,
-          default: false,
         },
       }),
       required: false,

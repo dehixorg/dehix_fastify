@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import fastify, { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, DELETE, GET, Inject, POST, PUT } from "fastify-decorators";
+import { Controller, DELETE, GET, Inject, PATCH, POST, PUT } from "fastify-decorators";
 import { FreelancerService } from "../services";
 import {
   STATUS_CODES,
@@ -47,6 +47,7 @@ import {
   NOT_INTERESTED_PROJECT,
   ALL_DEHIX_TALENT_ENDPOINT,
   FREELANCER_DEHIX_TALENT_BY_ID,
+  FREELANCER_DEHIX_TALENT_UPDATE_BY_ID,
 } from "../constants/freelancer.constant";
 import {
   getAllDehixTalentSchema,
@@ -63,6 +64,7 @@ import {
   experinceInProfessionalInfo,
   interviewsAlignedSchema,
   oracleStatusSchema,
+  updateDehixTalentSchema,
   updateEducationSchema,
   updateFreelancerSchema,
   updateNotInterestedProjectSchema,
@@ -113,7 +115,8 @@ import { updateConsultantSchema } from "../schema/v1/consultant/consultant.updat
 import { PutConsultantBody } from "../types/v1/freelancer/updateConsultant";
 import { getConsultantSchema } from "../schema/v1/consultant/consultant.get";
 import { deleteConsultantSchema } from "../schema/v1/consultant/consultant.delete";
-import { updateNotinterestedPathParams } from "src/types/v1/freelancer/updateNotInterestedProject";
+import { updateNotinterestedPathParams } from "../types/v1/freelancer/updateNotInterestedProject";
+import { DehicTalentPathParams, PutDehixTalentBody } from "../types/v1/freelancer/updateDehixTalent";
 
 @Controller({ route: FREELANCER_ENDPOINT })
 export default class FreelancerController extends AuthController {
@@ -1414,6 +1417,56 @@ export default class FreelancerController extends AuthController {
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @PATCH(FREELANCER_DEHIX_TALENT_UPDATE_BY_ID, { schema: updateDehixTalentSchema })
+  async updateDehixTalentById(
+    request: FastifyRequest<{
+      Params: DehicTalentPathParams;
+      Body: PutDehixTalentBody;
+    }>,
+    reply: FastifyReply
+  ) {
+    try {
+      this.logger.info(
+        `FreelancerController -> updateDehixTalentById -> Updating dehixTalent with ID: ${request.params.dehixTalent_id}`
+      );
+
+      const data = await this.freelancerService.updateDehixTalent(
+        request.params.freelancer_id,
+        request.params.dehixTalent_id!,
+        request.body
+      );
+      reply
+        .status(STATUS_CODES.SUCCESS)
+        .send({ message: "Dehix Talent updated", data });
+    } catch (error: any) {
+      this.logger.error(`Error in updateDehixTalentById: ${error.message}`);
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found."
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else if (
+        error.ERROR_CODES === "DEHIX_TALENT_NOT_FOUND" ||
+        error.message.includes("Dehix Talent not found by id")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Dehix Talent"),
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {

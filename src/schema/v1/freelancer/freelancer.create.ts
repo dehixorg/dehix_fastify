@@ -603,15 +603,13 @@ export const createDehixTalentSchema: FastifySchema = {
       monthlyPay: { type: "string" },
       status: {
         type: "string",
-        enum: ["added", "verified", "rejected"],
-        default: "added",
+        enum: ["pending", "verified", "rejected"],
+        default: "pending",
       },
       activeStatus: {
         type: "boolean",
-        default: "false",
       },
     },
-    required: ["status"],
   },
   response: {
     200: {
@@ -628,11 +626,10 @@ export const createDehixTalentSchema: FastifySchema = {
             domainName: { type: "string" },
             status: {
               type: "string",
-              enum: ["added", "verified", "rejected"],
+              enum: ["pending", "verified", "rejected"],
             },
             activeStatus: {
-              type: "string",
-              enum: ["Active", "Inactive"],
+              type: "boolean",
             },
           },
         },

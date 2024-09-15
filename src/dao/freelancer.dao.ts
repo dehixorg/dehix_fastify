@@ -694,4 +694,32 @@ export class FreelancerDAO extends BaseDAO {
       throw error;
     }
   }
+
+  async updateDehixTalent(
+    freelancer_id: string,
+    dehixTalent_id: string,
+    update: { status?: string; activeStatus?: boolean }
+  ) {
+    // Use the $set operator to only update the specific fields
+    const updateFields = {} as any;
+  
+    if (update.status !== undefined) {
+      updateFields[`dehixTalent.${dehixTalent_id}.status`] = update.status;
+    }
+    if (update.activeStatus !== undefined) {
+      updateFields[`dehixTalent.${dehixTalent_id}.activeStatus`] = update.activeStatus;
+    }
+  
+    // Perform the update with only the necessary fields
+    return this.model.findOneAndUpdate(
+      {
+        _id: freelancer_id,
+        [`dehixTalent.${dehixTalent_id}`]: { $exists: true },
+      },
+      { $set: updateFields },
+      {
+        new: true, // Return the updated document
+      }
+    );
+  }  
 }

@@ -154,6 +154,6 @@ export interface CreateDehixTalentBody {
   domainName?: string;
   experience?: string;
   monthlyPay?: string;
-  status?: "added" | "verified" | "rejected";
+  status?: "pending" | "verified" | "rejected";
   activeStatus?: boolean;
 }
