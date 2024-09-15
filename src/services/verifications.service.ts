@@ -100,7 +100,7 @@ export class VerificationService extends BaseService {
       return verification;
     } else {
       // call dao function for find admin
-      const verifier = await this.adminDAO.findOracle(requester_id);
+      const verifier = await this.adminDAO.findOracle();
       if (!verifier) {
         throw new Error("Verifier not found"); // Handle case where no verifier is found
       }
