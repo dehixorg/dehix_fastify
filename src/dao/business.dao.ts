@@ -58,34 +58,39 @@ export class businessDAO extends BaseDAO {
   async createProjectBusiness(data: any) {
     try {
       const { profiles } = data;
-      const updatedProfiles = profiles?.map((profile: any) => ({
-        _id: uuidv4(),
-        ...profile,
-      })) || [];
-  
+      const updatedProfiles =
+        profiles?.map((profile: any) => ({
+          _id: uuidv4(),
+          ...profile,
+        })) || [];
+
       const projectData = {
         ...data,
         profiles: updatedProfiles,
       };
-  
+
       return await this.projectmodel.create(projectData);
     } catch (error) {
       console.error("Error creating project:", error);
       throw new Error("Internal Server Error");
     }
   }
-  async updateTotalBidProfile(bidder_id: string, profile_id: string, project_id: string) {
+  async updateTotalBidProfile(
+    bidder_id: string,
+    profile_id: string,
+    project_id: string,
+  ) {
     return this.projectmodel.findOneAndUpdate(
-      { _id: project_id, "profiles._id": profile_id}, 
+      { _id: project_id, "profiles._id": profile_id },
       {
         $addToSet: {
-          "profiles.$.totalBid": bidder_id
-        }
+          "profiles.$.totalBid": bidder_id,
+        },
       },
-      { new: true } 
+      { new: true },
     );
   }
-  
+
   async findBusinessProject(id: string) {
     return this.projectmodel.findById(id);
   }

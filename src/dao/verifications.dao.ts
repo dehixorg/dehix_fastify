@@ -144,7 +144,7 @@ export class VerificationDAO extends BaseDAO {
         verifier_id: newOracle.id,
         verifier_username: newOracle.username,
       },
-      { new: true }
+      { new: true },
     );
 
     return data;

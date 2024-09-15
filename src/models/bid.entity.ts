@@ -8,10 +8,10 @@ export interface IBid extends Document {
   userName: string;
   current_price: number;
   project_id: string;
-  profile_id:string;
+  profile_id: string;
   bid_status: "Pending" | "Accepted" | "Rejected" | "Panel" | "Interview";
   description: string;
-  domain_id:string;
+  domain_id: string;
 }
 
 // Define the Bid schema
@@ -38,8 +38,8 @@ const BidSchema: Schema<IBid> = new Schema(
       type: String,
       required: true,
     },
-    profile_id:{
-      type:String
+    profile_id: {
+      type: String,
     },
     domain_id: {
       type: String,
@@ -54,7 +54,7 @@ const BidSchema: Schema<IBid> = new Schema(
     },
   },
   {
-    timestamps: true, 
+    timestamps: true,
     versionKey: false,
   },
 );
