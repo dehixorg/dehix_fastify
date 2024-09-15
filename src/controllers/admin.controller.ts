@@ -29,13 +29,22 @@ import {
 } from "../types/v1/skills/updateSkill";
 import { updateSkillSchema } from "../schema/v1/skills/skills.update";
 import { getSkillByIdSchema } from "../schema/v1/skills/skills.get";
-import { ADMIN_ALL_ENDPOINT, ADMIN_BY_ID_ENDPOINT, ADMIN_ENDPOINT, ADMIN_ID_ENDPOINT, DELETE_ADMIN_BY_ID_ENDPOINT } from "../constants/admin.constant";
+import {
+  ADMIN_ALL_ENDPOINT,
+  ADMIN_BY_ID_ENDPOINT,
+  ADMIN_ENDPOINT,
+  ADMIN_ID_ENDPOINT,
+  DELETE_ADMIN_BY_ID_ENDPOINT,
+} from "../constants/admin.constant";
 import { AdminsService } from "../services";
 import { createAdminSchema } from "../schema/v1/admin/admin.create";
 import { createAdminBody } from "../types/v1/admin/createAdminBody";
 import { adminPathParams } from "../types/v1/admin/deleteAdmin";
 import { deleteAdminSchema } from "../schema/v1/admin/admin.delete";
-import { getAdminByIdSchema, getAllAdminSchema } from "../schema/v1/admin/admin.get";
+import {
+  getAdminByIdSchema,
+  getAllAdminSchema,
+} from "../schema/v1/admin/admin.get";
 
 @Controller({ route: ADMIN_ENDPOINT })
 export default class AdminsController extends AuthController {

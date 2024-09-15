@@ -29,27 +29,35 @@ export class VerificationService extends BaseService {
 
   constructor() {
     super();
-    
+
     // Schedule the cron job within the constructor
     cron.schedule("0 * * * *", async () => {
       try {
-        const staleVerifications = await this.verificationDAO.findStaleVerifications();
+        const staleVerifications =
+          await this.verificationDAO.findStaleVerifications();
 
         for (const verification of staleVerifications) {
           // Update oracleStatus to stopped of Oracle
           await this.freelancerDAO.changeOracleStatus(verification.verifier_id);
 
           // find new Oracle
-          const newOracle = await this.freelancerDAO.findOracle(verification.requester_id);
+          const newOracle = await this.freelancerDAO.findOracle(
+            verification.requester_id,
+          );
 
           if (newOracle) {
-            await this.verificationDAO.reassignOracle(verification._id, newOracle);
-          }else {
+            await this.verificationDAO.reassignOracle(
+              verification._id,
+              newOracle,
+            );
+          } else {
             throw new Error("newOracle not found");
           }
         }
       } catch (error: any) {
-        throw new Error(`Error in cron job for oracle reassignment: ${error.message}`);
+        throw new Error(
+          `Error in cron job for oracle reassignment: ${error.message}`,
+        );
       }
     });
   }
@@ -377,6 +385,4 @@ export class VerificationService extends BaseService {
 
     return verification;
   }
-
-
 }

@@ -193,40 +193,40 @@ export class BusinessService extends BaseService {
         "BusinessService: business get projects by id",
         project_id,
       );
-  
+
       const data = await this.businessDao.getProjectById(project_id);
-  
+
       if (!data) {
         throw new NotFoundError(
           RESPONSE_MESSAGE.PROJECT_NOT_FOUND,
           ERROR_CODES.BUSINESS_PROJECT_NOT_FOUND,
         );
       }
-  
+
       const projectData = data.toObject();
-  
-      
+
       if (!data.profiles || !Array.isArray(data.profiles)) {
-        throw new Error('Profiles data is missing or not in the expected format');
+        throw new Error(
+          "Profiles data is missing or not in the expected format",
+        );
       }
       const alreadyApplied = data.profiles.some((profile: any) =>
-        profile.totalBid?.some((id: string) => id === freelancer_id)
+        profile.totalBid?.some((id: string) => id === freelancer_id),
       );
-  
+
       if (alreadyApplied) {
         return {
           data: projectData,
           message: "Already Applied",
         };
       }
-  
+
       return { data: projectData };
     } catch (error) {
       this.logger.error("Error in getSingleProjectById:", error);
       throw error;
     }
   }
-  
 
   async getBusinessProjectsById(
     business_id: string,
