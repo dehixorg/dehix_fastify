@@ -152,6 +152,8 @@ export interface CreateDehixTalentBody {
   skillName?: string;
   domainId?: string;
   domainName?: string;
+  experience?: string;
+  monthlyPay?: string;
   status?: "added" | "verified" | "rejected";
-  activeStatus?: "Active" | "Inactive";
+  activeStatus?: boolean;
 }

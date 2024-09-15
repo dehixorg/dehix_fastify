@@ -682,4 +682,16 @@ export class FreelancerDAO extends BaseDAO {
       throw new Error(`Failed to fetch dehix talent: ${error.message}`);
     }
   }
+
+  async getFreelancerDehixTalent(freelancer_id: string) {
+    try {
+      return await this.model.find(
+        { _id: freelancer_id },
+        { dehixTalent: 1, _id: 0 },
+      );
+    } catch (error) {
+      console.error("Error fetching freelancer dehix talent:", error);
+      throw error;
+    }
+  }
 }

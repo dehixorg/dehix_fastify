@@ -46,9 +46,11 @@ import {
   FREELANCER_DELETE_CONSULTANT_BY_ID,
   NOT_INTERESTED_PROJECT,
   ALL_DEHIX_TALENT_ENDPOINT,
+  FREELANCER_DEHIX_TALENT_BY_ID,
 } from "../constants/freelancer.constant";
 import {
   getAllDehixTalentSchema,
+  getFreelancerDehixTalentSchema,
   getFreelancerDomainSchema,
   getFreelancerOwnProjectSchema,
   getFreelancerProjectSchema,
@@ -121,15 +123,15 @@ export default class FreelancerController extends AuthController {
   @GET(FREELANCER_ID_ENDPOINT, { schema: getFreelancerSchema })
   async getFreelancer(
     request: FastifyRequest<{ Params: GetFreelancerPathParams }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> getFreelancer -> Fetching freelancer profile for ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> getFreelancer -> Fetching freelancer profile for ID: ${request.params.freelancer_id}`
       );
 
       const data = await this.freelancerService.getFreelancerProfile(
-        request.params.freelancer_id,
+        request.params.freelancer_id
       );
       console.log("DATA:", data);
 
@@ -139,7 +141,7 @@ export default class FreelancerController extends AuthController {
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -161,11 +163,11 @@ export default class FreelancerController extends AuthController {
       Params: GetFreelancerPathParams;
       Querystring: GetFreelancerProjectQueryParams;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> getFreelancerProjects -> Fetching freelancer projects for ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> getFreelancerProjects -> Fetching freelancer projects for ID: ${request.params.freelancer_id}`
       );
 
       const { freelancer_id } = request.params;
@@ -173,7 +175,7 @@ export default class FreelancerController extends AuthController {
 
       const data = await this.freelancerService.getFreelancerProjects(
         freelancer_id,
-        status,
+        status
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -182,7 +184,7 @@ export default class FreelancerController extends AuthController {
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -204,15 +206,15 @@ export default class FreelancerController extends AuthController {
       Params: PutFreelancerPathParams;
       Body: PutFreelancerBody;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> updateFreelancer -> Updating profile for ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> updateFreelancer -> Updating profile for ID: ${request.params.freelancer_id}`
       );
       const data = await this.freelancerService.updateProfileFreelancer(
         request.params.freelancer_id,
-        request.body,
+        request.body
       );
 
       if (!data) {
@@ -237,15 +239,15 @@ export default class FreelancerController extends AuthController {
   })
   async deleteSkillById(
     request: FastifyRequest<{ Params: DeleteFreelancerSkillPathParams }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> deleteSkillById -> Deleting skill using: ${request.params}`,
+        `FreelancerController -> deleteSkillById -> Deleting skill using: ${request.params}`
       );
       const data = await this.freelancerService.deleteFreelancerSkill(
         request.params.freelancer_id,
-        request.params.skill_id,
+        request.params.skill_id
       );
 
       if (data.modifiedCount == 0) {
@@ -271,17 +273,17 @@ export default class FreelancerController extends AuthController {
       Params: PutFreelancerPathParams;
       Body: PutFreelancerSkillsBody;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> addSkillsById -> Adding skills for freelancer using ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> addSkillsById -> Adding skills for freelancer using ID: ${request.params.freelancer_id}`
       );
 
       const { addSkills, freelancer_id } =
         await this.freelancerService.addFreelancerSkills(
           request.params.freelancer_id,
-          request.body.skills,
+          request.body.skills
         );
 
       reply.status(STATUS_CODES.SUCCESS).send({
@@ -313,16 +315,16 @@ export default class FreelancerController extends AuthController {
       Params: PutFreelancerPathParams;
       Body: PutFreelancerOracleStatusBody;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> updateOracleStatusById -> Updating oracle status of freelancer using ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> updateOracleStatusById -> Updating oracle status of freelancer using ID: ${request.params.freelancer_id}`
       );
 
       const data = await this.freelancerService.updateFreelancerOracleStatus(
         request.params.freelancer_id,
-        request.body.oracleStatus,
+        request.body.oracleStatus
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -341,16 +343,16 @@ export default class FreelancerController extends AuthController {
       Params: PutFreelancerPathParams;
       Body: PutFreelancerInterviewsAlignedBody;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> interviewsAlignedById -> Interviews aligned of freelancer using ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> interviewsAlignedById -> Interviews aligned of freelancer using ID: ${request.params.freelancer_id}`
       );
 
       const data = await this.freelancerService.freelancerInterviewsAligned(
         request.params.freelancer_id,
-        request.body.interviewsAligned,
+        request.body.interviewsAligned
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -359,7 +361,7 @@ export default class FreelancerController extends AuthController {
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -382,17 +384,17 @@ export default class FreelancerController extends AuthController {
       Params: PutExperincePathParams;
       Body: PutFreelancerExperinceBody;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> putExperienceFreelancer-> update experince freelancer  using ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> putExperienceFreelancer-> update experince freelancer  using ID: ${request.params.freelancer_id}`
       );
 
       const data = await this.freelancerService.putFreelancerExperience(
         request.params.freelancer_id,
         request.params.experience_id,
-        request.body,
+        request.body
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -401,7 +403,7 @@ export default class FreelancerController extends AuthController {
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -429,16 +431,16 @@ export default class FreelancerController extends AuthController {
   })
   async deleteExperienceFreelancer(
     request: FastifyRequest<{ Params: DeleteFreelancerExperiencePathParams }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> deleteExperienceFreelancer -> Deleting experience using ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> deleteExperienceFreelancer -> Deleting experience using ID: ${request.params.freelancer_id}`
       );
 
       const data = await this.freelancerService.deleteFreelancerExperience(
         request.params.freelancer_id,
-        request.params.experience_id,
+        request.params.experience_id
       );
 
       reply
@@ -446,12 +448,12 @@ export default class FreelancerController extends AuthController {
         .send({ message: "Experience deleted" });
     } catch (error: any) {
       this.logger.error(
-        `Error in deleteExperienceFreelancer: ${error.message}`,
+        `Error in deleteExperienceFreelancer: ${error.message}`
       );
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -482,27 +484,27 @@ export default class FreelancerController extends AuthController {
       Params: GetFreelancerPathParams;
       Body: CreateFreelancerExperienceBody;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> deleteExperienceFreelancer -> Deleting experience using ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> deleteExperienceFreelancer -> Deleting experience using ID: ${request.params.freelancer_id}`
       );
 
       const data = await this.freelancerService.createFreelancerExperience(
         request.params.freelancer_id,
-        request.body,
+        request.body
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(
-        `Error in CreateExperienceFreelancer: ${error.message}`,
+        `Error in CreateExperienceFreelancer: ${error.message}`
       );
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -524,16 +526,16 @@ export default class FreelancerController extends AuthController {
       Params: GetFreelancerPathParams;
       Body: CreateFreelancerEducationBody;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> createEducation -> Create education using ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> createEducation -> Create education using ID: ${request.params.freelancer_id}`
       );
 
       const data = await this.freelancerService.createFreelancerEducation(
         request.params.freelancer_id,
-        request.body,
+        request.body
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -542,7 +544,7 @@ export default class FreelancerController extends AuthController {
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -564,17 +566,17 @@ export default class FreelancerController extends AuthController {
       Params: PutEducationPathParams;
       Body: PutFreelancerEducationBody;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> updateEducationFreelancer-> update education freelancer using ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> updateEducationFreelancer-> update education freelancer using ID: ${request.params.freelancer_id}`
       );
 
       const data = await this.freelancerService.putFreelancerEducation(
         request.params.freelancer_id,
         request.params.education_id,
-        request.body,
+        request.body
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -583,7 +585,7 @@ export default class FreelancerController extends AuthController {
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -610,16 +612,16 @@ export default class FreelancerController extends AuthController {
   @DELETE(FREELANCER_DELETE_EDUCATION_BY_ID, { schema: deleteEducationSchema })
   async deleteEducationFreelancer(
     request: FastifyRequest<{ Params: DeleteFreelancerEducationPathParams }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> deleteEducationFreelancer -> Deleting education using ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> deleteEducationFreelancer -> Deleting education using ID: ${request.params.freelancer_id}`
       );
 
       const data = await this.freelancerService.deleteFreelancerEducation(
         request.params.freelancer_id,
-        request.params.education_id,
+        request.params.education_id
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ message: "Education deleted" });
@@ -628,7 +630,7 @@ export default class FreelancerController extends AuthController {
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -658,16 +660,16 @@ export default class FreelancerController extends AuthController {
       Params: GetFreelancerPathParams;
       Body: CreateFreelancerProjectBody;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> createProject -> Create project using ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> createProject -> Create project using ID: ${request.params.freelancer_id}`
       );
 
       const data = await this.freelancerService.createFreelancerProject(
         request.params.freelancer_id,
-        request.body,
+        request.body
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -676,7 +678,7 @@ export default class FreelancerController extends AuthController {
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -698,17 +700,17 @@ export default class FreelancerController extends AuthController {
       Params: PutProjectPathParams;
       Body: PutFreelancerProjectBody;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> updateProjectFreelancer-> update project freelancer using ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> updateProjectFreelancer-> update project freelancer using ID: ${request.params.freelancer_id}`
       );
 
       const data = await this.freelancerService.putFreelancerProject(
         request.params.freelancer_id,
         request.params.project_id,
-        request.body,
+        request.body
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -717,7 +719,7 @@ export default class FreelancerController extends AuthController {
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -746,16 +748,16 @@ export default class FreelancerController extends AuthController {
   })
   async deleteProjectById(
     request: FastifyRequest<{ Params: DeleteFreelancerProjectPathParams }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> deleteProjectById -> Deleting project using ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> deleteProjectById -> Deleting project using ID: ${request.params.freelancer_id}`
       );
 
       const data = await this.freelancerService.deleteFreelancerProject(
         request.params.freelancer_id,
-        request.params.project_id,
+        request.params.project_id
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ message: "Project deleted" });
@@ -764,7 +766,7 @@ export default class FreelancerController extends AuthController {
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -805,7 +807,7 @@ export default class FreelancerController extends AuthController {
       const skillsArray = skills ? skills.split(",") : [];
 
       this.logger.info(
-        `FreelancerController -> getAllFreelancer -> Fetching freelancers with filters: Experiance: ${experienceArray}, Job Type: ${jobTypeArray}, Domain: ${domainArray}, Skills: ${skillsArray}`,
+        `FreelancerController -> getAllFreelancer -> Fetching freelancers with filters: Experiance: ${experienceArray}, Job Type: ${jobTypeArray}, Domain: ${domainArray}, Skills: ${skillsArray}`
       );
 
       const data = await this.freelancerService.getAllFreelancer({
@@ -841,17 +843,17 @@ export default class FreelancerController extends AuthController {
       Params: PutFreelancerPathParams;
       Body: PutFreelancerDomainBody;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> addDomainById -> Adding domain for freelancer using ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> addDomainById -> Adding domain for freelancer using ID: ${request.params.freelancer_id}`
       );
 
       const { addDomains, freelancer_id } =
         await this.freelancerService.addFreelancerDomain(
           request.params.freelancer_id,
-          request.body.domain,
+          request.body.domain
         );
 
       reply.status(STATUS_CODES.SUCCESS).send({
@@ -882,15 +884,15 @@ export default class FreelancerController extends AuthController {
   })
   async deleteDomainById(
     request: FastifyRequest<{ Params: DeleteFreelancerDomainPathParams }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> deleteDomainById -> Deleting domain using: ${request.params}`,
+        `FreelancerController -> deleteDomainById -> Deleting domain using: ${request.params}`
       );
       const data = await this.freelancerService.deleteFreelancerDomain(
         request.params.freelancer_id,
-        request.params.domain_id,
+        request.params.domain_id
       );
 
       if (data.modifiedCount == 0) {
@@ -917,15 +919,15 @@ export default class FreelancerController extends AuthController {
     request: FastifyRequest<{
       Params: GetFreelancerPathParams;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> getFreelancerOwnProjects -> Fetching freelancer own projects for ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> getFreelancerOwnProjects -> Fetching freelancer own projects for ID: ${request.params.freelancer_id}`
       );
 
       const data = await this.freelancerService.getFreelancerOwnProjects(
-        request.params.freelancer_id,
+        request.params.freelancer_id
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -934,7 +936,7 @@ export default class FreelancerController extends AuthController {
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -955,15 +957,15 @@ export default class FreelancerController extends AuthController {
     request: FastifyRequest<{
       Params: GetFreelancerPathParams;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> getFreelancerSkills -> Fetching freelancer skills for ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> getFreelancerSkills -> Fetching freelancer skills for ID: ${request.params.freelancer_id}`
       );
 
       const data = await this.freelancerService.getFreelancerSkills(
-        request.params.freelancer_id,
+        request.params.freelancer_id
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -972,7 +974,7 @@ export default class FreelancerController extends AuthController {
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -993,15 +995,15 @@ export default class FreelancerController extends AuthController {
     request: FastifyRequest<{
       Params: GetFreelancerPathParams;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> getFreelancerDomain -> Fetching freelancer domains for ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> getFreelancerDomain -> Fetching freelancer domains for ID: ${request.params.freelancer_id}`
       );
 
       const data = await this.freelancerService.getFreelancerDomains(
-        request.params.freelancer_id,
+        request.params.freelancer_id
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -1010,7 +1012,7 @@ export default class FreelancerController extends AuthController {
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -1034,27 +1036,27 @@ export default class FreelancerController extends AuthController {
       Params: GetFreelancerPathParams;
       Body: CreateDehixTalentBody;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> createDehixTalent -> Create Dehix Talent using ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> createDehixTalent -> Create Dehix Talent using ID: ${request.params.freelancer_id}`
       );
 
       const data = await this.freelancerService.createFreelancerDehixTalent(
         request.params.freelancer_id,
-        request.body,
+        request.body
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(
-        `Error in createFreelancerDehixTalent: ${error.message}`,
+        `Error in createFreelancerDehixTalent: ${error.message}`
       );
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -1075,16 +1077,16 @@ export default class FreelancerController extends AuthController {
   })
   async deleteDehixTalentFreelancer(
     request: FastifyRequest<{ Params: DeleteFreelancerDehixTalentPathParams }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> deleteDehixTalentFreelancer -> Deleting dehixTalent using ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> deleteDehixTalentFreelancer -> Deleting dehixTalent using ID: ${request.params.freelancer_id}`
       );
 
       const data = await this.freelancerService.deleteFreelancerDehixTalent(
         request.params.freelancer_id,
-        request.params.dehixTalent_id,
+        request.params.dehixTalent_id
       );
 
       reply
@@ -1092,12 +1094,12 @@ export default class FreelancerController extends AuthController {
         .send({ message: "dehixTalent deleted" });
     } catch (error: any) {
       this.logger.error(
-        `Error in deleteDehixTalentFreelancer: ${error.message}`,
+        `Error in deleteDehixTalentFreelancer: ${error.message}`
       );
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -1126,16 +1128,16 @@ export default class FreelancerController extends AuthController {
       Params: GetconsultantPathParams;
       Body: PostConsultantBody;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> createConsultant -> Creating consultant using ID: ${request.params.freelancer_id}`,
+        `FreelancerController -> createConsultant -> Creating consultant using ID: ${request.params.freelancer_id}`
       );
 
       const data = await this.freelancerService.createConsultant(
         request.params.freelancer_id,
-        request.body,
+        request.body
       );
       reply.status(STATUS_CODES.CREATED).send({ data });
     } catch (error: any) {
@@ -1143,7 +1145,7 @@ export default class FreelancerController extends AuthController {
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -1165,17 +1167,17 @@ export default class FreelancerController extends AuthController {
       Params: GetconsultantPathParams;
       Body: PutConsultantBody;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> updateConsultantById -> Updating consultant with ID: ${request.params.consultant_id}`,
+        `FreelancerController -> updateConsultantById -> Updating consultant with ID: ${request.params.consultant_id}`
       );
 
       const data = await this.freelancerService.updateConsultant(
         request.params.freelancer_id,
         request.params.consultant_id!,
-        request.body,
+        request.body
       );
       reply
         .status(STATUS_CODES.SUCCESS)
@@ -1185,7 +1187,7 @@ export default class FreelancerController extends AuthController {
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -1212,16 +1214,16 @@ export default class FreelancerController extends AuthController {
   @GET(FREELANCER_GET_CONSULTANT_BY_ID, { schema: getConsultantSchema })
   async getConsultantById(
     request: FastifyRequest<{ Params: GetconsultantPathParams }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> getConsultantById -> Retrieving consultant with ID: ${request.params.consultant_id}`,
+        `FreelancerController -> getConsultantById -> Retrieving consultant with ID: ${request.params.consultant_id}`
       );
 
       const data = await this.freelancerService.getConsultantById(
         request.params.freelancer_id,
-        request.params.consultant_id!,
+        request.params.consultant_id!
       );
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
@@ -1229,7 +1231,7 @@ export default class FreelancerController extends AuthController {
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -1258,16 +1260,16 @@ export default class FreelancerController extends AuthController {
   })
   async deleteConsultantById(
     request: FastifyRequest<{ Params: GetconsultantPathParams }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `FreelancerController -> deleteConsultantById -> Deleting consultant with ID: ${request.params.consultant_id}`,
+        `FreelancerController -> deleteConsultantById -> Deleting consultant with ID: ${request.params.consultant_id}`
       );
 
       await this.freelancerService.deleteConsultant(
         request.params.freelancer_id,
-        request.params.consultant_id!,
+        request.params.consultant_id!
       );
       reply
         .status(STATUS_CODES.SUCCESS)
@@ -1277,7 +1279,7 @@ export default class FreelancerController extends AuthController {
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -1303,22 +1305,22 @@ export default class FreelancerController extends AuthController {
   @PUT(NOT_INTERESTED_PROJECT, { schema: updateNotInterestedProjectSchema })
   async updateNotInterestedProject(
     request: FastifyRequest<{ Params: updateNotinterestedPathParams }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const data = await this.freelancerService.notInterestedProject(
         request.params.freelancer_id,
-        request.params.project_id,
+        request.params.project_id
       );
       reply.status(STATUS_CODES.SUCCESS).send({ message: "update sucessfull" });
     } catch (error: any) {
       this.logger.error(
-        `Error in updateNotInterestedProject: ${error.message}`,
+        `Error in updateNotInterestedProject: ${error.message}`
       );
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -1345,7 +1347,9 @@ export default class FreelancerController extends AuthController {
   @GET(ALL_DEHIX_TALENT_ENDPOINT, { schema: getAllDehixTalentSchema })
   async getAllDehixTalent(request: FastifyRequest, reply: FastifyReply) {
     try {
-      this.logger.info(`FreelancersController -> getAllDehixTalent -> Fetching dehix talent`);
+      this.logger.info(
+        `FreelancersController -> getAllDehixTalent -> Fetching dehix talent`
+      );
 
       const data = await this.freelancerService.getAllDehixTalent();
 
@@ -1365,6 +1369,51 @@ export default class FreelancerController extends AuthController {
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @GET(FREELANCER_DEHIX_TALENT_BY_ID, { schema: getFreelancerDehixTalentSchema })
+  async getFreelancerDehixTalent(
+    request: FastifyRequest<{
+      Params: GetFreelancerPathParams;
+    }>,
+    reply: FastifyReply
+  ) {
+    try {
+      this.logger.info(
+        `FreelancerController -> getFreelancerDehixTalent -> Fetching freelancer dehix talent for ID: ${request.params.freelancer_id}`
+      );
+
+      const data = await this.freelancerService.getFreelancerDehixTalent(
+        request.params.freelancer_id
+      );
+
+      if (!data || data.length === 0) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Dehix Talent"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getFreelancerDehixTalent: ${error.message}`);
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found."
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {

@@ -918,6 +918,27 @@ export class FreelancerService extends BaseService {
   
     return dehixTalent;
   }
+
+  async getFreelancerDehixTalent(freelancer_id: string) {
+    this.logger.info(
+      "FreelancerService: freelancer get dehix talent: ",
+      freelancer_id,
+    );
+
+    const userExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const data =
+      await this.FreelancerDAO.getFreelancerDehixTalent(freelancer_id);
+    this.logger.info(data, "in get freelancer projects");
+    return data;
+  }
 }
 /**
  * Service method for FREELANCER login
