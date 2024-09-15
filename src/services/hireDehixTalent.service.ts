@@ -5,11 +5,14 @@ import { NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { HireDAO } from "../dao/hireDehixTalent.dao";
 import { IHire } from "../models/hireDehixTalent.entity";
+import { businessDAO } from "../dao";
 
 @Service()
 export class HireService extends BaseService {
   @Inject(HireDAO)
   private HireDAO!: HireDAO;
+  @Inject(businessDAO)
+  private businessDAO!: businessDAO;
 
   async createhireDehixTalent(hireDehixTalent: IHire) {
     try {
@@ -56,6 +59,27 @@ export class HireService extends BaseService {
 
     const data =
       await this.HireDAO.deleteHireDehixTalentById(hireDehixTalent_id);
+    return data;
+  }
+
+  async getHireDehixTalentById(business_id: string) {
+    this.logger.info(
+      "HireService: getHireDehixTalent: get hire dehix talent: ",
+      business_id,
+    );
+
+    const userExist =
+      await this.businessDAO.findBusinessById(business_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.BUSINESS_NOT_FOUND,
+        ERROR_CODES.BUSINESS_NOT_FOUND,
+      );
+    }
+
+    const data =
+      await this.HireDAO.getHireDehixTalent(business_id);
+    this.logger.info(data, "in get Hire dehix Talent");
     return data;
   }
 }

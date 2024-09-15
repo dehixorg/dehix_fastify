@@ -13,7 +13,7 @@ export interface PutHireDehixTalentBody {
   experience: string;
   freelancerRequired: string;
   status: "added" | "approved" | "closed" | "completed";
-  visible: "on" | "off";
+  visible: boolean;
   freelancerApplied: any[];
   freelancerSelected: any[];
 }

@@ -10,12 +10,12 @@ export interface IHire extends Document {
   skillName: string;
   description: string;
   experience: string;
+  monthlyPay: string;
   freelancerRequired: number;
   status: string;
-  visible: string;
+  visible: boolean;
   freelancerApplied: string[];
   freelancerSelected: string[];
-  monthlyPay: number;
 }
 
 // Define the Hire schema
@@ -59,6 +59,9 @@ const hireSchema: Schema<IHire> = new Schema(
       type: String,
       required: true,
     },
+    monthlyPay: {
+      type: String,
+    },
     freelancerRequired: {
       type: Number,
       default: 1,
@@ -70,9 +73,7 @@ const hireSchema: Schema<IHire> = new Schema(
       default: "added",
     },
     visible: {
-      type: String,
-      enum: ["on", "off"],
-      default: "on",
+      type: Boolean,
     },
     freelancerApplied: [
       {
@@ -88,9 +89,6 @@ const hireSchema: Schema<IHire> = new Schema(
         required: false,
       },
     ],
-    monthlyPay: {
-      type: Number,
-    },
   },
   {
     timestamps: true, // Add createdAt and updatedAt fields

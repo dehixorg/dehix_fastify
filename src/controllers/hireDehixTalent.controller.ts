@@ -8,9 +8,9 @@ import {
 } from "../common/constants";
 import { AuthController } from "../common/auth.controller";
 import {
+  GET_HIRE_BY_ID_ENDPOINT,
   HIRE_CREATE_ENDPOINT,
   HIRE_DELETE_BY_ID_ENDPOINT,
-  HIRE_ENDPOINT,
   HIRE_UPDATE_BY_ID_ENDPOINT,
 } from "../constants/hireDehixTalent.constant";
 import { HireService } from "../services/hireDehixTalent.service";
@@ -22,8 +22,11 @@ import {
   PutHireDehixTalentPathParams,
 } from "../types/v1/hireDehixTalent/updateHireDehixTalent";
 import { deleteHireDehixTalentSchema } from "../schema/v1/hireDehixTalent/hireDehixTalent.delete";
+import { BUSINESS_END_POINT } from "../constants/business.constant";
+import { GetBusinessPathParams } from "../types/v1/business/getBusiness";
+import { getHireDehixTalentSchema } from "../schema/v1/hireDehixTalent/hireDehixTalent.get";
 
-@Controller({ route: HIRE_ENDPOINT })
+@Controller({ route: BUSINESS_END_POINT })
 export default class HireController extends AuthController {
   @Inject(HireService)
   hireService!: HireService;
@@ -100,6 +103,51 @@ export default class HireController extends AuthController {
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Hire Dehix Talent"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @GET(GET_HIRE_BY_ID_ENDPOINT, { schema: getHireDehixTalentSchema })
+  async getHireDehixTalentById(
+    request: FastifyRequest<{
+      Params: GetBusinessPathParams;
+    }>,
+    reply: FastifyReply
+  ) {
+    try {
+      this.logger.info(
+        `HireController -> getHireDehixTalentById -> Fetching hire dehix talent for BusinessID: ${request.params.business_id}`
+      );
+
+      const data = await this.hireService.getHireDehixTalentById(
+        request.params.business_id
+      );
+
+      if (!data || data.length === 0) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Hire Dehix Talent"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getHireDehixTalentById: ${error.message}`);
+      if (
+        error.ERROR_CODES === "BUSINESS_NOT_FOUND" ||
+        error.message.includes(
+          "Business with provided ID could not be found."
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {
