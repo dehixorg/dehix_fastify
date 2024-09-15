@@ -8,9 +8,10 @@ export interface IBid extends Document {
   userName: string;
   current_price: number;
   project_id: string;
-  domain_id: string; // Make sure to include domain_id in the interface
+  profile_id: string;
   bid_status: "Pending" | "Accepted" | "Rejected" | "Panel" | "Interview";
   description: string;
+  domain_id: string;
 }
 
 // Define the Bid schema
@@ -26,7 +27,6 @@ const BidSchema: Schema<IBid> = new Schema(
     },
     bidder_id: {
       type: String,
-      default: uuidv4, // Use uuidv4 for generating unique IDs
       required: true,
     },
     current_price: {
@@ -37,6 +37,9 @@ const BidSchema: Schema<IBid> = new Schema(
     project_id: {
       type: String,
       required: true,
+    },
+    profile_id: {
+      type: String,
     },
     domain_id: {
       type: String,
@@ -51,8 +54,8 @@ const BidSchema: Schema<IBid> = new Schema(
     },
   },
   {
-    timestamps: true, // Add createdAt and updatedAt fields
-    versionKey: false, // Disable __v versioning field
+    timestamps: true,
+    versionKey: false,
   },
 );
 

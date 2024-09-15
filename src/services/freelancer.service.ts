@@ -904,18 +904,22 @@ export class FreelancerService extends BaseService {
   }
 
   async getAllDehixTalent() {
-    this.logger.info("SkillsService: getAllDehixTalent: Fetching All dehix talent ");
-  
+    this.logger.info(
+      "SkillsService: getAllDehixTalent: Fetching All dehix talent ",
+    );
+
     const dehixTalent: any = await this.FreelancerDAO.getAllDehixTalent();
-  
+
     if (!dehixTalent || dehixTalent.length === 0) {
-      this.logger.error("FreelancerServices: getAllDehixTalent: Dehix talent not found ");
+      this.logger.error(
+        "FreelancerServices: getAllDehixTalent: Dehix talent not found ",
+      );
       throw new NotFoundError(
         RESPONSE_MESSAGE.NOT_FOUND("Dehix Talent"),
         ERROR_CODES.NOT_FOUND,
       );
     }
-  
+
     return dehixTalent;
   }
 }

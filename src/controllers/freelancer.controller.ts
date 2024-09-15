@@ -1345,7 +1345,9 @@ export default class FreelancerController extends AuthController {
   @GET(ALL_DEHIX_TALENT_ENDPOINT, { schema: getAllDehixTalentSchema })
   async getAllDehixTalent(request: FastifyRequest, reply: FastifyReply) {
     try {
-      this.logger.info(`FreelancersController -> getAllDehixTalent -> Fetching dehix talent`);
+      this.logger.info(
+        `FreelancersController -> getAllDehixTalent -> Fetching dehix talent`,
+      );
 
       const data = await this.freelancerService.getAllDehixTalent();
 
