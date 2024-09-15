@@ -193,46 +193,46 @@ export class BusinessService extends BaseService {
         "BusinessService: business get projects by id",
         project_id,
       );
-  
+
       const data = await this.businessDao.getProjectById(project_id);
-  
+
       if (!data) {
         throw new NotFoundError(
           RESPONSE_MESSAGE.PROJECT_NOT_FOUND,
           ERROR_CODES.BUSINESS_PROJECT_NOT_FOUND,
         );
       }
-  
+
       const projectData = data.toObject();
-  
+
       // Check if profiles exist and are an array
       if (!data.profiles || !Array.isArray(data.profiles)) {
         throw new Error(
           "Profiles data is missing or not in the expected format",
         );
       }
-  
+
       // Map over profiles and resolve the promises using Promise.all
       const alreadyApplied = await Promise.all(
         data.profiles.map(async (profile: any) => {
           const existence = profile.totalBid?.some(
-            (id: string) => id === freelancer_id
+            (id: string) => id === freelancer_id,
           );
-          
+
           // Set the message if the freelancer has already applied
           const message = existence ? "Already Applied" : null;
-          
+
           return {
             _id: profile._id,
             exist: existence,
             message: message,
           };
-        })
+        }),
       );
-  
+
       // Filter profiles where the freelancer has already applied
       const appliedProfiles = alreadyApplied.filter((profile) => profile.exist);
-  
+
       // If any profiles have an application, return the message and applied data
       if (appliedProfiles.length > 0) {
         return {
@@ -241,7 +241,7 @@ export class BusinessService extends BaseService {
           message: "Freelancer has already applied to one or more profiles.",
         };
       }
-  
+
       // Return project data if no application was found
       return { data: projectData };
     } catch (error) {
@@ -249,7 +249,6 @@ export class BusinessService extends BaseService {
       throw error;
     }
   }
-  
 
   async getBusinessProjectsById(
     business_id: string,
