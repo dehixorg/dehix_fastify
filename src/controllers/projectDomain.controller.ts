@@ -33,15 +33,15 @@ export default class ProjectDomainController extends AuthController {
   @POST(PROJECT_DOMAIN_ID_ENDPOINT, { schema: createProjectDomainSchema })
   async createProjectDomain(
     request: FastifyRequest<{ Body: CreateProjectDomainBody }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `ProjectDomainController -> createProjectDomain -> Creating project-domain`
+        `ProjectDomainController -> createProjectDomain -> Creating project-domain`,
       );
 
       const data = await this.projectDomainService.createProjectDomain(
-        request.body
+        request.body,
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -59,14 +59,14 @@ export default class ProjectDomainController extends AuthController {
   })
   async deleteProjectDomainById(
     request: FastifyRequest<{ Params: DeleteProjectDomainPathParams }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `ProjectDomainController -> deleteProjectDomainById -> Deleting ProjectDomain using: ${request.params.projectDomain_id}`
+        `ProjectDomainController -> deleteProjectDomainById -> Deleting ProjectDomain using: ${request.params.projectDomain_id}`,
       );
       await this.projectDomainService.deleteProjectDomainById(
-        request.params.projectDomain_id
+        request.params.projectDomain_id,
       );
 
       reply
@@ -95,7 +95,7 @@ export default class ProjectDomainController extends AuthController {
   async getallProjectDomain(request: FastifyRequest, reply: FastifyReply) {
     try {
       this.logger.info(
-        `projectDomainController -> getallProjectDomain -> Fetching project domain`
+        `projectDomainController -> getallProjectDomain -> Fetching project domain`,
       );
 
       const data = await this.projectDomainService.getAllProjectDomain();
@@ -117,17 +117,19 @@ export default class ProjectDomainController extends AuthController {
     }
   }
 
-  @PUT(DELETE_PROJECT_DOMAIN_BY_ID_ENDPOINT, { schema: updateProjectDomainSchema })
+  @PUT(DELETE_PROJECT_DOMAIN_BY_ID_ENDPOINT, {
+    schema: updateProjectDomainSchema,
+  })
   async updateProjectDomain(
     request: FastifyRequest<{
       Params: PutProjectDomainPathParams;
       Body: PutProjectDomainBody;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `ProjectDomainController -> updateProjectDomain -> Updating ProjectDomain using: ${request.params.projectDomain_id}`
+        `ProjectDomainController -> updateProjectDomain -> Updating ProjectDomain using: ${request.params.projectDomain_id}`,
       );
 
       const data = await this.projectDomainService.updateProjectDomain(
