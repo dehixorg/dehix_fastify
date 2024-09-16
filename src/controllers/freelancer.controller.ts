@@ -1,6 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import fastify, { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, DELETE, GET, Inject, PATCH, POST, PUT } from "fastify-decorators";
+import {
+  Controller,
+  DELETE,
+  GET,
+  Inject,
+  PATCH,
+  POST,
+  PUT,
+} from "fastify-decorators";
 import { FreelancerService } from "../services";
 import {
   STATUS_CODES,
@@ -116,7 +124,10 @@ import { PutConsultantBody } from "../types/v1/freelancer/updateConsultant";
 import { getConsultantSchema } from "../schema/v1/consultant/consultant.get";
 import { deleteConsultantSchema } from "../schema/v1/consultant/consultant.delete";
 import { updateNotinterestedPathParams } from "../types/v1/freelancer/updateNotInterestedProject";
-import { DehicTalentPathParams, PutDehixTalentBody } from "../types/v1/freelancer/updateDehixTalent";
+import {
+  DehicTalentPathParams,
+  PutDehixTalentBody,
+} from "../types/v1/freelancer/updateDehixTalent";
 
 @Controller({ route: FREELANCER_ENDPOINT })
 export default class FreelancerController extends AuthController {
@@ -1046,12 +1057,15 @@ export default class FreelancerController extends AuthController {
         `FreelancerController -> createDehixTalent -> Create Dehix Talent using ID: ${request.params.freelancer_id}`
       );
 
-      const data = await this.freelancerService.createFreelancerDehixTalent(
-        request.params.freelancer_id,
-        request.body
-      );
+      // Call the service to create Dehix talent
+      const createdTalent =
+        await this.freelancerService.createFreelancerDehixTalent(
+          request.params.freelancer_id,
+          request.body
+        );
 
-      reply.status(STATUS_CODES.SUCCESS).send({ data });
+      // Send the created Dehix talent in the response
+      reply.status(STATUS_CODES.SUCCESS).send({ data: createdTalent });
     } catch (error: any) {
       this.logger.error(
         `Error in createFreelancerDehixTalent: ${error.message}`
@@ -1383,7 +1397,9 @@ export default class FreelancerController extends AuthController {
     }
   }
 
-  @GET(FREELANCER_DEHIX_TALENT_BY_ID, { schema: getFreelancerDehixTalentSchema })
+  @GET(FREELANCER_DEHIX_TALENT_BY_ID, {
+    schema: getFreelancerDehixTalentSchema,
+  })
   async getFreelancerDehixTalent(
     request: FastifyRequest<{
       Params: GetFreelancerPathParams;
@@ -1428,7 +1444,9 @@ export default class FreelancerController extends AuthController {
     }
   }
 
-  @PATCH(FREELANCER_DEHIX_TALENT_UPDATE_BY_ID, { schema: updateDehixTalentSchema })
+  @PATCH(FREELANCER_DEHIX_TALENT_UPDATE_BY_ID, {
+    schema: updateDehixTalentSchema,
+  })
   async updateDehixTalentById(
     request: FastifyRequest<{
       Params: DehicTalentPathParams;
