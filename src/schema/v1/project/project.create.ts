@@ -17,6 +17,12 @@ export const createProjectSchema: FastifySchema = {
       projectName: {
         type: "string",
       },
+      projectDomain: {
+        type: "array",
+        items: {
+          type: "string",
+        },
+      },
       description: {
         type: "string",
       },

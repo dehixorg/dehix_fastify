@@ -4,6 +4,7 @@ export interface PutProjectPathParams {
 export interface PutProjectBody {
   _id: string;
   projectName: string;
+  projectDomain: string[];
   description: string;
   email: string;
   verified?: any;
