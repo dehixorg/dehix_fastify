@@ -14,9 +14,12 @@ import {
   BUSINESS_UPDATE_END_POINT,
   CREATE_BUSINESS_PROJECT_END_POINT,
   DELETE_BUSINESS_PROJECT_END_POINT,
+  DELETE_PROJECT_PROFILE_BY_ID,
   GET_ALL_BUSINESS_PROJECT_END_POINT,
   GET_BUSINESS_PROJECT_BY_ID,
   GET_BUSINESS_SINGLE_PROJECT_BY_ID,
+  GET_BUSINESS_SINGLE_PROJECT_PROFILE_BY_ID,
+  UPDATE_BUSINESS_PROJECT_PROFILE_BY_ID,
 } from "../constants/business.constant";
 import {
   getBusinessProjectSchema,
@@ -39,7 +42,16 @@ import {
 import { createProjectSchema } from "../schema/v1/project/project.create";
 import { deleteProjectSchema } from "../schema/v1/project/project.delete";
 import { GetBusinessProjectQueryParams } from "../types/v1/business/getProjectStatus";
-import { GetBusinessProjectForFreelancerPathParams } from "src/types/v1/business/getBusinessProjectForFreelancer";
+import { GetBusinessProjectForFreelancerPathParams } from "../types/v1/business/getBusinessProjectForFreelancer";
+import { getProjectProfileByIdSchema } from "../schema/v1/projectProfile/profile.get";
+import { GetProjectProfilePathParams } from "../types/v1/projectProfile/getProfile";
+import { updateProjectProfileByIdSchema } from "../schema/v1/projectProfile/profile.update";
+import {
+  UpdateProjectProfileBody,
+  UpdateProjectProfilePathParams,
+} from "../types/v1/projectProfile/updateProfile";
+import { deleteProjectProfileByIdSchema } from "../schema/v1/projectProfile/profile.delete";
+import { DeleteProjectProfilePathParams } from "../types/v1/projectProfile/deleteProfile";
 
 @Controller({ route: BUSINESS_END_POINT })
 export default class BusinessController extends AuthController {
@@ -333,6 +345,181 @@ export default class BusinessController extends AuthController {
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+  @GET(GET_BUSINESS_SINGLE_PROJECT_PROFILE_BY_ID, {
+    schema: getProjectProfileByIdSchema,
+  })
+  async getProjectProfileById(
+    request: FastifyRequest<{ Params: GetProjectProfilePathParams }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `Fetching project profile with ID ${request.params.profile_id}`,
+      );
+
+      const data = await this.BusinessService.getProjectProfileById(
+        request.params.project_id,
+        request.params.profile_id,
+      );
+
+      if (!data) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Profile"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error fetching profile: ${error.message}`);
+      if (
+        error.code === ERROR_CODES.NOT_FOUND ||
+        error.message.includes("Data not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else if (
+        error.ERROR_CODES === "PROJECT_NOT_FOUND" ||
+        error.message.includes("Project by provided ID was not found.")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+  @PUT(UPDATE_BUSINESS_PROJECT_PROFILE_BY_ID, {
+    schema: updateProjectProfileByIdSchema,
+  })
+  async updateProjectProfileById(
+    request: FastifyRequest<{
+      Params: UpdateProjectProfilePathParams;
+      Body: UpdateProjectProfileBody;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `Updating project profile with ID ${request.params.profile_id}`,
+      );
+
+      const data = await this.BusinessService.updateProjectProfileById(
+        request.params.project_id,
+        request.params.profile_id,
+        request.body,
+      );
+
+      if (!data) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Profile"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "update sucessfull" });
+    } catch (error: any) {
+      this.logger.error(`Error updating profile: ${error.message}`);
+      if (
+        error.code === ERROR_CODES.NOT_FOUND ||
+        error.message.includes("Data not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else if (
+        error.ERROR_CODES === "PROJECT_NOT_FOUND" ||
+        error.message.includes("Project by provided ID was not found.")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Profile by provided ID was not found.")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+  @DELETE(DELETE_PROJECT_PROFILE_BY_ID, {
+    schema: deleteProjectProfileByIdSchema,
+  })
+  async deleteProjectProfileById(
+    request: FastifyRequest<{ Params: DeleteProjectProfilePathParams }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `Deleting project profile with ID ${request.params.profile_id}`,
+      );
+
+      const deleted = await this.BusinessService.deleteProjectProfileById(
+        request.params.project_id,
+        request.params.profile_id,
+      );
+
+      if (!deleted) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Profile"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+
+      reply.status(STATUS_CODES.SUCCESS).send({
+        message: "Profile deleted",
+      });
+    } catch (error: any) {
+      this.logger.error(`Error deleting profile: ${error.message}`);
+      if (
+        error.code === ERROR_CODES.NOT_FOUND ||
+        error.message.includes("Data not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else if (
+        error.ERROR_CODES === "PROJECT_NOT_FOUND" ||
+        error.message.includes("Project by provided ID was not found.")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Profile by provided ID was not found.")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {
