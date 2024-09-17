@@ -254,10 +254,72 @@ export class BusinessService extends BaseService {
       this.logger.error("BusinessService: getAllProject: project not found ");
       throw new NotFoundError(
         RESPONSE_MESSAGE.NOT_FOUND("Project"),
-        ERROR_CODES.FREELANCER_NOT_FOUND,
+        ERROR_CODES.BUSINESS_PROJECT_NOT_FOUND,
       );
     }
 
     return projects;
+  }
+  async getProjectProfileById(project_id:string,profile_id:string){
+    this.logger.info("BusinessService: business get projects profile by id",profile_id );
+
+    const projectExits= await this.ProjectDAO.getBusinessProjectsById(project_id);
+    if (!projectExits) {
+      this.logger.error("BusinessService: getProjectProfileById: project not found ");
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Project"),
+        ERROR_CODES.BUSINESS_PROJECT_NOT_FOUND,
+      );
+    }
+    this.logger.info("testinggg>>>>>>>>>>>>>>>>>>",project_id,profile_id)
+    const data= await this.ProjectDAO.getProjectProfileById(project_id,profile_id)
+    this.logger.error("testing>>>>>>>>>>>>>>>>>>",data);
+    return data
+  }
+
+  async updateProjectProfileById(project_id:string,profile_id:string,update:any){
+    this.logger.info("BusinessService:updateProjectProfileById: business update projects profile by id",profile_id );
+    const projectExits= await this.ProjectDAO.getBusinessProjectsById(project_id);
+    if (!projectExits) {
+      this.logger.error("BusinessService: getProjectProfileById: project not found ");
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Project"),
+        ERROR_CODES.BUSINESS_PROJECT_NOT_FOUND,
+      );
+    }
+    const profileExist= await this.ProjectDAO.getProjectProfileById(project_id,profile_id);
+    
+   
+    if (!profileExist || !profileExist.profiles || profileExist.profiles.length === 0) {
+      this.logger.error("BusinessService: getProjectProfileById: profile not found");
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Profile"),
+        ERROR_CODES.NOT_FOUND
+      );
+    }
+    const data= await this.ProjectDAO.updateProjectProfileById(project_id,profile_id,update);
+    return data;
+
+  }
+  async deleteProjectProfileById(project_id:string,profile_id:string){
+    this.logger.info("BusinessService:deleteProjectProfileById: business delete projects profile by id",profile_id );
+    const projectExits= await this.ProjectDAO.getBusinessProjectsById(project_id);
+    if (!projectExits) {
+      this.logger.error("BusinessService: getProjectProfileById: project not found ");
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Project"),
+        ERROR_CODES.BUSINESS_PROJECT_NOT_FOUND,
+      );
+    }
+    const profileExist= await this.ProjectDAO.getProjectProfileById(project_id,profile_id);
+    if (!profileExist || !profileExist.profiles || profileExist.profiles.length === 0) {
+      this.logger.error("BusinessService: getProjectProfileById: profile not found");
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Profile"),
+        ERROR_CODES.NOT_FOUND
+      );
+    }
+    const data= await this.ProjectDAO.deleteProjectProfileById(project_id,profile_id);
+    return data;
   }
 }
