@@ -56,36 +56,34 @@ export class ProjectDAO extends BaseDAO {
     }
   }
 
-  async getProjectProfileById( project_id: string,profile_id: string) {
+  async getProjectProfileById(project_id: string, profile_id: string) {
     return this.model.findOne(
       { _id: project_id },
-      { profiles: { $elemMatch: { _id: profile_id } } } 
+      { profiles: { $elemMatch: { _id: profile_id } } },
     );
   }
   async deleteProjectProfileById(project_id: string, profile_id: string) {
     return this.model.findOneAndUpdate(
       { _id: project_id },
-      { $pull: { profiles: { _id: profile_id } } }, 
-      { new: true } 
+      { $pull: { profiles: { _id: profile_id } } },
+      { new: true },
     );
   }
-  
+
   async updateProjectProfileById(
     project_id: string,
     profile_id: string,
-    update: any
+    update: any,
   ) {
     const updateFields = Object.keys(update).reduce((acc, key) => {
       acc[`profiles.$.${key}`] = update[key];
       return acc;
     }, {});
-  
+
     return this.model.findOneAndUpdate(
       { _id: project_id, "profiles._id": profile_id },
-      { $set: updateFields }, 
-      { new: true }
+      { $set: updateFields },
+      { new: true },
     );
   }
-  
-  
 }

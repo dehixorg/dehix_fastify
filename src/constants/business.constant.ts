@@ -12,6 +12,9 @@ export const GET_BUSINESS_SINGLE_PROJECT_BY_ID = "/:project_id/project";
 export const ALL_PROJECT_ENDPOINT = "/all_projects";
 
 // project profile
- export const UPDATE_BUSINESS_PROJECT_PROFILE_BY_ID = "/:project_id/:profile_id/project/profile";
-export const GET_BUSINESS_SINGLE_PROJECT_PROFILE_BY_ID = "/:project_id/:profile_id/project/profile";
-export const DELETE_PROJECT_PROFILE_BY_ID = "/:project_id/:profile_id/project/profile";
+export const UPDATE_BUSINESS_PROJECT_PROFILE_BY_ID =
+  "/:project_id/:profile_id/project/profile";
+export const GET_BUSINESS_SINGLE_PROJECT_PROFILE_BY_ID =
+  "/:project_id/:profile_id/project/profile";
+export const DELETE_PROJECT_PROFILE_BY_ID =
+  "/:project_id/:profile_id/project/profile";
