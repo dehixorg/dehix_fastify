@@ -248,3 +248,38 @@ export const getAllDehixTalentSchema: FastifySchema = {
     },
   },
 };
+
+export const getFreelancerDehixTalentSchema: FastifySchema = {
+  description: "API to get freelancer dehix talent data",
+  tags: ["Freelancer"],
+  response: {
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};

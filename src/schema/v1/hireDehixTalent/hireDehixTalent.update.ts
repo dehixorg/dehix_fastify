@@ -37,9 +37,7 @@ export const UpdateHireDehixTalent: FastifySchema = {
         default: "added",
       },
       visible: {
-        type: "string",
-        enum: ["on", "off"],
-        default: "on",
+        type: "boolean",
       },
       freelancerApplied: {
         type: "array",
@@ -104,9 +102,7 @@ export const UpdateHireDehixTalent: FastifySchema = {
               default: "added",
             },
             visible: {
-              type: "string",
-              enum: ["on", "off"],
-              default: "on",
+              type: "boolean",
             },
             freelancerApplied: {
               type: "array",

@@ -6,10 +6,6 @@ export const createhireDehixTalentSchema: FastifySchema = {
   body: {
     type: "object",
     properties: {
-      _id: {
-        type: "string",
-        format: "uuid",
-      },
       businessId: {
         type: "string",
       },
@@ -41,9 +37,7 @@ export const createhireDehixTalentSchema: FastifySchema = {
         default: "added",
       },
       visible: {
-        type: "string",
-        enum: ["on", "off"],
-        default: "on",
+        type: "boolean",
       },
       freelancerApplied: {
         type: "array",
@@ -69,7 +63,6 @@ export const createhireDehixTalentSchema: FastifySchema = {
       "businessId",
       "description",
       "experience",
-      "freelancerRequired",
       "status",
       "visible",
     ],

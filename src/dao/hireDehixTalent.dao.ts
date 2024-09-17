@@ -29,4 +29,15 @@ export class HireDAO extends BaseDAO {
   async deleteHireDehixTalentById(id: string) {
     return this.model.findByIdAndDelete(id);
   }
+
+  async getHireDehixTalent(business_id: string) {
+    try {
+      // Query the HireModel for all records that match the business_id
+      const hires = await this.model.find({ businessId: business_id });
+      return hires;
+    } catch (error) {
+      console.error("Error in getHireByBusinessId:", error);
+      throw new Error("Could not retrieve Hire records");
+    }
+  }
 }
