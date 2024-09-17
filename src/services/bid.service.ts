@@ -185,4 +185,18 @@ export class BidService extends BaseService {
 
     return data;
   }
+  async getAllBidByProjectProfile(project_id: string, profile_id: string) {
+    this.logger.info("BidService: getAllBidByProjectProfile: Fetching All Bids ");
+    const projectExist = await this.ProjectDao.getProjectById(project_id);
+
+    if (!projectExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.PROJECT_NOT_FOUND_BY_ID,
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+    const data = await this.BidDAO.getBidByProjectProfile(profile_id);
+
+    return data;
+  }
 }
