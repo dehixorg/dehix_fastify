@@ -151,3 +151,33 @@ export const getAllBidsSchema: FastifySchema = {
     },
   },
 };
+
+export const getBidForProfileIdSchema: FastifySchema = {
+  description: "API to get Bid data using profile id",
+  tags: ["Bid"],
+  params: {
+    type: "object",
+    properties: {
+    profile_id: { type: "string" },
+    project_id: { type: "string" },
+    },
+    required: ["profile_id"],
+  },
+  response: {
+   
+    404: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+        code: { type: "string" },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+        code: { type: "string" },
+      },
+    },
+  },
+};

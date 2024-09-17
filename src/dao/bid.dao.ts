@@ -78,4 +78,7 @@ export class BidDAO extends BaseDAO {
   async getBidByProject(project_id: string) {
     return this.model.find({ project_id: project_id });
   }
+  async getBidByProjectProfile(profile_id: string) {
+    return this.model.find({ profile_id:profile_id });
+  }
 }
