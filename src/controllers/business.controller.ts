@@ -299,6 +299,7 @@ export default class BusinessController extends AuthController {
       );
       const data = await this.BusinessService.getSingleProjectById(
         request.params.project_id,
+        request.params.freelancer_id,
       );
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
