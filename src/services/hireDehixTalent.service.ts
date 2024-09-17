@@ -68,8 +68,7 @@ export class HireService extends BaseService {
       business_id,
     );
 
-    const userExist =
-      await this.businessDAO.findBusinessById(business_id);
+    const userExist = await this.businessDAO.findBusinessById(business_id);
     if (!userExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.BUSINESS_NOT_FOUND,
@@ -77,8 +76,7 @@ export class HireService extends BaseService {
       );
     }
 
-    const data =
-      await this.HireDAO.getHireDehixTalent(business_id);
+    const data = await this.HireDAO.getHireDehixTalent(business_id);
     this.logger.info(data, "in get Hire dehix Talent");
     return data;
   }

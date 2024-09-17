@@ -304,12 +304,12 @@ export class BusinessService extends BaseService {
         ERROR_CODES.BUSINESS_PROJECT_NOT_FOUND,
       );
     }
-   
+
     const data = await this.ProjectDAO.getProjectProfileById(
       project_id,
       profile_id,
     );
-    
+
     return data;
   }
 

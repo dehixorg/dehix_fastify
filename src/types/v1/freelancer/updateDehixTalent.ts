@@ -3,7 +3,6 @@ export interface DehicTalentPathParams {
   dehixTalent_id: string;
 }
 
-
 export interface PutDehixTalentBody {
   status?: "pending" | "verified" | "rejected";
   activeStatus?: boolean;

@@ -59,13 +59,7 @@ export const createhireDehixTalentSchema: FastifySchema = {
         type: "string",
       },
     },
-    required: [
-      "businessId",
-      "description",
-      "experience",
-      "status",
-      "visible",
-    ],
+    required: ["businessId", "description", "experience", "status", "visible"],
   },
   response: {
     200: {

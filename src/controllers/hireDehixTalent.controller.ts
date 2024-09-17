@@ -119,15 +119,15 @@ export default class HireController extends AuthController {
     request: FastifyRequest<{
       Params: GetBusinessPathParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `HireController -> getHireDehixTalentById -> Fetching hire dehix talent for BusinessID: ${request.params.business_id}`
+        `HireController -> getHireDehixTalentById -> Fetching hire dehix talent for BusinessID: ${request.params.business_id}`,
       );
 
       const data = await this.hireService.getHireDehixTalentById(
-        request.params.business_id
+        request.params.business_id,
       );
 
       if (!data || data.length === 0) {
@@ -142,9 +142,7 @@ export default class HireController extends AuthController {
       this.logger.error(`Error in getHireDehixTalentById: ${error.message}`);
       if (
         error.ERROR_CODES === "BUSINESS_NOT_FOUND" ||
-        error.message.includes(
-          "Business with provided ID could not be found."
-        )
+        error.message.includes("Business with provided ID could not be found.")
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
