@@ -397,7 +397,7 @@ export default class BidController extends AuthController {
   ) {
     try {
       this.logger.info(
-        `BidController -> GetAllBidsByProjectId -> Fetching bids`,
+        `BidController -> GetAllBidsByProjectProfileId-> Fetching bids`,
       );
       const data = await this.bidService.getAllBidByProjectProfile(
         request.params.project_id,
