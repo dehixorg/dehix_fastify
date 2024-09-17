@@ -158,13 +158,12 @@ export const getBidForProfileIdSchema: FastifySchema = {
   params: {
     type: "object",
     properties: {
-    profile_id: { type: "string" },
-    project_id: { type: "string" },
+      profile_id: { type: "string" },
+      project_id: { type: "string" },
     },
     required: ["profile_id"],
   },
   response: {
-   
     404: {
       type: "object",
       properties: {

@@ -388,7 +388,9 @@ export default class BidController extends AuthController {
       }
     }
   }
-  @GET(GET_BID_BY_PROJECT_PROFILE_END_POINT, { schema: getBidForProfileIdSchema })
+  @GET(GET_BID_BY_PROJECT_PROFILE_END_POINT, {
+    schema: getBidForProfileIdSchema,
+  })
   async GetAllBidsByProjectProfileId(
     request: FastifyRequest<{ Params: GetBidByProjectIdPathParams }>,
     reply: FastifyReply,
@@ -398,7 +400,8 @@ export default class BidController extends AuthController {
         `BidController -> GetAllBidsByProjectId -> Fetching bids`,
       );
       const data = await this.bidService.getAllBidByProjectProfile(
-        request.params.project_id,request.params.profile_id
+        request.params.project_id,
+        request.params.profile_id,
       );
       reply.status(STATUS_CODES.SUCCESS).send({ data: data });
     } catch (error: any) {

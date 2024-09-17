@@ -185,7 +185,7 @@ export class BidService extends BaseService {
 
     return data;
   }
-  async getAllBidByProjectProfile(project_id: string,profile_id:string) {
+  async getAllBidByProjectProfile(project_id: string, profile_id: string) {
     this.logger.info("BidService: getAllBidByProject: Fetching All Bids ");
     const projectExist = await this.ProjectDao.getProjectById(project_id);
 
