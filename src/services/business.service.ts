@@ -277,12 +277,12 @@ export class BusinessService extends BaseService {
         ERROR_CODES.BUSINESS_PROJECT_NOT_FOUND,
       );
     }
-    this.logger.info("testinggg>>>>>>>>>>>>>>>>>>", project_id, profile_id);
+   
     const data = await this.ProjectDAO.getProjectProfileById(
       project_id,
       profile_id,
     );
-    this.logger.error("testing>>>>>>>>>>>>>>>>>>", data);
+    
     return data;
   }
 
