@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 export interface IProject extends Document {
   _id: string;
   projectName: string;
+  projectDomain: string[];
   description: string;
   companyId: string;
   email: string;
@@ -45,6 +46,10 @@ const ProjectSchema: Schema<IProject> = new Schema(
     },
     projectName: {
       type: String,
+      required: true,
+    },
+    projectDomain: {
+      type: [String],
       required: true,
     },
     description: {
