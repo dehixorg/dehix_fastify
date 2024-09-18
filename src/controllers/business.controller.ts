@@ -39,7 +39,7 @@ import { IProject } from "../models/project.entity";
 import {
   getAllProjectsSchema,
   getProjectSchema,
-  getProjectsAndBidsSchema
+  getProjectsAndBidsSchema,
 } from "../schema/v1/project/project.get";
 import { createProjectSchema } from "../schema/v1/project/project.create";
 import { deleteProjectSchema } from "../schema/v1/project/project.delete";
@@ -535,7 +535,9 @@ export default class BusinessController extends AuthController {
     }
   }
 
-  @GET(GET_PROJECT_AND_BIDS_DATA_BY_PROJECT_ID, { schema: getProjectsAndBidsSchema })
+  @GET(GET_PROJECT_AND_BIDS_DATA_BY_PROJECT_ID, {
+    schema: getProjectsAndBidsSchema,
+  })
   async getProjectAndBidsDataByProjectId(
     request: FastifyRequest<{ Params: getProjectPathParams }>,
     reply: FastifyReply,
@@ -558,7 +560,9 @@ export default class BusinessController extends AuthController {
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
-      this.logger.error(`Error in getProjectAndBidsDataByProjectId: ${error.message}`);
+      this.logger.error(
+        `Error in getProjectAndBidsDataByProjectId: ${error.message}`,
+      );
       console.log("Error codes->>>>>>>>>>>>>", error.ERROR_CODES);
       if (
         error.ERROR_CODES === "PROJECT_NOT_FOUND" ||

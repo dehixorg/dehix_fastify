@@ -89,7 +89,6 @@ export class ProjectDAO extends BaseDAO {
   }
 
   async getProjectAndBidsData(project_id: string) {
-
     // const project = await ProjectModel.findById(project_id);
     // const bids = await BidModel.find({ project_id });
     // return {
@@ -97,7 +96,7 @@ export class ProjectDAO extends BaseDAO {
     //   bids,
     // };
 
-    return this.model.aggregate([ 
+    return this.model.aggregate([
       { $match: { _id: project_id } },
       {
         $lookup: {
@@ -109,5 +108,4 @@ export class ProjectDAO extends BaseDAO {
       },
     ]);
   }
-    
 }
