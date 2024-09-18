@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import fastify, { FastifyRequest, FastifyReply } from "fastify";
+import { FastifyRequest, FastifyReply } from "fastify";
 import {
   Controller,
   DELETE,
@@ -26,7 +26,6 @@ import {
 import {
   FREELANCER_ENDPOINT,
   FREELANCER_ID_ENDPOINT,
-  FREELANCER_CREATE_ENDPOINT,
   FREELANCER_PROJECT_DELETE_BY_ID,
   FREELANCER_SKILLS_ADD_BY_ID,
   FREELANCER_SKILL_DELETE_BY_ID,
@@ -452,7 +451,7 @@ export default class FreelancerController extends AuthController {
         `FreelancerController -> deleteExperienceFreelancer -> Deleting experience using ID: ${request.params.freelancer_id}`,
       );
 
-      const data = await this.freelancerService.deleteFreelancerExperience(
+      await this.freelancerService.deleteFreelancerExperience(
         request.params.freelancer_id,
         request.params.experience_id,
       );
@@ -633,7 +632,7 @@ export default class FreelancerController extends AuthController {
         `FreelancerController -> deleteEducationFreelancer -> Deleting education using ID: ${request.params.freelancer_id}`,
       );
 
-      const data = await this.freelancerService.deleteFreelancerEducation(
+      await this.freelancerService.deleteFreelancerEducation(
         request.params.freelancer_id,
         request.params.education_id,
       );
@@ -769,7 +768,7 @@ export default class FreelancerController extends AuthController {
         `FreelancerController -> deleteProjectById -> Deleting project using ID: ${request.params.freelancer_id}`,
       );
 
-      const data = await this.freelancerService.deleteFreelancerProject(
+      await this.freelancerService.deleteFreelancerProject(
         request.params.freelancer_id,
         request.params.project_id,
       );
@@ -1101,7 +1100,7 @@ export default class FreelancerController extends AuthController {
         `FreelancerController -> deleteDehixTalentFreelancer -> Deleting dehixTalent using ID: ${request.params.freelancer_id}`,
       );
 
-      const data = await this.freelancerService.deleteFreelancerDehixTalent(
+      await this.freelancerService.deleteFreelancerDehixTalent(
         request.params.freelancer_id,
         request.params.dehixTalent_id,
       );
@@ -1191,7 +1190,7 @@ export default class FreelancerController extends AuthController {
         `FreelancerController -> updateConsultantById -> Updating consultant with ID: ${request.params.consultant_id}`,
       );
 
-      const data = await this.freelancerService.updateConsultant(
+      await this.freelancerService.updateConsultant(
         request.params.freelancer_id,
         request.params.consultant_id!,
         request.body,
@@ -1325,7 +1324,7 @@ export default class FreelancerController extends AuthController {
     reply: FastifyReply,
   ) {
     try {
-      const data = await this.freelancerService.notInterestedProject(
+      await this.freelancerService.notInterestedProject(
         request.params.freelancer_id,
         request.params.project_id,
       );

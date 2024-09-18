@@ -1,34 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, GET, Inject, POST, DELETE, PUT } from "fastify-decorators";
-import { SkillsService } from "../services/skills.service";
+import { Controller, GET, Inject, POST, DELETE } from "fastify-decorators";
 import {
   STATUS_CODES,
   ERROR_CODES,
   RESPONSE_MESSAGE,
 } from "../common/constants";
 
-import {
-  SKILLS_ENDPOINT,
-  SKILLS_ALL_ENDPOINT,
-  SKILLS_DELETE_BY_ID_ENDPOINT,
-  SKILLS_ID_ENDPOINT,
-  SKILLS_BY_ID_ENDPOINT,
-} from "../constants/skills.constant";
-
-import { getSkillsSchema } from "../schema/v1/skills/skills.getAll";
 import { AuthController } from "../common/auth.controller";
-import { createSkillSchema } from "../schema/v1/skills/skills.create";
-import { createSkillBody } from "../types/v1/skills/createSkill";
-import { DeleteSkillPathParams } from "../types/v1/skills/deleteSkill";
-import { deleteSkillSchema } from "../schema/v1/skills/skills.delete";
-import { GetSkillPathParams } from "../types/v1/skills/getSkill";
-import {
-  PutSkillBody,
-  PutSkillPathParams,
-} from "../types/v1/skills/updateSkill";
-import { updateSkillSchema } from "../schema/v1/skills/skills.update";
-import { getSkillByIdSchema } from "../schema/v1/skills/skills.get";
+
 import {
   ADMIN_ALL_ENDPOINT,
   ADMIN_BY_ID_ENDPOINT,

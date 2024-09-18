@@ -159,7 +159,7 @@ export default class BidController extends AuthController {
         `BidController -> updateBidStatusById -> Update bid status using ID: ${request.params.bid_id}`,
       );
 
-      const data = await this.bidService.bidStatusUpdate(
+      await this.bidService.bidStatusUpdate(
         request.params.bid_id,
         request.body.bid_status,
       );
@@ -305,7 +305,7 @@ export default class BidController extends AuthController {
         `BidController -> Delete Bid -> Deleting Bid for Bid ID: ${request.params.bid_id} `,
       );
 
-      const data = await this.bidService.deleteBid(request.params.bid_id);
+      await this.bidService.deleteBid(request.params.bid_id);
       return reply
         .status(STATUS_CODES.SUCCESS)
         .send({ message: "Bid deleted" });

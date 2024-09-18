@@ -1,14 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FastifyRequest, FastifyReply } from "fastify";
-import {
-  Controller,
-  GET,
-  Inject,
-  POST,
-  DELETE,
-  PATCH,
-  PUT,
-} from "fastify-decorators";
+import { Controller, GET, Inject, PUT } from "fastify-decorators";
 import {
   STATUS_CODES,
   ERROR_CODES,
@@ -22,7 +14,6 @@ import {
 } from "../schema/v1/verifications/verifications.get";
 import {
   FREELANCER_ENDPOINT,
-  ORACLE_ENDPOINT,
   ORACLE_ID_ENDPOINT,
   ORACLE_UPDATE_END_POINT,
   ALL_ORACLE_ENDPOINT,
@@ -119,7 +110,7 @@ export default class VerificationsController extends AuthController {
       this.logger.info(
         `VerificationsController -> updateVerificationData -> updating verification request for verifier ID: ${request.params.verifier_id}`,
       );
-      const data = await this.verificationService.updateVerificationStatus(
+      await this.verificationService.updateVerificationStatus(
         request.params.document_id,
         request.body.verification_status,
         request.body.comments,

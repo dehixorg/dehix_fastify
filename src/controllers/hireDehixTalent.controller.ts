@@ -88,7 +88,7 @@ export default class HireController extends AuthController {
         `HireController -> deleteHireDehixTalent -> Deleting hire dehix talent using ID: ${request.params.hireDehixTalent_id}`,
       );
 
-      const data = await this.hireService.deleteHireDehixTalent(
+      await this.hireService.deleteHireDehixTalent(
         request.params.hireDehixTalent_id,
       );
 
