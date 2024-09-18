@@ -54,7 +54,6 @@ import {
 } from "../types/v1/projectProfile/updateProfile";
 import { deleteProjectProfileByIdSchema } from "../schema/v1/projectProfile/profile.delete";
 import { DeleteProjectProfilePathParams } from "../types/v1/projectProfile/deleteProfile";
-import { get } from "http";
 
 @Controller({ route: BUSINESS_END_POINT })
 export default class BusinessController extends AuthController {
