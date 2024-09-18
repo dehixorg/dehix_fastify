@@ -66,7 +66,7 @@ export default class RegisterController extends BaseController {
     reply: FastifyReply,
   ) {
     try {
-      this.logger.info(`BusinessController -> create business profile`);
+      this.logger.info('BusinessController -> create business profile');
 
       const data = await this.businessService.createBusiness(request.body);
       if (!data) {
