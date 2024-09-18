@@ -20,6 +20,7 @@ import {
   GET_BUSINESS_SINGLE_PROJECT_BY_ID,
   GET_BUSINESS_SINGLE_PROJECT_PROFILE_BY_ID,
   UPDATE_BUSINESS_PROJECT_PROFILE_BY_ID,
+  GET_PROJECT_AND_BIDS_DATA_BY_PROJECT_ID,
 } from "../constants/business.constant";
 import {
   getBusinessProjectSchema,
@@ -38,6 +39,7 @@ import { IProject } from "../models/project.entity";
 import {
   getAllProjectsSchema,
   getProjectSchema,
+  getProjectsAndBidsSchema
 } from "../schema/v1/project/project.get";
 import { createProjectSchema } from "../schema/v1/project/project.create";
 import { deleteProjectSchema } from "../schema/v1/project/project.delete";
@@ -52,6 +54,7 @@ import {
 } from "../types/v1/projectProfile/updateProfile";
 import { deleteProjectProfileByIdSchema } from "../schema/v1/projectProfile/profile.delete";
 import { DeleteProjectProfilePathParams } from "../types/v1/projectProfile/deleteProfile";
+import { get } from "http";
 
 @Controller({ route: BUSINESS_END_POINT })
 export default class BusinessController extends AuthController {
@@ -518,6 +521,48 @@ export default class BusinessController extends AuthController {
       } else if (
         error.ERROR_CODES === "NOT_FOUND" ||
         error.message.includes("Profile by provided ID was not found.")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @GET(GET_PROJECT_AND_BIDS_DATA_BY_PROJECT_ID, { schema: getProjectsAndBidsSchema })
+  async getProjectAndBidsDataByProjectId(
+    request: FastifyRequest<{ Params: getProjectPathParams }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `BusinessController -> getProjectAndBidsDataByProjectId -> Fetching project and bids data for project ID: ${request.params.project_id}`,
+      );
+
+      const data = await this.BusinessService.getProjectAndBidsData(
+        request.params.project_id,
+      );
+
+      if (!data) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getProjectAndBidsDataByProjectId: ${error.message}`);
+      console.log("Error codes->>>>>>>>>>>>>", error.ERROR_CODES);
+      if (
+        error.ERROR_CODES === "PROJECT_NOT_FOUND" ||
+        error.message.includes("Project not found")
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Project"),

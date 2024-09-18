@@ -2,6 +2,7 @@ import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
 import { IProject, ProjectModel } from "../models/project.entity";
+// import { BidModel } from "../models/bid.entity";
 
 @Service()
 export class ProjectDAO extends BaseDAO {
@@ -86,4 +87,27 @@ export class ProjectDAO extends BaseDAO {
       { new: true },
     );
   }
+
+  async getProjectAndBidsData(project_id: string) {
+
+    // const project = await ProjectModel.findById(project_id);
+    // const bids = await BidModel.find({ project_id });
+    // return {
+    //   project,
+    //   bids,
+    // };
+
+    return this.model.aggregate([ 
+      { $match: { _id: project_id } },
+      {
+        $lookup: {
+          from: "bids",
+          localField: "_id",
+          foreignField: "project_id",
+          as: "bids",
+        },
+      },
+    ]);
+  }
+    
 }

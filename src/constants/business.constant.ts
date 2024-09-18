@@ -19,3 +19,4 @@ export const GET_BUSINESS_SINGLE_PROJECT_PROFILE_BY_ID =
   "/:project_id/:profile_id/project/profile";
 export const DELETE_PROJECT_PROFILE_BY_ID =
   "/:project_id/:profile_id/project/profile";
+export const GET_PROJECT_AND_BIDS_DATA_BY_PROJECT_ID = "/project/:project_id";

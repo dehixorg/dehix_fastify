@@ -397,4 +397,25 @@ export class BusinessService extends BaseService {
     );
     return data;
   }
+
+  async getProjectAndBidsData(project_id: string) {
+    this.logger.info(
+      "BusinessService: business get projects and bids data by project id",
+      project_id,
+    );
+
+    const projectExits = await this.ProjectDAO.getProjectById(project_id);
+    if (!projectExits) {
+      this.logger.error(
+        "BusinessService: getProjectProfileById: project not found ",
+      );
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Project"),
+        ERROR_CODES.BUSINESS_PROJECT_NOT_FOUND,
+      );
+    }
+
+    const data = await this.ProjectDAO.getProjectAndBidsData(project_id);
+    return data;
+  }
 }
