@@ -187,7 +187,7 @@ export class BusinessService extends BaseService {
     const data = await this.businessDao.deleteBusinessProject(id);
     return data;
   }
-  async getSingleProjectById(project_id: string, freelancer_id: string) {
+  async getSingleProjectByIdWithVerification(project_id: string, freelancer_id: string) {
     try {
       this.logger.info(
         "BusinessService: business get projects by id",
@@ -244,6 +244,28 @@ export class BusinessService extends BaseService {
 
       // Return project data if no application was found
       return { data: projectData };
+    } catch (error) {
+      this.logger.error("Error in getSingleProjectById:", error);
+      throw error;
+    }
+  }
+  async getSingleProjectById(project_id: string) {
+    try {
+      this.logger.info(
+        "BusinessService: business get projects by id",
+        project_id,
+      );
+
+      const data = await this.businessDao.getProjectById(project_id);
+
+      if (!data) {
+        throw new NotFoundError(
+          RESPONSE_MESSAGE.PROJECT_NOT_FOUND,
+          ERROR_CODES.BUSINESS_PROJECT_NOT_FOUND,
+        );
+      }
+
+     return data;
     } catch (error) {
       this.logger.error("Error in getSingleProjectById:", error);
       throw error;

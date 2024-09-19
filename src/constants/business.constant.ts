@@ -10,6 +10,8 @@ export const DELETE_BUSINESS_PROJECT_END_POINT =
 export const GET_BUSINESS_PROJECT_BY_ID = "/:business_id/projects";
 export const GET_BUSINESS_SINGLE_PROJECT_BY_ID =
   "/:project_id/:freelancer_id/project";
+  export const GET_BUSINESS_SINGLE_PROJECT_BY_ID_WITH_OUT_CHECK =
+  "/:project_id/project";
 export const ALL_PROJECT_ENDPOINT = "/all_projects";
 
 // project profile
