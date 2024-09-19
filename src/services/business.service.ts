@@ -187,7 +187,10 @@ export class BusinessService extends BaseService {
     const data = await this.businessDao.deleteBusinessProject(id);
     return data;
   }
-  async getSingleProjectByIdWithVerification(project_id: string, freelancer_id: string) {
+  async getSingleProjectByIdWithVerification(
+    project_id: string,
+    freelancer_id: string,
+  ) {
     try {
       this.logger.info(
         "BusinessService: business get projects by id",
@@ -265,7 +268,7 @@ export class BusinessService extends BaseService {
         );
       }
 
-     return data;
+      return data;
     } catch (error) {
       this.logger.error("Error in getSingleProjectById:", error);
       throw error;

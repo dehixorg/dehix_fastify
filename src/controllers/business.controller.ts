@@ -300,10 +300,11 @@ export default class BusinessController extends AuthController {
       this.logger.info(
         `BusinessController -> getBusinessSingleProjects -> Fetching business projects for ID: ${request.params.project_id}`,
       );
-      const data = await this.BusinessService.getSingleProjectByIdWithVerification(
-        request.params.project_id,
-        request.params.freelancer_id,
-      );
+      const data =
+        await this.BusinessService.getSingleProjectByIdWithVerification(
+          request.params.project_id,
+          request.params.freelancer_id,
+        );
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(`Error in getBusinessSingleProject: ${error.message}`);
@@ -324,7 +325,9 @@ export default class BusinessController extends AuthController {
     }
   }
 
-  @GET(GET_BUSINESS_SINGLE_PROJECT_BY_ID_WITH_OUT_CHECK, { schema: getProjectSchema })
+  @GET(GET_BUSINESS_SINGLE_PROJECT_BY_ID_WITH_OUT_CHECK, {
+    schema: getProjectSchema,
+  })
   async getSingleProjectById(
     request: FastifyRequest<{ Params: getProjectPathParams }>,
     reply: FastifyReply,
