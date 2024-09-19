@@ -29,7 +29,7 @@ export abstract class AuthController extends BaseController {
       );
 
       // Log the reply object for debugging, even if not directly used
-      this.logger.info(`Reply object: ${JSON.stringify(reply)}`);
+      this.logger.info(`Reply object: { statusCode: ${reply.statusCode} }`);
 
       return;
     }
