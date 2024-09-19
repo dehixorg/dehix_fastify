@@ -32,7 +32,7 @@ export class BidDAO extends BaseDAO {
 
   async getById(id: string) {
     return this.model
-      .findById(id, 'id firebase_id full_name email is_email_verified owner_id')
+      .findById(id, "id firebase_id full_name email is_email_verified owner_id")
       .lean()
       .exec();
   }
