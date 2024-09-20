@@ -10,10 +10,9 @@ export interface IHire extends Document {
   skillName: string;
   description: string;
   experience: string;
-  monthlyPay: string;
-  freelancerRequired: number;
   status: string;
   visible: boolean;
+  freelancerRequired: number;
   freelancerApplied: string[];
   freelancerSelected: string[];
 }
@@ -59,14 +58,6 @@ const hireSchema: Schema<IHire> = new Schema(
       type: String,
       required: true,
     },
-    monthlyPay: {
-      type: String,
-    },
-    freelancerRequired: {
-      type: Number,
-      default: 1,
-      required: true,
-    },
     status: {
       type: String,
       enum: ["added", "approved", "closed", "completed"],
@@ -74,6 +65,11 @@ const hireSchema: Schema<IHire> = new Schema(
     },
     visible: {
       type: Boolean,
+    },
+    freelancerRequired: {
+      type: Number,
+      default: 1,
+      required: false,
     },
     freelancerApplied: [
       {

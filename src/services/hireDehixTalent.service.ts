@@ -14,17 +14,20 @@ export class HireService extends BaseService {
   @Inject(businessDAO)
   private businessDAO!: businessDAO;
 
-  async createhireDehixTalent(hireDehixTalent: IHire) {
+  async createhireDehixTalent(business_id: string, data: IHire) {
     try {
       this.logger.info(
         "HireService: createHireDehixTalent: Creating HireDehixTalent: ",
-        hireDehixTalent,
+        business_id,
       );
 
-      const data: any =
-        await this.HireDAO.createHireDehixTalent(hireDehixTalent);
+      const hireTalent: any =
+        await this.HireDAO.createHireDehixTalent({
+          ...data,
+          businessId: business_id
+        });
 
-      return data;
+      return hireTalent;
     } catch (error: any) {
       this.logger.error("Error in createHireDehixTalent:", error);
       throw error; // Pass the error to the parent for proper handling

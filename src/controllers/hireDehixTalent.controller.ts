@@ -32,13 +32,19 @@ export default class HireController extends AuthController {
   hireService!: HireService;
 
   @POST(HIRE_CREATE_ENDPOINT, { schema: createhireDehixTalentSchema })
-  async create(request: FastifyRequest<{ Body: IHire }>, reply: FastifyReply) {
+  async create(
+    request: FastifyRequest<{
+      Params: GetBusinessPathParams;
+      Body: IHire;
+    }>,
+    reply: FastifyReply,
+  ) {
     try {
       this.logger.info(
-        `HireController -> create -> Create a new hireDehixTalent`,
+        `HireController -> create -> Create a new hireDehixTalent using Id: ${request.params.business_id}`,
       );
 
-      const data = await this.hireService.createhireDehixTalent(request.body);
+      const data = await this.hireService.createhireDehixTalent(request.params.business_id, request.body);
       this.logger.warn(data);
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
