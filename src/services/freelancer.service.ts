@@ -960,11 +960,11 @@ export class FreelancerService extends BaseService {
         ERROR_CODES.FREELANCER_NOT_FOUND,
       );
     }
-    const consultantExist = await this.FreelancerDAO.getDehixTalentById(
+    const dehixTalent = await this.FreelancerDAO.getDehixTalentById(
       freelancer_id,
       dehixTalent_id,
     );
-    if (!consultantExist) {
+    if (!dehixTalent) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.DEHIX_TALENT_NOT_FOUND,
         ERROR_CODES.NOT_FOUND,

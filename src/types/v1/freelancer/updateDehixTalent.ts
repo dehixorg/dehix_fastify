@@ -1,4 +1,4 @@
-export interface DehicTalentPathParams {
+export interface DehixTalentPathParams {
   freelancer_id: string;
   dehixTalent_id: string;
 }

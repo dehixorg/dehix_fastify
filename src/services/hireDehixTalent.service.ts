@@ -83,4 +83,35 @@ export class HireService extends BaseService {
     this.logger.info(data, "in get Hire dehix Talent");
     return data;
   }
+
+  async updateHireDehixTalent(
+    business_id: string,
+    hireDehixTalent_id: string,
+    update: any,
+  ) {
+    this.logger.info("HireService: updateHireDehixTalent", business_id, hireDehixTalent_id);
+    const businessExist =
+      await this.businessDAO.findBusinessById(business_id);
+    if (!businessExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.BUSINESS_NOT_FOUND,
+        ERROR_CODES.BUSINESS_NOT_FOUND,
+      );
+    }
+    const hireDehixTalent = await this.HireDAO.getHireDehixTalent(
+      business_id
+    );
+    if (!hireDehixTalent) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.HIRE_DEHIX_TALENT_NOT_FOUND,
+        ERROR_CODES.HIRE_DEHIX_TALENT_NOT_FOUND,
+      );
+    }
+    const data = await this.HireDAO.updateStatusHireDehixTalent(
+      business_id,
+      hireDehixTalent_id,
+      update,
+    );
+    return data;
+  }
 }

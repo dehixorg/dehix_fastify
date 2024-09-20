@@ -124,7 +124,7 @@ import { getConsultantSchema } from "../schema/v1/consultant/consultant.get";
 import { deleteConsultantSchema } from "../schema/v1/consultant/consultant.delete";
 import { updateNotinterestedPathParams } from "../types/v1/freelancer/updateNotInterestedProject";
 import {
-  DehicTalentPathParams,
+  DehixTalentPathParams,
   PutDehixTalentBody,
 } from "../types/v1/freelancer/updateDehixTalent";
 
@@ -1448,7 +1448,7 @@ export default class FreelancerController extends AuthController {
   })
   async updateDehixTalentById(
     request: FastifyRequest<{
-      Params: DehicTalentPathParams;
+      Params: DehixTalentPathParams;
       Body: PutDehixTalentBody;
     }>,
     reply: FastifyReply,
