@@ -23,11 +23,11 @@ export const getSkillsSchema: FastifySchema = {
               _id: { type: "string" },
               label: { type: "string" },
               description: { type: "string" },
-             createdBy: { "type": "string" },
-          createdAt: {
-            "type": "string",
-            "format": "date-time"
-          }
+              createdBy: { type: "string" },
+              createdAt: {
+                type: "string",
+                format: "date-time",
+              },
             },
             required: ["_id", "label"],
           },

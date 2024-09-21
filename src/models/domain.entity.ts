@@ -14,7 +14,7 @@ const DomainSchema: Schema<IDomain> = new Schema(
   {
     _id: {
       type: String,
-      default: uuidv4, 
+      default: uuidv4,
       required: true,
     },
     label: {
