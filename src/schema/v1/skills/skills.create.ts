@@ -8,6 +8,9 @@ export const createSkillSchema: FastifySchema = {
     properties: {
       label: { type: "string" },
       description: { type: "string" },
+      createdBy: {
+        type: "string",
+      },
     },
     required: ["label"],
   },

@@ -13,6 +13,11 @@ export const getDomainByIdSchema: FastifySchema = {
             _id: { type: "string" },
             label: { type: "string" },
             description: { type: "string" },
+           createdBy: { "type": "string" },
+        createdAt: {
+          "type": "string",
+          "format": "date-time"
+        }
           },
         },
       },

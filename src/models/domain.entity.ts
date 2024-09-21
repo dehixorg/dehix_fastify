@@ -4,15 +4,17 @@ import { v4 as uuidv4 } from "uuid";
 export interface IDomain extends Document {
   _id: string;
   label: string;
-  description: string;
+  description?: string;
+  createdBy?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
-// Define the Skill schema
 const DomainSchema: Schema<IDomain> = new Schema(
   {
     _id: {
       type: String,
-      default: uuidv4, // Use uuidv4 for generating unique IDs
+      default: uuidv4, 
       required: true,
     },
     label: {
@@ -23,14 +25,17 @@ const DomainSchema: Schema<IDomain> = new Schema(
       type: String,
       required: false,
     },
+    createdBy: {
+      type: String,
+      required: false,
+    },
   },
   {
-    timestamps: true, // Add createdAt and updatedAt fields
-    versionKey: false, // Disable __v versioning field
+    timestamps: true,
+    versionKey: false,
   },
 );
 
-// Create and export the Skill model
 export const DomainModel: Model<IDomain> = mongoose.model<IDomain>(
   "Domain",
   DomainSchema,
