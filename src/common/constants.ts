@@ -47,7 +47,7 @@ export const RESPONSE_MESSAGE = {
   INTERVIEW_NOT_FOUND: "Interview not found by id",
 
   HIRE_DEHIX_TALENT_NOT_FOUND: "Hire Dehix Talent not found by id",
-  DEHIX_TALENT_NOT_FOUND: "Dehix Talent not found by id",
+  DEHIX_TALENT_NOT_FOUND: "Dehix Talent not found",
   DRAFT_NOT_FOUND: "Draft with provided ID could not be found.",
   DRAFT_IS_INCOMPLETE:
     "This draft is incomplete and cannot be submitted for review",

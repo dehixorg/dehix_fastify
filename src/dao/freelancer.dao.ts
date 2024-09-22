@@ -676,18 +676,35 @@ export class FreelancerDAO extends BaseDAO {
     }
   }
 
-  async getAllDehixTalent() {
+  async getAllDehixTalent(limit: number, skip: number) {
     try {
+      // Fetch freelancers who have dehixTalent
       const freelancers = await this.model
         .find({ dehixTalent: { $exists: true, $ne: {} } })
-        .select("_id dehixTalent") // Fetch only necessary fields
+        .select("firstName lastName userName dehixTalent")
+        .lean()
         .exec();
-
-      return freelancers; // Return filtered freelancers directly
+      
+      // Flatten the talents from all freelancers
+      const allTalents = freelancers.flatMap((freelancer: any) =>
+        Object.keys(freelancer.dehixTalent).map((talentId) => ({
+          Name: `${freelancer.firstName} ${freelancer.lastName}`, // freelancer's name
+          dehixTalent: {
+            _id: talentId, // each talent's _id
+            ...freelancer.dehixTalent[talentId], // the rest of the talent data
+          },
+        }))
+      );
+  
+      // Apply the pagination (limit and skip) on the flattened talents
+      const paginatedTalents = allTalents.slice(skip, skip + limit);
+  
+      return paginatedTalents; // Return the paginated talents
     } catch (error: any) {
       throw new Error(`Failed to fetch dehix talent: ${error.message}`);
     }
   }
+    
 
   async getFreelancerDehixTalent(freelancer_id: string) {
     try {
