@@ -13,11 +13,13 @@ export const getDomainSchema: FastifySchema = {
           items: {
             type: "object",
             properties: {
-              _id: {
+              _id: { type: "string" },
+              label: { type: "string" },
+              description: { type: "string" },
+              createdBy: { type: "string" },
+              createdAt: {
                 type: "string",
-              },
-              label: {
-                type: "string",
+                format: "date-time",
               },
             },
             required: ["_id", "label"],
