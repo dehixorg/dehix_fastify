@@ -30,6 +30,7 @@ export const RESPONSE_MESSAGE = {
   TOKEN_VERIFICATION_FAILED:
     "Something went wrong with the token verification.",
   NOT_FOUND: (entity: string = "User") => `${entity} not found`,
+  INVALID: (entity: string = "User") => `${entity} not valid`,
   USER_NOT_FOUND: "User not found",
   USER_EXISTS: "User already exists",
   FREELANCER_PROJECT_NOT_FOUND: "Freelancer project not found by id",

@@ -87,6 +87,13 @@ export class ProjectDAO extends BaseDAO {
       { new: true },
     );
   }
+  async updateStatus(project_id: string, status: any) {
+    return await this.model.findByIdAndUpdate(
+      project_id,
+      { status, updatedAt: new Date() },
+      { new: true }
+    );
+  }
 
   async getProjectAndBidsData(project_id: string) {
     // const project = await ProjectModel.findById(project_id);
