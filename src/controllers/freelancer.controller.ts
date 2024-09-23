@@ -124,9 +124,10 @@ import { getConsultantSchema } from "../schema/v1/consultant/consultant.get";
 import { deleteConsultantSchema } from "../schema/v1/consultant/consultant.delete";
 import { updateNotinterestedPathParams } from "../types/v1/freelancer/updateNotInterestedProject";
 import {
-  DehicTalentPathParams,
+  DehixTalentPathParams,
   PutDehixTalentBody,
 } from "../types/v1/freelancer/updateDehixTalent";
+import { GetFreelancerDehixTalentQueryParams } from "../types/v1/freelancer/getDehixTalent";
 
 @Controller({ route: FREELANCER_ENDPOINT })
 export default class FreelancerController extends AuthController {
@@ -1361,30 +1362,28 @@ export default class FreelancerController extends AuthController {
   }
 
   @GET(ALL_DEHIX_TALENT_ENDPOINT, { schema: getAllDehixTalentSchema })
-  async getAllDehixTalent(request: FastifyRequest, reply: FastifyReply) {
+  async getAllDehixTalent(
+    request: FastifyRequest<{
+      Querystring: GetFreelancerDehixTalentQueryParams 
+    }>,
+    reply: FastifyReply) {
     try {
       this.logger.info(
         `FreelancersController -> getAllDehixTalent -> Fetching dehix talent`,
       );
 
-      const data = await this.freelancerService.getAllDehixTalent();
-
-      if (!data || data.length === 0) {
-        return reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.NOT_FOUND("Dehix Talent"),
-          code: ERROR_CODES.NOT_FOUND,
-        });
-      }
+      const {limit, skip} = request.query;
+      const data = await this.freelancerService.getAllDehixTalent(limit, skip);
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(`Error in getAllDehixTalent: ${error.message}`);
       if (
-        error.ERROR_CODES === "NOT_FOUND" ||
-        error.message.includes("Data not found")
+        error.ERROR_CODES === "DEHIX_TALENT_NOT_FOUND" ||
+        error.message.includes("Dehix Talent not found")
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
+          message: RESPONSE_MESSAGE.NOT_FOUND("Dehix Talent"),
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {
@@ -1448,7 +1447,7 @@ export default class FreelancerController extends AuthController {
   })
   async updateDehixTalentById(
     request: FastifyRequest<{
-      Params: DehicTalentPathParams;
+      Params: DehixTalentPathParams;
       Body: PutDehixTalentBody;
     }>,
     reply: FastifyReply,

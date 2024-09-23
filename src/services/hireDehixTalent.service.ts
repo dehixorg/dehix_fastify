@@ -14,17 +14,20 @@ export class HireService extends BaseService {
   @Inject(businessDAO)
   private businessDAO!: businessDAO;
 
-  async createhireDehixTalent(hireDehixTalent: IHire) {
+  async createhireDehixTalent(business_id: string, data: IHire) {
     try {
       this.logger.info(
         "HireService: createHireDehixTalent: Creating HireDehixTalent: ",
-        hireDehixTalent,
+        business_id,
       );
 
-      const data: any =
-        await this.HireDAO.createHireDehixTalent(hireDehixTalent);
+      const hireTalent: any =
+        await this.HireDAO.createHireDehixTalent({
+          ...data,
+          businessId: business_id
+        });
 
-      return data;
+      return hireTalent;
     } catch (error: any) {
       this.logger.error("Error in createHireDehixTalent:", error);
       throw error; // Pass the error to the parent for proper handling
@@ -78,6 +81,37 @@ export class HireService extends BaseService {
 
     const data = await this.HireDAO.getHireDehixTalent(business_id);
     this.logger.info(data, "in get Hire dehix Talent");
+    return data;
+  }
+
+  async updateHireDehixTalent(
+    business_id: string,
+    hireDehixTalent_id: string,
+    update: any,
+  ) {
+    this.logger.info("HireService: updateHireDehixTalent", business_id, hireDehixTalent_id);
+    const businessExist =
+      await this.businessDAO.findBusinessById(business_id);
+    if (!businessExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.BUSINESS_NOT_FOUND,
+        ERROR_CODES.BUSINESS_NOT_FOUND,
+      );
+    }
+    const hireDehixTalent = await this.HireDAO.getHireDehixTalent(
+      business_id
+    );
+    if (!hireDehixTalent) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.HIRE_DEHIX_TALENT_NOT_FOUND,
+        ERROR_CODES.HIRE_DEHIX_TALENT_NOT_FOUND,
+      );
+    }
+    const data = await this.HireDAO.updateStatusHireDehixTalent(
+      business_id,
+      hireDehixTalent_id,
+      update,
+    );
     return data;
   }
 }
