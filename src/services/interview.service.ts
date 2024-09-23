@@ -98,4 +98,30 @@ export class InterviewService extends BaseService {
     }
     return data;
   }
+  async currentinterview(interviewee_id: string){
+    const data: any = await this.interviewDao.getInterviewById(interviewee_id);
+    if (!data) {
+      throw new Error("Interview not found");
+    }
+
+    const interviewdate = await data.interviewDate;
+    const currentdate = new Date();
+    if(interviewdate > currentdate){
+      return data;
+    }
+  }
+
+  async completedinterview(interviewee_id: string){
+
+    const data: any = await this.interviewDao.getInterviewById(interviewee_id);
+    if (!data) {
+      throw new Error("Interview not found");
+    }
+
+    const interviewDate = await data.interviewDate;
+    const currentdate = new Date();
+    if(interviewDate < currentdate){
+      return data;
+    }
+  }
 }

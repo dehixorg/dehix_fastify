@@ -5,6 +5,8 @@ import {
   GET_ALL_INTERVIEW,
   INTERVIEW,
   UPDATE_INTERVIEW_END_POINT,
+  CompletedInterviewForInterviewee,
+  CurrentInterviewForInterviewee,
 } from "../constants/interview.constant";
 import { createInterviewSchema } from "../schema/v1/interview/interview.create";
 import { InterviewService } from "../services/interview.service";
@@ -36,7 +38,7 @@ export default class InterviewController extends AuthController {
     try {
       this.logger.info("controllers->interview.controller->createInterview");
       const data = await this.InterviewService.createInterview(
-        request.params.interviewee,
+        request.params.interviewee_id,
         request.body,
       );
       reply.status(STATUS_CODES.CREATED).send({ data });
@@ -80,7 +82,7 @@ export default class InterviewController extends AuthController {
     try {
       this.logger.info("controllers->interview.controller->updateInterview");
       const data = await this.InterviewService.updateInterview(
-        request.params.interview_id,
+        request.params.interviewee_id,
         request.body,
       );
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -120,6 +122,90 @@ export default class InterviewController extends AuthController {
       reply
         .status(STATUS_CODES.SERVER_ERROR)
         .send({ message: "Internal server error" });
+    }
+  }
+  @GET(CompletedInterviewForInterviewee, { schema: getInterviewSchema })
+  async getCompletedInterviews(
+    request: FastifyRequest<{
+      Params: GetInterviewPathParams;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FreelancersController -> getCompletedinterview -> Fetching completedinteview`,
+      );
+
+      const data = await this.InterviewService.completedinterview(
+        request.params.interviewee_id,
+      );
+
+      if (!data || data.length === 0) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Completed Project"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getcompletedinterviews: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Data not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+  @GET(CurrentInterviewForInterviewee, { schema: getInterviewSchema })
+  async getCurrentInterviews(
+    request: FastifyRequest<{
+      Params: GetInterviewPathParams;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FreelancersController -> getCompletedinterview -> Fetching completedinteview`,
+      );
+
+      const data = await this.InterviewService.currentinterview(
+        request.params.interviewee_id,
+      );
+
+      if (!data || data.length === 0) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Current Interview"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getcurrentinterviews: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Data not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
     }
   }
 }

@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
-
+import { v4 as uuidv4 } from "uuid";
 export interface IInterview extends Document {
+  _id: string;
   interviewer: string;
   interviewee: string;
   skill: string;
@@ -11,6 +12,10 @@ export interface IInterview extends Document {
 
 const InterviewSchema: Schema<IInterview> = new Schema(
   {
+    _id: {
+      type: String,
+      default: uuidv4,
+    },
     interviewer: {
       type: String,
       ref: "Freelancer",

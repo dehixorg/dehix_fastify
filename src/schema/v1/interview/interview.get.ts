@@ -14,30 +14,37 @@ export const getInterviewSchema: FastifySchema = {
   //     comments: { type: "string" },
   //   },
   // },
-  response: {
-    200: {
-      description: "Success",
-      type: "object",
-      properties: {
-        data: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: {
-              _id: { type: "string" },
-              interviewer: { type: "string" },
-              interviewee: { type: "string" },
-              skill: { type: "string" },
-              interviewDate: { type: "string", format: "date-time" },
-              rating: { type: "number" },
-              comments: { type: "string" },
-              createdAt: { type: "string", format: "date-time" },
-              updatedAt: { type: "string", format: "date-time" },
-            },
-          },
-        },
-      },
+  params: {
+    type: "object",
+    properties: {
+      interviewee_id: { type: "string" },
     },
+    required: ["interviewee_id"],
+  },
+  response: {
+    // 200: {
+    //   description: "Success",
+    //   type: "object",
+    //   properties: {
+    //     data: {
+    //       type: "object",
+    //       items: {
+    //         type: "object",
+    //         properties: {
+    //           _id: { type: "string" },
+    //           interviewer: { type: "string" },
+    //           interviewee: { type: "string" },
+    //           skill: { type: "string" },
+    //           interviewDate: { type: "string", format: "date-time" },
+    //           rating: { type: "number" },
+    //           comments: { type: "string" },
+    //           createdAt: { type: "string", format: "date-time" },
+    //           updatedAt: { type: "string", format: "date-time" },
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
     404: {
       description: "Not Found",
       type: "object",

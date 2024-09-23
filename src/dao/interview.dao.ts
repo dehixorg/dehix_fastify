@@ -14,8 +14,8 @@ export class InterviewDao extends BaseDAO {
   async createInterview(data: string) {
     return this.model.create(data);
   }
-  async getInterviewById(id: string) {
-    return this.model.findById(id);
+  async getInterviewById(interviewee_id: string) {
+    return this.model.findOne({ interviewee: interviewee_id });
   }
   async getAllInterviews() {
     return this.model.find();
