@@ -11,7 +11,7 @@ export const createSkillSchema: FastifySchema = {
       createdBy: {
         type: "string",
       },
-      status:{type:"string"}
+      status: { type: "string" },
     },
     required: ["label"],
   },

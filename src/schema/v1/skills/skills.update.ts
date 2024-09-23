@@ -22,7 +22,7 @@ export const updateSkillSchema: FastifySchema = {
             _id: { type: "string" },
             label: { type: "string" },
             description: { type: "string" },
-            status:{type:"string"}
+            status: { type: "string" },
           },
         },
       },

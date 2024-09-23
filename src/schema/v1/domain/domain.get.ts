@@ -18,7 +18,7 @@ export const getDomainByIdSchema: FastifySchema = {
               type: "string",
               format: "date-time",
             },
-            status:{type:"string"}
+            status: { type: "string" },
           },
         },
       },

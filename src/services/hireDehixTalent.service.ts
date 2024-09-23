@@ -21,11 +21,10 @@ export class HireService extends BaseService {
         business_id,
       );
 
-      const hireTalent: any =
-        await this.HireDAO.createHireDehixTalent({
-          ...data,
-          businessId: business_id
-        });
+      const hireTalent: any = await this.HireDAO.createHireDehixTalent({
+        ...data,
+        businessId: business_id,
+      });
 
       return hireTalent;
     } catch (error: any) {
@@ -89,18 +88,19 @@ export class HireService extends BaseService {
     hireDehixTalent_id: string,
     update: any,
   ) {
-    this.logger.info("HireService: updateHireDehixTalent", business_id, hireDehixTalent_id);
-    const businessExist =
-      await this.businessDAO.findBusinessById(business_id);
+    this.logger.info(
+      "HireService: updateHireDehixTalent",
+      business_id,
+      hireDehixTalent_id,
+    );
+    const businessExist = await this.businessDAO.findBusinessById(business_id);
     if (!businessExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.BUSINESS_NOT_FOUND,
         ERROR_CODES.BUSINESS_NOT_FOUND,
       );
     }
-    const hireDehixTalent = await this.HireDAO.getHireDehixTalent(
-      business_id
-    );
+    const hireDehixTalent = await this.HireDAO.getHireDehixTalent(business_id);
     if (!hireDehixTalent) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.HIRE_DEHIX_TALENT_NOT_FOUND,
