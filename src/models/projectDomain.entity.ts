@@ -5,6 +5,9 @@ export interface IProjectDomain extends Document {
   _id: string;
   label: string;
   description: string;
+  createdBy?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 // Define the project domain schema
@@ -20,6 +23,10 @@ const ProjectDomainSchema: Schema<IProjectDomain> = new Schema(
       required: true,
     },
     description: {
+      type: String,
+      required: false,
+    },
+    createdBy: {
       type: String,
       required: false,
     },
