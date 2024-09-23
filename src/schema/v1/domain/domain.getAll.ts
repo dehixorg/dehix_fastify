@@ -21,6 +21,7 @@ export const getDomainSchema: FastifySchema = {
                 type: "string",
                 format: "date-time",
               },
+              status:{type:"string"}
             },
             required: ["_id", "label"],
           },
