@@ -13,6 +13,7 @@ export const GET_BUSINESS_SINGLE_PROJECT_BY_ID =
 export const GET_BUSINESS_SINGLE_PROJECT_BY_ID_WITH_OUT_CHECK =
   "/:project_id/project";
 export const ALL_PROJECT_ENDPOINT = "/all_projects";
+export const UPDATE_STATUS_BY_PROJECT_ID = "/:project_id/updateStatus"
 
 // project profile
 export const UPDATE_BUSINESS_PROJECT_PROFILE_BY_ID =

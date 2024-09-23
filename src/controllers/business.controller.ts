@@ -22,6 +22,7 @@ import {
   UPDATE_BUSINESS_PROJECT_PROFILE_BY_ID,
   GET_PROJECT_AND_BIDS_DATA_BY_PROJECT_ID,
   GET_BUSINESS_SINGLE_PROJECT_BY_ID_WITH_OUT_CHECK,
+  UPDATE_STATUS_BY_PROJECT_ID
 } from "../constants/business.constant";
 import {
   getBusinessProjectSchema,
@@ -55,6 +56,8 @@ import {
 } from "../types/v1/projectProfile/updateProfile";
 import { deleteProjectProfileByIdSchema } from "../schema/v1/projectProfile/profile.delete";
 import { DeleteProjectProfilePathParams } from "../types/v1/projectProfile/deleteProfile";
+import { updateProjectStatusSchema } from "../schema/v1/project/project.update";
+import { PutProjectBody, PutProjectPathParams } from "../types/v1/project/updateProject";
 
 @Controller({ route: BUSINESS_END_POINT })
 export default class BusinessController extends AuthController {
@@ -602,6 +605,68 @@ export default class BusinessController extends AuthController {
       if (
         error.ERROR_CODES === "PROJECT_NOT_FOUND" ||
         error.message.includes("Project not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+  @PUT(UPDATE_STATUS_BY_PROJECT_ID, {
+    schema: updateProjectStatusSchema,
+  })
+  async updateStatusByProject_Id(
+    request: FastifyRequest<{
+      Params: PutProjectPathParams;
+      Body: PutProjectBody;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `Updating status with Project_ID ${request.params.project_id}`,
+      );
+
+      const data = await this.BusinessService.updateProjectStatusByProjectID(
+        request.params.project_id,
+        request.body.status,
+      );
+
+      if (!data) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Profile"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "update sucessfull" });
+    } catch (error: any) {
+      this.logger.error(`Error updating Status: ${error.message}`);
+      if (
+        error.code === ERROR_CODES.NOT_FOUND ||
+        error.message.includes("Data not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else if (
+        error.ERROR_CODES === "PROJECT_NOT_FOUND" ||
+        error.message.includes("Project by provided ID was not found.")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Project by provided ID was not found.")
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Project"),

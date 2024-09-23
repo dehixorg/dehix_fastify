@@ -1,5 +1,6 @@
 export interface PutProjectPathParams {
   business_id: string;
+  project_id: string;
 }
 export interface PutProjectBody {
   _id: string;

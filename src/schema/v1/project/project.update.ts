@@ -1,4 +1,5 @@
 import { FastifySchema } from "fastify";
+import { object } from "zod";
 
 export const updateProjectSchema: FastifySchema = {
   description: "API to update project",
@@ -151,3 +152,59 @@ export const updateProjectSchema: FastifySchema = {
     },
   },
 };
+
+export const updateProjectStatusSchema: FastifySchema = {
+  description: "API to update status of project",
+  tags: ["Project"],
+  body : {
+    type : "object",
+    properties :{
+      status: {
+        type: "string",
+        default: "Pending",
+      }
+    }
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: {
+          type: "object",
+          properties: {
+            status: { type: "string" },
+          },
+        },
+      },
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+}
