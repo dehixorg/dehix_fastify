@@ -5,5 +5,5 @@ export interface PutDomainPathParams {
 export interface PutDomainBody {
   label?: string;
   description?: string;
-  status?:string;
+  status?: string;
 }

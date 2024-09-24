@@ -8,7 +8,7 @@ export interface ISkill extends Document {
   createdBy?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  status?:string;
+  status?: string;
 }
 
 // Define the Skill schema
@@ -33,8 +33,8 @@ const SkillSchema: Schema<ISkill> = new Schema(
     },
     status: {
       type: String,
-      enum: ['active', 'inactive', 'archived'] 
-    }
+      enum: ["active", "inactive", "archived"],
+    },
   },
   {
     timestamps: true, // Add createdAt and updatedAt fields

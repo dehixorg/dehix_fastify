@@ -71,7 +71,7 @@ export class DomainService extends BaseService {
     this.logger.info(
       `DomainService: updateDomain: Updating Domain for Domain ID:${domain_id}`,
     );
-    this.logger.info("data-body>>>>>>>>",body.status)
+    this.logger.info("data-body>>>>>>>>", body.status);
     const checkDomain = await this.DomainDAO.findDomain(domain_id);
     if (!checkDomain) {
       throw new NotFoundError(
@@ -80,8 +80,11 @@ export class DomainService extends BaseService {
       );
     }
 
-    const data = await this.DomainDAO.updateDomain(domain_id,{ ...body,status:body.status});
-this.logger.info("data>>>>>>>>",data)
+    const data = await this.DomainDAO.updateDomain(domain_id, {
+      ...body,
+      status: body.status,
+    });
+    this.logger.info("data>>>>>>>>", data);
     return data;
   }
 }

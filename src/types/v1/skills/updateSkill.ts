@@ -6,5 +6,5 @@ export interface PutSkillBody {
   label?: string;
   description?: string;
   domain_id?: string;
-  status?:string;
+  status?: string;
 }
