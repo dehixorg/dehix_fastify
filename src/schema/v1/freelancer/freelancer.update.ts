@@ -100,6 +100,24 @@ export const updateFreelancerSchema: FastifySchema = {
           ],
         },
       },
+      projectDomain: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            name: { type: "string" },
+            level: { type: "string" },
+            experience: { type: "string" },
+            interviewStatus: {
+              type: "string",
+              enum: ["pending", "accepted", "rejected", "reapplied"],
+            },
+            interviewInfo: { type: "string" },
+            interviewerRating: { type: "number" },
+          },
+          required: ["name"],
+        },
+      },
       education: {
         type: "array",
         items: {
@@ -277,11 +295,8 @@ export const updateFreelancerSchema: FastifySchema = {
       description: "Success",
       type: "object",
       properties: {
-        data: {
-          type: "object",
-          properties: {
-            email: { type: "string" },
-          },
+        message: {
+          type: "string",
         },
       },
     },
