@@ -1,13 +1,14 @@
-import AWS from "aws-sdk";
+import { S3 } from "@aws-sdk/client-s3"; // Import from the new AWS SDK
 import path from "path";
 import dotenv from "dotenv";
 
 // Load environment variables from .env file
 dotenv.config();
 
-const s3 = new AWS.S3({
+// Initialize the S3 client
+const s3 = new S3({
   region: process.env.AWS_REGION,
-  // No access key and secret, we'll rely on the bucket's public permissions
+  // You can also set credentials here if needed
 });
 
 interface UploadParams {
@@ -19,7 +20,7 @@ interface UploadParams {
 
 const uploadFileToS3 = async (
   params: UploadParams,
-): Promise<AWS.S3.ManagedUpload.SendData> => {
+): Promise<void> => {
   const { bucketName, fileKey, fileBuffer, contentType } = params;
 
   const uploadParams = {
@@ -30,7 +31,7 @@ const uploadFileToS3 = async (
     ACL: "public-read", // Ensure the file is publicly accessible
   };
 
-  return s3.upload(uploadParams).promise();
+  await s3.putObject(uploadParams); // Use putObject instead of upload
 };
 
 // Placeholder for image compression if needed in the future
@@ -46,7 +47,7 @@ const processPdf = async (buffer: Buffer): Promise<Buffer> => {
 
 export const handleFileUpload = async (
   file: any,
-): Promise<AWS.S3.ManagedUpload.SendData> => {
+): Promise<void> => {
   const bucketName = process.env.S3_BUCKET_NAME || "default-bucket-name";
   const fileExt = path.extname(file.filename).toLowerCase();
   let fileBuffer = await file.toBuffer();
@@ -58,8 +59,8 @@ export const handleFileUpload = async (
   }
 
   const fileKey = `${Date.now()}-${file.filename}`;
-
-  return uploadFileToS3({
+  console.log("testing", bucketName, fileKey, fileBuffer);
+  await uploadFileToS3({
     bucketName,
     fileKey,
     fileBuffer,

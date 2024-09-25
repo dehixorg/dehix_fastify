@@ -38,9 +38,8 @@ export const configure = async () => {
 
   await app.after();
 
-  app.register(fastifyMultipart);
-
   app
+    .register(fastifyMultipart)
     .register(swagger, {
       mode: "dynamic",
       swagger: {

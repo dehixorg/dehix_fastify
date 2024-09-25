@@ -19,8 +19,6 @@ import { createBusinessSchema } from "../schema/v1/business/business.create";
 import { IBusiness } from "../models/business.entity";
 import { BusinessService } from "../services/business.service";
 import { handleFileUpload } from "../common/services/s3.service";
-import { uploadImageSchema } from "../schema/v1/upload/upload";
-
 @Controller({ route: REGISTRATION_ENDPOINT })
 export default class RegisterController extends BaseController {
   @Inject(FreelancerService)
@@ -96,25 +94,57 @@ export default class RegisterController extends BaseController {
       });
     }
   }
-
   // New API to handle image upload to S3
   @POST("/upload-image")
   async uploadImage(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const file = request.body; // Assuming the file is passed in the body
-      console.log("BODY:", file);
-      if (!file) {
-        return reply.status(STATUS_CODES.BAD_REQUEST).send({
-          message: "No file uploaded",
-          code: ERROR_CODES.BAD_REQUEST_ERROR,
-        });
+      // Ensure multipart parsing is set up correctly
+      const parts = request.multipart();
+      if (!parts) {
+        throw new Error("Multipart parsing is not set up correctly.");
       }
 
-      const uploadResult = await handleFileUpload(file);
+      // Process each part
+      parts.on("file", async (field, file, filename, encoding, mimetype) => {
+        // Log file details
+        console.log("File:", {
+          fieldname: field,
+          filename: filename,
+          encoding: encoding,
+          mimetype: mimetype,
+        });
 
-      reply.status(STATUS_CODES.SUCCESS).send({
-        message: "File uploaded successfully",
-        data: uploadResult,
+        // Handle file upload
+        try {
+          const uploadResult = await handleFileUpload(file);
+          console.log("uploaded result", uploadResult);
+
+          // Respond once all files are processed
+          reply.status(STATUS_CODES.SUCCESS).send({
+            message: "File uploaded successfully",
+            data: uploadResult,
+          });
+        } catch (uploadError) {
+          console.error("Upload error:", uploadError);
+          reply.status(STATUS_CODES.SERVER_ERROR).send({
+            message: "Error uploading file",
+            code: ERROR_CODES.SERVER_ERROR,
+          });
+        }
+      });
+
+      // Handle end of multipart processing
+      parts.on("end", () => {
+        console.log("All parts processed");
+      });
+
+      // Handle errors
+      parts.on("error", (err) => {
+        console.error("Error in multipart processing:", err);
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: "Error processing multipart request",
+          code: ERROR_CODES.SERVER_ERROR,
+        });
       });
     } catch (error: any) {
       this.logger.error(
