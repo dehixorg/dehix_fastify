@@ -149,7 +149,7 @@ export class FreelancerDAO extends BaseDAO {
   }
 
   async createFreelancer(freelancer: IFreelancer) {
-    try {
+    try {   
       const createdFreelancer = await this.model.create(freelancer);
       return createdFreelancer;
     } catch (error: any) {
