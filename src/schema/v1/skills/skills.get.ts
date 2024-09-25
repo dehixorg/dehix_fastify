@@ -18,6 +18,7 @@ export const getSkillByIdSchema: FastifySchema = {
               type: "string",
               format: "date-time",
             },
+            status: { type: "string" },
           },
         },
       },

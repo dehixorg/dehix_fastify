@@ -446,19 +446,14 @@ export class BusinessService extends BaseService {
     return data;
   }
   async updateProjectStatusByProjectID(project_id, status) {
-
-    const validStatuses = ['Active', 'Pending', 'Completed', 'Rejected'];
+    const validStatuses = ["Active", "Pending", "Completed", "Rejected"];
     if (!validStatuses.includes(status)) {
-      throw new Error(
-        RESPONSE_MESSAGE.INVALID("Status")
-      );
+      throw new Error(RESPONSE_MESSAGE.INVALID("Status"));
     }
 
     const project = await this.ProjectDAO.updateStatus(project_id, status);
     if (!project) {
-      throw new Error(
-        RESPONSE_MESSAGE.NOT_FOUND("Project")
-      );
+      throw new Error(RESPONSE_MESSAGE.NOT_FOUND("Project"));
     }
 
     return project;
