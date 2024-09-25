@@ -85,7 +85,7 @@ export class FreelancerDAO extends BaseDAO {
   }
 
   async addFreelancerSkill(id: string, skills: any) {
-    const skillsWithId = skills.map((skill:any) => ({
+    const skillsWithId = skills.map((skill: any) => ({
       ...skill,
       _id: uuidv4(),
     }));
@@ -98,7 +98,7 @@ export class FreelancerDAO extends BaseDAO {
     if (!result) {
       throw new Error("Freelancer not found or skills could not be added");
     }
-    const skillIds = skillsWithId.map((skill:any) => skill._id);
+    const skillIds = skillsWithId.map((skill: any) => skill._id);
     return {
       skillIds,
       skillsWithId,
