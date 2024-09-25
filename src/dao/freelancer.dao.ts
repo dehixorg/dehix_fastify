@@ -85,7 +85,7 @@ export class FreelancerDAO extends BaseDAO {
   }
 
   async addFreelancerSkill(id: string, skills: any) {
-    const skillsWithId = skills.map((skill) => ({
+    const skillsWithId = skills.map((skill:any) => ({
       ...skill,
       _id: uuidv4(),
     }));
@@ -98,7 +98,7 @@ export class FreelancerDAO extends BaseDAO {
     if (!result) {
       throw new Error("Freelancer not found or skills could not be added");
     }
-    const skillIds = skillsWithId.map((skill) => skill._id);
+    const skillIds = skillsWithId.map((skill:any) => skill._id);
     return {
       skillIds,
       skillsWithId,
@@ -684,7 +684,7 @@ export class FreelancerDAO extends BaseDAO {
         .select("firstName lastName userName dehixTalent")
         .lean()
         .exec();
-      
+
       // Flatten the talents from all freelancers
       const allTalents = freelancers.flatMap((freelancer: any) =>
         Object.keys(freelancer.dehixTalent).map((talentId) => ({
@@ -693,18 +693,17 @@ export class FreelancerDAO extends BaseDAO {
             _id: talentId, // each talent's _id
             ...freelancer.dehixTalent[talentId], // the rest of the talent data
           },
-        }))
+        })),
       );
-  
+
       // Apply the pagination (limit and skip) on the flattened talents
       const paginatedTalents = allTalents.slice(skip, skip + limit);
-  
+
       return paginatedTalents; // Return the paginated talents
     } catch (error: any) {
       throw new Error(`Failed to fetch dehix talent: ${error.message}`);
     }
   }
-    
 
   async getFreelancerDehixTalent(freelancer_id: string) {
     try {

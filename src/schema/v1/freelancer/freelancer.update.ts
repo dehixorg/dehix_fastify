@@ -115,9 +115,7 @@ export const updateFreelancerSchema: FastifySchema = {
             interviewInfo: { type: "string" },
             interviewerRating: { type: "number" },
           },
-          required: [
-            "name"
-          ],
+          required: ["name"],
         },
       },
       education: {
@@ -298,7 +296,7 @@ export const updateFreelancerSchema: FastifySchema = {
       type: "object",
       properties: {
         message: {
-         type:"string"
+          type: "string",
         },
       },
     },

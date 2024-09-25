@@ -238,7 +238,7 @@ export default class FreelancerController extends AuthController {
         });
       }
 
-      reply.status(STATUS_CODES.SUCCESS).send({message:"profile updated"});
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "profile updated" });
     } catch (error: any) {
       this.logger.error(`Error in updateFreelancer: ${error.message}`);
       reply.status(STATUS_CODES.SERVER_ERROR).send({
@@ -1364,15 +1364,16 @@ export default class FreelancerController extends AuthController {
   @GET(ALL_DEHIX_TALENT_ENDPOINT, { schema: getAllDehixTalentSchema })
   async getAllDehixTalent(
     request: FastifyRequest<{
-      Querystring: GetFreelancerDehixTalentQueryParams 
+      Querystring: GetFreelancerDehixTalentQueryParams;
     }>,
-    reply: FastifyReply) {
+    reply: FastifyReply,
+  ) {
     try {
       this.logger.info(
         `FreelancersController -> getAllDehixTalent -> Fetching dehix talent`,
       );
 
-      const {limit, skip} = request.query;
+      const { limit, skip } = request.query;
       const data = await this.freelancerService.getAllDehixTalent(limit, skip);
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });

@@ -64,7 +64,7 @@ export const createhireDehixTalentSchema: FastifySchema = {
           properties: {
             _id: { type: "string" },
             BusinessId: {
-              type: "string"
+              type: "string",
             },
             domainId: {
               type: "string",

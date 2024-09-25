@@ -53,13 +53,12 @@ export class HireDAO extends BaseDAO {
       updateFields[`status`] = update.status;
     }
     if (update.visible !== undefined) {
-      updateFields[`visible`] =
-        update.visible;
+      updateFields[`visible`] = update.visible;
     }
     console.log(updateFields);
     // Perform the update with only the necessary fields
     try {
-      const data =  this.model.findOneAndUpdate(
+      const data = this.model.findOneAndUpdate(
         {
           _id: hireDehixTalent_id,
         },
@@ -72,7 +71,7 @@ export class HireDAO extends BaseDAO {
       return data;
     } catch (error) {
       console.error("Error in updateStatusHireDehixTalent:", error);
-      throw new Error("Could not update Hire records");     
+      throw new Error("Could not update Hire records");
     }
   }
 }

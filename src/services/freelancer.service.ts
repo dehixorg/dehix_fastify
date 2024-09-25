@@ -910,7 +910,10 @@ export class FreelancerService extends BaseService {
       "SkillsService: getAllDehixTalent: Fetching All dehix talent ",
     );
 
-    const dehixTalent: any = await this.FreelancerDAO.getAllDehixTalent(limit, skip);
+    const dehixTalent: any = await this.FreelancerDAO.getAllDehixTalent(
+      limit,
+      skip,
+    );
 
     if (!dehixTalent || dehixTalent.length === 0) {
       this.logger.error(

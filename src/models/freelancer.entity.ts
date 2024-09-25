@@ -59,7 +59,7 @@ export interface IFreelancer extends Document {
   >;
   skills?: ISkill[];
   domain?: IDomain[];
-  projectDomain?:IProjectDomain[]
+  projectDomain?: IProjectDomain[];
   education?: Map<
     string,
     {

@@ -91,7 +91,7 @@ export class ProjectDAO extends BaseDAO {
     return await this.model.findByIdAndUpdate(
       project_id,
       { status, updatedAt: new Date() },
-      { new: true }
+      { new: true },
     );
   }
 
