@@ -8,7 +8,8 @@ export interface IDomain extends Document {
   createdBy?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  status: string;
+  status?: string;
+
 }
 
 const DomainSchema: Schema<IDomain> = new Schema(
@@ -32,6 +33,7 @@ const DomainSchema: Schema<IDomain> = new Schema(
     },
     status: {
       type: String,
+      enum: ["Active", "In Active", "Archived"],
       default: "Active",
     },
   },

@@ -8,6 +8,7 @@ export const updateSkillSchema: FastifySchema = {
     properties: {
       label: { type: "string" },
       description: { type: "string" },
+      status: { type: "string" },
     },
     required: [],
   },
@@ -19,7 +20,6 @@ export const updateSkillSchema: FastifySchema = {
         data: {
           type: "object",
           properties: {
-            _id: { type: "string" },
             label: { type: "string" },
             description: { type: "string" },
             status: { type: "string" },
