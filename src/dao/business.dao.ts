@@ -4,6 +4,7 @@ import { BaseDAO } from "../common/base.dao";
 import { IBusiness, BusinessModel } from "../models/business.entity";
 import { IProject, ProjectModel } from "../models/project.entity";
 import { v4 as uuidv4 } from "uuid";
+
 @Service()
 export class businessDAO extends BaseDAO {
   model: Model<IBusiness>;
@@ -142,7 +143,8 @@ export class businessDAO extends BaseDAO {
     jobType?: string[];
     domain?: string[];
     skills?: string[];
-  }) {
+   
+  },  page: string = "1", limit: string = "20") {
     const { location, jobType, domain, skills } = filters;
 
     // Build the query object based on the provided filters
@@ -165,8 +167,10 @@ export class businessDAO extends BaseDAO {
       query.skillsRequired = { $in: skills };
     }
     query.status = { $ne: "Completed" };
-
-    return await this.projectmodel.find(query);
+    const pageIndex: number = parseInt(page) - 1;
+    const pageSize: number = parseInt(limit);
+    const startIndex = (pageIndex) * pageSize;
+    return await this.projectmodel.find(query).skip(startIndex).limit(pageSize);
   }
   async getProjectById(project_id: string) {
     return this.projectmodel.findById(project_id);
