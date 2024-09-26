@@ -20,7 +20,7 @@ export class VerificationDAO extends BaseDAO {
     verifier_username: string,
     requester_id: string,
     doc_id: string,
-    doc_type: string,
+    doc_type: string
   ) {
     return this.model.create({
       verifier_id,
@@ -35,7 +35,7 @@ export class VerificationDAO extends BaseDAO {
     verifier_id: string,
     verifier_username: string,
     requester_id: string,
-    doc_type,
+    doc_type
   ) {
     return this.model.create({
       verifier_id,
@@ -49,7 +49,7 @@ export class VerificationDAO extends BaseDAO {
     return this.model
       .findById(
         id,
-        "verifier_id requester_id document_id verification_status createdAt updatedAt",
+        "verifier_id requester_id document_id verification_status createdAt updatedAt"
       )
       .lean()
       .exec();
@@ -76,7 +76,7 @@ export class VerificationDAO extends BaseDAO {
   async updateStatus(verification_id: string, status: any) {
     return this.model.updateOne(
       { _id: verification_id },
-      { $set: { verification_status: status } },
+      { $set: { verification_status: status } }
     );
   }
 
@@ -94,7 +94,13 @@ export class VerificationDAO extends BaseDAO {
 
   async getVerificationData(
     verifier_id: string,
-    doc_type: "skill" | "domain" | "education" | "project" | "experience",
+    doc_type:
+      | "skill"
+      | "domain"
+      | "education"
+      | "project"
+      | "experience"
+      | "business"
   ) {
     try {
       const query = {
@@ -104,22 +110,59 @@ export class VerificationDAO extends BaseDAO {
 
       const verificationData = await this.model.find(query);
 
-      const requesterData = verificationData.map((doc: any) => ({
-        requester_id: doc.requester_id,
-        document_id: doc.document_id,
-      }));
+      if (doc_type == "business") {
+        const requesterData = verificationData.map((doc: any) => ({
+          requester_id: doc.requester_id,
+        }));
 
-      return requesterData;
+        return requesterData;
+      } else {
+        const requesterData = verificationData.map((doc: any) => ({
+          requester_id: doc.requester_id,
+          document_id: doc.document_id,
+        }));
+
+        return requesterData;
+      }
     } catch (error) {
       console.error("Error fetching verification requests data:", error);
       throw error;
     }
   }
 
-  async getAllVerificationData() {
+  async getAllVerificationData(
+    doc_type:
+      | "skill"
+      | "domain"
+      | "education"
+      | "project"
+      | "experience"
+      | "business"
+  ) {
     try {
-      const verification = await this.model.find();
-      return verification;
+      const query = {
+        ...(doc_type && { doc_type }),
+      };
+      const verificationData = await this.model.find(query);
+
+      if (doc_type == "business") {
+        const data = verificationData.map((doc: any) => ({
+          requester_id: doc.requester_id,
+          verifier_id: doc.verifier_id,
+          verifier_username: doc.verifier_username,
+        }));
+
+        return data;
+      } else {
+        const data = verificationData.map((doc: any) => ({
+          verifier_id: doc.verifier_id,
+          verifier_username: doc.verifier_username,
+          requester_id: doc.requester_id,
+          document_id: doc.document_id,
+        }));
+
+        return data;
+      }
     } catch (error: any) {
       throw new Error(`Failed to fetch verification data: ${error.message}`);
     }
@@ -144,7 +187,7 @@ export class VerificationDAO extends BaseDAO {
         verifier_id: newOracle.id,
         verifier_username: newOracle.username,
       },
-      { new: true },
+      { new: true }
     );
 
     return data;

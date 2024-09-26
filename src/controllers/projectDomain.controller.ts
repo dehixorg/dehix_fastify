@@ -106,7 +106,6 @@ export default class ProjectDomainController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       }
-      console.log("DATA:", data);
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(`Error in getallProjectDomain: ${error.message}`);
