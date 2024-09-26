@@ -36,7 +36,7 @@ export class FreelancerService extends BaseService {
     jobType?: string[];
     domain?: string[];
     skills?: string[];
-  }) {
+  },page:string,limit:string) {
     const { experience, jobType, domain, skills } = filters;
 
     this.logger.info(
@@ -48,7 +48,7 @@ export class FreelancerService extends BaseService {
       jobType,
       domain,
       skills,
-    });
+    },page,limit);
 
     return data;
   }
