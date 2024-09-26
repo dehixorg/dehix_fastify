@@ -22,13 +22,12 @@ export const getProjectSchema: FastifySchema = {
         type: "string",
         description: "Comma-separated list of skills",
       },
-      page:{
+      page: {
         type: "string",
-        
       },
-      limit:{
+      limit: {
         type: "string",
-      }
+      },
     },
   },
   response: {

@@ -138,13 +138,16 @@ export class businessDAO extends BaseDAO {
       { $set: { "TotalNeedOffreelancer.$.status": "not assigned" } },
     );
   }
-  async findAllProjects(filters: {
-    location?: string[];
-    jobType?: string[];
-    domain?: string[];
-    skills?: string[];
-   
-  },  page: string = "1", limit: string = "20") {
+  async findAllProjects(
+    filters: {
+      location?: string[];
+      jobType?: string[];
+      domain?: string[];
+      skills?: string[];
+    },
+    page: string = "1",
+    limit: string = "20",
+  ) {
     const { location, jobType, domain, skills } = filters;
 
     // Build the query object based on the provided filters
@@ -169,7 +172,7 @@ export class businessDAO extends BaseDAO {
     query.status = { $ne: "Completed" };
     const pageIndex: number = parseInt(page) - 1;
     const pageSize: number = parseInt(limit);
-    const startIndex = (pageIndex) * pageSize;
+    const startIndex = pageIndex * pageSize;
     return await this.projectmodel.find(query).skip(startIndex).limit(pageSize);
   }
   async getProjectById(project_id: string) {

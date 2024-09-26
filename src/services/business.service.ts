@@ -137,7 +137,9 @@ export class BusinessService extends BaseService {
       domain?: string[];
       skills?: string[];
     },
-    freelancer_id: string,page:string,limit:string
+    freelancer_id: string,
+    page: string,
+    limit: string,
   ) {
     const { location, jobType, domain, skills } = filters;
 
@@ -157,12 +159,16 @@ export class BusinessService extends BaseService {
     // Ensure notInterestedProject is defined
     const notInterestedProjects = freelancerExist.notInterestedProject || [];
 
-    const dataSet = await this.businessDao.findAllProjects({
-      location,
-      jobType,
-      domain,
-      skills,
-    },page,limit);
+    const dataSet = await this.businessDao.findAllProjects(
+      {
+        location,
+        jobType,
+        domain,
+        skills,
+      },
+      page,
+      limit,
+    );
 
     const data = dataSet.filter(
       (project) => !notInterestedProjects.includes(project._id.toString()),
@@ -444,19 +450,14 @@ export class BusinessService extends BaseService {
     return data;
   }
   async updateProjectStatusByProjectID(project_id, status) {
-
-    const validStatuses = ['Active', 'Pending', 'Completed', 'Rejected'];
+    const validStatuses = ["Active", "Pending", "Completed", "Rejected"];
     if (!validStatuses.includes(status)) {
-      throw new Error(
-        RESPONSE_MESSAGE.INVALID("Status")
-      );
+      throw new Error(RESPONSE_MESSAGE.INVALID("Status"));
     }
 
     const project = await this.ProjectDAO.updateStatus(project_id, status);
     if (!project) {
-      throw new Error(
-        RESPONSE_MESSAGE.NOT_FOUND("Project")
-      );
+      throw new Error(RESPONSE_MESSAGE.NOT_FOUND("Project"));
     }
 
     return project;

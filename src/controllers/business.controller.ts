@@ -22,7 +22,7 @@ import {
   UPDATE_BUSINESS_PROJECT_PROFILE_BY_ID,
   GET_PROJECT_AND_BIDS_DATA_BY_PROJECT_ID,
   GET_BUSINESS_SINGLE_PROJECT_BY_ID_WITH_OUT_CHECK,
-  UPDATE_STATUS_BY_PROJECT_ID
+  UPDATE_STATUS_BY_PROJECT_ID,
 } from "../constants/business.constant";
 import {
   getBusinessProjectSchema,
@@ -57,7 +57,10 @@ import {
 import { deleteProjectProfileByIdSchema } from "../schema/v1/projectProfile/profile.delete";
 import { DeleteProjectProfilePathParams } from "../types/v1/projectProfile/deleteProfile";
 import { updateProjectStatusSchema } from "../schema/v1/project/project.update";
-import { PutProjectBody, PutProjectPathParams } from "../types/v1/project/updateProject";
+import {
+  PutProjectBody,
+  PutProjectPathParams,
+} from "../types/v1/project/updateProject";
 
 @Controller({ route: BUSINESS_END_POINT })
 export default class BusinessController extends AuthController {
@@ -174,9 +177,9 @@ export default class BusinessController extends AuthController {
       this.logger.info(
         `BusinessController -> getAllProjectBusiness -> Fetching Business all projects with filters: Location: ${locationArray}, Job Type: ${jobTypeArray}, Domain: ${domainArray}, Skills: ${skillsArray}`,
       );
-      const { page,limit } = request.query as {
+      const { page, limit } = request.query as {
         page: string;
-        limit:string
+        limit: string;
       };
 
       const data = await this.BusinessService.getAllProjectsData(
@@ -186,7 +189,9 @@ export default class BusinessController extends AuthController {
           domain: domainArray,
           skills: skillsArray,
         },
-        request.params.freelancer_id,page,limit
+        request.params.freelancer_id,
+        page,
+        limit,
       );
 
       return reply.status(STATUS_CODES.SUCCESS).send({ data });
