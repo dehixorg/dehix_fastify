@@ -1,6 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, GET, DELETE, POST, PUT, PATCH, Inject } from "fastify-decorators";
+import {
+  Controller,
+  GET,
+  DELETE,
+  POST,
+  PUT,
+  PATCH,
+  Inject,
+} from "fastify-decorators";
 import {
   STATUS_CODES,
   ERROR_CODES,
@@ -17,7 +25,10 @@ import {
 import { HireService } from "../services/hireDehixTalent.service";
 import { createhireDehixTalentSchema } from "../schema/v1/hireDehixTalent/hireDehixTalent.create";
 import { IHire } from "../models/hireDehixTalent.entity";
-import { UpdateHireDehixTalent, updateStatusHireDehixTalentSchema } from "../schema/v1/hireDehixTalent/hireDehixTalent.update";
+import {
+  UpdateHireDehixTalent,
+  updateStatusHireDehixTalentSchema,
+} from "../schema/v1/hireDehixTalent/hireDehixTalent.update";
 import {
   PutHireDehixTalentBody,
   HireDehixTalentPathParams,
@@ -46,7 +57,10 @@ export default class HireController extends AuthController {
         `HireController -> create -> Create a new hireDehixTalent using Id: ${request.params.business_id}`,
       );
 
-      const data = await this.hireService.createhireDehixTalent(request.params.business_id, request.body);
+      const data = await this.hireService.createhireDehixTalent(
+        request.params.business_id,
+        request.body,
+      );
       this.logger.warn(data);
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
@@ -192,9 +206,7 @@ export default class HireController extends AuthController {
       this.logger.error(`Error in updateHireDehixTalentById: ${error.message}`);
       if (
         error.ERROR_CODES === "BUSINESS_NOT_FOUND" ||
-        error.message.includes(
-          "Business with provided ID could not be found.",
-        )
+        error.message.includes("Business with provided ID could not be found.")
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Business"),

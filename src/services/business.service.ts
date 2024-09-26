@@ -136,13 +136,14 @@ export class BusinessService extends BaseService {
       jobType?: string[];
       domain?: string[];
       skills?: string[];
+      projectDomain?: string[];
     },
     freelancer_id: string,
   ) {
-    const { location, jobType, domain, skills } = filters;
+    const { location, jobType, domain, skills, projectDomain } = filters;
 
     this.logger.info(
-      `Business Service: Fetching all business projects with filters - Location: ${location}, Job Type: ${jobType}, Domain: ${domain}, Skills: ${skills}`,
+      `Business Service: Fetching all business projects with filters - Location: ${location}, Job Type: ${jobType}, Domain: ${domain}, Skills: ${skills}, projectDomain: ${projectDomain}`,
     );
 
     const freelancerExist =
@@ -162,6 +163,7 @@ export class BusinessService extends BaseService {
       jobType,
       domain,
       skills,
+      projectDomain,
     });
 
     const data = dataSet.filter(
@@ -444,19 +446,14 @@ export class BusinessService extends BaseService {
     return data;
   }
   async updateProjectStatusByProjectID(project_id, status) {
-
-    const validStatuses = ['Active', 'Pending', 'Completed', 'Rejected'];
+    const validStatuses = ["Active", "Pending", "Completed", "Rejected"];
     if (!validStatuses.includes(status)) {
-      throw new Error(
-        RESPONSE_MESSAGE.INVALID("Status")
-      );
+      throw new Error(RESPONSE_MESSAGE.INVALID("Status"));
     }
 
     const project = await this.ProjectDAO.updateStatus(project_id, status);
     if (!project) {
-      throw new Error(
-        RESPONSE_MESSAGE.NOT_FOUND("Project")
-      );
+      throw new Error(RESPONSE_MESSAGE.NOT_FOUND("Project"));
     }
 
     return project;

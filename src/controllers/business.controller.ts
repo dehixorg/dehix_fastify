@@ -22,7 +22,7 @@ import {
   UPDATE_BUSINESS_PROJECT_PROFILE_BY_ID,
   GET_PROJECT_AND_BIDS_DATA_BY_PROJECT_ID,
   GET_BUSINESS_SINGLE_PROJECT_BY_ID_WITH_OUT_CHECK,
-  UPDATE_STATUS_BY_PROJECT_ID
+  UPDATE_STATUS_BY_PROJECT_ID,
 } from "../constants/business.constant";
 import {
   getBusinessProjectSchema,
@@ -57,7 +57,10 @@ import {
 import { deleteProjectProfileByIdSchema } from "../schema/v1/projectProfile/profile.delete";
 import { DeleteProjectProfilePathParams } from "../types/v1/projectProfile/deleteProfile";
 import { updateProjectStatusSchema } from "../schema/v1/project/project.update";
-import { PutProjectBody, PutProjectPathParams } from "../types/v1/project/updateProject";
+import {
+  PutProjectBody,
+  PutProjectPathParams,
+} from "../types/v1/project/updateProject";
 
 @Controller({ route: BUSINESS_END_POINT })
 export default class BusinessController extends AuthController {
@@ -158,11 +161,12 @@ export default class BusinessController extends AuthController {
     reply: FastifyReply,
   ) {
     try {
-      const { location, jobType, domain, skills } = request.query as {
+      const { location, jobType, domain, skills, projectDomain } = request.query as {
         location: string;
         jobType: string;
         domain: string;
         skills: string;
+        projectDomain: string;
       };
 
       // Split comma-separated values into arrays
@@ -170,9 +174,10 @@ export default class BusinessController extends AuthController {
       const jobTypeArray = jobType ? jobType.split(",") : [];
       const domainArray = domain ? domain.split(",") : [];
       const skillsArray = skills ? skills.split(",") : [];
+      const projectDomainArray = projectDomain ? projectDomain.split(",") : [];
 
       this.logger.info(
-        `BusinessController -> getAllProjectBusiness -> Fetching Business all projects with filters: Location: ${locationArray}, Job Type: ${jobTypeArray}, Domain: ${domainArray}, Skills: ${skillsArray}`,
+        `BusinessController -> getAllProjectBusiness -> Fetching Business all projects with filters: Location: ${locationArray}, Job Type: ${jobTypeArray}, Domain: ${domainArray}, Skills: ${skillsArray}, ProjectDomain: ${projectDomainArray}`,
       );
 
       const data = await this.BusinessService.getAllProjectsData(
@@ -181,6 +186,7 @@ export default class BusinessController extends AuthController {
           jobType: jobTypeArray,
           domain: domainArray,
           skills: skillsArray,
+          projectDomain: projectDomainArray,
         },
         request.params.freelancer_id,
       );

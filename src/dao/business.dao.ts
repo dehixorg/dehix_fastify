@@ -142,8 +142,9 @@ export class businessDAO extends BaseDAO {
     jobType?: string[];
     domain?: string[];
     skills?: string[];
+    projectDomain?: string[];
   }) {
-    const { location, jobType, domain, skills } = filters;
+    const { location, jobType, domain, skills, projectDomain } = filters;
 
     // Build the query object based on the provided filters
     const query: any = {};
@@ -163,6 +164,10 @@ export class businessDAO extends BaseDAO {
 
     if (skills && skills.length > 0) {
       query.skillsRequired = { $in: skills };
+    }
+
+    if (projectDomain && projectDomain.length > 0) {
+      query.projectDomain = { $in: projectDomain };
     }
     query.status = { $ne: "Completed" };
 
