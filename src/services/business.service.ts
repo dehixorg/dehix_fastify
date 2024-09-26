@@ -167,7 +167,7 @@ export class BusinessService extends BaseService {
         domain,
         skills,
         projectDomain,
-    },
+      },
       page,
       limit,
     );

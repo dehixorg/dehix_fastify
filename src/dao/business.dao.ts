@@ -145,7 +145,7 @@ export class businessDAO extends BaseDAO {
       domain?: string[];
       skills?: string[];
       projectDomain?: string[];
-  },
+    },
     page: string = "1",
     limit: string = "20",
   ) {

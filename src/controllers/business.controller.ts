@@ -161,13 +161,14 @@ export default class BusinessController extends AuthController {
     reply: FastifyReply,
   ) {
     try {
-      const { location, jobType, domain, skills, projectDomain } = request.query as {
-        location: string;
-        jobType: string;
-        domain: string;
-        skills: string;
-        projectDomain: string;
-      };
+      const { location, jobType, domain, skills, projectDomain } =
+        request.query as {
+          location: string;
+          jobType: string;
+          domain: string;
+          skills: string;
+          projectDomain: string;
+        };
 
       // Split comma-separated values into arrays
       const locationArray = location ? location.split(",") : [];
