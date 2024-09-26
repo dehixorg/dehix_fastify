@@ -42,13 +42,13 @@ export class VerificationService extends BaseService {
 
           // find new Oracle
           const newOracle = await this.freelancerDAO.findOracle(
-            verification.requester_id,
+            verification.requester_id
           );
 
           if (newOracle) {
             await this.verificationDAO.reassignOracle(
               verification._id,
-              newOracle,
+              newOracle
             );
           } else {
             throw new Error("newOracle not found");
@@ -56,7 +56,7 @@ export class VerificationService extends BaseService {
         }
       } catch (error: any) {
         throw new Error(
-          `Error in cron job for oracle reassignment: ${error.message}`,
+          `Error in cron job for oracle reassignment: ${error.message}`
         );
       }
     });
@@ -65,7 +65,7 @@ export class VerificationService extends BaseService {
   async requestVerification(
     doc_id: string,
     doc_type: string,
-    requester_id: string,
+    requester_id: string
   ) {
     // Check if the requester exists
     const requesterExist =
@@ -74,7 +74,7 @@ export class VerificationService extends BaseService {
     if (!requesterExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
-        ERROR_CODES.NOT_FOUND,
+        ERROR_CODES.NOT_FOUND
       );
     }
 
@@ -94,7 +94,7 @@ export class VerificationService extends BaseService {
         verifier_username,
         requester_id,
         doc_id,
-        doc_type,
+        doc_type
       );
 
       return verification;
@@ -114,7 +114,7 @@ export class VerificationService extends BaseService {
         verifier_username,
         requester_id,
         doc_id,
-        doc_type,
+        doc_type
       );
 
       return verification;
@@ -125,11 +125,11 @@ export class VerificationService extends BaseService {
     document_id: string,
     status: string,
     comments: string,
-    doc_type: string,
+    doc_type: string
   ) {
     this.logger.info(
       "VerificationService: Updating Verification Status: ",
-      document_id,
+      document_id
     );
 
     const documentExist =
@@ -137,23 +137,23 @@ export class VerificationService extends BaseService {
     if (!documentExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.NOT_FOUND("Verification Document"),
-        ERROR_CODES.NOT_FOUND,
+        ERROR_CODES.NOT_FOUND
       );
     }
     this.logger.info(
       "document ",
       documentExist,
       "document id",
-      documentExist._id,
+      documentExist._id
     );
 
     const verificationExist = await this.verificationDAO.findVerificationById(
-      documentExist._id,
+      documentExist._id
     );
     if (!verificationExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.NOT_FOUND("Verification"),
-        ERROR_CODES.NOT_FOUND,
+        ERROR_CODES.NOT_FOUND
       );
     }
 
@@ -163,7 +163,7 @@ export class VerificationService extends BaseService {
           await this.updateProjectVerification(
             verificationExist,
             status,
-            comments,
+            comments
           );
           break;
 
@@ -171,7 +171,7 @@ export class VerificationService extends BaseService {
           await this.updateExperienceVerification(
             verificationExist,
             status,
-            comments,
+            comments
           );
           break;
 
@@ -179,7 +179,7 @@ export class VerificationService extends BaseService {
           await this.updateEducationVerification(
             verificationExist,
             status,
-            comments,
+            comments
           );
           break;
 
@@ -187,7 +187,7 @@ export class VerificationService extends BaseService {
         case "domain":
           await this.verificationDAO.updateStatus(
             verificationExist._id,
-            status,
+            status
           );
           break;
 
@@ -202,7 +202,7 @@ export class VerificationService extends BaseService {
   private async updateProjectVerification(
     verificationExist: any,
     status: string,
-    comments: string,
+    comments: string
   ) {
     if (status === "Pending") {
       await this.freelancerDAO.putProjectVerification(
@@ -211,7 +211,7 @@ export class VerificationService extends BaseService {
         {
           comments,
           verificationStatus: status,
-        },
+        }
       );
     }
   }
@@ -219,7 +219,7 @@ export class VerificationService extends BaseService {
   private async updateExperienceVerification(
     verificationExist: any,
     status: string,
-    comments: string,
+    comments: string
   ) {
     await this.freelancerDAO.updateExperienceVerification(
       verificationExist.requester_id,
@@ -227,14 +227,14 @@ export class VerificationService extends BaseService {
       {
         comments,
         verificationStatus: status,
-      },
+      }
     );
   }
 
   private async updateEducationVerification(
     verificationExist: any,
     status: string,
-    comments: string,
+    comments: string
   ) {
     await this.freelancerDAO.updateEducationVerification(
       verificationExist.requester_id,
@@ -242,7 +242,7 @@ export class VerificationService extends BaseService {
       {
         comments,
         verificationStatus: status,
-      },
+      }
     );
   }
 
@@ -255,7 +255,7 @@ export class VerificationService extends BaseService {
     if (!verificationExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.NOT_FOUND("Verification"),
-        ERROR_CODES.NOT_FOUND,
+        ERROR_CODES.NOT_FOUND
       );
     }
 
@@ -266,11 +266,17 @@ export class VerificationService extends BaseService {
 
   async getVerificationData(
     verifier_id: string,
-    doc_type: "skill" | "domain" | "education" | "project" | "experience",
+    doc_type:
+      | "skill"
+      | "domain"
+      | "education"
+      | "project"
+      | "experience"
+      | "business"
   ) {
     this.logger.info(
-      "VerificationsService: verifier get verification request data",
-      verifier_id,
+      "VerificationsService: verififetching verification data succesfully",
+      verifier_id
     );
 
     const verifierExist =
@@ -278,80 +284,124 @@ export class VerificationService extends BaseService {
     if (!verifierExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
-        ERROR_CODES.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND
       );
     }
 
     const data = await this.verificationDAO.getVerificationData(
       verifier_id,
-      doc_type,
+      doc_type
     );
 
     if (doc_type == "skill") {
       const requesterData = await Promise.all(
         data.map((doc: any) =>
-          this.freelancerDAO.getSkillById(doc.requester_id, doc.document_id),
-        ),
+          this.freelancerDAO.getSkillById(doc.requester_id, doc.document_id)
+        )
       );
-      this.logger.info(requesterData, "in get verification request data");
+      this.logger.info("fetching verification data succesfully");
       return requesterData;
     } else if (doc_type == "domain") {
       const requesterData = await Promise.all(
         data.map((doc: any) =>
-          this.freelancerDAO.getDomainById(doc.requester_id, doc.document_id),
-        ),
+          this.freelancerDAO.getDomainById(doc.requester_id, doc.document_id)
+        )
       );
-      this.logger.info(requesterData, "in get verification request data");
+      this.logger.info("fetching verification data succesfully");
       return requesterData;
     } else if (doc_type == "project") {
       const requesterData = await Promise.all(
         data.map((doc: any) =>
-          this.freelancerDAO.getProjectById(doc.requester_id, doc.document_id),
-        ),
+          this.freelancerDAO.getProjectById(doc.requester_id, doc.document_id)
+        )
       );
-      this.logger.info(requesterData, "in get verification request data");
+      this.logger.info("fetching verification data succesfully");
       return requesterData;
     } else if (doc_type == "education") {
       const requesterData = await Promise.all(
         data.map((doc: any) =>
-          this.freelancerDAO.getEducationById(
-            doc.requester_id,
-            doc.document_id,
-          ),
-        ),
+          this.freelancerDAO.getEducationById(doc.requester_id, doc.document_id)
+        )
       );
-      this.logger.info(requesterData, "in get verification request data");
+      this.logger.info("fetching verification data succesfully");
       return requesterData;
-    } else {
+    } else if (doc_type == "experience") {
       const requesterData = await Promise.all(
         data.map((doc: any) =>
           this.freelancerDAO.getExperienceById(
             doc.requester_id,
-            doc.document_id,
-          ),
-        ),
+            doc.document_id
+          )
+        )
       );
-      this.logger.info(requesterData, "in get verification request data");
+      this.logger.info("fetching verification data succesfully");
+      return requesterData;
+    } else {
+      const requesterData = await Promise.all(
+        data.map((doc: any) =>
+          this.BusinessDAO.getBusinessById(doc.requester_id)
+        )
+      );
+      this.logger.info("fetching verification data succesfully");
       return requesterData;
     }
   }
 
-  async getAllVerificationData() {
-    this.logger.info("SkillsService: getAllSkills: Fetching All Skills ");
+  // Refactor the getAllVerificationData method in VerificationsService
+  async getAllVerificationData(
+    doc_type:
+      | "skill"
+      | "domain"
+      | "education"
+      | "project"
+      | "experience"
+      | "business"
+  ) {
+    this.logger.info(
+      `VerificationsService: getAllVerificationData: Fetching verification data for ${doc_type}`
+    );
 
-    const verification: any =
-      await this.verificationDAO.getAllVerificationData();
+    const data = await this.verificationDAO.getAllVerificationData(doc_type);
 
-    if (!verification) {
-      this.logger.error(
-        "VerificationsService: getAllVerificationData: verification data not found ",
-      );
-      throw new NotFoundError(
-        RESPONSE_MESSAGE.NOT_FOUND("Verification Data"),
-        ERROR_CODES.FREELANCER_NOT_FOUND,
-      );
+    if (!data || data.length === 0) {
+      this.logger.error("No verification data found.");
+      return [];
     }
-    return verification;
+
+    // Define a mapping between doc_type and corresponding method in freelancerDAO
+    const daoMethods = {
+      skill: this.freelancerDAO.getSkillById.bind(this.freelancerDAO),
+      domain: this.freelancerDAO.getDomainById.bind(this.freelancerDAO),
+      project: this.freelancerDAO.getProjectById.bind(this.freelancerDAO),
+      education: this.freelancerDAO.getEducationById.bind(this.freelancerDAO),
+      experience: this.freelancerDAO.getExperienceById.bind(this.freelancerDAO),
+      business: this.BusinessDAO.getBusinessById.bind(this.BusinessDAO),
+    };
+
+    if (!daoMethods[doc_type]) {
+      throw new Error(`Unsupported doc_type: ${doc_type}`);
+    }
+
+    const requesterData = await Promise.all(
+      data.map(async (doc: any) => {
+        const { verifier_id, verifier_username, requester_id, document_id } =
+          doc;
+        const result = await daoMethods[doc_type](requester_id, document_id);
+
+        // Handle case when no result is found
+        if (!result) {
+          this.logger.warn(
+            `No result found for ${doc_type} with ID: ${document_id}`
+          );
+          return { verifier_id, verifier_username, result: {} };
+        }
+
+        return { verifier_id, verifier_username, result };
+      })
+    );
+
+    this.logger.info("Fetched verification data successfully.");
+    return requesterData;
   }
 
   async requestBusinessVerification(requester_id: string, doc_type: string) {
@@ -362,7 +412,7 @@ export class VerificationService extends BaseService {
     if (!requesterExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.BUSINESS_NOT_FOUND,
-        ERROR_CODES.NOT_FOUND,
+        ERROR_CODES.NOT_FOUND
       );
     }
 
@@ -380,7 +430,7 @@ export class VerificationService extends BaseService {
       verifier_id,
       verifier_username,
       requester_id,
-      doc_type,
+      doc_type
     );
 
     return verification;
