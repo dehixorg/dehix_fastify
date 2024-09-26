@@ -136,13 +136,14 @@ export class BusinessService extends BaseService {
       jobType?: string[];
       domain?: string[];
       skills?: string[];
+      projectDomain?: string[];
     },
     freelancer_id: string,
   ) {
-    const { location, jobType, domain, skills } = filters;
+    const { location, jobType, domain, skills, projectDomain } = filters;
 
     this.logger.info(
-      `Business Service: Fetching all business projects with filters - Location: ${location}, Job Type: ${jobType}, Domain: ${domain}, Skills: ${skills}`,
+      `Business Service: Fetching all business projects with filters - Location: ${location}, Job Type: ${jobType}, Domain: ${domain}, Skills: ${skills}, projectDomain: ${projectDomain}`,
     );
 
     const freelancerExist =
@@ -162,6 +163,7 @@ export class BusinessService extends BaseService {
       jobType,
       domain,
       skills,
+      projectDomain,
     });
 
     const data = dataSet.filter(
