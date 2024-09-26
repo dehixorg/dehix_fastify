@@ -807,12 +807,15 @@ export default class FreelancerController extends AuthController {
   @GET(ALL_FREELANCER, { schema: getFreelancerSchema })
   async getAllFreelancer(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { experience, jobType, domain, skills } = request.query as {
-        experience: string;
-        jobType: string;
-        domain: string;
-        skills: string;
-      };
+      const { experience, jobType, domain, skills, page, limit } =
+        request.query as {
+          experience: string;
+          jobType: string;
+          domain: string;
+          skills: string;
+          page: string;
+          limit: string;
+        };
 
       // Split comma-separated values into arrays
       const experienceArray = experience ? experience.split(",") : [];
@@ -824,12 +827,16 @@ export default class FreelancerController extends AuthController {
         `FreelancerController -> getAllFreelancer -> Fetching freelancers with filters: Experiance: ${experienceArray}, Job Type: ${jobTypeArray}, Domain: ${domainArray}, Skills: ${skillsArray}`,
       );
 
-      const data = await this.freelancerService.getAllFreelancer({
-        experience: experienceArray,
-        jobType: jobTypeArray,
-        domain: domainArray,
-        skills: skillsArray,
-      });
+      const data = await this.freelancerService.getAllFreelancer(
+        {
+          experience: experienceArray,
+          jobType: jobTypeArray,
+          domain: domainArray,
+          skills: skillsArray,
+        },
+        page,
+        limit,
+      );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
