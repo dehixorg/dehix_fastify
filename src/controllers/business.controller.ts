@@ -161,11 +161,12 @@ export default class BusinessController extends AuthController {
     reply: FastifyReply,
   ) {
     try {
-      const { location, jobType, domain, skills } = request.query as {
+      const { location, jobType, domain, skills, projectDomain } = request.query as {
         location: string;
         jobType: string;
         domain: string;
         skills: string;
+        projectDomain: string;
       };
 
       // Split comma-separated values into arrays
@@ -173,9 +174,10 @@ export default class BusinessController extends AuthController {
       const jobTypeArray = jobType ? jobType.split(",") : [];
       const domainArray = domain ? domain.split(",") : [];
       const skillsArray = skills ? skills.split(",") : [];
+      const projectDomainArray = projectDomain ? projectDomain.split(",") : [];
 
       this.logger.info(
-        `BusinessController -> getAllProjectBusiness -> Fetching Business all projects with filters: Location: ${locationArray}, Job Type: ${jobTypeArray}, Domain: ${domainArray}, Skills: ${skillsArray}`,
+        `BusinessController -> getAllProjectBusiness -> Fetching Business all projects with filters: Location: ${locationArray}, Job Type: ${jobTypeArray}, Domain: ${domainArray}, Skills: ${skillsArray}, ProjectDomain: ${projectDomainArray}`,
       );
       const { page, limit } = request.query as {
         page: string;
@@ -188,6 +190,7 @@ export default class BusinessController extends AuthController {
           jobType: jobTypeArray,
           domain: domainArray,
           skills: skillsArray,
+          projectDomain: projectDomainArray,
         },
         request.params.freelancer_id,
         page,

@@ -238,7 +238,7 @@ export default class FreelancerController extends AuthController {
         });
       }
 
-      reply.status(STATUS_CODES.SUCCESS).send({ data });
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "profile updated" });
     } catch (error: any) {
       this.logger.error(`Error in updateFreelancer: ${error.message}`);
       reply.status(STATUS_CODES.SERVER_ERROR).send({

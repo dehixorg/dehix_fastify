@@ -28,6 +28,10 @@ export const getProjectSchema: FastifySchema = {
       limit: {
         type: "string",
       },
+      projectDomain: {
+        type: "string",
+        description: "Comma-separated list of projectDomain",
+      },
     },
   },
   response: {

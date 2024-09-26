@@ -8,6 +8,7 @@ export interface ISkill extends Document {
   createdBy?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  status: string;
 }
 
 // Define the Skill schema
@@ -29,6 +30,10 @@ const SkillSchema: Schema<ISkill> = new Schema(
     createdBy: {
       type: String,
       required: false,
+    },
+    status: {
+      type: String,
+      default: "Active",
     },
   },
   {
