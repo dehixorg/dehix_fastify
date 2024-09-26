@@ -22,6 +22,12 @@ export const getProjectSchema: FastifySchema = {
         type: "string",
         description: "Comma-separated list of skills",
       },
+      page: {
+        type: "string",
+      },
+      limit: {
+        type: "string",
+      },
       projectDomain: {
         type: "string",
         description: "Comma-separated list of projectDomain",

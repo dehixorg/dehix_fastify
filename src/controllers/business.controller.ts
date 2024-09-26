@@ -161,13 +161,14 @@ export default class BusinessController extends AuthController {
     reply: FastifyReply,
   ) {
     try {
-      const { location, jobType, domain, skills, projectDomain } = request.query as {
-        location: string;
-        jobType: string;
-        domain: string;
-        skills: string;
-        projectDomain: string;
-      };
+      const { location, jobType, domain, skills, projectDomain } =
+        request.query as {
+          location: string;
+          jobType: string;
+          domain: string;
+          skills: string;
+          projectDomain: string;
+        };
 
       // Split comma-separated values into arrays
       const locationArray = location ? location.split(",") : [];
@@ -179,6 +180,10 @@ export default class BusinessController extends AuthController {
       this.logger.info(
         `BusinessController -> getAllProjectBusiness -> Fetching Business all projects with filters: Location: ${locationArray}, Job Type: ${jobTypeArray}, Domain: ${domainArray}, Skills: ${skillsArray}, ProjectDomain: ${projectDomainArray}`,
       );
+      const { page, limit } = request.query as {
+        page: string;
+        limit: string;
+      };
 
       const data = await this.BusinessService.getAllProjectsData(
         {
@@ -189,6 +194,8 @@ export default class BusinessController extends AuthController {
           projectDomain: projectDomainArray,
         },
         request.params.freelancer_id,
+        page,
+        limit,
       );
 
       return reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -301,7 +308,7 @@ export default class BusinessController extends AuthController {
     }
   }
   @GET(GET_BUSINESS_SINGLE_PROJECT_BY_ID, { schema: getProjectSchema })
-  async getSingleProjectWithVerify(
+  async getSingleProjectForFreelancer(
     request: FastifyRequest<{ Params: getProjectPathParams }>,
     reply: FastifyReply,
   ) {

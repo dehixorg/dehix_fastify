@@ -139,11 +139,13 @@ export class BusinessService extends BaseService {
       projectDomain?: string[];
     },
     freelancer_id: string,
+    page: string,
+    limit: string,
   ) {
     const { location, jobType, domain, skills, projectDomain } = filters;
 
     this.logger.info(
-      `Business Service: Fetching all business projects with filters - Location: ${location}, Job Type: ${jobType}, Domain: ${domain}, Skills: ${skills}, projectDomain: ${projectDomain}`,
+      `Business Service: Fetching all business projects with filters - Location: ${location}, Job Type: ${jobType}, Domain: ${domain}, Skills: ${skills},limit:${limit},page:${page}, projectDomain: ${projectDomain}`,
     );
 
     const freelancerExist =
@@ -158,13 +160,17 @@ export class BusinessService extends BaseService {
     // Ensure notInterestedProject is defined
     const notInterestedProjects = freelancerExist.notInterestedProject || [];
 
-    const dataSet = await this.businessDao.findAllProjects({
-      location,
-      jobType,
-      domain,
-      skills,
-      projectDomain,
-    });
+    const dataSet = await this.businessDao.findAllProjects(
+      {
+        location,
+        jobType,
+        domain,
+        skills,
+        projectDomain,
+      },
+      page,
+      limit,
+    );
 
     const data = dataSet.filter(
       (project) => !notInterestedProjects.includes(project._id.toString()),
