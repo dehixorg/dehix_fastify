@@ -16,7 +16,7 @@ import {
   ADMIN_ID_ENDPOINT,
   DELETE_ADMIN_BY_ID_ENDPOINT,
 } from "../constants/admin.constant";
-import { AdminsService } from "../services";
+import { AdminsService, VerificationService } from "../services";
 import { createAdminSchema } from "../schema/v1/admin/admin.create";
 import { createAdminBody } from "../types/v1/admin/createAdminBody";
 import { adminPathParams } from "../types/v1/admin/deleteAdmin";
@@ -25,16 +25,21 @@ import {
   getAdminByIdSchema,
   getAllAdminSchema,
 } from "../schema/v1/admin/admin.get";
+import { GET_ALL_ORACLE_ENDPOINT } from "../constants/freelancer.constant";
+import { getAllVerificationDataSchema } from "../schema/v1/verifications/verifications.get";
+import { GetDocTypeQueryParams } from "src/types/v1/verifications/getDocType";
 
 @Controller({ route: ADMIN_ENDPOINT })
 export default class AdminsController extends AuthController {
   @Inject(AdminsService)
   adminsService!: AdminsService;
+  @Inject(VerificationService)
+  verificationService!: VerificationService;
 
   @POST(ADMIN_ID_ENDPOINT, { schema: createAdminSchema })
   async createAdmin(
     request: FastifyRequest<{ Body: createAdminBody }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(`AdminsController -> createAdmin -> Creating admin`);
@@ -54,11 +59,11 @@ export default class AdminsController extends AuthController {
   @DELETE(DELETE_ADMIN_BY_ID_ENDPOINT, { schema: deleteAdminSchema })
   async deleteAdminById(
     request: FastifyRequest<{ Params: adminPathParams }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `AdminsController -> deleteAdminById -> Deleting Admin using: ${request.params.admin_id}`,
+        `AdminsController -> deleteAdminById -> Deleting Admin using: ${request.params.admin_id}`
       );
       await this.adminsService.deleteAdminById(request.params.admin_id);
 
@@ -120,15 +125,15 @@ export default class AdminsController extends AuthController {
   @GET(ADMIN_BY_ID_ENDPOINT, { schema: getAdminByIdSchema })
   async getAdminById(
     request: FastifyRequest<{ Params: adminPathParams }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `AdminsController -> getAdminById -> Fetching admin using: ${request.params.admin_id}`,
+        `AdminsController -> getAdminById -> Fetching admin using: ${request.params.admin_id}`
       );
 
       const data = await this.adminsService.getAdminById(
-        request.params.admin_id,
+        request.params.admin_id
       );
 
       if (!data) {
@@ -155,6 +160,38 @@ export default class AdminsController extends AuthController {
           code: ERROR_CODES.SERVER_ERROR,
         });
       }
+    }
+  }
+
+  @GET(GET_ALL_ORACLE_ENDPOINT, { schema: getAllVerificationDataSchema })
+  async getAllVerificationData(
+    request: FastifyRequest<{
+      Querystring: GetDocTypeQueryParams;
+    }>,
+    reply: FastifyReply
+  ) {
+    try {
+      this.logger.info(
+        `AdminsController -> getAllVerificationData -> Fetching verification data`
+      );
+      const { doc_type } = request.query;
+
+      const data =
+        await this.verificationService.getAllVerificationData(doc_type);
+
+      if (!data) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Verification Data"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getAllVerificationData: ${error.message}`);
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
+        message: RESPONSE_MESSAGE.SERVER_ERROR,
+        code: ERROR_CODES.SERVER_ERROR,
+      });
     }
   }
 }

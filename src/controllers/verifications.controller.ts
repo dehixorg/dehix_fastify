@@ -16,7 +16,7 @@ import {
   FREELANCER_ENDPOINT,
   ORACLE_ID_ENDPOINT,
   ORACLE_UPDATE_END_POINT,
-  ALL_ORACLE_ENDPOINT,
+  GET_ALL_ORACLE_ENDPOINT,
 } from "../constants/freelancer.constant";
 import { GetVerifierPathParams } from "../types/v1/verifications/getVerificationData";
 import { GetDocTypeQueryParams } from "../types/v1/verifications/getDocType";
@@ -34,11 +34,11 @@ export default class VerificationsController extends AuthController {
       Params: GetVerifierPathParams;
       Querystring: GetDocTypeQueryParams;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `VerificationsController -> getVerificationData -> Fetching verification request for verifier ID: ${request.params.verifier_id}`,
+        `VerificationsController -> getVerificationData -> Fetching verification request for verifier ID: ${request.params.verifier_id}`
       );
 
       const { verifier_id } = request.params;
@@ -46,7 +46,7 @@ export default class VerificationsController extends AuthController {
 
       const data = await this.verificationService.getVerificationData(
         verifier_id,
-        doc_type,
+        doc_type
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -55,7 +55,7 @@ export default class VerificationsController extends AuthController {
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found.",
+          "Freelancer with provided ID could not be found."
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -71,32 +71,6 @@ export default class VerificationsController extends AuthController {
     }
   }
 
-  @GET(ALL_ORACLE_ENDPOINT, { schema: getAllVerificationDataSchema })
-  async getAllVerificationData(request: FastifyRequest, reply: FastifyReply) {
-    try {
-      this.logger.info(
-        `VerificationsController -> getAllVerificationData -> Fetching verification data`,
-      );
-
-      const data = await this.verificationService.getAllVerificationData();
-
-      if (!data) {
-        return reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.NOT_FOUND("Verification Data"),
-          code: ERROR_CODES.NOT_FOUND,
-        });
-      }
-      console.log("DATA:", data);
-      reply.status(STATUS_CODES.SUCCESS).send({ data });
-    } catch (error: any) {
-      this.logger.error(`Error in getAllVerificationData: ${error.message}`);
-      reply.status(STATUS_CODES.SERVER_ERROR).send({
-        message: RESPONSE_MESSAGE.SERVER_ERROR,
-        code: ERROR_CODES.SERVER_ERROR,
-      });
-    }
-  }
-
   @PUT(ORACLE_UPDATE_END_POINT, { schema: updateVerificationStatusSchema })
   async updateVerificationStatus(
     request: FastifyRequest<{
@@ -104,17 +78,17 @@ export default class VerificationsController extends AuthController {
       Params: GetVerifierPathParams;
       Querystring: GetDocTypeQueryParams;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       this.logger.info(
-        `VerificationsController -> updateVerificationData -> updating verification request for verifier ID: ${request.params.verifier_id}`,
+        `VerificationsController -> updateVerificationData -> updating verification request for verifier ID: ${request.params.verifier_id}`
       );
       await this.verificationService.updateVerificationStatus(
         request.params.document_id,
         request.body.verification_status,
         request.body.comments,
-        request.query.doc_type,
+        request.query.doc_type
       );
       reply.status(STATUS_CODES.SUCCESS).send({ message: "verification done" });
     } catch (error: any) {
