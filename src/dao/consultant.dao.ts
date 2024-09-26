@@ -18,10 +18,10 @@ export class ConsultantDao extends BaseDAO {
   async getConsultantById(consulant_id: string) {
     return this.model.findById(consulant_id);
   }
-  async getAllConsultant(page:string='1',limit:string="20") {
-    const pages= parseInt(page)-1;
-    const pageSize= parseInt(limit)
-    const pageIndex= pages*pageSize;
+  async getAllConsultant(page: string = "1", limit: string = "20") {
+    const pages = parseInt(page) - 1;
+    const pageSize = parseInt(limit);
+    const pageIndex = pages * pageSize;
     return this.model.find().skip(pageIndex).limit(pageSize);
   }
   async deleteConsultant(consultant_id: string) {

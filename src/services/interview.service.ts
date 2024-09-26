@@ -68,9 +68,9 @@ export class InterviewService extends BaseService {
     return data;
   }
 
-  async getAllInterview(page:string,limit:string) {
+  async getAllInterview(page: string, limit: string) {
     this.logger.info("service->interview.service->getAllInterview");
-    const data = await this.interviewDao.getAllInterviews(page,limit);
+    const data = await this.interviewDao.getAllInterviews(page, limit);
     return data;
   }
   async getSingleInterview(interview_id: string) {

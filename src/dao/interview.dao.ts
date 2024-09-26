@@ -17,10 +17,10 @@ export class InterviewDao extends BaseDAO {
   async getInterviewById(interviewee_id: string) {
     return this.model.findOne({ interviewee: interviewee_id });
   }
-  async getAllInterviews(page:string,limit:string) {
-    const pages= parseInt(page)-1;
-    const pageSize= parseInt(limit);
-    const pageIndex= pages * pageSize;
+  async getAllInterviews(page: string, limit: string) {
+    const pages = parseInt(page) - 1;
+    const pageSize = parseInt(limit);
+    const pageIndex = pages * pageSize;
     return this.model.find().skip(pageIndex).limit(pageSize);
   }
   async updateInterviewById(interview_id: string, update: any) {

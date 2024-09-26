@@ -29,9 +29,9 @@ export class ConsultantService extends BidService {
     );
     return data;
   }
-  async getAllConsultant(page:string,limit:string) {
+  async getAllConsultant(page: string, limit: string) {
     this.logger.info("Service->consultant.service->getAllConsultant");
-    const data = await this.ConsultantDao.getAllConsultant(page,limit);
+    const data = await this.ConsultantDao.getAllConsultant(page, limit);
     return data;
   }
 

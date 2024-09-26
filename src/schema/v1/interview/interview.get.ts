@@ -73,8 +73,6 @@ export const getInterviewSchema: FastifySchema = {
   },
 };
 
-
-
 export const getAllInterviewSchema: FastifySchema = {
   description: "API to get interview data",
   tags: ["Interview"],
@@ -87,8 +85,8 @@ export const getAllInterviewSchema: FastifySchema = {
       interviewDate: { type: "string", format: "date-time" },
       rating: { type: "number" },
       comments: { type: "string" },
-      page:{type:"string"},
-      limit:{type:"string"}
+      page: { type: "string" },
+      limit: { type: "string" },
     },
   },
   response: {

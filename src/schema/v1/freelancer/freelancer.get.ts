@@ -29,7 +29,7 @@ export const getFreelancerSchema: FastifySchema = {
         type: "string",
         description: "Comma-separated list of skills",
       },
-     limit: {
+      limit: {
         type: "string",
       },
       page: {

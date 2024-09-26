@@ -31,24 +31,32 @@ export class FreelancerService extends BaseService {
   @Inject(VerificationService)
   private VerificationService!: VerificationService;
 
-  async getAllFreelancer(filters: {
-    experience?: string[];
-    jobType?: string[];
-    domain?: string[];
-    skills?: string[];
-  },page:string,limit:string) {
+  async getAllFreelancer(
+    filters: {
+      experience?: string[];
+      jobType?: string[];
+      domain?: string[];
+      skills?: string[];
+    },
+    page: string,
+    limit: string,
+  ) {
     const { experience, jobType, domain, skills } = filters;
 
     this.logger.info(
       `FreelancerService: Fetching all freelancers with filters - Experience: ${experience}, Job Type: ${jobType}, Domain: ${domain}, Skills: ${skills}`,
     );
 
-    const data = await this.FreelancerDAO.findAllFreelancers({
-      experience,
-      jobType,
-      domain,
-      skills,
-    },page,limit);
+    const data = await this.FreelancerDAO.findAllFreelancers(
+      {
+        experience,
+        jobType,
+        domain,
+        skills,
+      },
+      page,
+      limit,
+    );
 
     return data;
   }

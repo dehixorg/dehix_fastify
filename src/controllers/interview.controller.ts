@@ -20,7 +20,10 @@ import {
 } from "../common/constants";
 import { updateInterviewSchema } from "../schema/v1/interview/interview.update";
 import { updateInterviewBody } from "../types/v1/interview/updateInterview";
-import { getAllInterviewSchema, getInterviewSchema } from "../schema/v1/interview/interview.get";
+import {
+  getAllInterviewSchema,
+  getInterviewSchema,
+} from "../schema/v1/interview/interview.get";
 
 @Controller({ route: INTERVIEW })
 export default class InterviewController extends AuthController {
@@ -116,11 +119,11 @@ export default class InterviewController extends AuthController {
   async getAllInterview(request: FastifyRequest, reply: FastifyReply) {
     try {
       this.logger.info("controllers->interview.controller->getAllInterview");
-      const {limit ,page} = request.query as {
-        limit:string;
-        page:string
-      }
-      const data = await this.InterviewService.getAllInterview(limit ,page);
+      const { limit, page } = request.query as {
+        limit: string;
+        page: string;
+      };
+      const data = await this.InterviewService.getAllInterview(limit, page);
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error) {
       reply
