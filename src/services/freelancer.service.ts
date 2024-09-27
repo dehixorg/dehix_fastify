@@ -140,6 +140,9 @@ export class FreelancerService extends BaseService {
       // });
       const userObj = { ...freelancer, password: "" };
       const data: any = await this.FreelancerDAO.createFreelancer(userObj);
+      if (data.description && data.description.length > 500) {
+        throw new Error('Description cannot exceed 500 characters.');
+      }
 
       return data;
     } catch (error: any) {
@@ -216,6 +219,9 @@ export class FreelancerService extends BaseService {
       { _id: freelancer_id },
       freelancer,
     );
+    if (data.description && data.description.length > 500) {
+      throw new Error('Description cannot exceed 500 characters.');
+    }
 
     return data;
   }
