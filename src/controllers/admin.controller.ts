@@ -39,7 +39,7 @@ export default class AdminsController extends AuthController {
   @POST(ADMIN_ID_ENDPOINT, { schema: createAdminSchema })
   async createAdmin(
     request: FastifyRequest<{ Body: createAdminBody }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(`AdminsController -> createAdmin -> Creating admin`);
@@ -59,11 +59,11 @@ export default class AdminsController extends AuthController {
   @DELETE(DELETE_ADMIN_BY_ID_ENDPOINT, { schema: deleteAdminSchema })
   async deleteAdminById(
     request: FastifyRequest<{ Params: adminPathParams }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `AdminsController -> deleteAdminById -> Deleting Admin using: ${request.params.admin_id}`
+        `AdminsController -> deleteAdminById -> Deleting Admin using: ${request.params.admin_id}`,
       );
       await this.adminsService.deleteAdminById(request.params.admin_id);
 
@@ -125,15 +125,15 @@ export default class AdminsController extends AuthController {
   @GET(ADMIN_BY_ID_ENDPOINT, { schema: getAdminByIdSchema })
   async getAdminById(
     request: FastifyRequest<{ Params: adminPathParams }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `AdminsController -> getAdminById -> Fetching admin using: ${request.params.admin_id}`
+        `AdminsController -> getAdminById -> Fetching admin using: ${request.params.admin_id}`,
       );
 
       const data = await this.adminsService.getAdminById(
-        request.params.admin_id
+        request.params.admin_id,
       );
 
       if (!data) {
@@ -168,11 +168,11 @@ export default class AdminsController extends AuthController {
     request: FastifyRequest<{
       Querystring: GetDocTypeQueryParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `AdminsController -> getAllVerificationData -> Fetching verification data`
+        `AdminsController -> getAllVerificationData -> Fetching verification data`,
       );
       const { doc_type } = request.query;
 

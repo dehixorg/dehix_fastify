@@ -8,15 +8,11 @@ import {
 } from "../common/constants";
 import { AuthController } from "../common/auth.controller";
 import { VerificationService } from "../services";
-import {
-  getAllVerificationDataSchema,
-  getVerificationDataSchema,
-} from "../schema/v1/verifications/verifications.get";
+import { getVerificationDataSchema } from "../schema/v1/verifications/verifications.get";
 import {
   FREELANCER_ENDPOINT,
   ORACLE_ID_ENDPOINT,
   ORACLE_UPDATE_END_POINT,
-  GET_ALL_ORACLE_ENDPOINT,
 } from "../constants/freelancer.constant";
 import { GetVerifierPathParams } from "../types/v1/verifications/getVerificationData";
 import { GetDocTypeQueryParams } from "../types/v1/verifications/getDocType";
@@ -34,11 +30,11 @@ export default class VerificationsController extends AuthController {
       Params: GetVerifierPathParams;
       Querystring: GetDocTypeQueryParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `VerificationsController -> getVerificationData -> Fetching verification request for verifier ID: ${request.params.verifier_id}`
+        `VerificationsController -> getVerificationData -> Fetching verification request for verifier ID: ${request.params.verifier_id}`,
       );
 
       const { verifier_id } = request.params;
@@ -46,7 +42,7 @@ export default class VerificationsController extends AuthController {
 
       const data = await this.verificationService.getVerificationData(
         verifier_id,
-        doc_type
+        doc_type,
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -55,7 +51,7 @@ export default class VerificationsController extends AuthController {
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(
-          "Freelancer with provided ID could not be found."
+          "Freelancer with provided ID could not be found.",
         )
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -78,17 +74,17 @@ export default class VerificationsController extends AuthController {
       Params: GetVerifierPathParams;
       Querystring: GetDocTypeQueryParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `VerificationsController -> updateVerificationData -> updating verification request for verifier ID: ${request.params.verifier_id}`
+        `VerificationsController -> updateVerificationData -> updating verification request for verifier ID: ${request.params.verifier_id}`,
       );
       await this.verificationService.updateVerificationStatus(
         request.params.document_id,
         request.body.verification_status,
         request.body.comments,
-        request.query.doc_type
+        request.query.doc_type,
       );
       reply.status(STATUS_CODES.SUCCESS).send({ message: "verification done" });
     } catch (error: any) {

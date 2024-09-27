@@ -7,6 +7,7 @@ import swagger from "@fastify/swagger";
 import swagger_ui from "@fastify/swagger-ui";
 import { logger } from "./common/services/logger.service";
 import fs from "fs";
+import fastifyMultipart from "fastify-multipart";
 
 // Env schema
 const schema = {
@@ -38,6 +39,7 @@ export const configure = async () => {
   await app.after();
 
   app
+    .register(fastifyMultipart)
     .register(swagger, {
       mode: "dynamic",
       swagger: {

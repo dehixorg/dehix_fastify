@@ -9,7 +9,6 @@ export interface IDomain extends Document {
   createdAt?: Date;
   updatedAt?: Date;
   status?: string;
-
 }
 
 const DomainSchema: Schema<IDomain> = new Schema(
