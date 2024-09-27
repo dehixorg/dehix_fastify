@@ -15,6 +15,23 @@ export class AdminDAO extends BaseDAO {
     return this.model.findById(id);
   }
 
+  async createAdmin(data: any) {
+    return this.model.create(data);
+  }
+
+  async deleteAdminById(admin_id: string) {
+    return this.model.findByIdAndDelete(admin_id);
+  }
+
+  async getAllAdmins() {
+    try {
+      const admin = await this.model.find();
+      return admin;
+    } catch (error: any) {
+      throw new Error(`Failed to fetch admins: ${error.message}`);
+    }
+  }
+
   async findOracle() {
     try {
       const admin = await this.model

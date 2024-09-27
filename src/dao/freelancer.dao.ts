@@ -53,12 +53,16 @@ export class FreelancerDAO extends BaseDAO {
   async updateFreelancerData(id: string, update: any) {
     return this.model.findByIdAndUpdate({ _id: id }, update);
   }
-  async findAllFreelancers(filters: {
-    experience?: string[];
-    jobType?: string[];
-    domain?: string[];
-    skills?: string[];
-  }) {
+  async findAllFreelancers(
+    filters: {
+      experience?: string[];
+      jobType?: string[];
+      domain?: string[];
+      skills?: string[];
+    },
+    page: string = "1",
+    limit: string = "20",
+  ) {
     const { experience, jobType, domain, skills } = filters;
 
     // Build the query object based on the provided filters
@@ -80,12 +84,14 @@ export class FreelancerDAO extends BaseDAO {
     if (skills && skills.length > 0) {
       query["skills.name"] = { $in: skills };
     }
-
-    return await this.model.find(query);
+    const pages = parseInt(page) - 1;
+    const pageSize = parseInt(limit);
+    const pageIndex = pages * pageSize;
+    return await this.model.find(query).skip(pageIndex).limit(pageSize);
   }
 
   async addFreelancerSkill(id: string, skills: any) {
-    const skillsWithId = skills.map((skill) => ({
+    const skillsWithId = skills.map((skill: any) => ({
       ...skill,
       _id: uuidv4(),
     }));
@@ -98,7 +104,7 @@ export class FreelancerDAO extends BaseDAO {
     if (!result) {
       throw new Error("Freelancer not found or skills could not be added");
     }
-    const skillIds = skillsWithId.map((skill) => skill._id);
+    const skillIds = skillsWithId.map((skill: any) => skill._id);
     return {
       skillIds,
       skillsWithId,
@@ -485,8 +491,8 @@ export class FreelancerDAO extends BaseDAO {
   }
 
   async addDehixTalentById(id: string, update: any) {
-    const dehixTalentId = uuidv4();
-    return this.model.findByIdAndUpdate(
+    const dehixTalentId = uuidv4(); // Generate a unique ID for dehixTalent
+    const updatedFreelancer = await this.model.findByIdAndUpdate(
       id,
       {
         $set: {
@@ -496,8 +502,11 @@ export class FreelancerDAO extends BaseDAO {
           },
         },
       },
-      { new: true, upsert: true },
+      { new: true, upsert: true }, // Return the new document after update
     );
+
+    // Return the newly created dehixTalent entry
+    return updatedFreelancer?.dehixTalent?.get(dehixTalentId);
   }
 
   async getDehixTalentById(freelancerId: string, dehixTalent_id: string) {
@@ -673,16 +682,73 @@ export class FreelancerDAO extends BaseDAO {
     }
   }
 
-  async getAllDehixTalent() {
+  async getAllDehixTalent(limit: number, skip: number) {
     try {
+      // Fetch freelancers who have dehixTalent
       const freelancers = await this.model
         .find({ dehixTalent: { $exists: true, $ne: {} } })
-        .select("_id dehixTalent") // Fetch only necessary fields
+        .select("firstName lastName userName dehixTalent")
+        .lean()
         .exec();
 
-      return freelancers; // Return filtered freelancers directly
+      // Flatten the talents from all freelancers
+      const allTalents = freelancers.flatMap((freelancer: any) =>
+        Object.keys(freelancer.dehixTalent).map((talentId) => ({
+          Name: `${freelancer.firstName} ${freelancer.lastName}`, // freelancer's name
+          dehixTalent: {
+            _id: talentId, // each talent's _id
+            ...freelancer.dehixTalent[talentId], // the rest of the talent data
+          },
+        })),
+      );
+
+      // Apply the pagination (limit and skip) on the flattened talents
+      const paginatedTalents = allTalents.slice(skip, skip + limit);
+
+      return paginatedTalents; // Return the paginated talents
     } catch (error: any) {
       throw new Error(`Failed to fetch dehix talent: ${error.message}`);
     }
+  }
+
+  async getFreelancerDehixTalent(freelancer_id: string) {
+    try {
+      return await this.model.find(
+        { _id: freelancer_id },
+        { dehixTalent: 1, _id: 0 },
+      );
+    } catch (error) {
+      console.error("Error fetching freelancer dehix talent:", error);
+      throw error;
+    }
+  }
+
+  async updateDehixTalent(
+    freelancer_id: string,
+    dehixTalent_id: string,
+    update: { status?: string; activeStatus?: boolean },
+  ) {
+    // Use the $set operator to only update the specific fields
+    const updateFields = {} as any;
+
+    if (update.status !== undefined) {
+      updateFields[`dehixTalent.${dehixTalent_id}.status`] = update.status;
+    }
+    if (update.activeStatus !== undefined) {
+      updateFields[`dehixTalent.${dehixTalent_id}.activeStatus`] =
+        update.activeStatus;
+    }
+
+    // Perform the update with only the necessary fields
+    return this.model.findOneAndUpdate(
+      {
+        _id: freelancer_id,
+        [`dehixTalent.${dehixTalent_id}`]: { $exists: true },
+      },
+      { $set: updateFields },
+      {
+        new: true, // Return the updated document
+      },
+    );
   }
 }

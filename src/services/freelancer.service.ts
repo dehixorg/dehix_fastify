@@ -31,24 +31,32 @@ export class FreelancerService extends BaseService {
   @Inject(VerificationService)
   private VerificationService!: VerificationService;
 
-  async getAllFreelancer(filters: {
-    experience?: string[];
-    jobType?: string[];
-    domain?: string[];
-    skills?: string[];
-  }) {
+  async getAllFreelancer(
+    filters: {
+      experience?: string[];
+      jobType?: string[];
+      domain?: string[];
+      skills?: string[];
+    },
+    page: string,
+    limit: string,
+  ) {
     const { experience, jobType, domain, skills } = filters;
 
     this.logger.info(
       `FreelancerService: Fetching all freelancers with filters - Experience: ${experience}, Job Type: ${jobType}, Domain: ${domain}, Skills: ${skills}`,
     );
 
-    const data = await this.FreelancerDAO.findAllFreelancers({
-      experience,
-      jobType,
-      domain,
-      skills,
-    });
+    const data = await this.FreelancerDAO.findAllFreelancers(
+      {
+        experience,
+        jobType,
+        domain,
+        skills,
+      },
+      page,
+      limit,
+    );
 
     return data;
   }
@@ -744,6 +752,8 @@ export class FreelancerService extends BaseService {
         freelancer_id,
         dehixTalentData,
       );
+
+      // Return the newly created talent data
       return createDehixTalent;
     } catch (error: any) {
       throw new Error(
@@ -903,24 +913,80 @@ export class FreelancerService extends BaseService {
     return data;
   }
 
-  async getAllDehixTalent() {
+  async getAllDehixTalent(limit: number, skip: number) {
     this.logger.info(
       "SkillsService: getAllDehixTalent: Fetching All dehix talent ",
     );
 
-    const dehixTalent: any = await this.FreelancerDAO.getAllDehixTalent();
+    const dehixTalent: any = await this.FreelancerDAO.getAllDehixTalent(
+      limit,
+      skip,
+    );
 
     if (!dehixTalent || dehixTalent.length === 0) {
       this.logger.error(
         "FreelancerServices: getAllDehixTalent: Dehix talent not found ",
       );
       throw new NotFoundError(
-        RESPONSE_MESSAGE.NOT_FOUND("Dehix Talent"),
-        ERROR_CODES.NOT_FOUND,
+        RESPONSE_MESSAGE.DEHIX_TALENT_NOT_FOUND,
+        ERROR_CODES.DEHIX_TALENT_NOT_FOUND,
       );
     }
 
     return dehixTalent;
+  }
+
+  async getFreelancerDehixTalent(freelancer_id: string) {
+    this.logger.info(
+      "FreelancerService: freelancer get dehix talent: ",
+      freelancer_id,
+    );
+
+    const userExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const data =
+      await this.FreelancerDAO.getFreelancerDehixTalent(freelancer_id);
+    this.logger.info(data, "in get freelancer projects");
+    return data;
+  }
+
+  async updateDehixTalent(
+    freelancer_id: string,
+    dehixTalent_id: string,
+    update: any,
+  ) {
+    this.logger.info("FreelancerService: updateDehixTalent", freelancer_id);
+    const freelancerExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!freelancerExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+    const dehixTalent = await this.FreelancerDAO.getDehixTalentById(
+      freelancer_id,
+      dehixTalent_id,
+    );
+    if (!dehixTalent) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.DEHIX_TALENT_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+    const data = await this.FreelancerDAO.updateDehixTalent(
+      freelancer_id,
+      dehixTalent_id,
+      update,
+    );
+    return data;
   }
 }
 /**

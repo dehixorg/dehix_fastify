@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 export interface IProject extends Document {
   _id: string;
   projectName: string;
+  projectDomain: string[];
   description: string;
   companyId: string;
   email: string;
@@ -27,7 +28,9 @@ export interface IProject extends Document {
     rate?: number;
     description?: string;
     domain_id: string;
+    selectedFreelancer?: string[];
   }[];
+  totalBid?: string[];
   status?: "Active" | "Pending" | "Completed" | "Rejected";
   team?: string[];
   createdAt?: Date;
@@ -43,6 +46,10 @@ const ProjectSchema: Schema<IProject> = new Schema(
     },
     projectName: {
       type: String,
+      required: true,
+    },
+    projectDomain: {
+      type: [String],
       required: true,
     },
     description: {
@@ -102,6 +109,7 @@ const ProjectSchema: Schema<IProject> = new Schema(
 
     profiles: [
       {
+        _id: { type: String },
         domain: { type: String },
         freelancersRequired: { type: String },
         skills: { type: [String] },
@@ -111,6 +119,12 @@ const ProjectSchema: Schema<IProject> = new Schema(
         description: { type: String },
         domain_id: {
           type: String,
+        },
+        selectedFreelancer: {
+          type: [String],
+        },
+        totalBid: {
+          type: [String],
         },
       },
     ],

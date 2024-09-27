@@ -100,6 +100,24 @@ export const updateFreelancerSchema: FastifySchema = {
           ],
         },
       },
+      projectDomain: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            name: { type: "string" },
+            level: { type: "string" },
+            experience: { type: "string" },
+            interviewStatus: {
+              type: "string",
+              enum: ["pending", "accepted", "rejected", "reapplied"],
+            },
+            interviewInfo: { type: "string" },
+            interviewerRating: { type: "number" },
+          },
+          required: ["name"],
+        },
+      },
       education: {
         type: "array",
         items: {
@@ -277,11 +295,8 @@ export const updateFreelancerSchema: FastifySchema = {
       description: "Success",
       type: "object",
       properties: {
-        data: {
-          type: "object",
-          properties: {
-            email: { type: "string" },
-          },
+        message: {
+          type: "string",
         },
       },
     },
@@ -1019,6 +1034,77 @@ export const updateNotInterestedProjectSchema: FastifySchema = {
     },
     500: {
       description: "Internal server error",
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
+
+export const updateDehixTalentSchema: FastifySchema = {
+  description: "API to update dehix talent data for a freelancer",
+
+  tags: ["Freelancer"],
+  params: {
+    type: "object",
+    properties: {
+      freelancer_id: { type: "string" },
+      dehixTalent_id: { type: "string" },
+    },
+    required: ["freelancer_id", "dehixTalent_id"],
+  },
+  body: {
+    type: "object",
+    properties: {
+      status: {
+        type: "string",
+        enum: ["pending", "verified", "rejected"],
+        default: "pending",
+      },
+      activeStatus: {
+        type: "boolean",
+      },
+    },
+  },
+  response: {
+    200: {
+      type: "object",
+      properties: {
+        data: {
+          type: "object",
+          properties: {
+            _id: { type: "string", format: "uuid" },
+            skillId: { type: "string" },
+            skillName: { type: "string" },
+            domainId: { type: "string" },
+            domainName: { type: "string" },
+            status: {
+              type: "string",
+              enum: ["pending", "verified", "rejected"],
+            },
+            activeStatus: {
+              type: "boolean",
+            },
+          },
+        },
+      },
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+        code: { type: "string" },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: { type: "string" },
+        message: { type: "string" },
+      },
+    },
+    500: {
       type: "object",
       properties: {
         message: { type: "string" },

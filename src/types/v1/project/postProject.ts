@@ -6,6 +6,7 @@ export interface getProjectPathParams {
 export interface PostBusinessProjectBody {
   _id: string;
   projectName: string;
+  projectDomain: string[];
   description: string;
   companyId: string;
   email: string;

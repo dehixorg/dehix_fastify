@@ -599,18 +599,17 @@ export const createDehixTalentSchema: FastifySchema = {
       skillName: { type: "string" },
       domainId: { type: "string" },
       domainName: { type: "string" },
+      experience: { type: "string" },
+      monthlyPay: { type: "string" },
       status: {
         type: "string",
-        enum: ["added", "verified", "rejected"],
-        default: "added",
+        enum: ["pending", "verified", "rejected"],
+        default: "pending",
       },
       activeStatus: {
-        type: "string",
-        enum: ["Active", "Inactive"],
-        default: "Active",
+        type: "boolean",
       },
     },
-    required: ["status"],
   },
   response: {
     200: {
@@ -627,11 +626,10 @@ export const createDehixTalentSchema: FastifySchema = {
             domainName: { type: "string" },
             status: {
               type: "string",
-              enum: ["added", "verified", "rejected"],
+              enum: ["pending", "verified", "rejected"],
             },
             activeStatus: {
-              type: "string",
-              enum: ["Active", "Inactive"],
+              type: "boolean",
             },
           },
         },

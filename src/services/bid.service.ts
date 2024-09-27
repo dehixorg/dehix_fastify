@@ -25,8 +25,15 @@ export class BidService extends BaseService {
    * @returns
    */
   async create(body: BidApplyBody) {
-    const { bidder_id, project_id, domain_id, current_price } = body;
-    this.logger.info("fvfvffgrbgbghghg");
+    const {
+      bidder_id,
+      project_id,
+      domain_id,
+      current_price,
+      profile_id,
+      description,
+    } = body;
+    this.logger.info("bid service:creating bid:create");
     const bidderExist = await this.FreelancerDao.findFreelancerById(bidder_id);
     const projectExist = await this.BusinesssDao.getProjectById(project_id);
     if (!bidderExist) {
@@ -47,7 +54,23 @@ export class BidService extends BaseService {
       domain_id,
       current_price,
       userName: bidderExist.userName,
+      profile_id,
+      description,
     });
+    const bidValue = await this.BusinesssDao.updateTotalBidProfile(
+      bidder_id,
+      profile_id,
+      project_id,
+    );
+    this.logger.info(
+      bidValue,
+      "bidder_id",
+      bidder_id,
+      "profile_id",
+      profile_id,
+      "project_id",
+      project_id,
+    );
     return bid;
   }
 
@@ -159,6 +182,22 @@ export class BidService extends BaseService {
       );
     }
     const data = await this.BidDAO.getBidByProject(project_id);
+
+    return data;
+  }
+  async getAllBidByProjectProfile(project_id: string, profile_id: string) {
+    this.logger.info(
+      "BidService: getAllBidByProjectProfile: Fetching All Bids ",
+    );
+    const projectExist = await this.ProjectDao.getProjectById(project_id);
+
+    if (!projectExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.PROJECT_NOT_FOUND_BY_ID,
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+    const data = await this.BidDAO.getBidByProjectProfile(profile_id);
 
     return data;
   }

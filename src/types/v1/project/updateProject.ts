@@ -1,9 +1,11 @@
 export interface PutProjectPathParams {
   business_id: string;
+  project_id: string;
 }
 export interface PutProjectBody {
   _id: string;
   projectName: string;
+  projectDomain: string[];
   description: string;
   email: string;
   verified?: any;

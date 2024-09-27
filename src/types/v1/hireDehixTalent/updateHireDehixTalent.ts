@@ -1,4 +1,5 @@
-export interface PutHireDehixTalentPathParams {
+export interface HireDehixTalentPathParams {
+  business_id: string;
   hireDehixTalent_id: string;
 }
 
@@ -13,7 +14,12 @@ export interface PutHireDehixTalentBody {
   experience: string;
   freelancerRequired: string;
   status: "added" | "approved" | "closed" | "completed";
-  visible: "on" | "off";
+  visible: boolean;
   freelancerApplied: any[];
   freelancerSelected: any[];
+}
+
+export interface PutStatusHireDehixTalent {
+  status: "added" | "approved" | "closed" | "completed";
+  visible: boolean;
 }

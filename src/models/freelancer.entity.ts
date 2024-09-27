@@ -21,6 +21,15 @@ export interface IDomain extends Document {
   interviewInfo?: string;
   interviewerRating?: number;
 }
+export interface IProjectDomain extends Document {
+  _id: string;
+  name: string;
+  level: string;
+  experience: string;
+  interviewStatus?: "pending" | "accepted" | "rejected" | "reapplied";
+  interviewInfo?: string;
+  interviewerRating?: number;
+}
 
 export interface IFreelancer extends Document {
   _id?: string;
@@ -50,6 +59,7 @@ export interface IFreelancer extends Document {
   >;
   skills?: ISkill[];
   domain?: IDomain[];
+  projectDomain?: IProjectDomain[];
   education?: Map<
     string,
     {
@@ -95,8 +105,10 @@ export interface IFreelancer extends Document {
       skillName?: string;
       domainId?: string;
       domainName?: string;
+      experience?: string;
+      monthlyPay?: string;
       status?: "added" | "verified" | "rejected";
-      activeStatus?: "Active" | "Inactive";
+      activeStatus?: boolean;
     }
   >;
   refer?: {
@@ -256,6 +268,30 @@ const FreelancerSchema: Schema = new Schema(
         interviewerRating: { type: Number, required: false },
       },
     ],
+    projectDomain: [
+      {
+        _id: {
+          type: String,
+          default: uuidv4,
+          required: true,
+        },
+        name: { type: String, required: false },
+        level: { type: String, required: false },
+        experience: { type: String, required: false },
+        interviewStatus: {
+          type: String,
+          enum: ["pending", "accepted", "rejected", "reapplied"],
+          default: "pending",
+          required: false,
+        },
+        interviewInfo: {
+          type: String,
+          ref: "Interview",
+          required: false,
+        },
+        interviewerRating: { type: Number, required: false },
+      },
+    ],
     education: {
       type: Map,
       of: new Schema({
@@ -325,17 +361,16 @@ const FreelancerSchema: Schema = new Schema(
         skillName: { type: String, required: false },
         domainId: { type: String, required: false },
         domainName: { type: String, required: false },
+        experience: { type: String, require: true },
+        monthlyPay: { type: String, require: true },
         status: {
           type: String,
-          enum: ["added", "verified", "rejected"],
+          enum: ["pending", "verified", "rejected"],
           required: false,
-          default: "added",
+          default: "pending",
         },
-        activestatus: {
-          type: String,
-          enum: ["Active", "Inactive"],
-          required: false,
-          default: "Active",
+        activeStatus: {
+          type: Boolean,
         },
       }),
       required: false,

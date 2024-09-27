@@ -5,6 +5,10 @@ export interface ISkill extends Document {
   _id: string;
   label: string;
   description: string;
+  createdBy?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  status?: string;
 }
 
 // Define the Skill schema
@@ -22,6 +26,15 @@ const SkillSchema: Schema<ISkill> = new Schema(
     description: {
       type: String,
       required: false,
+    },
+    createdBy: {
+      type: String,
+      required: false,
+    },
+    status: {
+      type: String,
+      enum: ["active", "inactive", "archived"],
+      default: "Active",
     },
   },
   {

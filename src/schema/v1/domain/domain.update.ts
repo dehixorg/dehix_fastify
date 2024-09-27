@@ -8,6 +8,7 @@ export const updateDomainSchema: FastifySchema = {
     properties: {
       label: { type: "string" },
       description: { type: "string" },
+      status: { type: "string" },
     },
     required: [],
   },
@@ -22,6 +23,7 @@ export const updateDomainSchema: FastifySchema = {
             _id: { type: "string" },
             label: { type: "string" },
             description: { type: "string" },
+            status: { type: "string" },
           },
         },
       },

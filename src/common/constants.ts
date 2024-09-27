@@ -30,6 +30,7 @@ export const RESPONSE_MESSAGE = {
   TOKEN_VERIFICATION_FAILED:
     "Something went wrong with the token verification.",
   NOT_FOUND: (entity: string = "User") => `${entity} not found`,
+  INVALID: (entity: string = "User") => `${entity} not valid`,
   USER_NOT_FOUND: "User not found",
   USER_EXISTS: "User already exists",
   FREELANCER_PROJECT_NOT_FOUND: "Freelancer project not found by id",
@@ -47,7 +48,7 @@ export const RESPONSE_MESSAGE = {
   INTERVIEW_NOT_FOUND: "Interview not found by id",
 
   HIRE_DEHIX_TALENT_NOT_FOUND: "Hire Dehix Talent not found by id",
-  DEHIX_TALENT_NOT_FOUND: "Dehix Talent not found by id",
+  DEHIX_TALENT_NOT_FOUND: "Dehix Talent not found",
   DRAFT_NOT_FOUND: "Draft with provided ID could not be found.",
   DRAFT_IS_INCOMPLETE:
     "This draft is incomplete and cannot be submitted for review",
@@ -91,6 +92,7 @@ export const ERROR_CODES = {
   PASSWORDS_DO_NOT_MATCH: "PASSWORDS_DO_NOT_MATCH",
   USER_ALREADY_REGISTERED: "USER_ALREADY_REGISTERED",
   FREELANCER_NOT_FOUND: "FREELANCER_NOT_FOUND",
+  ADMIN_NOT_FOUND: "ADMIN_NOT_FOUND",
   EXPERIENCE_NOT_FOUND: "EXPERIENCE_NOT_FOUND",
   EDUCATION_NOT_FOUND: "EDUCATION_NOT_FOUND",
   FREELANCER_PROJECT_NOT_FOUND: "PROJECT_NOT_FOUND",

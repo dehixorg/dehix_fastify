@@ -22,6 +22,16 @@ export const getProjectSchema: FastifySchema = {
         type: "string",
         description: "Comma-separated list of skills",
       },
+      page: {
+        type: "string",
+      },
+      limit: {
+        type: "string",
+      },
+      projectDomain: {
+        type: "string",
+        description: "Comma-separated list of projectDomain",
+      },
     },
   },
   response: {
@@ -58,6 +68,41 @@ export const getProjectSchema: FastifySchema = {
 
 export const getAllProjectsSchema: FastifySchema = {
   description: "API to get all projects",
+  tags: ["Project"],
+  response: {
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
+
+export const getProjectsAndBidsSchema: FastifySchema = {
+  description: "API to get Project and Bids data",
   tags: ["Project"],
   response: {
     404: {

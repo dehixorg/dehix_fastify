@@ -8,9 +8,8 @@ export interface IAdmin extends Document {
   userName: string;
   email: string;
   phone: string;
-  dob?: Date;
-  githubLink?: string;
-  linkedin?: string;
+  status: "Pending" | "Accept" | "Reject";
+  type: "Admin" | "Super_Admin";
 }
 
 const AdminSchema: Schema = new Schema(
@@ -42,12 +41,16 @@ const AdminSchema: Schema = new Schema(
       type: String,
       required: false,
     },
-    dob: {
-      type: Date,
-      required: false,
+    status: {
+      type: String,
+      enum: ["Pending", "Accept", "Reject"],
+      default: "Admin",
     },
-    githubLink: { type: String, required: false },
-    linkedin: { type: String, required: false },
+    type: {
+      type: String,
+      enum: ["Admin", "Super_Admin"],
+      default: "Admin",
+    },
   },
   {
     timestamps: true,

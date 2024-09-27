@@ -1,14 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FastifyRequest, FastifyReply } from "fastify";
-import {
-  Controller,
-  GET,
-  Inject,
-  POST,
-  DELETE,
-  PATCH,
-  PUT,
-} from "fastify-decorators";
+import { Controller, GET, Inject, PUT } from "fastify-decorators";
 import {
   STATUS_CODES,
   ERROR_CODES,
@@ -16,16 +8,11 @@ import {
 } from "../common/constants";
 import { AuthController } from "../common/auth.controller";
 import { VerificationService } from "../services";
-import {
-  getAllVerificationDataSchema,
-  getVerificationDataSchema,
-} from "../schema/v1/verifications/verifications.get";
+import { getVerificationDataSchema } from "../schema/v1/verifications/verifications.get";
 import {
   FREELANCER_ENDPOINT,
-  ORACLE_ENDPOINT,
   ORACLE_ID_ENDPOINT,
   ORACLE_UPDATE_END_POINT,
-  ALL_ORACLE_ENDPOINT,
 } from "../constants/freelancer.constant";
 import { GetVerifierPathParams } from "../types/v1/verifications/getVerificationData";
 import { GetDocTypeQueryParams } from "../types/v1/verifications/getDocType";
@@ -80,32 +67,6 @@ export default class VerificationsController extends AuthController {
     }
   }
 
-  @GET(ALL_ORACLE_ENDPOINT, { schema: getAllVerificationDataSchema })
-  async getAllVerificationData(request: FastifyRequest, reply: FastifyReply) {
-    try {
-      this.logger.info(
-        `VerificationsController -> getAllVerificationData -> Fetching verification data`,
-      );
-
-      const data = await this.verificationService.getAllVerificationData();
-
-      if (!data) {
-        return reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.NOT_FOUND("Verification Data"),
-          code: ERROR_CODES.NOT_FOUND,
-        });
-      }
-      console.log("DATA:", data);
-      reply.status(STATUS_CODES.SUCCESS).send({ data });
-    } catch (error: any) {
-      this.logger.error(`Error in getAllVerificationData: ${error.message}`);
-      reply.status(STATUS_CODES.SERVER_ERROR).send({
-        message: RESPONSE_MESSAGE.SERVER_ERROR,
-        code: ERROR_CODES.SERVER_ERROR,
-      });
-    }
-  }
-
   @PUT(ORACLE_UPDATE_END_POINT, { schema: updateVerificationStatusSchema })
   async updateVerificationStatus(
     request: FastifyRequest<{
@@ -119,7 +80,7 @@ export default class VerificationsController extends AuthController {
       this.logger.info(
         `VerificationsController -> updateVerificationData -> updating verification request for verifier ID: ${request.params.verifier_id}`,
       );
-      const data = await this.verificationService.updateVerificationStatus(
+      await this.verificationService.updateVerificationStatus(
         request.params.document_id,
         request.body.verification_status,
         request.body.comments,

@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Hook, Inject } from "fastify-decorators";
+import { Hook } from "fastify-decorators";
 import { BaseController } from "./base.controller";
 import { BadTokenError } from "./errors";
 import { FastifyReply, FastifyRequest } from "fastify";
@@ -10,7 +9,6 @@ export abstract class AuthController extends BaseController {
   @Hook("onRequest")
   async validateAuth(
     request: FastifyRequest,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     reply: FastifyReply,
   ): Promise<void> {
     const auth =
@@ -30,8 +28,15 @@ export abstract class AuthController extends BaseController {
         request.decodedToken,
       );
 
+      // Log the reply object for debugging, even if not directly used
+      this.logger.info(`Reply object: { statusCode: ${reply.statusCode} }`);
+
       return;
     }
+
+    reply
+      .code(STATUS_CODES.UNAUTHORISED)
+      .send({ error: RESPONSE_MESSAGE.BAD_TOKEN });
 
     throw new BadTokenError(
       RESPONSE_MESSAGE.BAD_TOKEN,

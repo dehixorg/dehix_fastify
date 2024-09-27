@@ -6,10 +6,6 @@ export const createhireDehixTalentSchema: FastifySchema = {
   body: {
     type: "object",
     properties: {
-      _id: {
-        type: "string",
-        format: "uuid",
-      },
       businessId: {
         type: "string",
       },
@@ -31,19 +27,17 @@ export const createhireDehixTalentSchema: FastifySchema = {
       experience: {
         type: "string",
       },
-      freelancerRequired: {
-        type: "number",
-        default: 1,
-      },
       status: {
         type: "string",
         enum: ["added", "approved", "closed", "completed"],
         default: "added",
       },
       visible: {
-        type: "string",
-        enum: ["on", "off"],
-        default: "on",
+        type: "boolean",
+      },
+      freelancerRequired: {
+        type: "number",
+        default: 1,
       },
       freelancerApplied: {
         type: "array",
@@ -57,22 +51,8 @@ export const createhireDehixTalentSchema: FastifySchema = {
           type: "string",
         },
       },
-      start: {
-        type: "string",
-        format: "date-time",
-      },
-      end: {
-        type: "string",
-      },
     },
-    required: [
-      "businessId",
-      "description",
-      "experience",
-      "freelancerRequired",
-      "status",
-      "visible",
-    ],
+    required: ["businessId", "description", "experience", "status"],
   },
   response: {
     200: {
@@ -83,7 +63,35 @@ export const createhireDehixTalentSchema: FastifySchema = {
           type: "object",
           properties: {
             _id: { type: "string" },
-            BusinessId: { type: "string" },
+            BusinessId: {
+              type: "string",
+            },
+            domainId: {
+              type: "string",
+            },
+            domainName: {
+              type: "string",
+            },
+            skillId: {
+              type: "string",
+            },
+            skillName: {
+              type: "string",
+            },
+            description: {
+              type: "string",
+            },
+            experience: {
+              type: "string",
+            },
+            status: {
+              type: "string",
+              enum: ["added", "approved", "closed", "completed"],
+              default: "added",
+            },
+            visible: {
+              type: "boolean",
+            },
           },
         },
       },

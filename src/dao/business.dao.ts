@@ -3,6 +3,7 @@ import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
 import { IBusiness, BusinessModel } from "../models/business.entity";
 import { IProject, ProjectModel } from "../models/project.entity";
+import { v4 as uuidv4 } from "uuid";
 
 @Service()
 export class businessDAO extends BaseDAO {
@@ -56,8 +57,41 @@ export class businessDAO extends BaseDAO {
     return this.model.find();
   }
   async createProjectBusiness(data: any) {
-    return this.projectmodel.create(data);
+    try {
+      const { profiles } = data;
+      const updatedProfiles =
+        profiles?.map((profile: any) => ({
+          _id: uuidv4(),
+          ...profile,
+        })) || [];
+
+      const projectData = {
+        ...data,
+        profiles: updatedProfiles,
+      };
+
+      return await this.projectmodel.create(projectData);
+    } catch (error) {
+      console.error("Error creating project:", error);
+      throw new Error("Internal Server Error");
+    }
   }
+  async updateTotalBidProfile(
+    bidder_id: string,
+    profile_id: string,
+    project_id: string,
+  ) {
+    return this.projectmodel.findOneAndUpdate(
+      { _id: project_id, "profiles._id": profile_id },
+      {
+        $addToSet: {
+          "profiles.$.totalBid": bidder_id,
+        },
+      },
+      { new: true },
+    );
+  }
+
   async findBusinessProject(id: string) {
     return this.projectmodel.findById(id);
   }
@@ -104,13 +138,18 @@ export class businessDAO extends BaseDAO {
       { $set: { "TotalNeedOffreelancer.$.status": "not assigned" } },
     );
   }
-  async findAllProjects(filters: {
-    location?: string[];
-    jobType?: string[];
-    domain?: string[];
-    skills?: string[];
-  }) {
-    const { location, jobType, domain, skills } = filters;
+  async findAllProjects(
+    filters: {
+      location?: string[];
+      jobType?: string[];
+      domain?: string[];
+      skills?: string[];
+      projectDomain?: string[];
+    },
+    page: string = "1",
+    limit: string = "20",
+  ) {
+    const { location, jobType, domain, skills, projectDomain } = filters;
 
     // Build the query object based on the provided filters
     const query: any = {};
@@ -131,9 +170,15 @@ export class businessDAO extends BaseDAO {
     if (skills && skills.length > 0) {
       query.skillsRequired = { $in: skills };
     }
-    query.status = { $ne: "Completed" };
 
-    return await this.projectmodel.find(query);
+    if (projectDomain && projectDomain.length > 0) {
+      query.projectDomain = { $in: projectDomain };
+    }
+    query.status = { $ne: "Completed" };
+    const pageIndex: number = parseInt(page) - 1;
+    const pageSize: number = parseInt(limit);
+    const startIndex = pageIndex * pageSize;
+    return await this.projectmodel.find(query).skip(startIndex).limit(pageSize);
   }
   async getProjectById(project_id: string) {
     return this.projectmodel.findById(project_id);
