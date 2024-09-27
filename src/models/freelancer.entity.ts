@@ -193,7 +193,7 @@ const FreelancerSchema: Schema = new Schema(
     description: {
       type: String,
       required: false,
-      maxlenght : 500,
+      maxlenght: 500,
     },
     professionalInfo: {
       type: Map,
