@@ -30,7 +30,7 @@ export interface IFreelancer extends Document {
   email: string;
   phone: string;
   dob?: Date;
-  discription?: string;
+  description?: string;
   professionalInfo?: Map<
     string,
     {
