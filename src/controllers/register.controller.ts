@@ -94,64 +94,44 @@ export default class RegisterController extends BaseController {
       });
     }
   }
+
   // New API to handle image upload to S3
   @POST("/upload-image")
   async uploadImage(request: FastifyRequest, reply: FastifyReply) {
     try {
       // Ensure multipart parsing is set up correctly
-      const parts = request.multipart();
+      const parts = await request.file(); // Use request.file() to handle single file
       if (!parts) {
         throw new Error("Multipart parsing is not set up correctly.");
       }
 
-      // Process each part
-      parts.on("file", async (field, file, filename, encoding, mimetype) => {
-        // Log file details
-        console.log("File:", {
-          fieldname: field,
-          filename: filename,
-          encoding: encoding,
-          mimetype: mimetype,
+      // Extract file information
+      const { file, filename, encoding, mimetype } = parts;
+      console.log("File:", { filename, encoding, mimetype });
+
+      // Handle file upload
+      try {
+        const uploadResult = await handleFileUpload(file, filename); // Your function to upload to S3
+        console.log("uploaded result", uploadResult);
+
+        // Respond once all files are processed
+        return reply.status(STATUS_CODES.SUCCESS).send({
+          message: "File uploaded successfully",
+          data: uploadResult,
         });
-
-        // Handle file upload
-        try {
-          const uploadResult = await handleFileUpload(file);
-          console.log("uploaded result", uploadResult);
-
-          // Respond once all files are processed
-          reply.status(STATUS_CODES.SUCCESS).send({
-            message: "File uploaded successfully",
-            data: uploadResult,
-          });
-        } catch (uploadError) {
-          console.error("Upload error:", uploadError);
-          reply.status(STATUS_CODES.SERVER_ERROR).send({
-            message: "Error uploading file",
-            code: ERROR_CODES.SERVER_ERROR,
-          });
-        }
-      });
-
-      // Handle end of multipart processing
-      parts.on("end", () => {
-        console.log("All parts processed");
-      });
-
-      // Handle errors
-      parts.on("error", (err) => {
-        console.error("Error in multipart processing:", err);
-        reply.status(STATUS_CODES.SERVER_ERROR).send({
-          message: "Error processing multipart request",
+      } catch (uploadError) {
+        console.error("Upload error:", uploadError);
+        return reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: "Error uploading file",
           code: ERROR_CODES.SERVER_ERROR,
         });
-      });
+      }
     } catch (error: any) {
       this.logger.error(
         "Error in controller uploading image to S3",
         error.message,
       );
-      reply.status(STATUS_CODES.SERVER_ERROR).send({
+      return reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });
