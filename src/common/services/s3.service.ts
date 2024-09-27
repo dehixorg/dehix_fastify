@@ -25,9 +25,11 @@ interface UploadParams {
 /**
  * Uploads a file to S3 bucket.
  * @param params - An object containing bucket name, file key, file buffer, and content type.
- * @returns {Promise<void>} - A promise that resolves when the file is successfully uploaded.
+ * @returns {Promise<{Location: string; Key: string; Bucket: string}>} - An object containing the file URL and metadata.
  */
-const uploadFileToS3 = async (params: UploadParams): Promise<void> => {
+const uploadFileToS3 = async (
+  params: UploadParams,
+): Promise<{ Location: string; Key: string; Bucket: string }> => {
   const { bucketName, fileKey, fileBuffer, contentType } = params;
 
   // Construct the parameters for the S3 putObject method
@@ -36,11 +38,19 @@ const uploadFileToS3 = async (params: UploadParams): Promise<void> => {
     Key: fileKey, // The key (name) for the uploaded file
     Body: fileBuffer, // The actual file data
     ContentType: contentType, // The MIME type of the file
-    // ACL: "public-read", // Uncomment if you want to make the file publicly accessible
   };
 
   // Upload the file to the specified S3 bucket
   await s3.putObject(uploadParams);
+
+  // Construct the URL to access the uploaded file
+  const fileUrl = `https://${bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileKey}`;
+
+  return {
+    Location: fileUrl, // URL of the uploaded file
+    Key: fileKey, // The key under which the file was stored
+    Bucket: bucketName, // The name of the bucket
+  };
 };
 
 /**
@@ -67,12 +77,12 @@ const processPdf = async (buffer: Buffer): Promise<Buffer> => {
  * Handles the file upload process, including processing and uploading to S3.
  * @param file - The file stream to be uploaded (usually obtained from a multipart/form-data request).
  * @param filename - The original name of the file.
- * @returns {Promise<void>} - A promise that resolves when the file upload is complete.
+ * @returns {Promise<{Location: string; Key: string; Bucket: string}>} - An object containing the file URL and metadata.
  */
 export const handleFileUpload = async (
   file: any, // The file stream received from the upload
   filename: string, // The original name of the uploaded file
-): Promise<void> => {
+): Promise<{ Location: string; Key: string; Bucket: string }> => {
   const bucketName = process.env.S3_BUCKET_NAME; // Retrieve the bucket name from environment variables
   const fileExt = path.extname(filename).toLowerCase(); // Get the file extension
 
@@ -93,8 +103,8 @@ export const handleFileUpload = async (
   const fileKey = `${Date.now()}-${filename}`; // Create a unique file key using timestamp
   console.log("Uploading to S3:", bucketName, fileKey); // Log upload information
 
-  // Upload the processed file to S3
-  await uploadFileToS3({
+  // Upload the processed file to S3 and return the URL
+  return await uploadFileToS3({
     bucketName, // The name of the bucket
     fileKey, // The key under which to store the file
     fileBuffer, // The buffer containing the file data
