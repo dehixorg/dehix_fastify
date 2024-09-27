@@ -180,7 +180,7 @@ const FreelancerSchema: Schema = new Schema(
       type: Date,
       required: false,
     },
-    discription: {
+    description: {
       type: String,
       required: false,
       maxlenght : 500,
