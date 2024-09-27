@@ -39,7 +39,7 @@ import {
 import { createProjectSchema } from "../schema/v1/project/project.create";
 import { deleteProjectSchema } from "../schema/v1/project/project.delete";
 import { GetBusinessProjectQueryParams } from "../types/v1/business/getProjectStatus";
-import { GetBusinessProjectForFreelancerPathParams } from "src/types/v1/business/getBusinessProjectForFreelancer";
+import { GetBusinessProjectForFreelancerPathParams } from "../types/v1/business/getBusinessProjectForFreelancer";
 
 @Controller({ route: BUSINESS_END_POINT })
 export default class BusinessController extends AuthController {

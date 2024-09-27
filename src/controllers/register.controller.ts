@@ -19,6 +19,7 @@ import { createBusinessSchema } from "../schema/v1/business/business.create";
 import { IBusiness } from "../models/business.entity";
 import { BusinessService } from "../services/business.service";
 import { handleFileUpload } from "../common/services/s3.service";
+import { uploadImageSchema } from "../schema/v1/upload/upload";
 @Controller({ route: REGISTRATION_ENDPOINT })
 export default class RegisterController extends BaseController {
   @Inject(FreelancerService)

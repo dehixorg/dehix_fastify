@@ -1,20 +1,20 @@
 import { FastifySchema } from "fastify";
 
 export const uploadImageSchema: FastifySchema = {
-  description: "API to upload an image file to S3",
-  tags: ["File Upload"], // Define the tag in Swagger
+  description: "API to upload a single image file to S3",
+  tags: ["File Upload"],
   summary: "Upload an image file",
-  consumes: ["multipart/form-data"], // Define that this API accepts multipart/form-data
+  consumes: ["multipart/form-data"], // Specify the request type
   body: {
     type: "object",
     properties: {
       file: {
         type: "string",
-        format: "binary", // Swagger uses 'binary' format for file uploads
+        format: "binary", // Specify that this is a binary file upload
         description: "The image file to upload",
       },
     },
-    required: ["file"], // 'file' is required in the body
+    required: ["file"], // The 'file' field is required
   },
   response: {
     200: {

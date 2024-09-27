@@ -111,7 +111,7 @@ import { updateConsultantSchema } from "../schema/v1/consultant/consultant.updat
 import { PutConsultantBody } from "../types/v1/freelancer/updateConsultant";
 import { getConsultantSchema } from "../schema/v1/consultant/consultant.get";
 import { deleteConsultantSchema } from "../schema/v1/consultant/consultant.delete";
-import { updateNotinterestedPathParams } from "src/types/v1/freelancer/updateNotInterestedProject";
+import { updateNotinterestedPathParams } from "../types/v1/freelancer/updateNotInterestedProject";
 
 @Controller({ route: FREELANCER_ENDPOINT })
 export default class FreelancerController extends AuthController {
