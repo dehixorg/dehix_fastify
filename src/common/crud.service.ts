@@ -3,15 +3,15 @@ import { Service } from "fastify-decorators";
 @Service()
 export default class CRUDService {
   // Declare DAOs (Data Access Objects) that will be injected into service methods.
-  
+
   // Create a new record in the database using the provided DAO reference and request body data.
   async create({ daoRef, request }) {
     // Persist in db
     const daoInstance = new daoRef();
-    
+
     // Call the create method of the DAO to persist the data in the database.
     const data = daoInstance.create({ em: request.em, data: request.body });
-    
+
     // Return the newly created record.
     return data;
   }
@@ -20,13 +20,13 @@ export default class CRUDService {
   async getById({ daoRef, request }) {
     // Instantiate a new DAO object.
     const daoInstance = new daoRef();
-    
+
     // Fetch the record by ID from the database using the DAO's getById method.
     const item = await daoInstance.getById({
       em: request.em,
       id: request.params.id,
     });
-    
+
     // Return the fetched record.
     return item;
   }
@@ -35,7 +35,7 @@ export default class CRUDService {
   async delete({ daoRef, request }) {
     // Instantiate a new DAO object.
     const daoInstance = new daoRef();
-     
+
     // Call the delete method of the DAO to remove the record from the database.
     const item = await daoInstance.delete({
       em: request.em,
@@ -77,7 +77,7 @@ export default class CRUDService {
 
     // Persist the updated record back to the database.
     await request.em.flush();
-    
+
     // Return the updated record.
     return item;
   }
@@ -86,10 +86,10 @@ export default class CRUDService {
   async getAll({ daoRef, request }) {
     // Instantiate a new DAO object.
     const daoInstance = new daoRef();
-    
+
     // Fetch all records using the DAO's getAll method.
     const items = daoInstance.getAll({ em: request.em });
-    
+
     // Return the list of records.
     return items;
   }
