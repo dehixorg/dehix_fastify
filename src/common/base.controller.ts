@@ -48,7 +48,7 @@ export abstract class BaseController {
     This is useful for enabling cross-origin requests and controlling how browsers handle caching.
   */
   @Hook("onSend")
-    // eslint-disable-next-line
+  // eslint-disable-next-line
   async onReplySend(request, reply, payload, done) {
     reply.header("Access-Control-Allow-Origin", "*"); // Allow requests from all origins
     reply.header("Access-Control-Allow-Headers", "*"); // Allow all headers

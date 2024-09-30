@@ -1,14 +1,13 @@
-import { Hook } from "fastify-decorators"; 
-import { BaseController } from "./base.controller"; 
-import { BadTokenError } from "./errors"; 
-import { FastifyReply, FastifyRequest } from "fastify"; 
-import { RESPONSE_MESSAGE, STATUS_CODES } from "../common/constants"; 
+import { Hook } from "fastify-decorators";
+import { BaseController } from "./base.controller";
+import { BadTokenError } from "./errors";
+import { FastifyReply, FastifyRequest } from "fastify";
+import { RESPONSE_MESSAGE, STATUS_CODES } from "../common/constants";
 import { firebaseClient } from "../common/services/firebase.service";
 
-// AuthController is an abstract class that extends BaseController. 
+// AuthController is an abstract class that extends BaseController.
 // It contains a hook that validates Firebase authentication tokens for incoming requests.
 export abstract class AuthController extends BaseController {
-
   // The @Hook decorator registers the validateAuth function to be triggered on every request.
   // "onRequest" means the hook is called before the request is processed by the route handler.
   @Hook("onRequest")
@@ -16,7 +15,6 @@ export abstract class AuthController extends BaseController {
     request: FastifyRequest,
     reply: FastifyReply,
   ): Promise<void> {
-    
     // Extract the 'authorization' header from the request.
     // It checks both 'authorization' and 'Authorization' for case-insensitivity.
     const auth =
@@ -30,7 +28,6 @@ export abstract class AuthController extends BaseController {
     // Check if the authorization header is present and starts with "Bearer ".
     // This is the expected format for Firebase token authentication.
     if (typeof auth === "string" && auth.startsWith("Bearer ")) {
-      
       // Extract the token from the authorization header by splitting the string.
       const token = auth.split(" ")[1];
 
