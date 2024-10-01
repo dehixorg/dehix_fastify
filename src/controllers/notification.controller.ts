@@ -42,7 +42,8 @@ export default class NotificationController extends AuthController {
       reply.status(STATUS_CODES.SUCCESS).send({ data }); // Sending the created notification data as response
     } catch (error: any) {
       this.logger.error(`Error in CreateNotification: ${error.message}`); // Logging any errors that occur
-      reply.status(STATUS_CODES.SERVER_ERROR).send({ // Handling server errors
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
+        // Handling server errors
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });
@@ -59,11 +60,13 @@ export default class NotificationController extends AuthController {
         `NotificationController  -> getNotificationById -> get Notification}`,
       );
 
-      const data = await this.notificationService.getNotificationById( // Calling the service to fetch the notification by ID
+      const data = await this.notificationService.getNotificationById(
+        // Calling the service to fetch the notification by ID
         request.params.notification_id,
       );
 
-      if (!data) { // Checking if the notification was found
+      if (!data) {
+        // Checking if the notification was found
         return reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Notification"), // Sending not found message for notification
           code: ERROR_CODES.NOT_FOUND,
@@ -82,7 +85,8 @@ export default class NotificationController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {
-        reply.status(STATUS_CODES.SERVER_ERROR).send({ // Handling server errors
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          // Handling server errors
           message: RESPONSE_MESSAGE.SERVER_ERROR,
           code: ERROR_CODES.SERVER_ERROR,
         });
@@ -90,7 +94,8 @@ export default class NotificationController extends AuthController {
     }
   }
 
-  @DELETE(NOTIFICATION_DELETE_BY_ID_ENDPOINT, { // Route to delete a notification by its ID
+  @DELETE(NOTIFICATION_DELETE_BY_ID_ENDPOINT, {
+    // Route to delete a notification by its ID
     schema: deleteNotificationSchema,
   })
   async deleteNotificationById(
@@ -102,7 +107,8 @@ export default class NotificationController extends AuthController {
         `NotificationController  -> deleteNotificationById -> delete Notification}`,
       );
 
-      await this.notificationService.deleteNotificationById( // Calling the service to delete the notification by ID
+      await this.notificationService.deleteNotificationById(
+        // Calling the service to delete the notification by ID
         request.params.notification_id,
       );
 
@@ -120,7 +126,8 @@ export default class NotificationController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {
-        reply.status(STATUS_CODES.SERVER_ERROR).send({ // Handling server errors
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          // Handling server errors
           message: RESPONSE_MESSAGE.SERVER_ERROR,
           code: ERROR_CODES.SERVER_ERROR,
         });
@@ -130,7 +137,8 @@ export default class NotificationController extends AuthController {
 
   @PUT(NOTIFICATION_BY_ID_ENDPOINT, { schema: updateNotificationSchema }) // Route to update a notification by its ID
   async updateNotificationById(
-    request: FastifyRequest<{ // Expecting notification ID in path and updated data in body
+    request: FastifyRequest<{
+      // Expecting notification ID in path and updated data in body
       Params: GetNotificationPathParams;
       Body: PutNotificationBody;
     }>,
@@ -141,7 +149,8 @@ export default class NotificationController extends AuthController {
         `NotificationController  -> updateNotificationById -> update Notification}`,
       );
 
-      const data = await this.notificationService.updateNotification( // Calling the service to update the notification
+      const data = await this.notificationService.updateNotification(
+        // Calling the service to update the notification
         request.params.notification_id,
         request.body,
       );
@@ -158,7 +167,8 @@ export default class NotificationController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {
-        reply.status(STATUS_CODES.SERVER_ERROR).send({ // Handling server errors
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          // Handling server errors
           message: RESPONSE_MESSAGE.SERVER_ERROR,
           code: ERROR_CODES.SERVER_ERROR,
         });
@@ -177,7 +187,8 @@ export default class NotificationController extends AuthController {
       reply.status(STATUS_CODES.SUCCESS).send({ data }); // Sending the retrieved notification data as response
     } catch (error: any) {
       this.logger.error(`Error in getAllNotification: ${error.message}`); // Logging any errors that occur
-      reply.status(STATUS_CODES.SERVER_ERROR).send({ // Handling server errors
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
+        // Handling server errors
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });

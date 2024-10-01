@@ -173,7 +173,8 @@ export default class HireController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {
-        reply.status(STATUS_CODES.SERVER_ERROR).send({ // Handling server errors
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          // Handling server errors
           message: RESPONSE_MESSAGE.SERVER_ERROR,
           code: ERROR_CODES.SERVER_ERROR,
         });

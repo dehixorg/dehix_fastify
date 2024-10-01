@@ -40,21 +40,24 @@ export default class ProjectDomainController extends AuthController {
         `ProjectDomainController -> createProjectDomain -> Creating project-domain`,
       );
 
-      const data = await this.projectDomainService.createProjectDomain( // Calling the service to create a project domain
+      const data = await this.projectDomainService.createProjectDomain(
+        // Calling the service to create a project domain
         request.body,
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data }); // Sending the created project domain data as response
     } catch (error: any) {
       this.logger.error(`Error in createProjectDomain: ${error.message}`); // Logging any errors that occur
-      reply.status(STATUS_CODES.SERVER_ERROR).send({ // Handling server errors
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
+        // Handling server errors
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });
     }
   }
 
-  @DELETE(DELETE_PROJECT_DOMAIN_BY_ID_ENDPOINT, { // Route to delete a project domain by its ID
+  @DELETE(DELETE_PROJECT_DOMAIN_BY_ID_ENDPOINT, {
+    // Route to delete a project domain by its ID
     schema: deleteProjectDomainSchema,
   })
   async deleteProjectDomainById(
@@ -83,7 +86,8 @@ export default class ProjectDomainController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {
-        reply.status(STATUS_CODES.SERVER_ERROR).send({ // Handling server errors
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          // Handling server errors
           message: RESPONSE_MESSAGE.SERVER_ERROR,
           code: ERROR_CODES.SERVER_ERROR,
         });
@@ -100,7 +104,8 @@ export default class ProjectDomainController extends AuthController {
 
       const data = await this.projectDomainService.getAllProjectDomain(); // Calling the service to fetch all project domains
 
-      if (!data) { // Checking if any project domains were found
+      if (!data) {
+        // Checking if any project domains were found
         return reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("project domain"), // Sending not found message for project domain
           code: ERROR_CODES.NOT_FOUND,
@@ -109,18 +114,21 @@ export default class ProjectDomainController extends AuthController {
       reply.status(STATUS_CODES.SUCCESS).send({ data }); // Sending the retrieved project domain data as response
     } catch (error: any) {
       this.logger.error(`Error in getallProjectDomain: ${error.message}`); // Logging any errors that occur
-      reply.status(STATUS_CODES.SERVER_ERROR).send({ // Handling server errors
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
+        // Handling server errors
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });
     }
   }
 
-  @PUT(DELETE_PROJECT_DOMAIN_BY_ID_ENDPOINT, { // Route to update a project domain by its ID
+  @PUT(DELETE_PROJECT_DOMAIN_BY_ID_ENDPOINT, {
+    // Route to update a project domain by its ID
     schema: updateProjectDomainSchema,
   })
   async updateProjectDomain(
-    request: FastifyRequest<{ // Expecting project domain ID in path and updated data in body
+    request: FastifyRequest<{
+      // Expecting project domain ID in path and updated data in body
       Params: PutProjectDomainPathParams;
       Body: PutProjectDomainBody;
     }>,
@@ -131,12 +139,14 @@ export default class ProjectDomainController extends AuthController {
         `ProjectDomainController -> updateProjectDomain -> Updating ProjectDomain using: ${request.params.projectDomain_id}`,
       );
 
-      const data = await this.projectDomainService.updateProjectDomain( // Calling the service to update the project domain
+      const data = await this.projectDomainService.updateProjectDomain(
+        // Calling the service to update the project domain
         request.params.projectDomain_id,
         request.body,
       );
 
-      if (!data) { // Checking if the updated project domain was found
+      if (!data) {
+        // Checking if the updated project domain was found
         return reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("ProjectDomain"), // Sending not found message for project domain
           code: ERROR_CODES.NOT_FOUND,
@@ -155,7 +165,8 @@ export default class ProjectDomainController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {
-        reply.status(STATUS_CODES.SERVER_ERROR).send({ // Handling server errors
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          // Handling server errors
           message: RESPONSE_MESSAGE.SERVER_ERROR,
           code: ERROR_CODES.SERVER_ERROR,
         });

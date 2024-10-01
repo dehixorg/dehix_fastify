@@ -150,7 +150,8 @@ export default class InterviewController extends AuthController {
         request.params.interviewee_id, // Fetching completed interviews using interviewee ID
       );
 
-      if (!data || data.length === 0) { // Checking if any completed interviews were found
+      if (!data || data.length === 0) {
+        // Checking if any completed interviews were found
         return reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Completed Project"), // Sending not found message for completed projects
           code: ERROR_CODES.NOT_FOUND,
@@ -170,7 +171,8 @@ export default class InterviewController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {
-        reply.status(STATUS_CODES.SERVER_ERROR).send({ // Handling server errors
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          // Handling server errors
           message: RESPONSE_MESSAGE.SERVER_ERROR,
           code: ERROR_CODES.SERVER_ERROR,
         });
@@ -194,7 +196,8 @@ export default class InterviewController extends AuthController {
         request.params.interviewee_id, // Fetching current interviews using interviewee ID
       );
 
-      if (!data || data.length === 0) { // Checking if any current interviews were found
+      if (!data || data.length === 0) {
+        // Checking if any current interviews were found
         return reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Current Interview"), // Sending not found message for current interview
           code: ERROR_CODES.NOT_FOUND,
@@ -214,7 +217,8 @@ export default class InterviewController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {
-        reply.status(STATUS_CODES.SERVER_ERROR).send({ // Handling server errors
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          // Handling server errors
           message: RESPONSE_MESSAGE.SERVER_ERROR,
           code: ERROR_CODES.SERVER_ERROR,
         });
