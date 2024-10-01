@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+// Import necessary modules and constants
 import { FastifyRequest, FastifyReply } from "fastify";
 import { Controller, GET, Inject, POST, DELETE } from "fastify-decorators";
 import {
@@ -7,8 +8,10 @@ import {
   RESPONSE_MESSAGE,
 } from "../common/constants";
 
+// Importing authentication controller and services
 import { AuthController } from "../common/auth.controller";
 
+// Importing relevant constants for admin-related endpoints
 import {
   ADMIN_ALL_ENDPOINT,
   ADMIN_BY_ID_ENDPOINT,
@@ -16,7 +19,11 @@ import {
   ADMIN_ID_ENDPOINT,
   DELETE_ADMIN_BY_ID_ENDPOINT,
 } from "../constants/admin.constant";
+
+// Importing necessary services for admin and verification handling
 import { AdminsService, VerificationService } from "../services";
+
+// Importing schemas for validation of admin-related API requests
 import { createAdminSchema } from "../schema/v1/admin/admin.create";
 import { createAdminBody } from "../types/v1/admin/createAdminBody";
 import { adminPathParams } from "../types/v1/admin/deleteAdmin";
@@ -25,10 +32,13 @@ import {
   getAdminByIdSchema,
   getAllAdminSchema,
 } from "../schema/v1/admin/admin.get";
+
+// Importing additional constants and schemas for verification handling
 import { GET_ALL_ORACLE_ENDPOINT } from "../constants/freelancer.constant";
 import { getAllVerificationDataSchema } from "../schema/v1/verifications/verifications.get";
 import { GetDocTypeQueryParams } from "src/types/v1/verifications/getDocType";
 
+// Controller for handling admin-related API endpoints
 @Controller({ route: ADMIN_ENDPOINT })
 export default class AdminsController extends AuthController {
   @Inject(AdminsService)
@@ -36,6 +46,7 @@ export default class AdminsController extends AuthController {
   @Inject(VerificationService)
   verificationService!: VerificationService;
 
+  // POST request to create a new admin
   @POST(ADMIN_ID_ENDPOINT, { schema: createAdminSchema })
   async createAdmin(
     request: FastifyRequest<{ Body: createAdminBody }>,
@@ -56,6 +67,7 @@ export default class AdminsController extends AuthController {
     }
   }
 
+  // DELETE request to remove an admin by ID
   @DELETE(DELETE_ADMIN_BY_ID_ENDPOINT, { schema: deleteAdminSchema })
   async deleteAdminById(
     request: FastifyRequest<{ Params: adminPathParams }>,
@@ -87,6 +99,7 @@ export default class AdminsController extends AuthController {
     }
   }
 
+  // GET request to retrieve all admins
   @GET(ADMIN_ALL_ENDPOINT, { schema: getAllAdminSchema })
   async getAllAdmin(request: FastifyRequest, reply: FastifyReply) {
     try {
@@ -122,6 +135,7 @@ export default class AdminsController extends AuthController {
     }
   }
 
+  // GET request to retrieve a specific admin by ID
   @GET(ADMIN_BY_ID_ENDPOINT, { schema: getAdminByIdSchema })
   async getAdminById(
     request: FastifyRequest<{ Params: adminPathParams }>,
@@ -163,6 +177,7 @@ export default class AdminsController extends AuthController {
     }
   }
 
+  // GET request to fetch all verification data for oracle
   @GET(GET_ALL_ORACLE_ENDPOINT, { schema: getAllVerificationDataSchema })
   async getAllVerificationData(
     request: FastifyRequest<{
