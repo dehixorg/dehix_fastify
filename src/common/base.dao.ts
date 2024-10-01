@@ -14,40 +14,41 @@ import { logger } from "./services/logger.service";
 
 @Service()
 export abstract class BaseDAO {
+  // Inject the Fastify instance to access server utilities and configuration.
   @Inject(FastifyInstanceToken) fastifyInstance!: FastifyInstance;
 
   /**
-   * Generic function to create data for the model reference provided
-   * @param model
-   * @param data
-   * @returns
+   * Generic method to create a new document in the collection
+   * @param model - The Mongoose model representing the collection
+   * @param data - The data to be inserted as a new document
+   * @returns The newly created document
    */
   async create<T extends Document>(model: Model<T>, data: any): Promise<T> {
     const result = new model(data);
-    await result.save();
+    await result.save(); // Save the document to the database
     return result;
   }
 
   /**
-   * Method to update by id
-   * @param model
-   * @param id
-   * @param data
-   * @returns
+   * Method to update a document by its ID
+   * @param model - The Mongoose model representing the collection
+   * @param id - The document's ID to be updated
+   * @param data - The updated data
+   * @returns The updated document or null if not found
    */
   async updateById<T extends Document>(
     model: Model<T>,
     id: Types.ObjectId | string,
     data: any,
   ): Promise<T | null> {
-    return await model.findByIdAndUpdate(id, data, { new: true }).exec();
+    return await model.findByIdAndUpdate(id, data, { new: true }).exec(); // Return the updated document
   }
 
   /**
-   * Method to delete by id
-   * @param model
-   * @param id
-   * @returns
+   * Method to delete a document by its ID
+   * @param model - The Mongoose model representing the collection
+   * @param id - The document's ID to be deleted
+   * @returns The deleted document or null if not found
    */
   async delete<T extends Document>(
     model: Model<T>,
@@ -56,7 +57,7 @@ export abstract class BaseDAO {
     logger.info(
       `Deleting in collection ${model.collection.name} for id : ${id}`,
     );
-    return await model.findByIdAndDelete(id).exec();
+    return await model.findByIdAndDelete(id).exec(); // Remove document and return it
   }
 
   /**
@@ -73,14 +74,14 @@ export abstract class BaseDAO {
   ): Promise<T | null> {
     return await model
       .findOneAndUpdate(condition, data, { upsert: true, new: true })
-      .exec();
+      .exec(); // Perform upsert operation
   }
 
   /**
-   * Generic method to get resources by Id
-   * @param model
-   * @param ids
-   * @returns
+   * Method to find documents by an array of IDs and ensure they are not marked as deleted
+   * @param model - The Mongoose model representing the collection
+   * @param ids - Array of IDs to search for
+   * @returns Array of found documents
    */
   async findByIdsAndDateDeletedIsNull<T extends Document>(
     model: Model<T>,
@@ -88,8 +89,8 @@ export abstract class BaseDAO {
   ): Promise<T[]> {
     return model
       .find({
-        _id: { $in: ids },
-        deletedAt: { $exists: false },
+        _id: { $in: ids }, // Match the documents with the specified IDs
+        deletedAt: { $exists: false }, // Exclude deleted documents
       })
       .exec();
   }
@@ -130,10 +131,10 @@ export abstract class BaseDAO {
 
   /**
    * Method to find one result that matches a condition
-   * @param model
-   * @param condition
-   * @param attributes
-   * @returns
+   * @param model - The Mongoose model representing the collection
+   * @param condition - The condition to search for
+   * @param attributes - Optional array of attributes to project in the result
+   * @returns The found document or null if not found
    */
   async findOne<T extends Document>(
     model: Model<T>,
@@ -143,7 +144,7 @@ export abstract class BaseDAO {
     logger.info(condition);
     const projection = attributes
       ? attributes.reduce((acc, attr) => {
-          acc[attr] = 1;
+          acc[attr] = 1; // Create projection for specified fields
           return acc;
         }, {} as ProjectionType<T>)
       : {};
@@ -157,16 +158,16 @@ export abstract class BaseDAO {
    * @returns ClientSession obj
    */
   async getTransaction(): Promise<ClientSession> {
-    return mongoose.startSession();
+    return mongoose.startSession(); // Start a new session for MongoDB transactions
   }
 
   /**
    * Method to find all result that matches a condition
-   * @param model
-   * @param condition
-   * @param attributes
-   * @param paginationOptions
-   * @returns
+   * @param model - The Mongoose model representing the collection
+   * @param condition - The condition to search for
+   * @param attributes - Optional array of attributes to project in the result
+   * @param paginationOptions - Optional query options for pagination and sorting
+   * @returns Array of found documents
    */
   async findAll<T extends Document>(
     model: Model<T>,
@@ -218,10 +219,10 @@ export abstract class BaseDAO {
   }
 
   /**
-   * Method to bulk delete records by conditions for the given collection
-   * @param model
-   * @param conditions
-   * @returns
+   * Method to delete multiple documents by specific conditions
+   * @param model - The Mongoose model representing the collection
+   * @param conditions - Array of conditions for deletion
+   * @returns Result of the bulk delete operation
    */
   async bulkDeleteByConditions<T extends Document>(
     model: Model<T>,
@@ -234,10 +235,10 @@ export abstract class BaseDAO {
   }
 
   /**
-   * Method to insert records in bulk for the given collection
-   * @param model
-   * @param data
-   * @returns
+   * Method to create multiple documents in bulk
+   * @param model - The Mongoose model representing the collection
+   * @param data - Array of data to insert
+   * @returns Result of the bulk create operation
    */
   async bulkCreate<T extends Document>(
     model: Model<T>,
