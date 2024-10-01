@@ -5,7 +5,6 @@
   "main": "index.js",
   "type": "module",
   "target": "es2020",
-  
   "scripts": {
     "clean": "rm -rf dist",
     "start": "node --trace-warnings --experimental-loader ./loader.js app.js",
