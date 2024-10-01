@@ -65,7 +65,6 @@ import {
 // Define the controller with the main business endpoint
 @Controller({ route: BUSINESS_END_POINT })
 export default class BusinessController extends AuthController {
-  
   // Inject BusinessService to handle business-related logic
   @Inject(BusinessService)
   BusinessService!: BusinessService;
@@ -127,7 +126,7 @@ export default class BusinessController extends AuthController {
         request.params.business_id,
         request.body,
       );
-      
+
       // Return a 400 error if the update fails
       if (!data) {
         return reply.status(STATUS_CODES.BAD_REQUEST).send({
@@ -414,18 +413,18 @@ export default class BusinessController extends AuthController {
       this.logger.info(
         `BusinessController -> getBusinessSingleProjects -> Fetching business projects for ID: ${request.params.project_id}`,
       );
-      
+
       // Fetch the project data by ID from the service layer
       const data = await this.BusinessService.getSingleProjectById(
         request.params.project_id,
       );
-  
+
       // Return the project data if found
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       // Log the error if something goes wrong
       this.logger.error(`Error in getBusinessSingleProject: ${error.message}`);
-      
+
       // Handle specific error cases, like project not being found
       if (
         error.ERROR_CODES === "PROJECT_NOT_FOUND" ||
@@ -467,7 +466,7 @@ export default class BusinessController extends AuthController {
     } catch (error: any) {
       // Log any errors that occur during the request
       this.logger.error(`Error in getAllroject: ${error.message}`);
-      
+
       // Handle specific cases, such as no data being found
       if (
         error.ERROR_CODES === "NOT_FOUND" ||
@@ -486,7 +485,7 @@ export default class BusinessController extends AuthController {
       }
     }
   }
-  
+
   @GET(GET_BUSINESS_SINGLE_PROJECT_PROFILE_BY_ID, {
     schema: getProjectProfileByIdSchema,
   })
@@ -500,13 +499,13 @@ export default class BusinessController extends AuthController {
       this.logger.info(
         `Fetching project profile with ID ${request.params.profile_id}`,
       );
-  
+
       // Fetch the project profile by project ID and profile ID
       const data = await this.BusinessService.getProjectProfileById(
         request.params.project_id,
         request.params.profile_id,
       );
-  
+
       // If no data is found, return a not found error
       if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -514,13 +513,13 @@ export default class BusinessController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       }
-  
+
       // Return the profile data
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       // Log any errors encountered
       this.logger.error(`Error fetching profile: ${error.message}`);
-  
+
       // Handle specific cases such as no data being found or project not being found
       if (
         error.code === ERROR_CODES.NOT_FOUND ||
@@ -547,7 +546,7 @@ export default class BusinessController extends AuthController {
       }
     }
   }
-  
+
   @PUT(UPDATE_BUSINESS_PROJECT_PROFILE_BY_ID, {
     schema: updateProjectProfileByIdSchema,
   })
@@ -564,14 +563,14 @@ export default class BusinessController extends AuthController {
       this.logger.info(
         `Updating project profile with ID ${request.params.profile_id}`,
       );
-  
+
       // Update the project profile by project and profile ID using the provided body
       const data = await this.BusinessService.updateProjectProfileById(
         request.params.project_id,
         request.params.profile_id,
         request.body,
       );
-  
+
       // If no data is found, return a not found error
       if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -584,7 +583,7 @@ export default class BusinessController extends AuthController {
     } catch (error: any) {
       // Log any errors encountered during the update
       this.logger.error(`Error updating profile: ${error.message}`);
-  
+
       // Handle specific cases where data is not found
       if (
         error.code === ERROR_CODES.NOT_FOUND ||
@@ -619,7 +618,7 @@ export default class BusinessController extends AuthController {
       }
     }
   }
-  
+
   @DELETE(DELETE_PROJECT_PROFILE_BY_ID, {
     schema: deleteProjectProfileByIdSchema,
   })
@@ -633,13 +632,13 @@ export default class BusinessController extends AuthController {
       this.logger.info(
         `Deleting project profile with ID ${request.params.profile_id}`,
       );
-  
+
       // Delete the project profile by project and profile IDs
       const deleted = await this.BusinessService.deleteProjectProfileById(
         request.params.project_id,
         request.params.profile_id,
       );
-  
+
       // If the profile was not found, return a not found error
       if (!deleted) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -647,7 +646,7 @@ export default class BusinessController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       }
-  
+
       // Return success if the deletion was successful
       reply.status(STATUS_CODES.SUCCESS).send({
         message: "Profile deleted",
@@ -655,7 +654,7 @@ export default class BusinessController extends AuthController {
     } catch (error: any) {
       // Log any errors encountered during the deletion
       this.logger.error(`Error deleting profile: ${error.message}`);
-  
+
       // Handle cases where data or project is not found
       if (
         error.code === ERROR_CODES.NOT_FOUND ||
@@ -690,7 +689,7 @@ export default class BusinessController extends AuthController {
       }
     }
   }
-  
+
   @GET(GET_PROJECT_AND_BIDS_DATA_BY_PROJECT_ID, {
     schema: getProjectsAndBidsSchema,
   })
@@ -704,12 +703,12 @@ export default class BusinessController extends AuthController {
       this.logger.info(
         `BusinessController -> getProjectAndBidsDataByProjectId -> Fetching project and bids data for project ID: ${request.params.project_id}`,
       );
-  
+
       // Fetch the project and bids data by project ID
       const data = await this.BusinessService.getProjectAndBidsData(
         request.params.project_id,
       );
-  
+
       // If no data is found, return a not found error
       if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -717,7 +716,7 @@ export default class BusinessController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       }
-  
+
       // Return the project and bids data
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
@@ -726,7 +725,7 @@ export default class BusinessController extends AuthController {
         `Error in getProjectAndBidsDataByProjectId: ${error.message}`,
       );
       console.log("Error codes->>>>>>>>>>>>>", error.ERROR_CODES);
-      
+
       // Handle specific cases where the project is not found
       if (
         error.ERROR_CODES === "PROJECT_NOT_FOUND" ||
@@ -745,7 +744,7 @@ export default class BusinessController extends AuthController {
       }
     }
   }
-  
+
   @PUT(UPDATE_STATUS_BY_PROJECT_ID, {
     schema: updateProjectStatusSchema,
   })
@@ -762,13 +761,13 @@ export default class BusinessController extends AuthController {
       this.logger.info(
         `Updating status with Project_ID ${request.params.project_id}`,
       );
-  
+
       // Update the project status by project ID and status body
       const data = await this.BusinessService.updateProjectStatusByProjectID(
         request.params.project_id,
         request.body.status,
       );
-  
+
       // If the project is not found, return a not found error
       if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -781,7 +780,7 @@ export default class BusinessController extends AuthController {
     } catch (error: any) {
       // Log any errors encountered during the update
       this.logger.error(`Error updating Status: ${error.message}`);
-  
+
       // Handle specific cases such as data or project not being found
       if (
         error.code === ERROR_CODES.NOT_FOUND ||

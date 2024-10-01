@@ -50,7 +50,7 @@ export default class BidController extends AuthController {
   bidService!: BidService; // Declare BidService instance
 
   // POST endpoint for applying to a bid
-  @POST("", { schema: bidApplySchema }) 
+  @POST("", { schema: bidApplySchema })
   async bidApply(
     request: FastifyRequest<{ Body: BidApplyBody }>, // Request body must match the BidApplyBody schema
     reply: FastifyReply, // Fastify reply object
