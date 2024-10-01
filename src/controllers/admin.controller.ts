@@ -27,7 +27,7 @@ import {
 } from "../schema/v1/admin/admin.get";
 import { GET_ALL_ORACLE_ENDPOINT } from "../constants/freelancer.constant";
 import { getAllVerificationDataSchema } from "../schema/v1/verifications/verifications.get";
-import { GetDocTypeQueryParams } from "src/types/v1/verifications/getDocType";
+import { GetDocTypeQueryParams } from "../types/v1/verifications/getDocType";
 
 @Controller({ route: ADMIN_ENDPOINT })
 export default class AdminsController extends AuthController {
