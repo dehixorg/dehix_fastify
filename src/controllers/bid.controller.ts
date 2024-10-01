@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, DELETE, GET, Inject, POST, PUT } from "fastify-decorators";
-import { BidService } from "../services";
+import { FastifyRequest, FastifyReply } from "fastify"; // Import Fastify types for request and reply
+import { Controller, DELETE, GET, Inject, POST, PUT } from "fastify-decorators"; // Import decorators for creating controller methods
+import { BidService } from "../services"; // Import the BidService for handling bid-related logic
 import {
   STATUS_CODES,
   ERROR_CODES,
@@ -18,41 +18,42 @@ import {
   GET_BID_BY_PROJECT_PROFILE_END_POINT,
   UPDATE_BID_BY_ID_ENDPOINT,
   UPDATE_BID_STATUS_BY_ID_ENDPOINT,
-} from "../constants/bid.constant";
-import { AuthController } from "../common/auth.controller";
-import { bidApplySchema } from "../schema/v1/bid/bid.apply";
-import { BidApplyBody } from "../types/v1/bid/bidApplyBody";
+} from "../constants/bid.constant"; // Import endpoint constants for bid operations
+import { AuthController } from "../common/auth.controller"; // Base controller for authentication
+import { bidApplySchema } from "../schema/v1/bid/bid.apply"; // Import schema for bid application validation
+import { BidApplyBody } from "../types/v1/bid/bidApplyBody"; // Import type for bid application body
 import {
   BidStatusBody,
   PutBidBody,
   PutBidPathParams,
-} from "../types/v1/bid/updateBid";
+} from "../types/v1/bid/updateBid"; // Import types for updating bids
 import {
   updateBidSchema,
   updateBidStatusSchema,
-} from "../schema/v1/bid/bid.update";
+} from "../schema/v1/bid/bid.update"; // Import schemas for bid update validation
 import {
   getAllBidsSchema,
   getBidForBidderIdSchema,
   getBidForProfileIdSchema,
   getBidForProjectIdSchema,
-} from "../schema/v1/bid/bid.get";
+} from "../schema/v1/bid/bid.get"; // Import schemas for fetching bids
 import {
   GetBidByBidderIdPathParams,
   GetBidByProjectIdPathParams,
-} from "../types/v1/bid/getBid";
-import { DeleteBidPathParams } from "../types/v1/bid/deleteBid";
-import { deleteBidSchema } from "../schema/v1/bid/bid.delete";
+} from "../types/v1/bid/getBid"; // Import types for getting bids by various parameters
+import { DeleteBidPathParams } from "../types/v1/bid/deleteBid"; // Import type for deleting a bid
+import { deleteBidSchema } from "../schema/v1/bid/bid.delete"; // Import schema for bid deletion validation
 
-@Controller({ route: BID_ENDPOINT })
+@Controller({ route: BID_ENDPOINT }) // Controller for handling bid-related routes
 export default class BidController extends AuthController {
-  @Inject(BidService)
-  bidService!: BidService;
+  @Inject(BidService) // Injecting BidService to use its methods
+  bidService!: BidService; // Declare BidService instance
 
-  @POST("", { schema: bidApplySchema })
+  // POST endpoint for applying to a bid
+  @POST("", { schema: bidApplySchema }) 
   async bidApply(
-    request: FastifyRequest<{ Body: BidApplyBody }>,
-    reply: FastifyReply,
+    request: FastifyRequest<{ Body: BidApplyBody }>, // Request body must match the BidApplyBody schema
+    reply: FastifyReply, // Fastify reply object
   ) {
     try {
       this.logger.info(`BidController -> getById -> Applying for bid}`);
@@ -62,7 +63,8 @@ export default class BidController extends AuthController {
         data,
       });
     } catch (error: any) {
-      this.logger.error(`Error in create bid: ${error.message}`);
+      this.logger.error(`Error in create bid: ${error.message}`); // Log the error message
+      // Handle various errors and send appropriate responses
       if (
         error.ERROR_CODES === "NOT_FOUND" ||
         error.message.includes("Bid not found")
@@ -97,22 +99,22 @@ export default class BidController extends AuthController {
   @PUT(UPDATE_BID_BY_ID_ENDPOINT, { schema: updateBidSchema }) //add schema
   async updateBidById(
     request: FastifyRequest<{
-      Params: PutBidPathParams;
-      Body: PutBidBody;
+      Params: PutBidPathParams; // Parameters must match PutBidPathParams type
+      Body: PutBidBody; // Body must match PutBidBody type
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply, // Fastify reply object
   ) {
     try {
       this.logger.info(
-        `BidController -> updateBidById -> Update bid for bidder using ID: ${request.params.bid_id}`,
+        `BidController -> updateBidById -> Update bid for bidder using ID: ${request.params.bid_id}`, // Log the update attempt
       );
 
       const data = await this.bidService.updateBid(
-        request.params.bid_id,
-        request.body,
+        request.params.bid_id, // Pass the bid ID to the service
+        request.body, // Pass the updated bid data
       );
 
-      reply.status(STATUS_CODES.SUCCESS).send({ message: "Bid updated", data });
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "Bid updated", data }); // Send successful response
     } catch (error: any) {
       this.logger.error(`Error in update bid project: ${error.message}`);
       if (
@@ -146,26 +148,27 @@ export default class BidController extends AuthController {
     }
   }
 
-  @PUT(UPDATE_BID_STATUS_BY_ID_ENDPOINT, { schema: updateBidStatusSchema })
+  // PUT endpoint for updating the status of a bid by its ID
+  @PUT(UPDATE_BID_STATUS_BY_ID_ENDPOINT, { schema: updateBidStatusSchema }) // Specify schema for validation
   async updateBidStatusById(
     request: FastifyRequest<{
-      Params: PutBidPathParams;
-      Body: BidStatusBody;
+      Params: PutBidPathParams; // Parameters must match PutBidPathParams type
+      Body: BidStatusBody; // Body must match BidStatusBody type
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply, // Fastify reply object
   ) {
     try {
       this.logger.info(
-        `BidController -> updateBidStatusById -> Update bid status using ID: ${request.params.bid_id}`,
+        `BidController -> updateBidStatusById -> Update bid status using ID: ${request.params.bid_id}`, // Log the status update attempt
       );
 
       await this.bidService.bidStatusUpdate(
-        request.params.bid_id,
-        request.body.bid_status,
+        request.params.bid_id, // Pass the bid ID to the service
+        request.body.bid_status, // Pass the new bid status
       );
       reply
         .status(STATUS_CODES.SUCCESS)
-        .send({ message: "Status Update Sucessfull" });
+        .send({ message: "Status Update Successful" }); // Send successful response
     } catch (error: any) {
       this.logger.error(`Error in Update status: ${error.message}`);
       if (
@@ -185,30 +188,32 @@ export default class BidController extends AuthController {
     }
   }
 
-  @GET(BID_ID_BUSINESS_END_POINT, { schema: getBidForProjectIdSchema })
+  // GET endpoint to fetch bids associated with a specific project ID for businesses
+  @GET(BID_ID_BUSINESS_END_POINT, { schema: getBidForProjectIdSchema }) // Specify schema for validation
   async getBidBusiness(
-    request: FastifyRequest<{ Params: GetBidByProjectIdPathParams }>,
-    reply: FastifyReply,
+    request: FastifyRequest<{ Params: GetBidByProjectIdPathParams }>, // Request parameters must match GetBidByProjectIdPathParams type
+    reply: FastifyReply, // Fastify reply object
   ) {
     try {
       this.logger.info(
-        `BidController -> getBidBusiness -> Fetching Business Bid for project ID: ${request.params.project_id}`,
+        `BidController -> getBidBusiness -> Fetching Business Bid for project ID: ${request.params.project_id}`, // Log the fetching attempt
       );
 
       const data = await this.bidService.getBidBusiness(
-        request.params.project_id,
+        request.params.project_id, // Call service to fetch bids for the specified project ID
       );
 
       if (!data || data.length === 0) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.NOT_FOUND("Bid"),
+          message: RESPONSE_MESSAGE.NOT_FOUND("Bid"), // Handle case where no bids are found
           code: ERROR_CODES.NOT_FOUND,
         });
       }
 
-      reply.status(STATUS_CODES.SUCCESS).send({ data });
+      reply.status(STATUS_CODES.SUCCESS).send({ data }); // Send successful response with bid data
     } catch (error: any) {
-      this.logger.error(`Error in get business bid: ${error.message}`);
+      this.logger.error(`Error in get business bid: ${error.message}`); // Log the error
+      // Handle errors and send appropriate responses
       if (
         error.ERROR_CODES === "NOT_FOUND" ||
         error.message.includes("Bid not found")
@@ -256,7 +261,7 @@ export default class BidController extends AuthController {
 
       if (!data || data.length === 0) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.NOT_FOUND("Bid"),
+          message: RESPONSE_MESSAGE.NOT_FOUND("Bid"), // Handle case where no bids are found
           code: ERROR_CODES.NOT_FOUND,
         });
       }
@@ -328,7 +333,8 @@ export default class BidController extends AuthController {
     }
   }
 
-  @GET(ALL_BID_ENDPOINT, { schema: getAllBidsSchema })
+  // GET endpoint to fetch all bids
+  @GET(ALL_BID_ENDPOINT, { schema: getAllBidsSchema }) // Specify schema for validation
   async getAllBids(request: FastifyRequest, reply: FastifyReply) {
     try {
       this.logger.info(`BidController -> getAllBids -> Fetching bids`);
@@ -342,7 +348,7 @@ export default class BidController extends AuthController {
         });
       }
 
-      reply.status(STATUS_CODES.SUCCESS).send({ data });
+      reply.status(STATUS_CODES.SUCCESS).send({ data }); // Send successful response with bid data
     } catch (error: any) {
       this.logger.error(`Error in getAllBids: ${error.message}`);
       if (
