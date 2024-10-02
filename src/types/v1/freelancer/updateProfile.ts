@@ -91,6 +91,10 @@ export interface PutFreelancerBody {
   perHourPrice?: number;
   connects?: number;
   resume?: Buffer;
+  profilePicture?: {
+    key?: string; // Key for accessing the file (e.g., in S3)
+    fileFormat?: string; // File format, like 'jpg', 'png', etc.
+  };
   workExperience?: number;
   isFreelancer?: boolean;
   oracleStatus?:
