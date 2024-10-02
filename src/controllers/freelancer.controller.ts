@@ -133,7 +133,7 @@ import multer from "multer";
 export default class FreelancerController extends AuthController {
   @Inject(FreelancerService)
   freelancerService!: FreelancerService;
-
+ 
   @GET(FREELANCER_ID_ENDPOINT, { schema: getFreelancerSchema })
   async getFreelancer(
     request: FastifyRequest<{ Params: GetFreelancerPathParams }>,
