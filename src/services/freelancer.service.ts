@@ -16,6 +16,7 @@ import { firebaseClient } from "../common/services";
 import { SESService } from "../common/services";
 import { ProjectDAO } from "../dao/project.dao";
 import { VerificationService } from "./verifications.service";
+import { handleFileUpload } from "../common/services/s3.service";
 
 @Service()
 export class FreelancerService extends BaseService {
@@ -208,24 +209,40 @@ export class FreelancerService extends BaseService {
     };
   }
 
-  async updateProfileFreelancer(freelancer_id: string, freelancer: any) {
+  async updateProfileFreelancer(freelancer_id: string, freelancer: any, file: any, filename: any) {
     this.logger.info(
       "FreelancerService: updateProfileFreelancer: Updating Freelancer: ",
       freelancer_id,
       freelancer,
     );
-
-    const data: any = await this.FreelancerDAO.updateFreelancer(
+  
+    let s3Result: any = null;
+  
+    if (file) {
+      s3Result = await handleFileUpload(file, filename);
+      freelancer.profilePicture = {
+        key: s3Result.Key,
+        fileFormat: filename,
+      };
+    }
+  
+    if (freelancer.description && freelancer.description.length > 500) {
+      throw new Error("Description cannot exceed 500 characters.");
+    }
+  
+    const updatedFreelancer = await this.FreelancerDAO.updateFreelancer(
       { _id: freelancer_id },
       freelancer,
     );
-    if (data.description && data.description.length > 500) {
-      throw new Error("Description cannot exceed 500 characters.");
-    }
-
-    return data;
+  
+   
+  //  if (updatedFreelancer && updatedFreelancer.description && updatedFreelancer.description.length > 500) {
+  //   throw new Error("Description cannot exceed 500 characters.");
+  // }
+  
+    return updatedFreelancer;
   }
-
+  
   async updateFreelancerOracleStatus(
     freelancer_id: string,
     oracle_status: string,

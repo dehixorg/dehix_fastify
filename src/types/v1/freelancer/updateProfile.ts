@@ -90,7 +90,10 @@ export interface PutFreelancerBody {
   personalWebsite?: string;
   perHourPrice?: number;
   connects?: number;
-  resume?: Buffer;
+  resume?: Buffer; 
+  profilePicture?: {
+    key?: string;        
+    fileFormat?: string;  
   workExperience?: number;
   isFreelancer?: boolean;
   oracleStatus?:
@@ -115,6 +118,7 @@ export interface PutFreelancerBody {
   oracleProject?: string[];
   userDataForVerification?: string[];
   interviewsAligned?: string[];
+  file?: Buffer; 
 }
 
 export interface PutFreelancerSkillsBody {

@@ -31,6 +31,10 @@ export interface IProjectDomain extends Document {
   interviewerRating?: number;
 }
 
+export interface Iprofile extends Document{
+  key:String,
+      fileFormat:String
+}
 export interface IFreelancer extends Document {
   _id?: string;
   firstName: string;
@@ -40,6 +44,7 @@ export interface IFreelancer extends Document {
   phone: string;
   dob?: Date;
   description?: string;
+  profilePicture?:Iprofile;
   professionalInfo?: Map<
     string,
     {
@@ -194,6 +199,10 @@ const FreelancerSchema: Schema = new Schema(
       type: String,
       required: false,
       maxlenght: 500,
+    },
+    profilePicture:{
+        key:{type:String},
+      fileFormat:{type:String}
     },
     professionalInfo: {
       type: Map,

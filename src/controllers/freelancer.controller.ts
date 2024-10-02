@@ -128,12 +128,12 @@ import {
   PutDehixTalentBody,
 } from "../types/v1/freelancer/updateDehixTalent";
 import { GetFreelancerDehixTalentQueryParams } from "../types/v1/freelancer/getDehixTalent";
-
+import multer from 'multer';
 @Controller({ route: FREELANCER_ENDPOINT })
 export default class FreelancerController extends AuthController {
   @Inject(FreelancerService)
   freelancerService!: FreelancerService;
-
+ 
   @GET(FREELANCER_ID_ENDPOINT, { schema: getFreelancerSchema })
   async getFreelancer(
     request: FastifyRequest<{ Params: GetFreelancerPathParams }>,
@@ -214,31 +214,51 @@ export default class FreelancerController extends AuthController {
     }
   }
 
-  @PUT(FREELANCER_ID_ENDPOINT, { schema: updateFreelancerSchema })
-  async updateFreelancer(
-    request: FastifyRequest<{
-      Params: PutFreelancerPathParams;
-      Body: PutFreelancerBody;
-    }>,
-    reply: FastifyReply,
-  ) {
+storage = multer.memoryStorage(); 
+upload = multer({ storage: this.storage });
+
+@PUT(FREELANCER_ID_ENDPOINT, { schema: updateFreelancerSchema })
+async updateFreelancer(
+  request: FastifyRequest<{
+    Params: PutFreelancerPathParams;
+    Body: PutFreelancerBody;
+  }>,
+  reply: FastifyReply,
+) {
+  // Handle file upload using multer
+  this.upload.single('profilePicture')(request.raw, reply.raw, async (err: any) => {
+    if (err) {
+      this.logger.error(`Multer error: ${err.message}`);
+      return reply.status(STATUS_CODES.SERVER_ERROR).send({
+        message: 'File upload error',
+        code: ERROR_CODES.SERVER_ERROR,
+      });
+    }
+
     try {
       this.logger.info(
         `FreelancerController -> updateFreelancer -> Updating profile for ID: ${request.params.freelancer_id}`,
       );
+      
+     
+      const file = (request as any).file; 
+      const filename = file?.originalname; 
+      // Pass file and other form data to the service
       const data = await this.freelancerService.updateProfileFreelancer(
         request.params.freelancer_id,
-        request.body,
+        request.body, 
+        file, 
+        filename, 
       );
 
       if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          message: RESPONSE_MESSAGE.NOT_FOUND('Freelancer'),
           code: ERROR_CODES.NOT_FOUND,
         });
       }
 
-      reply.status(STATUS_CODES.SUCCESS).send({ message: "profile updated" });
+      reply.status(STATUS_CODES.SUCCESS).send({ message: 'Profile updated' });
     } catch (error: any) {
       this.logger.error(`Error in updateFreelancer: ${error.message}`);
       reply.status(STATUS_CODES.SERVER_ERROR).send({
@@ -246,7 +266,8 @@ export default class FreelancerController extends AuthController {
         code: ERROR_CODES.SERVER_ERROR,
       });
     }
-  }
+  });
+}
 
   @DELETE(FREELANCER_SKILL_DELETE_BY_ID, {
     schema: deleteFreelancerSkillSchema,
