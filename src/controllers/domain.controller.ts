@@ -29,7 +29,7 @@ import {
   PutDomainBody,
   PutDomainPathParams,
 } from "../types/v1/domain/updateDomain";
-import { ADMIN_ALL_DOMAIN_ENDPOINT } from "../constants/admin.constant";
+import { GET_ALL_ADMIN_ENDPOINT } from "../constants/admin.constant";
 
 @Controller({ route: DOMAIN_ENDPOINT })
 export default class DomainController extends AuthController {
@@ -120,7 +120,7 @@ export default class DomainController extends AuthController {
       }
     }
   }
-  @GET(ADMIN_ALL_DOMAIN_ENDPOINT, { schema: getDomainSchema })
+  @GET(GET_ALL_ADMIN_ENDPOINT, { schema: getDomainSchema })
   async getDomainAdmin(request: FastifyRequest, reply: FastifyReply) {
     try {
       this.logger.info(`DomainController -> getDomain -> Fetching domain`);
