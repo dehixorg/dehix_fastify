@@ -18,7 +18,6 @@ import { ProjectDAO } from "../dao/project.dao";
 import { VerificationService } from "./verifications.service";
 import { handleFileUpload } from "../common/services/s3.service";
 
-
 @Service()
 export class FreelancerService extends BaseService {
   @Inject(FreelancerDAO)
@@ -247,7 +246,7 @@ export class FreelancerService extends BaseService {
 
     return updatedFreelancer;
   }
-  
+
   async updateFreelancerOracleStatus(
     freelancer_id: string,
     oracle_status: string,
