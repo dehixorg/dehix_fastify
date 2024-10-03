@@ -18,7 +18,7 @@ export class HireService extends BaseService {
     try {
       this.logger.info(
         "HireService: createHireDehixTalent: Creating HireDehixTalent: ",
-        business_id,
+        business_id
       );
 
       const hireTalent: any = await this.HireDAO.createHireDehixTalent({
@@ -36,12 +36,12 @@ export class HireService extends BaseService {
   async putHireDehixTalent(hireDehixTalent_id: string, update: any) {
     this.logger.info(
       "HireService: update hire dehix talent ",
-      hireDehixTalent_id,
+      hireDehixTalent_id
     );
 
     const data = await this.HireDAO.updateHireDehixTalent(
       hireDehixTalent_id,
-      update,
+      update
     );
     this.logger.info(data, "in update hireDehixTalent");
     return data;
@@ -55,7 +55,7 @@ export class HireService extends BaseService {
     if (!hireDehixTalentExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.HIRE_DEHIX_TALENT_NOT_FOUND,
-        ERROR_CODES.HIRE_DEHIX_TALENT_NOT_FOUND,
+        ERROR_CODES.HIRE_DEHIX_TALENT_NOT_FOUND
       );
     }
 
@@ -67,51 +67,66 @@ export class HireService extends BaseService {
   async getHireDehixTalentById(business_id: string) {
     this.logger.info(
       "HireService: getHireDehixTalent: get hire dehix talent: ",
-      business_id,
+      business_id
     );
 
     const userExist = await this.businessDAO.findBusinessById(business_id);
     if (!userExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.BUSINESS_NOT_FOUND,
-        ERROR_CODES.BUSINESS_NOT_FOUND,
+        ERROR_CODES.BUSINESS_NOT_FOUND
       );
     }
 
     const data = await this.HireDAO.getHireDehixTalent(business_id);
-    this.logger.info(data, "in get Hire dehix Talent");
     return data;
   }
 
   async updateHireDehixTalent(
     business_id: string,
     hireDehixTalent_id: string,
-    update: any,
+    update: any
   ) {
     this.logger.info(
       "HireService: updateHireDehixTalent",
       business_id,
-      hireDehixTalent_id,
+      hireDehixTalent_id
     );
     const businessExist = await this.businessDAO.findBusinessById(business_id);
     if (!businessExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.BUSINESS_NOT_FOUND,
-        ERROR_CODES.BUSINESS_NOT_FOUND,
+        ERROR_CODES.BUSINESS_NOT_FOUND
       );
     }
     const hireDehixTalent = await this.HireDAO.getHireDehixTalent(business_id);
     if (!hireDehixTalent) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.HIRE_DEHIX_TALENT_NOT_FOUND,
-        ERROR_CODES.HIRE_DEHIX_TALENT_NOT_FOUND,
+        ERROR_CODES.HIRE_DEHIX_TALENT_NOT_FOUND
       );
     }
     const data = await this.HireDAO.updateStatusHireDehixTalent(
       business_id,
       hireDehixTalent_id,
-      update,
+      update
     );
     return data;
+  }
+
+  async addDehixTalentIntoLobby(hireDehixTalent_id: string, data: any) {
+    this.logger.info("HireService: updateHireDehixTalent", hireDehixTalent_id);
+
+    const hireDehixTalent = await this.HireDAO.findHireDehixTalentById(hireDehixTalent_id);
+    if (!hireDehixTalent) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.HIRE_DEHIX_TALENT_NOT_FOUND,
+        ERROR_CODES.HIRE_DEHIX_TALENT_NOT_FOUND
+      );
+    }
+
+    const response = await this.HireDAO.addDehixTalentIntoLobby(hireDehixTalent_id, data);
+
+    return response;
   }
 }
