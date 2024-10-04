@@ -155,19 +155,6 @@ export const addTalentIntoLobbySchema: FastifySchema = {
     required: ["freelancerId", "dehixTalentId"],
   },
   response: {
-    200: {
-      description: "Success",
-      type: "object",
-      properties: {
-        data: {
-          type: "object",
-          properties: {
-            freelancerId: { type: "string" },
-            dehixTalentId: { type: "string" },
-          },
-        },
-      },
-    },
     404: {
       type: "object",
       properties: {
