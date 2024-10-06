@@ -27,7 +27,7 @@ export interface PostBusinessProjectBody {
     accepted?: string[];
     status?: string;
   }[];
-  profile?: {
+  profiles?: {
     domain?: string;
     freelancersRequired?: string;
     skills?: string[];
