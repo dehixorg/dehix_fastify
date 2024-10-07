@@ -4,7 +4,7 @@ export const updateFreelancerSchema: FastifySchema = {
   description: "API to update freelancer",
   tags: ["Freelancer"],
   body: {
-    type: "object",
+    type: "array",
     properties: {
       firstName: { type: "string" },
       lastName: { type: "string" },
@@ -286,6 +286,10 @@ export const updateFreelancerSchema: FastifySchema = {
       interviewsAligned: {
         type: "array",
         items: { type: "string" },
+      },
+      profilePicture: {
+        type: "string",
+        format: "binary", 
       },
     },
     required: [],

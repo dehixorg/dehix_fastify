@@ -129,11 +129,21 @@ import {
 } from "../types/v1/freelancer/updateDehixTalent";
 import { GetFreelancerDehixTalentQueryParams } from "../types/v1/freelancer/getDehixTalent";
 import multer from "multer";
+import { promisify } from 'util';
 @Controller({ route: FREELANCER_ENDPOINT })
 export default class FreelancerController extends AuthController {
   @Inject(FreelancerService)
   freelancerService!: FreelancerService;
+  private storage: multer.StorageEngine;
+  private upload: multer.Multer;
 
+  constructor(
+
+  ) {
+    super(); // Call the superclass constructor
+    this.storage = multer.memoryStorage();
+    this.upload = multer({ storage: this.storage });
+  }
   @GET(FREELANCER_ID_ENDPOINT, { schema: getFreelancerSchema })
   async getFreelancer(
     request: FastifyRequest<{ Params: GetFreelancerPathParams }>,
@@ -214,8 +224,6 @@ export default class FreelancerController extends AuthController {
     }
   }
 
-  storage = multer.memoryStorage();
-  upload = multer({ storage: this.storage });
 
   @PUT(FREELANCER_ID_ENDPOINT, { schema: updateFreelancerSchema })
   async updateFreelancer(
@@ -225,54 +233,58 @@ export default class FreelancerController extends AuthController {
     }>,
     reply: FastifyReply,
   ) {
-    // Handle file upload using multer
-    this.upload.single("profilePicture")(
-      request.raw,
-      reply.raw,
-      async (err: any) => {
-        if (err) {
-          this.logger.error(`Multer error: ${err.message}`);
-          return reply.status(STATUS_CODES.SERVER_ERROR).send({
-            message: "File upload error",
-            code: ERROR_CODES.SERVER_ERROR,
-          });
-        }
+    try {
+      // Promisify the multer middleware
+      const uploadMiddleware = promisify(this.upload.single('profilePicture'));
 
-        try {
-          this.logger.info(
-            `FreelancerController -> updateFreelancer -> Updating profile for ID: ${request.params.freelancer_id}`,
-          );
+      // Execute the multer middleware
+      await uploadMiddleware(request.raw, reply.raw);
 
-          const file = (request as any).file;
-          const filename = file?.originalname;
-          // Pass file and other form data to the service
-          const data = await this.freelancerService.updateProfileFreelancer(
-            request.params.freelancer_id,
-            request.body,
-            file,
-            filename,
-          );
+      // Get the original filename
+      const file = (request as any).file; // Extract the uploaded file
+      let fileBuffer: Buffer | undefined;
+      let filename: string | undefined;
 
-          if (!data) {
-            return reply.status(STATUS_CODES.NOT_FOUND).send({
-              message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
-              code: ERROR_CODES.NOT_FOUND,
-            });
-          }
+      if (file) {
+        fileBuffer = file.buffer;
+        filename = file.originalname;
+        this.logger.info(`File uploaded: ${filename}`);
+      } else {
+        this.logger.info("No file uploaded");
+      }
 
-          reply
-            .status(STATUS_CODES.SUCCESS)
-            .send({ message: "Profile updated" });
-        } catch (error: any) {
-          this.logger.error(`Error in updateFreelancer: ${error.message}`);
-          reply.status(STATUS_CODES.SERVER_ERROR).send({
-            message: RESPONSE_MESSAGE.SERVER_ERROR,
-            code: ERROR_CODES.SERVER_ERROR,
-          });
-        }
-      },
-    );
+      this.logger.info(`FreelancerController -> updateFreelancer -> Updating profile for ID: ${request.params.freelancer_id}`);
+
+      // Use file.buffer to access the uploaded file data
+      const updatedFreelancer = await this.freelancerService.updateProfileFreelancer(
+        request.params.freelancer_id,
+        request.body,
+        fileBuffer,
+        filename
+      );
+
+      // Check if the freelancer was found and updated
+      if (!updatedFreelancer) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+
+      // Send success response with updated freelancer data
+      return reply.status(STATUS_CODES.SUCCESS).send({ 
+        message: "Profile updated successfully", 
+        data: updatedFreelancer 
+      });
+    } catch (error: any) {
+      this.logger.error(`Error in updateFreelancer: ${error.message}`);
+      return reply.status(STATUS_CODES.SERVER_ERROR).send({
+        message: RESPONSE_MESSAGE.SERVER_ERROR,
+        code: ERROR_CODES.SERVER_ERROR,
+      });
+    }
   }
+
 
   @DELETE(FREELANCER_SKILL_DELETE_BY_ID, {
     schema: deleteFreelancerSkillSchema,

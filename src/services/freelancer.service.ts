@@ -212,41 +212,59 @@ export class FreelancerService extends BaseService {
   async updateProfileFreelancer(
     freelancer_id: string,
     freelancer: any,
-    file: any,
-    filename: any,
+    fileBuffer?: Buffer,
+    filename?: string,
   ) {
     this.logger.info(
       "FreelancerService: updateProfileFreelancer: Updating Freelancer: ",
       freelancer_id,
-      freelancer,
+      JSON.stringify(freelancer),
     );
+
+    if (!freelancer || Object.keys(freelancer).length === 0) {
+      this.logger.warn("No update data provided for freelancer");
+      
+    }
 
     let s3Result: any = null;
 
-    if (file) {
-      s3Result = await handleFileUpload(file, filename);
-      freelancer.profilePicture = {
-        key: s3Result.Key,
-        fileFormat: filename,
-      };
+    if (fileBuffer && filename) {
+      try {
+        s3Result = await handleFileUpload(fileBuffer, filename);
+        freelancer.profilePicture = {
+          key: s3Result.Key,
+          fileFormat: filename,
+        };
+      } catch (error:any) {
+        this.logger.error(`Error uploading file: ${error.message}`);
+        // Continue with the update even if file upload fails
+      }
     }
 
-    if (freelancer.description && freelancer.description.length > 500) {
-      throw new Error("Description cannot exceed 500 characters.");
+    this.logger.info("Freelancer update data:", fileBuffer, filename);
+    this.logger.info("File upload result:", s3Result ? JSON.stringify(s3Result) : "No file uploaded");
+
+    try {
+      const result = await this.FreelancerDAO.updateFreelancer(
+        { _id: freelancer_id },
+        freelancer,
+      );
+
+      if (result.matchedCount === 0) {
+        this.logger.warn(`Freelancer not found: ${freelancer_id}`);
+       
+      }
+
+      // Fetch the updated freelancer data
+      const updatedFreelancer = await this.FreelancerDAO.findFreelancerById(freelancer_id);
+
+      // this.logger.info("Updated freelancer:", JSON.stringify(updatedFreelancer));
+      return updatedFreelancer;
+    } catch (error:any) {
+      this.logger.error(`Error updating freelancer: ${error.message}`);
+      throw error;
     }
-
-    const updatedFreelancer = await this.FreelancerDAO.updateFreelancer(
-      { _id: freelancer_id },
-      freelancer,
-    );
-
-    //  if (updatedFreelancer && updatedFreelancer.description && updatedFreelancer.description.length > 500) {
-    //   throw new Error("Description cannot exceed 500 characters.");
-    // }
-
-    return updatedFreelancer;
   }
-
   async updateFreelancerOracleStatus(
     freelancer_id: string,
     oracle_status: string,
