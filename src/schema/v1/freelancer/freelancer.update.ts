@@ -289,7 +289,7 @@ export const updateFreelancerSchema: FastifySchema = {
       },
       profilePicture: {
         type: "string",
-        format: "binary", 
+        format: "binary",
       },
     },
     required: [],

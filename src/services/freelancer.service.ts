@@ -223,7 +223,6 @@ export class FreelancerService extends BaseService {
 
     if (!freelancer || Object.keys(freelancer).length === 0) {
       this.logger.warn("No update data provided for freelancer");
-      
     }
 
     let s3Result: any = null;
@@ -235,14 +234,17 @@ export class FreelancerService extends BaseService {
           key: s3Result.Key,
           fileFormat: filename,
         };
-      } catch (error:any) {
+      } catch (error: any) {
         this.logger.error(`Error uploading file: ${error.message}`);
         // Continue with the update even if file upload fails
       }
     }
 
     this.logger.info("Freelancer update data:", fileBuffer, filename);
-    this.logger.info("File upload result:", s3Result ? JSON.stringify(s3Result) : "No file uploaded");
+    this.logger.info(
+      "File upload result:",
+      s3Result ? JSON.stringify(s3Result) : "No file uploaded",
+    );
 
     try {
       const result = await this.FreelancerDAO.updateFreelancer(
@@ -252,15 +254,15 @@ export class FreelancerService extends BaseService {
 
       if (result.matchedCount === 0) {
         this.logger.warn(`Freelancer not found: ${freelancer_id}`);
-       
       }
 
       // Fetch the updated freelancer data
-      const updatedFreelancer = await this.FreelancerDAO.findFreelancerById(freelancer_id);
+      const updatedFreelancer =
+        await this.FreelancerDAO.findFreelancerById(freelancer_id);
 
       // this.logger.info("Updated freelancer:", JSON.stringify(updatedFreelancer));
       return updatedFreelancer;
-    } catch (error:any) {
+    } catch (error: any) {
       this.logger.error(`Error updating freelancer: ${error.message}`);
       throw error;
     }
