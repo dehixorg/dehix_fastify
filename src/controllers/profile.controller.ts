@@ -1,30 +1,27 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, DELETE, GET, Inject, POST, PUT } from "fastify-decorators";
+import { Controller, DELETE, GET, Inject, PUT } from "fastify-decorators";
 import { AuthController } from "../common/auth.controller";
 import {
   ERROR_CODES,
   RESPONSE_MESSAGE,
   STATUS_CODES,
 } from "../common/constants";
-import { 
-  BUSINESS_PROFILE_END_POINT ,
+import {
+  BUSINESS_PROFILE_END_POINT,
   GET_BUSINESS_SINGLE_PROJECT_PROFILE_BY_ID,
   UPDATE_BUSINESS_PROJECT_PROFILE_BY_ID,
-  DELETE_PROJECT_PROFILE_BY_ID
+  DELETE_PROJECT_PROFILE_BY_ID,
 } from "../constants/business.constant";
 import { BusinessService } from "../services/business.service";
-import {
-  deleteProjectProfileByIdSchema,
-} from "../schema/v1/projectProfile/profile.delete";
-import {
-  getProjectProfileByIdSchema,
-} from "../schema/v1/projectProfile/profile.get";
-import {
-  updateProjectProfileByIdSchema,
-} from "../schema/v1/projectProfile/profile.update";
+import { deleteProjectProfileByIdSchema } from "../schema/v1/projectProfile/profile.delete";
+import { getProjectProfileByIdSchema } from "../schema/v1/projectProfile/profile.get";
+import { updateProjectProfileByIdSchema } from "../schema/v1/projectProfile/profile.update";
 import { GetProjectProfilePathParams } from "../types/v1/projectProfile/getProfile";
 import { DeleteProjectProfilePathParams } from "../types/v1/projectProfile/deleteProfile";
-import { UpdateProjectProfilePathParams, UpdateProjectProfileBody } from "../types/v1/projectProfile/updateProfile";
+import {
+  UpdateProjectProfilePathParams,
+  UpdateProjectProfileBody,
+} from "../types/v1/projectProfile/updateProfile";
 
 // Define the controller with the main business profile endpoint
 @Controller({ route: BUSINESS_PROFILE_END_POINT })
