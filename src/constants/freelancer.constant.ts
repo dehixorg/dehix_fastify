@@ -7,6 +7,9 @@ export const FREELANCER_CREATE_ENDPOINT = "/create";
 // Endpoint for fetching or modifying a specific freelancer by their ID
 export const FREELANCER_ID_ENDPOINT = "/:freelancer_id";
 
+// Endpoint for getting a specific freelancer details/profile by their ID
+export const FREELANCER_ID_DETAILS_ENDPOINT = "/:freelancer_id/details";
+
 // Endpoint for retrieving all freelancers in the system
 export const ALL_FREELANCER = "/allfreelancer";
 // Project related endpoints for freelancers
