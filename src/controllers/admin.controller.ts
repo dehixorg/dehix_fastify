@@ -36,7 +36,7 @@ import {
 // Importing additional constants and schemas for verification handling
 import { GET_ALL_ORACLE_ENDPOINT } from "../constants/freelancer.constant";
 import { getAllVerificationDataSchema } from "../schema/v1/verifications/verifications.get";
-import { GetDocTypeQueryParams } from "src/types/v1/verifications/getDocType";
+import { GetDocTypeQueryParams } from "../types/v1/verifications/getDocType";
 
 // Controller for handling admin-related API endpoints
 @Controller({ route: ADMIN_ENDPOINT })

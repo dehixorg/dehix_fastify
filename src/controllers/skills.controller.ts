@@ -29,6 +29,7 @@ import {
 } from "../types/v1/skills/updateSkill";
 import { updateSkillSchema } from "../schema/v1/skills/skills.update";
 import { getSkillByIdSchema } from "../schema/v1/skills/skills.get";
+import { ADMIN_ALL_SKILL_ENDPOINT } from "../constants/admin.constant";
 
 @Controller({ route: SKILLS_ENDPOINT })
 export default class SkillsController extends AuthController {
@@ -92,6 +93,40 @@ export default class SkillsController extends AuthController {
       this.logger.info(`SkillsController -> getSkills -> Fetching skills`);
 
       const data = await this.skillsService.getAllSkills();
+
+      if (!data) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Skills"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+      console.log("DATA:", data);
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getSkills: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Data not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+  @GET(ADMIN_ALL_SKILL_ENDPOINT, { schema: getSkillsSchema })
+  async getSkillsAdmin(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      this.logger.info(`SkillsController -> getSkills -> Fetching skills`);
+
+      const data = await this.skillsService.getAllSkillsAdmin();
 
       if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({

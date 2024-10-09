@@ -48,6 +48,21 @@ export class DomainService extends BaseService {
     return domain;
   }
 
+  async getAllDomainAdmin() {
+    this.logger.info("DomainService: getAllDomain: Fetching All Domain ");
+
+    const domain: any = await this.DomainDAO.getAllDomainAdmin();
+
+    if (!domain) {
+      this.logger.error("DomainService: getAllDomain: Domain not found ");
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Domain"),
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    return domain;
+  }
   async getDomainById(domain_id: string) {
     this.logger.info(
       `DomainService: getDomainById: Fetching Domain for Domain ID:${domain_id}`,

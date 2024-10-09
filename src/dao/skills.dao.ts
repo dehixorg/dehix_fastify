@@ -41,6 +41,14 @@ export class SkillDAO extends BaseDAO {
       throw new Error(`Failed to fetch skills: ${error.message}`);
     }
   }
+  async getAllSkillsAdmin() {
+    try {
+      const skills = await this.model.find();
+      return skills;
+    } catch (error: any) {
+      throw new Error(`Failed to fetch skills: ${error.message}`);
+    }
+  }
 
   async deleteSkill(skill_id: string) {
     return this.model.findByIdAndDelete(skill_id);
