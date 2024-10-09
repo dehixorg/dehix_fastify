@@ -8,52 +8,49 @@ import {
 } from "../common/constants";
 
 import {
-    ALL_PROJECT_ENDPOINT,
-    CREATE_BUSINESS_PROJECT_END_POINT,
-    DELETE_BUSINESS_PROJECT_END_POINT,
-    DELETE_PROJECT_PROFILE_BY_ID,
-    GET_ALL_BUSINESS_PROJECT_END_POINT,
-    GET_BUSINESS_PROJECT_BY_ID,
-    GET_BUSINESS_SINGLE_PROJECT_BY_ID,
-    GET_BUSINESS_SINGLE_PROJECT_PROFILE_BY_ID,
-    UPDATE_BUSINESS_PROJECT_PROFILE_BY_ID,
-    GET_PROJECT_AND_BIDS_DATA_BY_PROJECT_ID,
-    GET_BUSINESS_SINGLE_PROJECT_BY_ID_WITH_OUT_CHECK,
-    UPDATE_STATUS_BY_PROJECT_ID,
-    PROJECT_END_POINT,
-  } from "../constants/business.constant";
-  import {
-    getBusinessProjectSchema,
-  } from "../schema/v1/business/business.get";
-  import { BusinessService } from "../services";
-  import { GetBusinessPathParams } from "../types/v1/business/getBusiness";
-  import { getProjectPathParams } from "../types/v1/project/postProject";
-  import { DeleteProjectPathParams } from "../types/v1/project/deleteProject";
-  import { IProject } from "../models/project.entity";
-  import {
-    getAllProjectsSchema,
-    getProjectSchema,
-    getProjectsAndBidsSchema,
-  } from "../schema/v1/project/project.get";
-  import { createProjectSchema } from "../schema/v1/project/project.create";
-  import { deleteProjectSchema } from "../schema/v1/project/project.delete";
-  import { GetBusinessProjectQueryParams } from "../types/v1/business/getProjectStatus";
-  import { GetBusinessProjectForFreelancerPathParams } from "../types/v1/business/getBusinessProjectForFreelancer";
-  import { getProjectProfileByIdSchema } from "../schema/v1/projectProfile/profile.get";
-  import { GetProjectProfilePathParams } from "../types/v1/projectProfile/getProfile";
-  import { updateProjectProfileByIdSchema } from "../schema/v1/projectProfile/profile.update";
-  import {
-    UpdateProjectProfileBody,
-    UpdateProjectProfilePathParams,
-  } from "../types/v1/projectProfile/updateProfile";
-  import { deleteProjectProfileByIdSchema } from "../schema/v1/projectProfile/profile.delete";
-  import { DeleteProjectProfilePathParams } from "../types/v1/projectProfile/deleteProfile";
-  import { updateProjectStatusSchema } from "../schema/v1/project/project.update";
-  import {
-    PutProjectBody,
-    PutProjectPathParams,
-  } from "../types/v1/project/updateProject";
-
+  ALL_PROJECT_ENDPOINT,
+  CREATE_BUSINESS_PROJECT_END_POINT,
+  DELETE_BUSINESS_PROJECT_END_POINT,
+  DELETE_PROJECT_PROFILE_BY_ID,
+  GET_ALL_BUSINESS_PROJECT_END_POINT,
+  GET_BUSINESS_PROJECT_BY_ID,
+  GET_BUSINESS_SINGLE_PROJECT_BY_ID,
+  GET_BUSINESS_SINGLE_PROJECT_PROFILE_BY_ID,
+  UPDATE_BUSINESS_PROJECT_PROFILE_BY_ID,
+  GET_PROJECT_AND_BIDS_DATA_BY_PROJECT_ID,
+  GET_BUSINESS_SINGLE_PROJECT_BY_ID_WITH_OUT_CHECK,
+  UPDATE_STATUS_BY_PROJECT_ID,
+  PROJECT_END_POINT,
+} from "../constants/business.constant";
+import { getBusinessProjectSchema } from "../schema/v1/business/business.get";
+import { BusinessService } from "../services";
+import { GetBusinessPathParams } from "../types/v1/business/getBusiness";
+import { getProjectPathParams } from "../types/v1/project/postProject";
+import { DeleteProjectPathParams } from "../types/v1/project/deleteProject";
+import { IProject } from "../models/project.entity";
+import {
+  getAllProjectsSchema,
+  getProjectSchema,
+  getProjectsAndBidsSchema,
+} from "../schema/v1/project/project.get";
+import { createProjectSchema } from "../schema/v1/project/project.create";
+import { deleteProjectSchema } from "../schema/v1/project/project.delete";
+import { GetBusinessProjectQueryParams } from "../types/v1/business/getProjectStatus";
+import { GetBusinessProjectForFreelancerPathParams } from "../types/v1/business/getBusinessProjectForFreelancer";
+import { getProjectProfileByIdSchema } from "../schema/v1/projectProfile/profile.get";
+import { GetProjectProfilePathParams } from "../types/v1/projectProfile/getProfile";
+import { updateProjectProfileByIdSchema } from "../schema/v1/projectProfile/profile.update";
+import {
+  UpdateProjectProfileBody,
+  UpdateProjectProfilePathParams,
+} from "../types/v1/projectProfile/updateProfile";
+import { deleteProjectProfileByIdSchema } from "../schema/v1/projectProfile/profile.delete";
+import { DeleteProjectProfilePathParams } from "../types/v1/projectProfile/deleteProfile";
+import { updateProjectStatusSchema } from "../schema/v1/project/project.update";
+import {
+  PutProjectBody,
+  PutProjectPathParams,
+} from "../types/v1/project/updateProject";
 
 // Define the controller with the main business endpoint
 @Controller({ route: PROJECT_END_POINT })

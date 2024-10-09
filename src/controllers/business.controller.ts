@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, DELETE, GET, Inject, POST, PUT } from "fastify-decorators";
+import { Controller, GET, Inject, PUT } from "fastify-decorators";
 import { AuthController } from "../common/auth.controller";
 import {
   ERROR_CODES,
@@ -12,9 +12,7 @@ import {
   BUSINESS_ID_END_POINT,
   BUSINESS_UPDATE_END_POINT,
 } from "../constants/business.constant";
-import {
-  getBusinessSchema,
-} from "../schema/v1/business/business.get";
+import { getBusinessSchema } from "../schema/v1/business/business.get";
 import { updateBusinessSchema } from "../schema/v1/business/business.update";
 import { BusinessService } from "../services";
 import { GetBusinessPathParams } from "../types/v1/business/getBusiness";
