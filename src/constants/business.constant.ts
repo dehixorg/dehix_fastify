@@ -1,6 +1,11 @@
 // Base endpoint for all business-related operations
 export const BUSINESS_END_POINT = "/business";
 
+// Base endpoint for all project-related operations
+export const PROJECT_END_POINT = "/project";
+// Endpoint for creating a new business profile
+export const BUSINESS_PROFILE_END_POINT = "/profiles";
+
 // Endpoint to retrieve, update, or delete a specific business using its unique business ID
 export const BUSINESS_ID_END_POINT = "/:business_id";
 
