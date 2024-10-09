@@ -48,6 +48,21 @@ export class SkillsService extends BaseService {
     return skills;
   }
 
+  async getAllSkillsAdmin() {
+    this.logger.info("SkillsService: getAllSkills: Fetching All Skills ");
+
+    const skills: any = await this.SkillDAO.getAllSkillsAdmin();
+
+    if (!skills) {
+      this.logger.error("SkillsService: getAllSkills: Skills not found ");
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Skills"),
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    return skills;
+  }
   async getSkillById(skill_id: string) {
     this.logger.info(
       `SkillsService: getSkillById: Fetching Skill for Skill ID:${skill_id}`,

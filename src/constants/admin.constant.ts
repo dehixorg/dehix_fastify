@@ -12,3 +12,4 @@ export const ADMIN_ALL_ENDPOINT = "/all";
 
 // Endpoint for fetching a specific admin by their unique ID
 export const ADMIN_BY_ID_ENDPOINT = "/:admin_id";
+export const GET_ALL_ADMIN_ENDPOINT = "/all/admin";
