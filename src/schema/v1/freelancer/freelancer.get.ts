@@ -72,7 +72,7 @@ export const getFreelancerSchema: FastifySchema = {
 
 export const getFreelancerProjectSchema: FastifySchema = {
   description: "API to get FREELANCER project data",
-  tags: ["Project"],
+  tags: ["Freelancer"],
   querystring: {
     type: "object",
     properties: {
