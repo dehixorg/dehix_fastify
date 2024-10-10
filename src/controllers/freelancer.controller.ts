@@ -56,7 +56,7 @@ import {
   ALL_DEHIX_TALENT_ENDPOINT,
   FREELANCER_DEHIX_TALENT_BY_ID,
   FREELANCER_DEHIX_TALENT_UPDATE_BY_ID,
-  FREELANCER_EDUCATION_BY_ID
+  FREELANCER_EDUCATION_BY_ID,
 } from "../constants/freelancer.constant";
 import {
   getAllDehixTalentSchema,
@@ -67,7 +67,7 @@ import {
   getFreelancerProjectSchema,
   getFreelancerSchema,
   getFreelancerSkillsSchema,
-  getFreelancerEducationSchema
+  getFreelancerEducationSchema,
 } from "../schema/v1/freelancer/freelancer.get";
 import { AuthController } from "../common/auth.controller";
 import {
