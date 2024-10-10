@@ -592,7 +592,6 @@ export class FreelancerDAO extends BaseDAO {
     );
   }
   async findOracle(requester_id: string) {
-    try {
       const freelancer = await this.model
         .aggregate([
           {
@@ -633,7 +632,7 @@ export class FreelancerDAO extends BaseDAO {
         .exec();
 
       if (!freelancer || freelancer.length === 0) {
-        throw new Error("No approved oracle freelancers found");
+        return null;
       }
 
       // Return the freelancer object with id and username
@@ -641,10 +640,6 @@ export class FreelancerDAO extends BaseDAO {
         id: freelancer[0]._id,
         username: freelancer[0].userName,
       };
-    } catch (error: any) {
-      console.error("Error finding oracle freelancer:", error);
-      throw new Error(`Failed to find oracle freelancer: ${error.message}`);
-    }
   }
 
   async getSkillById(freelancerId: string, skillId: string) {
