@@ -729,7 +729,6 @@ export class FreelancerDAO extends BaseDAO {
         { _id: freelancer_id },
         { education: 1, _id: 0 },
       );
-      console.log(data);
       return data;
     } catch (error) {
       console.error("Error fetching freelancer education:", error);
