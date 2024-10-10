@@ -231,6 +231,13 @@ export default class HireController extends AuthController {
     }
   }
 
+  /**
+   * Adds a Dehix talent into the lobby for hire.
+   *
+   * This endpoint handles the addition of a Dehix talent into the lobby using
+   * the provided `hireDehixTalent_id` from the request parameters and the talent
+   * details from the request body.
+   */
   @PUT(ADD_TALENT_INTO_LOBBY_ENDPOINT, {
     schema: addTalentIntoLobbySchema,
   })
