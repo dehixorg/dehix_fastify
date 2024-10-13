@@ -349,7 +349,7 @@ export class VerificationService extends BaseService {
 
   // Refactor the getAllVerificationData method in VerificationsService
   async getAllVerificationData(
-    doc_type:
+    doc_type?:
       | "skill"
       | "domain"
       | "education"
@@ -378,6 +378,10 @@ export class VerificationService extends BaseService {
       business: this.BusinessDAO.getBusinessById.bind(this.BusinessDAO),
     };
 
+    // If doc_type is undefined, return all data or handle the case accordingly
+    if (!doc_type) {
+      return data; // Return all verification data if doc_type is undefined
+    }
     if (!daoMethods[doc_type]) {
       throw new Error(`Unsupported doc_type: ${doc_type}`);
     }

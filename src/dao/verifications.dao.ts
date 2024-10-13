@@ -131,7 +131,7 @@ export class VerificationDAO extends BaseDAO {
   }
 
   async getAllVerificationData(
-    doc_type:
+    doc_type?:
       | "skill"
       | "domain"
       | "education"
