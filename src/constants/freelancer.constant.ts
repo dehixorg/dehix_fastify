@@ -83,6 +83,9 @@ export const FREELANCER_DEHIX_TALENT_ADD_BY_ID = "/:freelancer_id/dehix-talent";
 // Endpoint for retrieving Dehix Talent details for a specific freelancer
 export const FREELANCER_DEHIX_TALENT_BY_ID = "/:freelancer_id/dehix-talent";
 
+// Endpoint for retrieving Education details for a specific freelancer
+export const FREELANCER_EDUCATION_BY_ID = "/:freelancer_id/education";
+
 // Endpoint for deleting a freelancer from Dehix Talent by Dehix Talent ID
 export const FREELANCER_DEHIX_TALENT_DELETE_BY_ID =
   "/:freelancer_id/dehix-talent/:dehixTalent_id";
