@@ -19,7 +19,6 @@ import { createBusinessSchema } from "../schema/v1/business/business.create";
 import { IBusiness } from "../models/business.entity";
 import { BusinessService } from "../services/business.service";
 import { handleFileUpload } from "../common/services/s3.service";
-import { createMeetLink } from "../common/services/calender.service";
 @Controller({ route: REGISTRATION_ENDPOINT })
 export default class RegisterController extends BaseController {
   @Inject(FreelancerService)
@@ -130,39 +129,6 @@ export default class RegisterController extends BaseController {
     } catch (error: any) {
       this.logger.error(
         "Error in controller uploading image to S3",
-        error.message,
-      );
-      return reply.status(STATUS_CODES.SERVER_ERROR).send({
-        message: RESPONSE_MESSAGE.SERVER_ERROR,
-        code: ERROR_CODES.SERVER_ERROR,
-      });
-    }
-  }
-  // New API to create a Google Calendar meeting
-  @POST("/create-meeting")
-  async createMeeting(
-    request: FastifyRequest<{ Body: { attendees: string[] } }>,
-    reply: FastifyReply,
-  ) {
-    try {
-      // const { attendees } = request.body; // Extract attendees from request body
-      // if (!attendees || attendees.length === 0) {
-      //   return reply.status(STATUS_CODES.BAD_REQUEST).send({
-      //     message: "At least one attendee is required",
-      //     code: ERROR_CODES.BAD_REQUEST_ERROR,
-      //   });
-      // }
-
-      this.logger.info("Creating a new Google Calendar meeting");
-
-      const meetLink = await createMeetLink(["91989976a@gmail.com"]); // Call the calendar service to create a meeting
-      return reply.status(STATUS_CODES.SUCCESS).send({
-        message: "Meeting scheduled successfully",
-        meetLink,
-      });
-    } catch (error: any) {
-      this.logger.error(
-        "Error creating Google Calendar meeting",
         error.message,
       );
       return reply.status(STATUS_CODES.SERVER_ERROR).send({
