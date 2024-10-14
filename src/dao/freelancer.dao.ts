@@ -592,54 +592,54 @@ export class FreelancerDAO extends BaseDAO {
     );
   }
   async findOracle(requester_id: string) {
-      const freelancer = await this.model
-        .aggregate([
-          {
-            $match: {
-              oracleStatus: "approved",
-            },
+    const freelancer = await this.model
+      .aggregate([
+        {
+          $match: {
+            oracleStatus: "approved",
           },
-          {
-            $lookup: {
-              from: "verifications",
-              localField: "_id",
-              foreignField: "verifier_id",
-              as: "verifications",
-            },
+        },
+        {
+          $lookup: {
+            from: "verifications",
+            localField: "_id",
+            foreignField: "verifier_id",
+            as: "verifications",
           },
-          {
-            // Exclude the freelancer whose _id matches the requester_id
-            $match: {
-              _id: { $ne: requester_id },
-            },
+        },
+        {
+          // Exclude the freelancer whose _id matches the requester_id
+          $match: {
+            _id: { $ne: requester_id },
           },
-          {
-            $project: {
-              _id: 1,
-              userName: 1,
-              verificationCount: { $size: "$verifications" },
-            },
+        },
+        {
+          $project: {
+            _id: 1,
+            userName: 1,
+            verificationCount: { $size: "$verifications" },
           },
-          {
-            $sort: {
-              verificationCount: -1, // Sort in descending order to get the most verified
-            },
+        },
+        {
+          $sort: {
+            verificationCount: -1, // Sort in descending order to get the most verified
           },
-          {
-            $limit: 1,
-          },
-        ])
-        .exec();
+        },
+        {
+          $limit: 1,
+        },
+      ])
+      .exec();
 
-      if (!freelancer || freelancer.length === 0) {
-        return null;
-      }
+    if (!freelancer || freelancer.length === 0) {
+      return null;
+    }
 
-      // Return the freelancer object with id and username
-      return {
-        id: freelancer[0]._id,
-        username: freelancer[0].userName,
-      };
+    // Return the freelancer object with id and username
+    return {
+      id: freelancer[0]._id,
+      username: freelancer[0].userName,
+    };
   }
 
   async getSkillById(freelancerId: string, skillId: string) {
