@@ -18,17 +18,29 @@ import {
 @Controller({ route: "/meeting" })
 export default class CalendarController extends AuthController {
   // API to create a Google Calendar meeting with a Google Meet link
+
   @POST("/create-meeting", {
     schema: createMeetSchema,
   })
   async createMeeting(
-    request: FastifyRequest<{ Body: { attendees: string[] } }>,
+    request: FastifyRequest<{
+      Body: { attendees: string[] };
+      Querystring: { code: string };
+    }>,
     reply: FastifyReply,
   ) {
     try {
       this.logger.info("Creating a new Google Calendar meeting");
 
       const { attendees } = request.body;
+      const { code } = request.query;
+
+      if (!code) {
+        return reply.status(STATUS_CODES.BAD_REQUEST).send({
+          message: "Code parameter is required",
+          code: ERROR_CODES.BAD_REQUEST_ERROR,
+        });
+      }
 
       if (!attendees || attendees.length === 0) {
         return reply.status(STATUS_CODES.BAD_REQUEST).send({
@@ -38,7 +50,7 @@ export default class CalendarController extends AuthController {
       }
 
       // Create Google Calendar meeting link
-      const meetLink = await createMeetLink(attendees);
+      const meetLink = await createMeetLink(code, attendees);
 
       return reply.status(STATUS_CODES.SUCCESS).send({
         message: "Meeting scheduled successfully",

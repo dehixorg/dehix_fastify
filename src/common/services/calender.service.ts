@@ -32,11 +32,14 @@ export const handleAuthCallback = async (code: string): Promise<void> => {
   console.log("TOKENS:", tokens);
   oauth2Client.setCredentials(tokens);
 };
-
 // Function to create a Google Calendar event with a meet link
-export const createMeetLink = async (attendees: string[]): Promise<string> => {
-  console.log("MEET LINK START");
+export const createMeetLink = async (
+  code: string,
+  attendees: string[],
+): Promise<string> => {
   try {
+    await handleAuthCallback(code); // Await the callback handling
+
     const event = await calendar.events.insert({
       calendarId: "primary",
       auth: oauth2Client,
