@@ -45,12 +45,12 @@ export const UpdateHireDehixTalent: FastifySchema = {
           type: "object",
           properties: {
             freelancerId: {
-              type: "string"
+              type: "string",
             },
             dehixTalentId: {
               type: "string",
             },
-          }
+          },
         },
       },
       freelancerSelected: {
@@ -59,12 +59,12 @@ export const UpdateHireDehixTalent: FastifySchema = {
           type: "object",
           properties: {
             freelancerId: {
-              type: "string"
+              type: "string",
             },
             dehixTalentId: {
               type: "string",
             },
-          }
+          },
         },
       },
     },
@@ -119,12 +119,12 @@ export const UpdateHireDehixTalent: FastifySchema = {
                 type: "object",
                 properties: {
                   freelancerId: {
-                    type: "string"
+                    type: "string",
                   },
                   dehixTalentId: {
                     type: "string",
                   },
-                }
+                },
               },
             },
             freelancerSelected: {
@@ -133,12 +133,12 @@ export const UpdateHireDehixTalent: FastifySchema = {
                 type: "object",
                 properties: {
                   freelancerId: {
-                    type: "string"
+                    type: "string",
                   },
                   dehixTalentId: {
                     type: "string",
                   },
-                }
+                },
               },
             },
           },
@@ -249,12 +249,12 @@ export const updateStatusHireDehixTalentSchema: FastifySchema = {
                 type: "object",
                 properties: {
                   freelancerId: {
-                    type: "string"
+                    type: "string",
                   },
                   dehixTalentId: {
                     type: "string",
                   },
-                }
+                },
               },
             },
             freelancerSelected: {
@@ -263,12 +263,12 @@ export const updateStatusHireDehixTalentSchema: FastifySchema = {
                 type: "object",
                 properties: {
                   freelancerId: {
-                    type: "string"
+                    type: "string",
                   },
                   dehixTalentId: {
                     type: "string",
                   },
-                }
+                },
               },
             },
           },

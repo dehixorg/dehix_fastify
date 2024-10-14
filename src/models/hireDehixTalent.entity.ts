@@ -83,33 +83,33 @@ const hireSchema: Schema<IHire> = new Schema(
       {
         _id: {
           type: String,
-          default: uuidv4, 
+          default: uuidv4,
           required: true,
         },
         freelancerId: {
           type: String,
-          ref: "Freelancer"
+          ref: "Freelancer",
         },
         dehixTalentId: {
           type: String,
         },
-      }
+      },
     ],
     freelancerSelected: [
       {
         _id: {
           type: String,
-          default: uuidv4, 
+          default: uuidv4,
           required: true,
         },
         freelancerId: {
           type: String,
-          ref: "Freelancer"
+          ref: "Freelancer",
         },
         dehixTalentId: {
           type: String,
-        }
-      }
+        },
+      },
     ],
   },
   {

@@ -24,7 +24,10 @@ import {
   HIRE_UPDATE_BY_ID_ENDPOINT,
 } from "../constants/hireDehixTalent.constant";
 import { HireService } from "../services/hireDehixTalent.service";
-import { addTalentIntoLobbySchema, createhireDehixTalentSchema } from "../schema/v1/hireDehixTalent/hireDehixTalent.create";
+import {
+  addTalentIntoLobbySchema,
+  createhireDehixTalentSchema,
+} from "../schema/v1/hireDehixTalent/hireDehixTalent.create";
 import { IHire } from "../models/hireDehixTalent.entity";
 import {
   UpdateHireDehixTalent,
@@ -52,16 +55,16 @@ export default class HireController extends AuthController {
       Params: GetBusinessPathParams;
       Body: IHire;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `HireController -> create -> Create a new hireDehixTalent using Id: ${request.params.business_id}`
+        `HireController -> create -> Create a new hireDehixTalent using Id: ${request.params.business_id}`,
       );
 
       const data = await this.hireService.createhireDehixTalent(
         request.params.business_id,
-        request.body
+        request.body,
       );
       this.logger.warn(data);
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -80,16 +83,16 @@ export default class HireController extends AuthController {
       Params: HireDehixTalentPathParams;
       Body: PutHireDehixTalentBody;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `HireController -> putHireDehixTalent-> update hire dehix talent using ID: ${request.params.hireDehixTalent_id}`
+        `HireController -> putHireDehixTalent-> update hire dehix talent using ID: ${request.params.hireDehixTalent_id}`,
       );
 
       const data = await this.hireService.putHireDehixTalent(
         request.params.hireDehixTalent_id,
-        request.body
+        request.body,
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -105,15 +108,15 @@ export default class HireController extends AuthController {
   @DELETE(HIRE_DELETE_BY_ID_ENDPOINT, { schema: deleteHireDehixTalentSchema })
   async deleteExperienceFreelancer(
     request: FastifyRequest<{ Params: HireDehixTalentPathParams }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `HireController -> deleteHireDehixTalent -> Deleting hire dehix talent using ID: ${request.params.hireDehixTalent_id}`
+        `HireController -> deleteHireDehixTalent -> Deleting hire dehix talent using ID: ${request.params.hireDehixTalent_id}`,
       );
 
       await this.hireService.deleteHireDehixTalent(
-        request.params.hireDehixTalent_id
+        request.params.hireDehixTalent_id,
       );
 
       reply
@@ -143,15 +146,15 @@ export default class HireController extends AuthController {
     request: FastifyRequest<{
       Params: GetBusinessPathParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `HireController -> getHireDehixTalentById -> Fetching hire dehix talent for BusinessID: ${request.params.business_id}`
+        `HireController -> getHireDehixTalentById -> Fetching hire dehix talent for BusinessID: ${request.params.business_id}`,
       );
 
       const data = await this.hireService.getHireDehixTalentById(
-        request.params.business_id
+        request.params.business_id,
       );
 
       if (!data || data.length === 0) {
@@ -189,17 +192,17 @@ export default class HireController extends AuthController {
       Params: HireDehixTalentPathParams;
       Body: PutStatusHireDehixTalent;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `HireController -> updateHireDehixTalentById -> Updating hireDehixTalent with ID: ${request.params.hireDehixTalent_id}`
+        `HireController -> updateHireDehixTalentById -> Updating hireDehixTalent with ID: ${request.params.hireDehixTalent_id}`,
       );
 
       const data = await this.hireService.updateHireDehixTalent(
         request.params.business_id,
         request.params.hireDehixTalent_id,
-        request.body
+        request.body,
       );
       reply
         .status(STATUS_CODES.SUCCESS)
@@ -246,16 +249,16 @@ export default class HireController extends AuthController {
       Params: HireDehixTalentPathParams;
       Body: addDehixTalentInLobbyBody;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
-        `HireController -> addDehixTalentIntoLobby -> adding DehixTalent into lobby with ID: ${request.params.hireDehixTalent_id} ${request.body}`
+        `HireController -> addDehixTalentIntoLobby -> adding DehixTalent into lobby with ID: ${request.params.hireDehixTalent_id} ${request.body}`,
       );
 
       const response = await this.hireService.addDehixTalentIntoLobby(
         request.params.hireDehixTalent_id,
-        request.body
+        request.body,
       );
 
       reply.status(STATUS_CODES.SUCCESS).send({ response });

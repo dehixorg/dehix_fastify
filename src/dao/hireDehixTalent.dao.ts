@@ -46,7 +46,7 @@ export class HireDAO extends BaseDAO {
   async updateStatusHireDehixTalent(
     business_id: string,
     hireDehixTalent_id: string,
-    update: { status?: string; visible?: boolean }
+    update: { status?: string; visible?: boolean },
   ) {
     // Use the $set operator to only update the specific fields
     const updateFields = {} as any;
@@ -67,7 +67,7 @@ export class HireDAO extends BaseDAO {
         { $set: updateFields },
         {
           new: true, // Return the updated document
-        }
+        },
       );
       // console.log("Data is",data);
       return data;
@@ -79,7 +79,7 @@ export class HireDAO extends BaseDAO {
 
   async addDehixTalentIntoLobby(
     hireDehixTalent_id: string,
-    data: addDehixTalentInLobbyBody
+    data: addDehixTalentInLobbyBody,
   ) {
     const lobbyId = uuidv4();
     try {
@@ -88,14 +88,13 @@ export class HireDAO extends BaseDAO {
         {
           $push: {
             freelancerInLobby: {
-             _id: lobbyId,
-             ...data,
+              _id: lobbyId,
+              ...data,
             },
           },
         },
-        { new: true } // return the updated document
+        { new: true }, // return the updated document
       );
-
 
       return response;
     } catch (error: any) {

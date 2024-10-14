@@ -16,5 +16,6 @@ export const GET_HIRE_BY_ID_ENDPOINT = "/:business_id/hireDehixTalent";
 export const HIRE_DEHIX_TALENT_UPDATE_BY_ID =
   "/:business_id/hireDehixTalent/:hireDehixTalent_id";
 
-// Endpoint for add Dehix Talent into Hire Talent lobby by hireDehixTalent ID  
-export const ADD_TALENT_INTO_LOBBY_ENDPOINT = "/hireDehixTalent/:hireDehixTalent_id/addIntoLobby"
+// Endpoint for add Dehix Talent into Hire Talent lobby by hireDehixTalent ID
+export const ADD_TALENT_INTO_LOBBY_ENDPOINT =
+  "/hireDehixTalent/:hireDehixTalent_id/addIntoLobby";
