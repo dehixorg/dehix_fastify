@@ -39,16 +39,32 @@ export const createhireDehixTalentSchema: FastifySchema = {
         type: "number",
         default: 1,
       },
-      freelancerApplied: {
+      freelancerInLobby: {
         type: "array",
         items: {
-          type: "string",
+          type: "object",
+          properties: {
+            freelancerId: {
+              type: "string",
+            },
+            dehixTalentId: {
+              type: "string",
+            },
+          },
         },
       },
       freelancerSelected: {
         type: "array",
         items: {
-          type: "string",
+          type: "object",
+          properties: {
+            freelancerId: {
+              type: "string",
+            },
+            dehixTalentId: {
+              type: "string",
+            },
+          },
         },
       },
     },
@@ -96,6 +112,49 @@ export const createhireDehixTalentSchema: FastifySchema = {
         },
       },
     },
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
+
+export const addTalentIntoLobbySchema: FastifySchema = {
+  description: "API to add talent into lobby data",
+  tags: ["Hire"],
+  body: {
+    type: "object",
+    properties: {
+      freelancerId: { type: "string" },
+      dehixTalentId: { type: "string" },
+    },
+    required: ["freelancerId", "dehixTalentId"],
+  },
+  response: {
     404: {
       type: "object",
       properties: {

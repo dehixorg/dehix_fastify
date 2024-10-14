@@ -13,8 +13,16 @@ export interface IHire extends Document {
   status: string;
   visible: boolean;
   freelancerRequired: number;
-  freelancerApplied: string[];
-  freelancerSelected: string[];
+  freelancerInLobby: {
+    _id: string;
+    freelancerId: string;
+    dehixTalentId: string;
+  }[];
+  freelancerSelected: {
+    _id: string;
+    freelancerId: string;
+    dehixTalentId: string;
+  }[];
 }
 
 // Define the Hire schema
@@ -71,19 +79,37 @@ const hireSchema: Schema<IHire> = new Schema(
       default: 1,
       required: false,
     },
-    freelancerApplied: [
+    freelancerInLobby: [
       {
-        type: String,
-        ref: "Freelancer",
-        required: false,
-      },
+        _id: {
+          type: String,
+          default: uuidv4, 
+          required: true,
+        },
+        freelancerId: {
+          type: String,
+          ref: "Freelancer"
+        },
+        dehixTalentId: {
+          type: String,
+        },
+      }
     ],
     freelancerSelected: [
       {
-        type: String,
-        ref: "Freelancer",
-        required: false,
-      },
+        _id: {
+          type: String,
+          default: uuidv4, 
+          required: true,
+        },
+        freelancerId: {
+          type: String,
+          ref: "Freelancer"
+        },
+        dehixTalentId: {
+          type: String,
+        }
+      }
     ],
   },
   {
