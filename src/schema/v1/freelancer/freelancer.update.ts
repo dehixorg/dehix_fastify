@@ -287,6 +287,7 @@ export const updateFreelancerSchema: FastifySchema = {
         type: "array",
         items: { type: "string" },
       },
+      profilePicture: { type: "string" },
     },
     required: [],
   },
