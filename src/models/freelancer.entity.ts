@@ -462,7 +462,7 @@ const FreelancerSchema: Schema = new Schema(
     profilePicture: {
       type: String,
       required: false,
-    }
+    },
   },
   {
     timestamps: true,

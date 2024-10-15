@@ -1,4 +1,3 @@
-import { profile } from "console";
 import { FastifySchema } from "fastify";
 
 export const updateFreelancerSchema: FastifySchema = {

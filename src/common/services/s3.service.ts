@@ -95,7 +95,9 @@ export const handleFileUpload = async (
   const fileExt = path.extname(filename).toLowerCase(); // Get the file extension
 
   if (!bucketName) {
-    throw new Error("S3 bucket name is not set. Please check your environment variables.");
+    throw new Error(
+      "S3 bucket name is not set. Please check your environment variables.",
+    );
   }
 
   // Convert the file stream into a buffer
