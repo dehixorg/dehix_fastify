@@ -1,3 +1,4 @@
+import { profile } from "console";
 import { FastifySchema } from "fastify";
 
 export const updateFreelancerSchema: FastifySchema = {
@@ -287,6 +288,7 @@ export const updateFreelancerSchema: FastifySchema = {
         type: "array",
         items: { type: "string" },
       },
+      profilePicture: { type: "string" },
     },
     required: [],
   },

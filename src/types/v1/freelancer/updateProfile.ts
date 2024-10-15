@@ -115,6 +115,7 @@ export interface PutFreelancerBody {
   oracleProject?: string[];
   userDataForVerification?: string[];
   interviewsAligned?: string[];
+  profilePicture?: String;
 }
 
 export interface PutFreelancerSkillsBody {

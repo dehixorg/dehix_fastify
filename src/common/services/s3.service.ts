@@ -5,12 +5,20 @@ import dotenv from "dotenv";
 // Load environment variables from .env file for AWS configuration
 dotenv.config();
 
+const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+const region = process.env.AWS_REGION;
+
+if (!accessKeyId || !secretAccessKey || !region) {
+  throw new Error("Missing AWS configuration environment variables.");
+}
+
 // Initialize the S3 client with the necessary configuration including region and credentials
 const s3 = new S3({
-  region: process.env.AWS_REGION, // The AWS region where the S3 bucket is located
+  region, // The AWS region where the S3 bucket is located
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID, // Your AWS access key ID
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, // Your AWS secret access key
+    accessKeyId, // Your AWS access key ID
+    secretAccessKey, // Your AWS secret access key
   },
 });
 
@@ -85,6 +93,10 @@ export const handleFileUpload = async (
 ): Promise<{ Location: string; Key: string; Bucket: string }> => {
   const bucketName = process.env.S3_BUCKET_NAME; // Retrieve the bucket name from environment variables
   const fileExt = path.extname(filename).toLowerCase(); // Get the file extension
+
+  if (!bucketName) {
+    throw new Error("S3 bucket name is not set. Please check your environment variables.");
+  }
 
   // Convert the file stream into a buffer
   const chunks: Buffer[] = []; // Array to hold chunks of file data
