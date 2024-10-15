@@ -90,7 +90,7 @@ export interface PutFreelancerBody {
   personalWebsite?: string;
   perHourPrice?: number;
   connects?: number;
-  resume?: Buffer;
+  resume?: String;
   workExperience?: number;
   isFreelancer?: boolean;
   oracleStatus?:
