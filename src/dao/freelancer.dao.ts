@@ -746,4 +746,17 @@ export class FreelancerDAO extends BaseDAO {
       },
     );
   }
+  async getFreelancerConsultant(freelancer_id: string) {
+    try {
+      const data = await this.model.find(
+        { _id: freelancer_id },
+        { consultant: 1, _id: 0 },
+      );
+    return data;
+    }
+    catch(error){
+      console.log("Error fetching freelancer consultant:", error);
+      throw error;
+    }
+  }
 }

@@ -409,3 +409,58 @@ export const getFreelancerDehixTalentSchema: FastifySchema = {
     },
   },
 };
+
+export const getFreelancerConsultantSchema: FastifySchema = {
+  description: "API to get freelancer consultant data",
+  tags: ["Freelancer"],
+  response: {
+    200: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+        data: {
+          type: "array",
+          properties: {
+            consultant: {
+              type: "object",
+              additionalProperties: {
+                type: "object",
+                properties: {
+                  _id: { type: "string" },
+                  status: { type: "string" },
+                  description: { type: "string" },
+                  price: { type: "string" },
+                  experience: { type: "string" },
+                  links: {
+                    type: "array",
+                    items: { type: "string" }
+                  }
+                },
+              }
+            }
+          }
+        }
+      }
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+        code: { type: "string" },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: { type: "string" },
+        message: { type: "string" },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    }
+  }
+};
