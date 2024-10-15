@@ -433,14 +433,14 @@ export const getFreelancerConsultantSchema: FastifySchema = {
                   experience: { type: "string" },
                   links: {
                     type: "array",
-                    items: { type: "string" }
-                  }
+                    items: { type: "string" },
+                  },
                 },
-              }
-            }
-          }
-        }
-      }
+              },
+            },
+          },
+        },
+      },
     },
     404: {
       type: "object",
@@ -461,6 +461,6 @@ export const getFreelancerConsultantSchema: FastifySchema = {
       properties: {
         message: { type: "string" },
       },
-    }
-  }
+    },
+  },
 };

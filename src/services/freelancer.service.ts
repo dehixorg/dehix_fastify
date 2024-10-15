@@ -1009,7 +1009,8 @@ export class FreelancerService extends BaseService {
       );
     }
 
-    const data = await this.FreelancerDAO.getFreelancerConsultant(freelancer_id);
+    const data =
+      await this.FreelancerDAO.getFreelancerConsultant(freelancer_id);
     this.logger.info(data, "in get freelancer consultant");
     return data;
   }
