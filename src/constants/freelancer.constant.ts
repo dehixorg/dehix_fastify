@@ -176,5 +176,8 @@ export const ORACLE_UPDATE_END_POINT = "/:document_id/oracle";
 export const NOT_INTERESTED_PROJECT =
   "/:freelancer_id/:project_id/not_interested_project";
 
+//Endpoint for retrieving education details for a specific freelancer
+export const FREELANCER_EDUCATION_BY_ID = "/:freelancer_id/education";
+
 //Endpoint for retrieving consultant details for a specific freelancer
 export const FREELANCER_CONSULTANT_BY_ID = "/:freelancer_id/consultant";
