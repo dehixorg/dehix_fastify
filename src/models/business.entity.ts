@@ -10,7 +10,7 @@ export interface IBusiness extends Document {
   companySize: string;
   email: string;
   phone: string;
-  status: "Active"| "Inactive"| "Notverified";
+  status: "Active" | "Inactive" | "Notverified";
   position?: string;
   refer?: string;
   verified?: any;

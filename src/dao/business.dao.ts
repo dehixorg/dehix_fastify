@@ -193,7 +193,7 @@ export class businessDAO extends BaseDAO {
       );
     } catch (error) {
       console.error("Error updating business status:", error);
-      throw new Error('Failed to update business status');
+      throw new Error("Failed to update business status");
     }
   }
 }

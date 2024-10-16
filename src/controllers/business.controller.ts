@@ -14,7 +14,10 @@ import {
   UPDATE_STATUS_OF_BUSINESS_BY_BUSINESS_ID,
 } from "../constants/business.constant";
 import { getBusinessSchema } from "../schema/v1/business/business.get";
-import { updateBusinessSchema, updateBusinessStatusSchema } from "../schema/v1/business/business.update";
+import {
+  updateBusinessSchema,
+  updateBusinessStatusSchema,
+} from "../schema/v1/business/business.update";
 import { BusinessService } from "../services";
 import { GetBusinessPathParams } from "../types/v1/business/getBusiness";
 import {
@@ -149,21 +152,20 @@ export default class BusinessController extends AuthController {
       this.logger.info(
         `BusinessController -> updateBusinessStatusById -> Updating status with ID: ${request.params.business_id}`,
       );
-  
+
       const data = await this.BusinessService.updateBusinessStatus(
         request.params.business_id,
         request.body.status,
       );
-      
+
       // If successful, send response
       reply.status(STATUS_CODES.SUCCESS).send({
         message: "Business Status updated",
         data,
       });
-  
     } catch (error: any) {
       this.logger.error(`Error in updateBusinessStatusById: ${error.message}`);
-      
+
       if (
         error.ERROR_CODES === "BUSINESS_NOT_FOUND" ||
         error.message.includes("Business with provided ID could not be found.")

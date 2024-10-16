@@ -464,19 +464,24 @@ export class BusinessService extends BaseService {
 
     return project;
   }
-    // Method to update the status of a business
-    async updateBusinessStatus(business_id, status) {
-      try {
-        const result = await this.businessDao.updateBusinessStatus(business_id, status);
-  
-        // Check if result is null or not
-        if (!result) {
-          throw new Error('Failed to update the business status. No business found.');
-        }
-  
-        return { message: `Business status updated to ${status}` };
-      } catch (error) {
-        console.log(error);
+  // Method to update the status of a business
+  async updateBusinessStatus(business_id, status) {
+    try {
+      const result = await this.businessDao.updateBusinessStatus(
+        business_id,
+        status,
+      );
+
+      // Check if result is null or not
+      if (!result) {
+        throw new Error(
+          "Failed to update the business status. No business found.",
+        );
       }
+
+      return { message: `Business status updated to ${status}` };
+    } catch (error) {
+      console.log(error);
     }
+  }
 }

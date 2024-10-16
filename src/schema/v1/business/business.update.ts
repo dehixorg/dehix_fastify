@@ -109,21 +109,21 @@ export const updateBusinessStatusSchema = {
   description: "API to update business status",
   tags: ["Business"],
   body: {
-    type: 'object',
+    type: "object",
     properties: {
       status: {
-        type: 'string',
-        enum: ['Active', 'Inactive', 'Notverified'], // Allowed values for status
-        description: 'The status of the business',
+        type: "string",
+        enum: ["Active", "Inactive", "Notverified"], // Allowed values for status
+        description: "The status of the business",
       },
     },
-    required: ['status'], // status is required
+    required: ["status"], // status is required
   },
   response: {
     200: {
-      type: 'object',
+      type: "object",
       properties: {
-        message: { type: 'string' },
+        message: { type: "string" },
       },
     },
     404: {
