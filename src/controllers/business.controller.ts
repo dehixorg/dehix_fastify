@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, GET, Inject, PUT } from "fastify-decorators";
+import { Controller, GET, Inject, PUT, PATCH } from "fastify-decorators";
 import { AuthController } from "../common/auth.controller";
 import {
   ERROR_CODES,
@@ -11,14 +11,16 @@ import {
   BUSINESS_END_POINT,
   BUSINESS_ID_END_POINT,
   BUSINESS_UPDATE_END_POINT,
+  UPDATE_STATUS_OF_BUSINESS_BY_BUSINESS_ID,
 } from "../constants/business.constant";
 import { getBusinessSchema } from "../schema/v1/business/business.get";
-import { updateBusinessSchema } from "../schema/v1/business/business.update";
+import { updateBusinessSchema, updateBusinessStatusSchema } from "../schema/v1/business/business.update";
 import { BusinessService } from "../services";
 import { GetBusinessPathParams } from "../types/v1/business/getBusiness";
 import {
   PutBusinessBody,
   PutBusinessPathParams,
+  PutBusinessStatusBody,
 } from "../types/v1/business/updateBusiness";
 
 // Define the controller with the main business endpoint
@@ -131,6 +133,59 @@ export default class BusinessController extends AuthController {
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });
+    }
+  }
+  @PATCH(UPDATE_STATUS_OF_BUSINESS_BY_BUSINESS_ID, {
+    schema: updateBusinessStatusSchema,
+  })
+  async updateBusinessStatusById(
+    request: FastifyRequest<{
+      Params: PutBusinessPathParams;
+      Body: PutBusinessStatusBody;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `BusinessController -> updateBusinessStatusById -> Updating status with ID: ${request.params.business_id}`,
+      );
+  
+      const data = await this.BusinessService.updateBusinessStatus(
+        request.params.business_id,
+        request.body.status,
+      );
+      
+      // If successful, send response
+      reply.status(STATUS_CODES.SUCCESS).send({
+        message: "Business Status updated",
+        data,
+      });
+  
+    } catch (error: any) {
+      this.logger.error(`Error in updateBusinessStatusById: ${error.message}`);
+      
+      if (
+        error.ERROR_CODES === "BUSINESS_NOT_FOUND" ||
+        error.message.includes("Business with provided ID could not be found.")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Business"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else if (
+        error.ERROR_CODES === "BUSINESS_NOT_FOUND" ||
+        error.message.includes("BUSINESS not found by id")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("BUSINESS"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
     }
   }
 }
