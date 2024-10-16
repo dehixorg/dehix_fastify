@@ -10,6 +10,7 @@ export interface IBusiness extends Document {
   companySize: string;
   email: string;
   phone: string;
+  status: "Active" | "Inactive" | "Notverified";
   position?: string;
   refer?: string;
   verified?: any;
@@ -50,6 +51,11 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
     phone: {
       type: String,
       required: true,
+    },
+    status: {
+      type: String,
+      enum: ["Active", "Inactive", "Notverified"],
+      default: "Notverified",
     },
     position: {
       type: String,
