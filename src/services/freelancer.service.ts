@@ -1010,7 +1010,6 @@ export class FreelancerService extends BaseService {
       );
     }
 
-
     const data = await this.FreelancerDAO.getFreelancerEducation(freelancer_id);
     this.logger.info(data, "in get freelancer education");
     return data;
@@ -1030,7 +1029,7 @@ export class FreelancerService extends BaseService {
       );
     }
     const data =
-    await this.FreelancerDAO.getFreelancerConsultant(freelancer_id);
+      await this.FreelancerDAO.getFreelancerConsultant(freelancer_id);
     this.logger.info(data, "in get freelancer consultant");
     return data;
   }

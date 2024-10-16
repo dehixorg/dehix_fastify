@@ -1568,14 +1568,16 @@ export default class FreelancerController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       }
-  
+
       return reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(`Error in getFreelancerConsultant: ${error.message}`);
-      
+
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
-        error.message.includes("Freelancer with provided ID could not be found.")
+        error.message.includes(
+          "Freelancer with provided ID could not be found.",
+        )
       ) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
@@ -1609,7 +1611,6 @@ export default class FreelancerController extends AuthController {
 
       if (!data || data.length === 0) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
-
           message: RESPONSE_MESSAGE.NOT_FOUND("Dehix Talent"),
           code: ERROR_CODES.NOT_FOUND,
         });

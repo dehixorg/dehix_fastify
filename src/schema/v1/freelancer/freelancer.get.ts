@@ -410,7 +410,6 @@ export const getFreelancerDehixTalentSchema: FastifySchema = {
   },
 };
 
-
 export const getFreelancerEducationSchema: FastifySchema = {
   description: "API to get freelancer education data",
   tags: ["Freelancer"],
