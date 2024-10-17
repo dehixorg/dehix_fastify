@@ -75,6 +75,7 @@ export const getBidForBidderIdSchema: FastifySchema = {
               bidder_id: { type: "string" },
               current_price: { type: "number" },
               domain_id: { type: "string" },
+              profile_id: { type: "string" },
             },
           },
         },
