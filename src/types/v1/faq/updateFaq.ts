@@ -6,3 +6,7 @@ export interface PutFaqBody {
   question?: string;
   answer?: string;
 }
+
+export interface PutFaqStatusBody {
+  status?: string;
+}

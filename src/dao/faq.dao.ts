@@ -36,4 +36,17 @@ export class FaqDAO extends BaseDAO {
   async updateFaq(faq_id: string, update: any) {
     return this.model.findByIdAndUpdate({ _id: faq_id }, update, { new: true });
   }
+
+  async updateFaqStatus(faq_id: string, status: string) {
+    try {
+      return await this.model.findByIdAndUpdate(
+        faq_id,
+        { status, updatedAt: new Date() },
+        { new: true },
+      );
+    } catch (error) {
+      console.error("Error updating faq status:", error);
+      throw new Error("Failed to update faq status");
+    }
+  }
 }
