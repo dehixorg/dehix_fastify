@@ -11,7 +11,7 @@ import {
   FAQ_DELETE_BY_ID_ENDPOINT,
   FAQ_ENDPOINT,
   FAQ_UPDATE_BY_ID_ENDPOINT,
-  UPDATE_STATUS_OF_FAQ_BY_FAQ_ID
+  UPDATE_STATUS_OF_FAQ_BY_FAQ_ID,
 } from "../constants/faq.constant"; // Importing constants defining FAQ endpoints
 import { FaqService } from "../services"; // Importing the FAQ service to handle business logic
 import { createFaqSchema } from "../schema/v1/faq/faq.create"; // Importing schema for creating FAQ validation
@@ -19,8 +19,15 @@ import { createFaqBody } from "../types/v1/faq/createFaq"; // Importing type def
 import { DeleteFaqPathParams } from "../types/v1/faq/deleteFaq"; // Importing type definitions for deleting FAQ
 import { deleteFaqSchema } from "../schema/v1/faq/faq.delete"; // Importing schema for deleting FAQ validation
 import { getAllFaqSchema } from "../schema/v1/faq/faq.get"; // Importing schema for fetching all FAQs
-import { PutFaqBody, PutFaqPathParams, PutFaqStatusBody } from "../types/v1/faq/updateFaq"; // Importing type definitions for updating FAQ
-import { updateFaqSchema, updateFaqStatusSchema } from "../schema/v1/faq/faq.update"; // Importing schema for updating FAQ validation
+import {
+  PutFaqBody,
+  PutFaqPathParams,
+  PutFaqStatusBody,
+} from "../types/v1/faq/updateFaq"; // Importing type definitions for updating FAQ
+import {
+  updateFaqSchema,
+  updateFaqStatusSchema,
+} from "../schema/v1/faq/faq.update"; // Importing schema for updating FAQ validation
 
 // Define the FaqController class with a base route of FAQ_ENDPOINT
 @Controller({ route: FAQ_ENDPOINT })

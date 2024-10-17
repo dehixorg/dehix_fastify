@@ -65,7 +65,7 @@ export const updateFaqStatusSchema = {
     properties: {
       status: {
         type: "string",
-        enum: ["active", "inactive",], 
+        enum: ["active", "inactive"],
         description: "The status of the faq",
       },
     },
