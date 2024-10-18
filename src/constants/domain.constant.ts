@@ -2,13 +2,15 @@
 export const DOMAIN_ENDPOINT = "/domain";
 
 // Endpoint for retrieving all domains in the system
-export const DOMAIN_ALL_ENDPOINT = "/all";
+export const DOMAIN_ALL_ENDPOINT = "";
 
 // Endpoint to delete a specific domain by its unique domain ID
 export const DOMAIN_DELETE_BY_ID_ENDPOINT = "/:domain_id";
 
 // Endpoint for creating a new domain
-export const DOMAIN_ID_ENDPOINT = "/createdomain";
+export const DOMAIN_ID_ENDPOINT = "";
+
+export const GET_ALL_ADMIN_ENDPOINT = "/admin";
 
 // Endpoint to retrieve a specific domain's details by its unique domain ID
 export const DOMAIN_BY_ID_ENDPOINT = "/:domain_id";

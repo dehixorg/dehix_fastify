@@ -1,4 +1,4 @@
-//Endpoint foe verification data
+//Endpoint for verification data
 export const VERIFICATION_ENDPOINT = "/verification";
 
 // Endpoint for retrieving all Oracle entries
