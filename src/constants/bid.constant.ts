@@ -17,11 +17,11 @@ export const BID_ID_FREELANCER_END_POINT = "/:bidder_id/bid";
 export const DELETE_BID_END_POINT = "/:bid_id";
 
 // Endpoint for retrieving a bid by project ID within a specific project
-export const GET_BID_BY_PROJECT_END_POINT = "/:project_id/project/bid";
+export const GET_BID_BY_PROJECT_END_POINT = "/project/:project_id/bid";
 
 // Endpoint for retrieving a bid by project ID and profile ID within a specific profile and project
 export const GET_BID_BY_PROJECT_PROFILE_END_POINT =
-  "/:project_id/:profile_id/profile/project/bid";
+  "/project/:project_id/profile/:profile_id/bid";
 
 // Endpoint for retrieving all bids
-export const ALL_BID_ENDPOINT = "/all";
+export const ALL_BID_ENDPOINT = "";

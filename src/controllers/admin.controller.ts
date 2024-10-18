@@ -33,11 +33,6 @@ import {
   getAllAdminSchema,
 } from "../schema/v1/admin/admin.get";
 
-// Importing additional constants and schemas for verification handling
-import { GET_ALL_ORACLE_ENDPOINT } from "../constants/freelancer.constant";
-import { getAllVerificationDataSchema } from "../schema/v1/verifications/verifications.get";
-import { GetDocTypeQueryParams } from "../types/v1/verifications/getDocType";
-
 // Controller for handling admin-related API endpoints
 @Controller({ route: ADMIN_ENDPOINT })
 export default class AdminsController extends AuthController {
@@ -174,39 +169,6 @@ export default class AdminsController extends AuthController {
           code: ERROR_CODES.SERVER_ERROR,
         });
       }
-    }
-  }
-
-  // GET request to fetch all verification data for oracle
-  @GET(GET_ALL_ORACLE_ENDPOINT, { schema: getAllVerificationDataSchema })
-  async getAllVerificationData(
-    request: FastifyRequest<{
-      Querystring: GetDocTypeQueryParams;
-    }>,
-    reply: FastifyReply,
-  ) {
-    try {
-      this.logger.info(
-        `AdminsController -> getAllVerificationData -> Fetching verification data`,
-      );
-      const { doc_type } = request.query;
-
-      const data =
-        await this.verificationService.getAllVerificationData(doc_type);
-
-      if (!data) {
-        return reply.status(STATUS_CODES.NOT_FOUND).send({
-          message: RESPONSE_MESSAGE.NOT_FOUND("Verification Data"),
-          code: ERROR_CODES.NOT_FOUND,
-        });
-      }
-      reply.status(STATUS_CODES.SUCCESS).send({ data });
-    } catch (error: any) {
-      this.logger.error(`Error in getAllVerificationData: ${error.message}`);
-      reply.status(STATUS_CODES.SERVER_ERROR).send({
-        message: RESPONSE_MESSAGE.SERVER_ERROR,
-        code: ERROR_CODES.SERVER_ERROR,
-      });
     }
   }
 }

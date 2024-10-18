@@ -8,7 +8,7 @@
 import { FastifySchema } from "fastify";
 
 export const updateBidSchema: FastifySchema = {
-  description: "API for update bidding",
+  description: "API for update the bid data",
   tags: ["Bid"],
   body: {
     type: "object",
@@ -66,7 +66,7 @@ export const updateBidSchema: FastifySchema = {
 };
 
 export const updateBidStatusSchema: FastifySchema = {
-  description: "API for update bidding",
+  description: "API to update status of bid",
   tags: ["Bid"],
   body: {
     type: "object",

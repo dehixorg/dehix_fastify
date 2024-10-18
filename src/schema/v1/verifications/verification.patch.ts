@@ -1,7 +1,7 @@
 import { FastifySchema } from "fastify";
 
 export const updateVerificationStatusSchema: FastifySchema = {
-  description: "API to update verification status",
+  description: "API to update verification status by document id",
   tags: ["Verification"],
   querystring: {
     type: "object",

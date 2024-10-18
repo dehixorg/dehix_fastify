@@ -164,6 +164,26 @@ export const getBidForProfileIdSchema: FastifySchema = {
     required: ["profile_id"],
   },
   response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              _id: { type: "string" },
+              bid_status: { type: "string" },
+              project_id: { type: "string" },
+              bidder_id: { type: "string" },
+              current_price: { type: "number" },
+              domain_id: { type: "string" },
+            },
+          },
+        },
+      },
+    },
     404: {
       type: "object",
       properties: {

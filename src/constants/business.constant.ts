@@ -14,7 +14,7 @@ export const BUSINESS_ID_END_POINT = "/:business_id";
 export const BUSINESS_UPDATE_END_POINT = "/:business_id";
 
 // Endpoint for retrieving all businesses in the system
-export const ALL_BUSINESS_END_POINT = "/all";
+export const ALL_BUSINESS_END_POINT = "";
 
 // Endpoint for creating/registering a new business
 export const CREATE_BUSINESS_END_POINT = "/register";
