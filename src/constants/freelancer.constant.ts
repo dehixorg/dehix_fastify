@@ -7,6 +7,9 @@ export const FREELANCER_CREATE_ENDPOINT = "/create";
 // Endpoint for fetching or modifying a specific freelancer by their ID
 export const FREELANCER_ID_ENDPOINT = "/:freelancer_id";
 
+// Endpoint for getting a specific freelancer details/profile by their ID
+export const FREELANCER_ID_DETAILS_ENDPOINT = "/:freelancer_id/details";
+
 // Endpoint for retrieving all freelancers in the system
 export const ALL_FREELANCER = "/allfreelancer";
 // Project related endpoints for freelancers
@@ -79,6 +82,9 @@ export const FREELANCER_DEHIX_TALENT_ADD_BY_ID = "/:freelancer_id/dehix-talent";
 
 // Endpoint for retrieving Dehix Talent details for a specific freelancer
 export const FREELANCER_DEHIX_TALENT_BY_ID = "/:freelancer_id/dehix-talent";
+
+// Endpoint for retrieving Education details for a specific freelancer
+export const FREELANCER_EDUCATION_BY_ID = "/:freelancer_id/education";
 
 // Endpoint for deleting a freelancer from Dehix Talent by Dehix Talent ID
 export const FREELANCER_DEHIX_TALENT_DELETE_BY_ID =

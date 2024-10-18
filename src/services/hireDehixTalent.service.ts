@@ -79,7 +79,6 @@ export class HireService extends BaseService {
     }
 
     const data = await this.HireDAO.getHireDehixTalent(business_id);
-    this.logger.info(data, "in get Hire dehix Talent");
     return data;
   }
 
@@ -113,5 +112,25 @@ export class HireService extends BaseService {
       update,
     );
     return data;
+  }
+
+  async addDehixTalentIntoLobby(hireDehixTalent_id: string, data: any) {
+    this.logger.info("HireService: updateHireDehixTalent", hireDehixTalent_id);
+
+    const hireDehixTalent =
+      await this.HireDAO.findHireDehixTalentById(hireDehixTalent_id);
+    if (!hireDehixTalent) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.HIRE_DEHIX_TALENT_NOT_FOUND,
+        ERROR_CODES.HIRE_DEHIX_TALENT_NOT_FOUND,
+      );
+    }
+
+    const response = await this.HireDAO.addDehixTalentIntoLobby(
+      hireDehixTalent_id,
+      data,
+    );
+
+    return response;
   }
 }

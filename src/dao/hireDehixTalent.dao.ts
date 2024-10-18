@@ -1,7 +1,9 @@
+import { v4 as uuidv4 } from "uuid";
 import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
 import { HireModel, IHire } from "../models/hireDehixTalent.entity";
+import { addDehixTalentInLobbyBody } from "../types/v1/hireDehixTalent/addFreelancerIntoLobby";
 
 @Service()
 export class HireDAO extends BaseDAO {
@@ -72,6 +74,32 @@ export class HireDAO extends BaseDAO {
     } catch (error) {
       console.error("Error in updateStatusHireDehixTalent:", error);
       throw new Error("Could not update Hire records");
+    }
+  }
+
+  async addDehixTalentIntoLobby(
+    hireDehixTalent_id: string,
+    data: addDehixTalentInLobbyBody,
+  ) {
+    const lobbyId = uuidv4();
+    try {
+      const response = await this.model.findByIdAndUpdate(
+        hireDehixTalent_id,
+        {
+          $push: {
+            freelancerInLobby: {
+              _id: lobbyId,
+              ...data,
+            },
+          },
+        },
+        { new: true }, // return the updated document
+      );
+
+      return response;
+    } catch (error: any) {
+      console.error(`Error in addDehixTalentIntoLobby: ${error.message}`);
+      throw new Error("Could not add dehix talent in lobby");
     }
   }
 }

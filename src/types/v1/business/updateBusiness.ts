@@ -21,3 +21,7 @@ export interface PutBusinessBody {
   connects: number;
   ProjectList: string[];
 }
+
+export interface PutBusinessStatusBody {
+  status: string;
+}

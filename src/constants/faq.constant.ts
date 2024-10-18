@@ -9,3 +9,6 @@ export const FAQ_ALL_ENDPOINT = "/all";
 
 // Endpoint to update a specific FAQ by its unique FAQ ID
 export const FAQ_UPDATE_BY_ID_ENDPOINT = "/:faq_id";
+
+// Endpoint to update the status of a faq using its faq ID
+export const UPDATE_STATUS_OF_FAQ_BY_FAQ_ID = "/:faq_id/status";

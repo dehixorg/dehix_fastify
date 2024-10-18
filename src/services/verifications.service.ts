@@ -352,7 +352,7 @@ export class VerificationService extends BaseService {
 
   // Refactor the getAllVerificationData method in VerificationsService
   async getAllVerificationData(
-    doc_type:
+    doc_type?:
       | "skill"
       | "domain"
       | "education"
@@ -381,6 +381,10 @@ export class VerificationService extends BaseService {
       business: this.BusinessDAO.getBusinessById.bind(this.BusinessDAO),
     };
 
+    // If doc_type is undefined, return all data or handle the case accordingly
+    if (!doc_type) {
+      return data; // Return all verification data if doc_type is undefined
+    }
     if (!daoMethods[doc_type]) {
       throw new Error(`Unsupported doc_type: ${doc_type}`);
     }
@@ -422,20 +426,36 @@ export class VerificationService extends BaseService {
     // Find the verifier
     const verifier = await this.freelancerDAO.findOracle(requester_id);
     if (!verifier) {
-      throw new Error("Verifier not found"); // Handle case where no verifier is found
+      const verifier = await this.adminDAO.findOracle();
+      if (!verifier) {
+        throw new Error("Verifier not found");
+      }
+
+      const verifier_id = verifier.id;
+      const verifier_username = verifier.username; // Assuming `username` is the field for verifier's username
+
+      // Create a new verification entry
+      const verification = await this.verificationDAO.createOneBusiness(
+        verifier_id,
+        verifier_username,
+        requester_id,
+        doc_type,
+      );
+
+      return verification;
+    } else {
+      const verifier_id = verifier.id;
+      const verifier_username = verifier.username; // Assuming `username` is the field for verifier's username
+
+      // Create a new verification entry
+      const verification = await this.verificationDAO.createOneBusiness(
+        verifier_id,
+        verifier_username,
+        requester_id,
+        doc_type,
+      );
+
+      return verification;
     }
-
-    const verifier_id = verifier.id;
-    const verifier_username = verifier.username; // Assuming `username` is the field for verifier's username
-
-    // Create a new verification entry
-    const verification = await this.verificationDAO.createOneBusiness(
-      verifier_id,
-      verifier_username,
-      requester_id,
-      doc_type,
-    );
-
-    return verification;
   }
 }

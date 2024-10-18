@@ -259,7 +259,7 @@ export default class BidController extends AuthController {
         request.params.bidder_id,
       );
 
-      if (!data || data.length === 0) {
+      if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Bid"), // Handle case where no bids are found
           code: ERROR_CODES.NOT_FOUND,

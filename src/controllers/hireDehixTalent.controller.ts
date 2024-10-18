@@ -16,6 +16,7 @@ import {
 } from "../common/constants";
 import { AuthController } from "../common/auth.controller";
 import {
+  ADD_TALENT_INTO_LOBBY_ENDPOINT,
   GET_HIRE_BY_ID_ENDPOINT,
   HIRE_CREATE_ENDPOINT,
   HIRE_DEHIX_TALENT_UPDATE_BY_ID,
@@ -23,7 +24,10 @@ import {
   HIRE_UPDATE_BY_ID_ENDPOINT,
 } from "../constants/hireDehixTalent.constant";
 import { HireService } from "../services/hireDehixTalent.service";
-import { createhireDehixTalentSchema } from "../schema/v1/hireDehixTalent/hireDehixTalent.create";
+import {
+  addTalentIntoLobbySchema,
+  createhireDehixTalentSchema,
+} from "../schema/v1/hireDehixTalent/hireDehixTalent.create";
 import { IHire } from "../models/hireDehixTalent.entity";
 import {
   UpdateHireDehixTalent,
@@ -38,6 +42,7 @@ import { deleteHireDehixTalentSchema } from "../schema/v1/hireDehixTalent/hireDe
 import { BUSINESS_END_POINT } from "../constants/business.constant";
 import { GetBusinessPathParams } from "../types/v1/business/getBusiness";
 import { getHireDehixTalentSchema } from "../schema/v1/hireDehixTalent/hireDehixTalent.get";
+import { addDehixTalentInLobbyBody } from "../types/v1/hireDehixTalent/addFreelancerIntoLobby";
 
 @Controller({ route: BUSINESS_END_POINT })
 export default class HireController extends AuthController {
@@ -213,6 +218,53 @@ export default class HireController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       } else if (
+        error.ERROR_CODES === "HIRE_DEHIX_TALENT_NOT_FOUND" ||
+        error.message.includes("Hire Dehix Talent not found by id")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Hire Dehix Talent"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  /**
+   * Adds a Dehix talent into the lobby for hire.
+   *
+   * This endpoint handles the addition of a Dehix talent into the lobby using
+   * the provided `hireDehixTalent_id` from the request parameters and the talent
+   * details from the request body.
+   */
+  @PUT(ADD_TALENT_INTO_LOBBY_ENDPOINT, {
+    schema: addTalentIntoLobbySchema,
+  })
+  async addDehixTalentIntoLobby(
+    request: FastifyRequest<{
+      Params: HireDehixTalentPathParams;
+      Body: addDehixTalentInLobbyBody;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `HireController -> addDehixTalentIntoLobby -> adding DehixTalent into lobby with ID: ${request.params.hireDehixTalent_id} ${request.body}`,
+      );
+
+      const response = await this.hireService.addDehixTalentIntoLobby(
+        request.params.hireDehixTalent_id,
+        request.body,
+      );
+
+      reply.status(STATUS_CODES.SUCCESS).send({ response });
+    } catch (error: any) {
+      this.logger.error(`Error in addDehixTalentIntoLobby: ${error.message}`);
+      if (
         error.ERROR_CODES === "HIRE_DEHIX_TALENT_NOT_FOUND" ||
         error.message.includes("Hire Dehix Talent not found by id")
       ) {

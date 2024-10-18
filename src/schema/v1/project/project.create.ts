@@ -74,7 +74,7 @@ export const createProjectSchema: FastifySchema = {
           },
         },
       },
-      profile: {
+      profiles: {
         type: "array",
         items: {
           type: "object",

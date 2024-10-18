@@ -26,6 +26,7 @@ import {
 import {
   FREELANCER_ENDPOINT,
   FREELANCER_ID_ENDPOINT,
+  FREELANCER_ID_DETAILS_ENDPOINT,
   FREELANCER_PROJECT_DELETE_BY_ID,
   FREELANCER_SKILLS_ADD_BY_ID,
   FREELANCER_SKILL_DELETE_BY_ID,
@@ -55,15 +56,18 @@ import {
   ALL_DEHIX_TALENT_ENDPOINT,
   FREELANCER_DEHIX_TALENT_BY_ID,
   FREELANCER_DEHIX_TALENT_UPDATE_BY_ID,
+  FREELANCER_EDUCATION_BY_ID,
 } from "../constants/freelancer.constant";
 import {
   getAllDehixTalentSchema,
   getFreelancerDehixTalentSchema,
+  getFreelancerDetails,
   getFreelancerDomainSchema,
   getFreelancerOwnProjectSchema,
   getFreelancerProjectSchema,
   getFreelancerSchema,
   getFreelancerSkillsSchema,
+  getFreelancerEducationSchema,
 } from "../schema/v1/freelancer/freelancer.get";
 import { AuthController } from "../common/auth.controller";
 import {
@@ -142,6 +146,43 @@ export default class FreelancerController extends AuthController {
     try {
       this.logger.info(
         `FreelancerController -> getFreelancer -> Fetching freelancer profile for ID: ${request.params.freelancer_id}`,
+      );
+
+      const data = await this.freelancerService.getFreelancerProfile(
+        request.params.freelancer_id,
+      );
+      console.log("DATA:", data);
+
+      reply.status(STATUS_CODES.SUCCESS).send({ ...data._doc });
+    } catch (error: any) {
+      this.logger.error(`Error in getFreelancer: ${error.message}`);
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found.",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @GET(FREELANCER_ID_DETAILS_ENDPOINT, { schema: getFreelancerDetails })
+  async getFreelancerDetails(
+    request: FastifyRequest<{ Params: GetFreelancerPathParams }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FreelancerController -> getFreelancerDetails -> Fetching freelancer details for ID: ${request.params.freelancer_id}`,
       );
 
       const data = await this.freelancerService.getFreelancerProfile(
@@ -1491,6 +1532,52 @@ export default class FreelancerController extends AuthController {
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Dehix Talent"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+  @GET(FREELANCER_EDUCATION_BY_ID, {
+    schema: getFreelancerEducationSchema,
+  })
+  async getFreelancerEducation(
+    request: FastifyRequest<{
+      Params: GetFreelancerPathParams;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FreelancerController -> getFreelancerEducation -> Fetching freelancer education for ID: ${request.params.freelancer_id}`,
+      );
+
+      const data = await this.freelancerService.getFreelancerEducation(
+        request.params.freelancer_id,
+      );
+
+      if (!data || data.length === 0) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Dehix Talent"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getFreelancerEducation: ${error.message}`);
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found.",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
           code: ERROR_CODES.NOT_FOUND,
         });
       } else {

@@ -39,24 +39,33 @@ export const UpdateHireDehixTalent: FastifySchema = {
       visible: {
         type: "boolean",
       },
-      freelancerApplied: {
+      freelancerInLobby: {
         type: "array",
         items: {
-          type: "string",
+          type: "object",
+          properties: {
+            freelancerId: {
+              type: "string",
+            },
+            dehixTalentId: {
+              type: "string",
+            },
+          },
         },
       },
       freelancerSelected: {
         type: "array",
         items: {
-          type: "string",
+          type: "object",
+          properties: {
+            freelancerId: {
+              type: "string",
+            },
+            dehixTalentId: {
+              type: "string",
+            },
+          },
         },
-      },
-      start: {
-        type: "string",
-        format: "date-time",
-      },
-      end: {
-        type: "string",
       },
     },
   },
@@ -104,16 +113,32 @@ export const UpdateHireDehixTalent: FastifySchema = {
               type: "number",
               default: 1,
             },
-            freelancerApplied: {
+            freelancerInLobby: {
               type: "array",
               items: {
-                type: "string",
+                type: "object",
+                properties: {
+                  freelancerId: {
+                    type: "string",
+                  },
+                  dehixTalentId: {
+                    type: "string",
+                  },
+                },
               },
             },
             freelancerSelected: {
               type: "array",
               items: {
-                type: "string",
+                type: "object",
+                properties: {
+                  freelancerId: {
+                    type: "string",
+                  },
+                  dehixTalentId: {
+                    type: "string",
+                  },
+                },
               },
             },
           },
@@ -218,16 +243,32 @@ export const updateStatusHireDehixTalentSchema: FastifySchema = {
               type: "number",
               default: 1,
             },
-            freelancerApplied: {
+            freelancerInLobby: {
               type: "array",
               items: {
-                type: "string",
+                type: "object",
+                properties: {
+                  freelancerId: {
+                    type: "string",
+                  },
+                  dehixTalentId: {
+                    type: "string",
+                  },
+                },
               },
             },
             freelancerSelected: {
               type: "array",
               items: {
-                type: "string",
+                type: "object",
+                properties: {
+                  freelancerId: {
+                    type: "string",
+                  },
+                  dehixTalentId: {
+                    type: "string",
+                  },
+                },
               },
             },
           },
