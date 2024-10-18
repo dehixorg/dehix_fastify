@@ -183,4 +183,17 @@ export class businessDAO extends BaseDAO {
   async getProjectById(project_id: string) {
     return this.projectmodel.findById(project_id);
   }
+
+  async updateBusinessStatus(business_id: string, status: string) {
+    try {
+      return await this.model.findByIdAndUpdate(
+        business_id,
+        { status, updatedAt: new Date() },
+        { new: true },
+      );
+    } catch (error) {
+      console.error("Error updating business status:", error);
+      throw new Error("Failed to update business status");
+    }
+  }
 }

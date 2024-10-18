@@ -60,3 +60,6 @@ export const DELETE_PROJECT_PROFILE_BY_ID =
 
 // Endpoint to retrieve a project's details and its related bids using the project ID
 export const GET_PROJECT_AND_BIDS_DATA_BY_PROJECT_ID = "/project/:project_id";
+
+// Endpoint to update the status of a business using its business ID
+export const UPDATE_STATUS_OF_BUSINESS_BY_BUSINESS_ID = "/:business_id/status";
