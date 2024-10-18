@@ -64,4 +64,17 @@ export class FaqService extends BaseService {
 
     return data;
   }
+  async updateFaqStatus(faq_id, status) {
+    try {
+      const result = await this.FaqDAO.updateFaqStatus(faq_id, status);
+
+      if (!result) {
+        throw new Error("Failed to update the faq status. No faq found.");
+      }
+
+      return { message: `Faq status updated to ${status}` };
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
