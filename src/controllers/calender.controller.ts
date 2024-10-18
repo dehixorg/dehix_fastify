@@ -18,13 +18,18 @@ import {
 @Controller({ route: "/meeting" })
 export default class CalendarController extends AuthController {
   // API to create a Google Calendar meeting with a Google Meet link
-
-  @POST("/create-meeting", {
+  @POST("", {
     schema: createMeetSchema,
   })
   async createMeeting(
     request: FastifyRequest<{
-      Body: { attendees: string[] };
+      Body: {
+        summary: string;
+        description: string;
+        start: { dateTime: string; timeZone: string };
+        end: { dateTime: string; timeZone: string };
+        attendees: string[];
+      };
       Querystring: { code: string };
     }>,
     reply: FastifyReply,
@@ -32,27 +37,34 @@ export default class CalendarController extends AuthController {
     try {
       this.logger.info("Creating a new Google Calendar meeting");
 
-      const { attendees } = request.body;
+      const { summary, description, start, end, attendees } = request.body;
       const { code } = request.query;
 
       if (!code) {
-        return reply.status(STATUS_CODES.BAD_REQUEST).send({
+        return reply.status(400).send({
           message: "Code parameter is required",
-          code: ERROR_CODES.BAD_REQUEST_ERROR,
+          code: "BAD_REQUEST_ERROR",
         });
       }
 
       if (!attendees || attendees.length === 0) {
-        return reply.status(STATUS_CODES.BAD_REQUEST).send({
+        return reply.status(400).send({
           message: "At least one attendee is required",
-          code: ERROR_CODES.BAD_REQUEST_ERROR,
+          code: "BAD_REQUEST_ERROR",
         });
       }
 
-      // Create Google Calendar meeting link
-      const meetLink = await createMeetLink(code, attendees);
+      // Create Google Calendar meeting link with all required fields
+      const meetLink = await createMeetLink(
+        code,
+        attendees,
+        summary,
+        description,
+        start,
+        end,
+      );
 
-      return reply.status(STATUS_CODES.SUCCESS).send({
+      return reply.status(200).send({
         message: "Meeting scheduled successfully",
         meetLink,
       });
@@ -61,9 +73,9 @@ export default class CalendarController extends AuthController {
         "Error creating Google Calendar meeting",
         error.message,
       );
-      return reply.status(STATUS_CODES.SERVER_ERROR).send({
-        message: RESPONSE_MESSAGE.SERVER_ERROR,
-        code: ERROR_CODES.SERVER_ERROR,
+      return reply.status(500).send({
+        message: "Internal Server Error",
+        code: "SERVER_ERROR",
       });
     }
   }

@@ -1,38 +1,64 @@
 import { FastifySchema } from "fastify";
 
 // Schema for creating a Google Calendar meeting
-export const createMeetSchema: FastifySchema = {
+export const createMeetSchema = {
   tags: ["Calendar"],
-  querystring: {
-    type: "object",
-    properties: {
-      code: { type: "string" }, // Code parameter for authentication
-    },
-    required: ["code"], // Make the code query parameter required
-  },
   body: {
     type: "object",
+    required: ["summary", "description", "start", "end", "attendees"],
     properties: {
+      summary: { type: "string", minLength: 1 },
+      description: { type: "string", minLength: 1 },
+      start: {
+        type: "object",
+        required: ["dateTime", "timeZone"],
+        properties: {
+          dateTime: { type: "string", format: "date-time" }, // ISO 8601 datetime format
+          timeZone: { type: "string", minLength: 1 },
+        },
+      },
+      end: {
+        type: "object",
+        required: ["dateTime", "timeZone"],
+        properties: {
+          dateTime: { type: "string", format: "date-time" },
+          timeZone: { type: "string", minLength: 1 },
+        },
+      },
       attendees: {
         type: "array",
-        items: { type: "string", format: "email" }, // Validating attendee emails
+        items: { type: "string", format: "email" },
+        minItems: 1,
       },
     },
-    required: ["attendees"], // Ensure attendees are provided
+  },
+  querystring: {
+    type: "object",
+    required: ["code"],
+    properties: {
+      code: { type: "string", minLength: 1 },
+    },
   },
   response: {
     200: {
       type: "object",
       properties: {
         message: { type: "string" },
-        meetLink: { type: "string", format: "uri" }, // Response includes the meeting link
+        meetLink: { type: "string" },
       },
     },
     400: {
       type: "object",
       properties: {
         message: { type: "string" },
-        code: { type: "string" }, // Error code
+        code: { type: "string" },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+        code: { type: "string" },
       },
     },
   },

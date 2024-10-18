@@ -1,5 +1,4 @@
 import { google } from "googleapis";
-import dayjs from "dayjs";
 import { v4 as uuidv4 } from "uuid";
 
 // Configuration for Google OAuth2 client (without redirect URI)
@@ -32,43 +31,47 @@ export const handleAuthCallback = async (code: string): Promise<void> => {
   console.log("TOKENS:", tokens);
   oauth2Client.setCredentials(tokens);
 };
+
 // Function to create a Google Calendar event with a meet link
 export const createMeetLink = async (
   code: string,
   attendees: string[],
-): Promise<string> => {
+  summary: string,
+  description: string,
+  start: { dateTime: string; timeZone: string },
+  end: { dateTime: string; timeZone: string },
+): Promise<string | null | undefined> => {
   try {
-    await handleAuthCallback(code); // Await the callback handling
+    await handleAuthCallback(code); // Await the callback handling for OAuth2
 
     const event = await calendar.events.insert({
       calendarId: "primary",
-      auth: oauth2Client,
+      auth: oauth2Client, // Assuming oauth2Client is already initialized
       conferenceDataVersion: 1,
       requestBody: {
-        summary: "Meeting",
-        description: "Meeting",
+        summary, // Use the provided summary
+        description, // Use the provided description
         start: {
-          dateTime: dayjs().add(1, "day").toISOString(), // Start time: 1 day from now
-          timeZone: "Asia/Kolkata",
+          dateTime: start.dateTime, // Use provided start dateTime and timeZone
+          timeZone: start.timeZone,
         },
         end: {
-          dateTime: dayjs().add(1, "day").add(1, "hour").toISOString(), // End time: 1 hour after start
-          timeZone: "Asia/Kolkata",
+          dateTime: end.dateTime, // Use provided end dateTime and timeZone
+          timeZone: end.timeZone,
         },
         conferenceData: {
           createRequest: {
-            requestId: uuidv4(), // Unique request ID
+            requestId: uuidv4(), // Generate a unique request ID for Google Meet
             conferenceSolutionKey: {
               type: "hangoutsMeet", // Create a Google Meet link
             },
           },
         },
-        attendees: attendees.map((email) => ({ email })), // List of attendee emails
+        attendees: attendees.map((email) => ({ email })), // Use provided attendee emails
       },
     });
 
-    console.log("Meeting link: ", event.data.hangoutLink); // Log the meet link
-    return event.data.hangoutLink; // Return the meet link
+    return event.data.hangoutLink; // Return the meeting lin
   } catch (error) {
     console.log("Error creating event: ", error);
     throw new Error("Error scheduling meeting");
