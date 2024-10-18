@@ -12,7 +12,10 @@ import {
   BUSINESS_ID_END_POINT,
   BUSINESS_UPDATE_END_POINT,
 } from "../constants/business.constant";
-import { getAllBusinessSchema, getBusinessSchema } from "../schema/v1/business/business.get";
+import {
+  getAllBusinessSchema,
+  getBusinessSchema,
+} from "../schema/v1/business/business.get";
 import { updateBusinessSchema } from "../schema/v1/business/business.update";
 import { BusinessService } from "../services";
 import { GetBusinessPathParams } from "../types/v1/business/getBusiness";

@@ -164,7 +164,6 @@ export const FREELANCER_DELETE_CONSULTANT_BY_ID =
 // Base Oracle endpoint
 export const ORACLE_ENDPOINT = "/oracle";
 
-
 // Not interested project
 
 // Endpoint for marking a freelancer as "not interested" in a project

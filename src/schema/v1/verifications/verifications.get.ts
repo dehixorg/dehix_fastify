@@ -29,41 +29,41 @@ export const getVerificationDataSchema: FastifySchema = {
     },
   },
   response: {
-      200: {
-        type: "object",
-        properties: {
-          data: {
-            type: "array",
-            items: {
-              type: "object",
-              properties: {
-                _id: { type: "string" },
-                firstName: { type: "string" },
-                lastName: { type: "string" },
-                companyName: { type: "string" },
-                companySize: { type: "string" },
-                email: { type: "string" },
-                phone: { type: "string" },
-                position: { type: "string" },
-                refer: { type: "string" },
-                verified: { type: "string" },
-                isVerified: { type: "boolean" },
-                linkedin: { type: "string" },
-                personalWebsite: { type: "string" },
-                isBusiness: { type: "boolean" },
-                connects: { type: "integer" },
-                ProjectList: {
-                  type: "array",
-                  items: { type: "string" }
-                },
-                createdAt: { type: "string" },
-                updatedAt: { type: "string" },
-                __v: { type: "integer" },
+    200: {
+      type: "object",
+      properties: {
+        data: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              _id: { type: "string" },
+              firstName: { type: "string" },
+              lastName: { type: "string" },
+              companyName: { type: "string" },
+              companySize: { type: "string" },
+              email: { type: "string" },
+              phone: { type: "string" },
+              position: { type: "string" },
+              refer: { type: "string" },
+              verified: { type: "string" },
+              isVerified: { type: "boolean" },
+              linkedin: { type: "string" },
+              personalWebsite: { type: "string" },
+              isBusiness: { type: "boolean" },
+              connects: { type: "integer" },
+              ProjectList: {
+                type: "array",
+                items: { type: "string" },
               },
+              createdAt: { type: "string" },
+              updatedAt: { type: "string" },
+              __v: { type: "integer" },
             },
           },
         },
       },
+    },
     404: {
       type: "object",
       properties: {

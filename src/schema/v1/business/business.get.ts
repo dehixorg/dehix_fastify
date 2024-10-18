@@ -53,7 +53,7 @@ export const getAllBusinessSchema: FastifySchema = {
             companySize: { type: "string" },
             password: { type: "string" },
             email: { type: "string", format: "email" },
-            phone: { type: "string", },
+            phone: { type: "string" },
             position: { type: "string" },
             refer: { type: "string", nullable: true },
             verified: { type: "string", nullable: true },
@@ -78,7 +78,10 @@ export const getAllBusinessSchema: FastifySchema = {
                 type: "object",
                 properties: {
                   freelancer: { type: "string" },
-                  status: { type: "string", enum: ["Pending", "Approved", "Rejected"] },
+                  status: {
+                    type: "string",
+                    enum: ["Pending", "Approved", "Rejected"],
+                  },
                   _id: { type: "string" },
                 },
               },
@@ -86,7 +89,10 @@ export const getAllBusinessSchema: FastifySchema = {
             createdAt: { type: "string", format: "date-time" },
             updatedAt: { type: "string", format: "date-time" },
             __v: { type: "integer" },
-            status: { type: "string", enum: ["Notverified", "Verified", "Pending"] },
+            status: {
+              type: "string",
+              enum: ["Notverified", "Verified", "Pending"],
+            },
           },
         },
       },
