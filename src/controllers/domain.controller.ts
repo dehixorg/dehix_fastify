@@ -15,7 +15,7 @@ import {
   DOMAIN_DELETE_BY_ID_ENDPOINT,
   DOMAIN_ID_ENDPOINT,
   DOMAIN_BY_ID_ENDPOINT,
-  GET_ALL_ADMIN_ENDPOINT
+  GET_ALL_ADMIN_ENDPOINT,
 } from "../constants/domain.constant";
 
 // Importing schemas for validation
