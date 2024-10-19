@@ -28,6 +28,7 @@ export const getBidForProjectIdSchema: FastifySchema = {
               bidder_id: { type: "string" },
               current_price: { type: "number" },
               domain_id: { type: "string" },
+              description: { type: "string" },
             },
           },
         },
@@ -76,6 +77,7 @@ export const getBidForBidderIdSchema: FastifySchema = {
               current_price: { type: "number" },
               domain_id: { type: "string" },
               profile_id: { type: "string" },
+              description: { type: "string" },
             },
           },
         },
@@ -117,6 +119,7 @@ export const getAllBidsSchema: FastifySchema = {
               bidder_id: { type: "string" },
               current_price: { type: "number" },
               domain_id: { type: "string" },
+              description: { type: "string" }
             },
           },
         },
