@@ -65,6 +65,7 @@ export const getVerificationDataSchema: FastifySchema = {
       },
     },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: {
@@ -76,6 +77,7 @@ export const getVerificationDataSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -87,6 +89,7 @@ export const getVerificationDataSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -134,6 +137,7 @@ export const getAllVerificationDataSchema: FastifySchema = {
       },
     },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: {
@@ -145,6 +149,7 @@ export const getAllVerificationDataSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -156,6 +161,7 @@ export const getAllVerificationDataSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },

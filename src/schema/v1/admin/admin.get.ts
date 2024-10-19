@@ -25,6 +25,7 @@ export const getAllAdminSchema: FastifySchema = {
       },
     },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: {
@@ -36,6 +37,7 @@ export const getAllAdminSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -47,6 +49,7 @@ export const getAllAdminSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -80,6 +83,7 @@ export const getAdminByIdSchema: FastifySchema = {
       },
     },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: {
@@ -91,6 +95,7 @@ export const getAdminByIdSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -102,6 +107,7 @@ export const getAdminByIdSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },

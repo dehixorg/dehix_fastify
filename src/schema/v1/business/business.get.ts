@@ -5,6 +5,7 @@ export const getBusinessSchema: FastifySchema = {
   tags: ["Business"],
   response: {
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: {
@@ -16,6 +17,7 @@ export const getBusinessSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -27,6 +29,7 @@ export const getBusinessSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -98,6 +101,7 @@ export const getAllBusinessSchema: FastifySchema = {
       },
     },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: {
@@ -109,6 +113,7 @@ export const getAllBusinessSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -120,6 +125,7 @@ export const getAllBusinessSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -143,6 +149,7 @@ export const getBusinessProjectSchema: FastifySchema = {
   },
   response: {
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: {
@@ -154,6 +161,7 @@ export const getBusinessProjectSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -165,6 +173,7 @@ export const getBusinessProjectSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },

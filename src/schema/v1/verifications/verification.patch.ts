@@ -53,6 +53,7 @@ export const updateVerificationStatusSchema: FastifySchema = {
       },
     },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -60,6 +61,7 @@ export const updateVerificationStatusSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: { type: "string" },
@@ -67,6 +69,7 @@ export const updateVerificationStatusSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },

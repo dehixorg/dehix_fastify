@@ -35,6 +35,7 @@ export const updateBidSchema: FastifySchema = {
       },
     },
     401: {
+      description: "Unauthorized",
       type: "object",
       properties: {
         message: {
@@ -46,6 +47,7 @@ export const updateBidSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -57,6 +59,7 @@ export const updateBidSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -88,6 +91,7 @@ export const updateBidStatusSchema: FastifySchema = {
       },
     },
     401: {
+      description: "Unauthorized",
       type: "object",
       properties: {
         message: {
@@ -99,6 +103,7 @@ export const updateBidStatusSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -110,6 +115,7 @@ export const updateBidStatusSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },

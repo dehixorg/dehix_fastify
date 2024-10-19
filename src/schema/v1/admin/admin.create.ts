@@ -38,6 +38,7 @@ export const createAdminSchema: FastifySchema = {
       },
     },
     401: {
+      description: "Unauthorized",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -45,6 +46,7 @@ export const createAdminSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -52,6 +54,7 @@ export const createAdminSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },

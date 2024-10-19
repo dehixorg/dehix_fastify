@@ -27,6 +27,7 @@ export const deleteHireFreelancerSchema: FastifySchema = {
       },
     },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: {
@@ -38,6 +39,7 @@ export const deleteHireFreelancerSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -49,6 +51,7 @@ export const deleteHireFreelancerSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },

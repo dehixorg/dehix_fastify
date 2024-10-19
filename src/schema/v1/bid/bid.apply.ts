@@ -34,6 +34,7 @@ export const bidApplySchema: FastifySchema = {
       },
     },
     401: {
+      description: "Unauthorized",
       type: "object",
       properties: {
         message: {
@@ -45,6 +46,7 @@ export const bidApplySchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -56,6 +58,7 @@ export const bidApplySchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },
