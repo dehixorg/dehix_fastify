@@ -8,7 +8,7 @@
 import { FastifySchema } from "fastify";
 
 export const updateBidSchema: FastifySchema = {
-  description: "API for update bidding",
+  description: "API for update the bid data",
   tags: ["Bid"],
   body: {
     type: "object",
@@ -35,6 +35,7 @@ export const updateBidSchema: FastifySchema = {
       },
     },
     401: {
+      description: "Unauthorized",
       type: "object",
       properties: {
         message: {
@@ -46,6 +47,7 @@ export const updateBidSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -57,6 +59,7 @@ export const updateBidSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -66,7 +69,7 @@ export const updateBidSchema: FastifySchema = {
 };
 
 export const updateBidStatusSchema: FastifySchema = {
-  description: "API for update bidding",
+  description: "API to update status of bid",
   tags: ["Bid"],
   body: {
     type: "object",
@@ -88,6 +91,7 @@ export const updateBidStatusSchema: FastifySchema = {
       },
     },
     401: {
+      description: "Unauthorized",
       type: "object",
       properties: {
         message: {
@@ -99,6 +103,7 @@ export const updateBidStatusSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -110,6 +115,7 @@ export const updateBidStatusSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },

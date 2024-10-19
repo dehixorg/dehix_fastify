@@ -4,7 +4,28 @@ export const getAllAdminSchema: FastifySchema = {
   description: "API to get all admins",
   tags: ["Admin"],
   response: {
+    200: {
+      type: "object",
+      properties: {
+        data: {
+          type: "array",
+          properties: {
+            _id: { type: "string" },
+            firstName: { type: "string" },
+            lastName: { type: "string" },
+            userName: { type: "string" },
+            email: { type: "string" },
+            phone: { type: "string" },
+            status: { type: "string", enum: ["Pending", "Accept", "Reject"] },
+            type: { type: "string", enum: ["Admin", "Super_Admin"] },
+            createdAt: { type: "string", format: "date-time" },
+            updatedAt: { type: "string", format: "date-time" },
+          },
+        },
+      },
+    },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: {
@@ -16,6 +37,7 @@ export const getAllAdminSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -27,6 +49,7 @@ export const getAllAdminSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -60,6 +83,7 @@ export const getAdminByIdSchema: FastifySchema = {
       },
     },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: {
@@ -71,6 +95,7 @@ export const getAdminByIdSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -82,6 +107,7 @@ export const getAdminByIdSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },

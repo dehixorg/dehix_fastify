@@ -164,15 +164,6 @@ export const FREELANCER_DELETE_CONSULTANT_BY_ID =
 // Base Oracle endpoint
 export const ORACLE_ENDPOINT = "/oracle";
 
-// Endpoint for retrieving or modifying Oracle details for a specific verifier
-export const ORACLE_ID_ENDPOINT = "/:verifier_id/oracle";
-
-// Endpoint for retrieving all Oracle entries
-export const GET_ALL_ORACLE_ENDPOINT = "/oracles";
-
-// Endpoint for updating an Oracle entry by document ID
-export const ORACLE_UPDATE_END_POINT = "/:document_id/oracle";
-
 // Not interested project
 
 // Endpoint for marking a freelancer as "not interested" in a project

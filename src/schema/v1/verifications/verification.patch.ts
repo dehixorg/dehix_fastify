@@ -1,7 +1,7 @@
 import { FastifySchema } from "fastify";
 
 export const updateVerificationStatusSchema: FastifySchema = {
-  description: "API to update verification status",
+  description: "API to update verification status by document id",
   tags: ["Verification"],
   querystring: {
     type: "object",
@@ -53,6 +53,7 @@ export const updateVerificationStatusSchema: FastifySchema = {
       },
     },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -60,6 +61,7 @@ export const updateVerificationStatusSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: { type: "string" },
@@ -67,6 +69,7 @@ export const updateVerificationStatusSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },

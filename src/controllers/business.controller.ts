@@ -12,7 +12,10 @@ import {
   BUSINESS_ID_END_POINT,
   BUSINESS_UPDATE_END_POINT,
 } from "../constants/business.constant";
-import { getBusinessSchema } from "../schema/v1/business/business.get";
+import {
+  getAllBusinessSchema,
+  getBusinessSchema,
+} from "../schema/v1/business/business.get";
 import { updateBusinessSchema } from "../schema/v1/business/business.update";
 import { BusinessService } from "../services";
 import { GetBusinessPathParams } from "../types/v1/business/getBusiness";
@@ -104,7 +107,7 @@ export default class BusinessController extends AuthController {
   }
 
   // Handler to get all business profiles
-  @GET(ALL_BUSINESS_END_POINT, { schema: getBusinessSchema })
+  @GET(ALL_BUSINESS_END_POINT, { schema: getAllBusinessSchema })
   async getAllBusinessData(request: FastifyRequest, reply: FastifyReply) {
     try {
       // Log the attempt to fetch all business profiles
@@ -122,7 +125,6 @@ export default class BusinessController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       }
-      console.log("DATA:", data);
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       // Log any errors encountered during the request

@@ -34,6 +34,7 @@ export const getBidForProjectIdSchema: FastifySchema = {
       },
     },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -41,6 +42,7 @@ export const getBidForProjectIdSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -81,6 +83,7 @@ export const getBidForBidderIdSchema: FastifySchema = {
       },
     },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -88,6 +91,7 @@ export const getBidForBidderIdSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -121,6 +125,7 @@ export const getAllBidsSchema: FastifySchema = {
         },
       },
       404: {
+        description: "Not Found",
         type: "object",
         properties: {
           message: {
@@ -132,6 +137,7 @@ export const getAllBidsSchema: FastifySchema = {
         },
       },
       403: {
+        description: "Forbidden",
         type: "object",
         properties: {
           code: {
@@ -143,6 +149,7 @@ export const getAllBidsSchema: FastifySchema = {
         },
       },
       500: {
+        description: "Internal Server Error",
         type: "object",
         properties: {
           message: { type: "string" },
@@ -164,7 +171,28 @@ export const getBidForProfileIdSchema: FastifySchema = {
     required: ["profile_id"],
   },
   response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              _id: { type: "string" },
+              bid_status: { type: "string" },
+              project_id: { type: "string" },
+              bidder_id: { type: "string" },
+              current_price: { type: "number" },
+              domain_id: { type: "string" },
+            },
+          },
+        },
+      },
+    },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -172,6 +200,7 @@ export const getBidForProfileIdSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },
