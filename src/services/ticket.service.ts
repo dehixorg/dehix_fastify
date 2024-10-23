@@ -3,7 +3,6 @@ import { BaseService } from "../common/base.service";
 import { NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { TicketDAO } from "../dao/ticket.dao";
-import { stat } from "fs";
 
 @Service()
 export class TicketService extends BaseService {
@@ -95,24 +94,16 @@ export class TicketService extends BaseService {
 
     return getTicket;
   }
-    async getTicketsByCustomerType(
-        customerType: "business" | "freelancer") {
-    
+  async getTicketsByCustomerType(customerType: "business" | "freelancer") {
     return await this.TicketDAO.getTicketsByCustomerType(customerType);
   }
-  async getTicketsByStatus(
-    status: "created" | "closed" | "active") {
-
+  async getTicketsByStatus(status: "created" | "closed" | "active") {
     return await this.TicketDAO.getTicketsByStatus(status);
   }
-  async getTicketsBySubject(
-    subject: string) {
-
+  async getTicketsBySubject(subject: string) {
     return await this.TicketDAO.getTicketsBySubject(subject);
   }
-  async getTicketsByCustomerID(
-    customerID: string) {
-
+  async getTicketsByCustomerID(customerID: string) {
     return await this.TicketDAO.getTicketsByCustomerID(customerID);
   }
 }

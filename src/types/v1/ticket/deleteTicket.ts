@@ -1,4 +1,3 @@
 export interface DeleteTicketPathParams {
-    ticket_id: string;
-  }
-  
+  ticket_id: string;
+}

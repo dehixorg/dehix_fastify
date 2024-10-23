@@ -28,8 +28,8 @@ const TicketSchema: Schema = new Schema(
       required: true,
     },
     description: {
-        type: String,
-      },
+      type: String,
+    },
     filesAttached: {
       type: String,
       default: [],
@@ -49,4 +49,7 @@ const TicketSchema: Schema = new Schema(
   },
 );
 
-export const TicketModel: Model<ITicket> = mongoose.model<ITicket>("Ticket", TicketSchema);
+export const TicketModel: Model<ITicket> = mongoose.model<ITicket>(
+  "Ticket",
+  TicketSchema,
+);

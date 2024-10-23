@@ -1,9 +1,9 @@
 export interface GetTicketPathParams {
-    ticket_id: string;
-  }
+  ticket_id: string;
+}
 
 export interface GetTicketByCustomerTypeQueryParams {
-    customerType: "business" | "freelancer";
+  customerType: "business" | "freelancer";
 }
 export interface GetTicketByStatusQueryParams {
   status: "created" | "closed" | "active";

@@ -1,50 +1,71 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Controller, DELETE, GET, Inject, PATCH, POST, PUT } from "fastify-decorators";
+import {
+  Controller,
+  DELETE,
+  GET,
+  Inject,
+  PATCH,
+  POST,
+  PUT,
+} from "fastify-decorators";
 import {
   STATUS_CODES,
   ERROR_CODES,
   RESPONSE_MESSAGE,
-} from "../common/constants"; 
+} from "../common/constants";
 import { AuthController } from "../common/auth.controller";
 
-import { 
-    TICKET_ENDPOINT,
-    GET_ALL_TICKET,
-    CREATE_TICKET,
-    UPDATE_STATUS_BY_TICKET_ID,
-    UPDATE_TICKET_BY_ID_ENDPOINT,
-    GET_TICKET_BY_ID,
-    GET_TICKET_BY_CUSTOMER_TYPE,
-    GET_TICKET_BY_STATUS,
-    DELETE_TICKET_BY_ID,
-    GET_TICKET_BY_SUBJECT,
-    GET_TICKET_BY_CUSTOMER_ID
-       } from "../constants/ticket.constant";
+import {
+  TICKET_ENDPOINT,
+  GET_ALL_TICKET,
+  CREATE_TICKET,
+  UPDATE_STATUS_BY_TICKET_ID,
+  UPDATE_TICKET_BY_ID_ENDPOINT,
+  GET_TICKET_BY_ID,
+  GET_TICKET_BY_CUSTOMER_TYPE,
+  GET_TICKET_BY_STATUS,
+  DELETE_TICKET_BY_ID,
+  GET_TICKET_BY_SUBJECT,
+  GET_TICKET_BY_CUSTOMER_ID,
+} from "../constants/ticket.constant";
 import { TicketService } from "../services/ticket.service";
 
-import { createTicketSchema }  from "../schema/v1/ticket/ticket.create";
-import { getAllTicketSchema,getTicketSchema, getTicketsByCustomerTypeSchema, getTicketsByStatusSchema,getTicketsBySubjectSchema,getTicketsByCustomerIDSchema } from "../schema/v1/ticket/ticket.get"
-import { 
-    updateTicketSchema,
-    updateTicketStatusSchema,
-} from "../schema/v1/ticket/ticket.update"
+import { createTicketSchema } from "../schema/v1/ticket/ticket.create";
+import {
+  getAllTicketSchema,
+  getTicketSchema,
+  getTicketsByCustomerTypeSchema,
+  getTicketsByStatusSchema,
+  getTicketsBySubjectSchema,
+  getTicketsByCustomerIDSchema,
+} from "../schema/v1/ticket/ticket.get";
+import {
+  updateTicketSchema,
+  updateTicketStatusSchema,
+} from "../schema/v1/ticket/ticket.update";
 import { createTicketBody } from "../types/v1/ticket/createTicket";
-import { GetTicketPathParams, GetTicketByCustomerTypeQueryParams,GetTicketByStatusQueryParams,GetTicketBySubjectQueryParams,GetTicketByCustomerIDQueryParams} from "../types/v1/ticket/getTicket";
-import { 
-    PutTicketBody,
-    PutTicketStatusBody,
+import {
+  GetTicketPathParams,
+  GetTicketByCustomerTypeQueryParams,
+  GetTicketByStatusQueryParams,
+  GetTicketBySubjectQueryParams,
+  GetTicketByCustomerIDQueryParams,
+} from "../types/v1/ticket/getTicket";
+import {
+  PutTicketBody,
+  PutTicketStatusBody,
 } from "../types/v1/ticket/updateTicket";
 import { deleteTicketSchema } from "../schema/v1/ticket/ticket.delete";
-import { DeleteTicketPathParams } from "../types/v1/ticket/deleteTicket"
+import { DeleteTicketPathParams } from "../types/v1/ticket/deleteTicket";
 
 @Controller({ route: TICKET_ENDPOINT })
 export default class TicketController extends AuthController {
   @Inject(TicketService)
   ticketService!: TicketService;
 
-  @POST( CREATE_TICKET, { schema: createTicketSchema })
+  @POST(CREATE_TICKET, { schema: createTicketSchema })
   async createTicket(
-    request: FastifyRequest<{ Body: createTicketBody }>, 
+    request: FastifyRequest<{ Body: createTicketBody }>,
     reply: FastifyReply,
   ) {
     try {
@@ -89,10 +110,10 @@ export default class TicketController extends AuthController {
   @PUT(UPDATE_TICKET_BY_ID_ENDPOINT, { schema: updateTicketSchema })
   async updateTicketById(
     request: FastifyRequest<{
-      Params: GetTicketPathParams; 
-      Body: PutTicketBody; 
+      Params: GetTicketPathParams;
+      Body: PutTicketBody;
     }>,
-    reply: FastifyReply, 
+    reply: FastifyReply,
   ) {
     try {
       this.logger.info(
@@ -222,15 +243,24 @@ export default class TicketController extends AuthController {
     }
   }
   @GET(GET_TICKET_BY_CUSTOMER_TYPE, { schema: getTicketsByCustomerTypeSchema })
-  async getTicketByCustomerType(request: FastifyRequest<{ Querystring: GetTicketByCustomerTypeQueryParams }>
-    , reply: FastifyReply) {
+  async getTicketByCustomerType(
+    request: FastifyRequest<{
+      Querystring: GetTicketByCustomerTypeQueryParams;
+    }>,
+    reply: FastifyReply,
+  ) {
     try {
-      this.logger.info(`TicketController -> getTicketByCustomerType -> Fetching Ticket`);
+      this.logger.info(
+        `TicketController -> getTicketByCustomerType -> Fetching Ticket`,
+      );
       const { customerType } = request.query;
 
-      const data = await this.ticketService.getTicketsByCustomerType(customerType);
+      const data =
+        await this.ticketService.getTicketsByCustomerType(customerType);
       if (data.length === 0) {
-        return reply.code(404).send({ message: 'No tickets found for this customer type' });
+        return reply
+          .code(404)
+          .send({ message: "No tickets found for this customer type" });
       }
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -253,15 +283,21 @@ export default class TicketController extends AuthController {
     }
   }
   @GET(GET_TICKET_BY_STATUS, { schema: getTicketsByStatusSchema })
-  async getTicketByStatus(request: FastifyRequest<{ Querystring: GetTicketByStatusQueryParams }>
-    , reply: FastifyReply) {
+  async getTicketByStatus(
+    request: FastifyRequest<{ Querystring: GetTicketByStatusQueryParams }>,
+    reply: FastifyReply,
+  ) {
     try {
-      this.logger.info(`TicketController -> getTicketByCustomerType -> Fetching Ticket`);
+      this.logger.info(
+        `TicketController -> getTicketByCustomerType -> Fetching Ticket`,
+      );
       const { status } = request.query;
 
       const data = await this.ticketService.getTicketsByStatus(status);
       if (data.length === 0) {
-        return reply.code(404).send({ message: 'No tickets found for this Status' });
+        return reply
+          .code(404)
+          .send({ message: "No tickets found for this Status" });
       }
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -314,15 +350,21 @@ export default class TicketController extends AuthController {
     }
   }
   @GET(GET_TICKET_BY_SUBJECT, { schema: getTicketsBySubjectSchema })
-  async getTicketBySubject(request: FastifyRequest<{ Querystring: GetTicketBySubjectQueryParams }>
-    , reply: FastifyReply) {
+  async getTicketBySubject(
+    request: FastifyRequest<{ Querystring: GetTicketBySubjectQueryParams }>,
+    reply: FastifyReply,
+  ) {
     try {
-      this.logger.info(`TicketController -> getTicketByCustomerType -> Fetching Ticket`);
+      this.logger.info(
+        `TicketController -> getTicketByCustomerType -> Fetching Ticket`,
+      );
       const { subject } = request.query;
 
       const data = await this.ticketService.getTicketsBySubject(subject);
       if (data.length === 0) {
-        return reply.code(404).send({ message: 'No tickets found for this Subject' });
+        return reply
+          .code(404)
+          .send({ message: "No tickets found for this Subject" });
       }
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -345,15 +387,21 @@ export default class TicketController extends AuthController {
     }
   }
   @GET(GET_TICKET_BY_CUSTOMER_ID, { schema: getTicketsByCustomerIDSchema })
-  async getTicketByCustomerID(request: FastifyRequest<{ Querystring: GetTicketByCustomerIDQueryParams }>
-    , reply: FastifyReply) {
+  async getTicketByCustomerID(
+    request: FastifyRequest<{ Querystring: GetTicketByCustomerIDQueryParams }>,
+    reply: FastifyReply,
+  ) {
     try {
-      this.logger.info(`TicketController -> getTicketByCustomerType -> Fetching Ticket`);
+      this.logger.info(
+        `TicketController -> getTicketByCustomerType -> Fetching Ticket`,
+      );
       const { customerID } = request.query;
 
       const data = await this.ticketService.getTicketsByCustomerID(customerID);
       if (data.length === 0) {
-        return reply.code(404).send({ message: 'No tickets found for this CustomerID' });
+        return reply
+          .code(404)
+          .send({ message: "No tickets found for this CustomerID" });
       }
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -376,4 +424,3 @@ export default class TicketController extends AuthController {
     }
   }
 }
-

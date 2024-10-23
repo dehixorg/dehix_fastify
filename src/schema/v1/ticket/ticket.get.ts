@@ -19,14 +19,14 @@ export const getAllTicketSchema: FastifySchema = {
               description: { type: "string" },
               filesAttached: { type: "string" },
               status: { type: "string" },
-              subject: { type: "string"},
-              createdAt: { type: 'string', format: 'date-time' },
-              updatedAt: { type: 'string', format: 'date-time' },
-                },
-              },
+              subject: { type: "string" },
+              createdAt: { type: "string", format: "date-time" },
+              updatedAt: { type: "string", format: "date-time" },
             },
           },
         },
+      },
+    },
     404: {
       type: "object",
       properties: {
@@ -58,7 +58,6 @@ export const getAllTicketSchema: FastifySchema = {
   },
 };
 
-
 export const getTicketSchema: FastifySchema = {
   description: "API to get Ticket by ID",
   tags: ["Ticket"],
@@ -68,20 +67,20 @@ export const getTicketSchema: FastifySchema = {
       type: "object",
       properties: {
         data: {
-            properties: {
-              _id: { type: "string" },
-              customerID: { type: "string" },
-              customerType: { type: "string" },
-              description: { type: "string" },
-              filesAttached: { type: "string"},
-              status: { type: "string" },
-              subject: { type: "string"},
-              createdAt: { type: 'string', format: 'date-time' },
-              updatedAt: { type: 'string', format: 'date-time' },
-                },
-              },
-            },
+          properties: {
+            _id: { type: "string" },
+            customerID: { type: "string" },
+            customerType: { type: "string" },
+            description: { type: "string" },
+            filesAttached: { type: "string" },
+            status: { type: "string" },
+            subject: { type: "string" },
+            createdAt: { type: "string", format: "date-time" },
+            updatedAt: { type: "string", format: "date-time" },
           },
+        },
+      },
+    },
     404: {
       type: "object",
       properties: {
@@ -114,121 +113,114 @@ export const getTicketSchema: FastifySchema = {
 };
 
 export const getTicketsByCustomerTypeSchema: FastifySchema = {
-    description: "API to get Ticket by CustomerType",
-    tags: ["Ticket"],
-    querystring: {
-        type: "object",
-        properties: {
-          customerType: {
-            type: "string",
-            enum: [
-              "freelancer",
-              "business",
-            ],
-            description: "Filter ticket request by customer type",
-          },
-        },
-      },
-    response: {
-      404: {
-        type: 'object',
-        properties: {
-          message: { type: 'string' },
-        },
-      },
-      500: {
-        type: 'object',
-        properties: {
-          error: { type: 'string' },
-        },
+  description: "API to get Ticket by CustomerType",
+  tags: ["Ticket"],
+  querystring: {
+    type: "object",
+    properties: {
+      customerType: {
+        type: "string",
+        enum: ["freelancer", "business"],
+        description: "Filter ticket request by customer type",
       },
     },
-  };
+  },
+  response: {
+    404: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        error: { type: "string" },
+      },
+    },
+  },
+};
 
-  export const getTicketsByStatusSchema: FastifySchema = {
-    description: "API to get Ticket by Status",
-    tags: ["Ticket"],
-    querystring: {
-        type: "object",
-        properties: {
-          status: {
-            type: "string",
-            enum: [
-              "created",
-              "closed",
-              "active",
-            ],
-            description: "Filter ticket request by status",
-          },
-        },
-      },
-    response: {
-      404: {
-        type: 'object',
-        properties: {
-          message: { type: 'string' },
-        },
-      },
-      500: {
-        type: 'object',
-        properties: {
-          error: { type: 'string' },
-        },
+export const getTicketsByStatusSchema: FastifySchema = {
+  description: "API to get Ticket by Status",
+  tags: ["Ticket"],
+  querystring: {
+    type: "object",
+    properties: {
+      status: {
+        type: "string",
+        enum: ["created", "closed", "active"],
+        description: "Filter ticket request by status",
       },
     },
-  };
-  
-  export const getTicketsBySubjectSchema: FastifySchema = {
-    description: "API to get Ticket by Subject",
-    tags: ["Ticket"],
-    querystring: {
-        type: "object",
-        properties: {
-          subject: {
-            type: "string",
-            description: "Filter ticket request by subject",
-          },
-        },
-      },
-    response: {
-      404: {
-        type: 'object',
-        properties: {
-          message: { type: 'string' },
-        },
-      },
-      500: {
-        type: 'object',
-        properties: {
-          error: { type: 'string' },
-        },
+  },
+  response: {
+    404: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
       },
     },
-  };
+    500: {
+      type: "object",
+      properties: {
+        error: { type: "string" },
+      },
+    },
+  },
+};
 
-  export const getTicketsByCustomerIDSchema: FastifySchema = {
-    description: "API to get Ticket by CustomerID",
-    tags: ["Ticket"],
-    querystring: {
-        type: "object",
-        properties: {
-          customerID: {
-            type: "string",
-          },
-        },
-      },
-    response: {
-      404: {
-        type: 'object',
-        properties: {
-          message: { type: 'string' },
-        },
-      },
-      500: {
-        type: 'object',
-        properties: {
-          error: { type: 'string' },
-        },
+export const getTicketsBySubjectSchema: FastifySchema = {
+  description: "API to get Ticket by Subject",
+  tags: ["Ticket"],
+  querystring: {
+    type: "object",
+    properties: {
+      subject: {
+        type: "string",
+        description: "Filter ticket request by subject",
       },
     },
-  };
+  },
+  response: {
+    404: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        error: { type: "string" },
+      },
+    },
+  },
+};
+
+export const getTicketsByCustomerIDSchema: FastifySchema = {
+  description: "API to get Ticket by CustomerID",
+  tags: ["Ticket"],
+  querystring: {
+    type: "object",
+    properties: {
+      customerID: {
+        type: "string",
+      },
+    },
+  },
+  response: {
+    404: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        error: { type: "string" },
+      },
+    },
+  },
+};

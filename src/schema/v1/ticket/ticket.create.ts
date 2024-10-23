@@ -7,14 +7,14 @@ export const createTicketSchema: FastifySchema = {
     type: "object",
     properties: {
       customerID: {
-        type: "string"
+        type: "string",
       },
-      customerType: { 
+      customerType: {
         type: "string",
         enum: ["business", "freelancer"],
       },
-      description: { 
-        type: "string" 
+      description: {
+        type: "string",
       },
       filesAttached: {
         type: "string",
@@ -27,7 +27,13 @@ export const createTicketSchema: FastifySchema = {
         type: "string",
       },
     },
-    required: ["customerID","customerType", "description","status", "subject"],
+    required: [
+      "customerID",
+      "customerType",
+      "description",
+      "status",
+      "subject",
+    ],
   },
   response: {
     200: {
@@ -42,7 +48,7 @@ export const createTicketSchema: FastifySchema = {
             description: { type: "string" },
             status: { type: "string" },
             subject: { type: "string" },
-            filesAttached: { type: "string"},
+            filesAttached: { type: "string" },
           },
         },
       },
