@@ -32,10 +32,10 @@ export class BidService extends BaseService {
       current_price,
       profile_id,
       description,
-    } = body;
-    this.logger.info("bid service:creating bid:create");
-    const bidderExist = await this.FreelancerDao.findFreelancerById(bidder_id);
-    const projectExist = await this.BusinesssDao.getProjectById(project_id);
+      } = body;
+      this.logger.info(`BidServices -> create -> Create `);
+      const bidderExist = await this.FreelancerDao.findFreelancerById(bidder_id);
+      const projectExist = await this.BusinesssDao.getProjectById(project_id);
     if (!bidderExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
@@ -62,20 +62,14 @@ export class BidService extends BaseService {
       profile_id,
       project_id,
     );
-    this.logger.info(
-      bidValue,
-      "bidder_id",
-      bidder_id,
-      "profile_id",
-      profile_id,
-      "project_id",
-      project_id,
-    );
+
+    await this.BusinesssDao.updateProjectProfile(bid._id, bidder_id, project_id, profile_id);
+    
     return bid;
   }
 
   async updateBid(bid_id: string, bid: any) {
-    this.logger.info("BidService:Updating Bid: ", bid_id, bid);
+    this.logger.info(`BidServices -> updateBid Using bidId -> ${bid_id} `);
     const bidExist = await this.BidDAO.findBidById(bid_id);
     if (!bidExist) {
       throw new NotFoundError(
@@ -88,10 +82,8 @@ export class BidService extends BaseService {
   }
 
   async bidStatusUpdate(bid_id: string, bid_status: string): Promise<any> {
-    this.logger.info(
-      "BidService: updateBidStatus: Updating Bid Status: ",
-      bid_id,
-    );
+    this.logger.info(`BidServices -> updateBidStatus -> Updating Bid Status Using bidId -> ${bid_id} `);
+    
     const updateStatus = async (bid_status: string) => {
       return await this.BidDAO.updateStatus(bid_id, bid_status);
     };

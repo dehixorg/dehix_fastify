@@ -29,8 +29,12 @@ export interface IProject extends Document {
     description?: string;
     domain_id: string;
     selectedFreelancer?: string[];
+    freelancers?: {
+      freelancerId: string;
+      bidId: string;
+    };
+    totalBid?: string[];
   }[];
-  totalBid?: string[];
   status?: "Active" | "Pending" | "Completed" | "Rejected";
   team?: string[];
   createdAt?: Date;
@@ -126,6 +130,16 @@ const ProjectSchema: Schema<IProject> = new Schema(
         totalBid: {
           type: [String],
         },
+        freelancers: [
+          {
+            freelancerId: {
+              type: String,
+            },
+            bidId: {
+              type: String,
+            },
+          }
+        ]
       },
     ],
     status: {

@@ -196,4 +196,20 @@ export class businessDAO extends BaseDAO {
       throw new Error("Failed to update business status");
     }
   }
+
+  async updateProjectProfile(bidId, freelancerId, project_id, profile_id) {
+    const result = await this.model.updateOne(
+      { _id: project_id, 'profiles._id': profile_id },
+      {
+        $addToSet: {
+          'profiles.$.freelancers': {
+            freelancerId,
+            bidId,
+          },
+        },
+      }
+    );
+
+    return result;
+  }
 }
