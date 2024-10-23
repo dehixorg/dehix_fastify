@@ -35,7 +35,7 @@ export class DomainDAO extends BaseDAO {
 
   async getAllDomain() {
     try {
-      const domains = await this.model.find({ status: "Active" });
+      const domains = await this.model.find({ status: "active" });
       return domains;
     } catch (error: any) {
       throw new Error(`Failed to fetch domains: ${error.message}`);
