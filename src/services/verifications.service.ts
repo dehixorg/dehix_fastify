@@ -82,7 +82,8 @@ export class VerificationService extends BaseService {
     if (!process.env.ADMIN) {
       const verifier = await this.freelancerDAO.findOracle(requester_id);
       if (!verifier) {
-        throw new Error("Verifier not found"); // Handle case where no verifier is found
+        return;
+        // throw new Error("Verifier not found"); // Handle case where no verifier is found
       }
 
       const verifier_id = verifier.id;
