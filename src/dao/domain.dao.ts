@@ -19,6 +19,8 @@ export class DomainDAO extends BaseDAO {
           const domain = await this.model.create({
             _id: uuidv4(),
             ...domainData,
+            createdBy: "admin",
+            status: "active",
           });
           return domain;
         }),

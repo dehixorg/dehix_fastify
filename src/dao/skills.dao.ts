@@ -19,6 +19,8 @@ export class SkillDAO extends BaseDAO {
           const skill = await this.model.create({
             _id: uuidv4(),
             ...skillData,
+            createdBy: "admin",
+            status: "active",
           });
           return skill;
         }),
