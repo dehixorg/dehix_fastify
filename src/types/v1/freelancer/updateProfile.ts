@@ -11,6 +11,7 @@ export interface PutFreelancerBody {
   email: string;
   phone: string;
   dob?: Date;
+  profilePic: string;
   professionalInfo?: {
     company?: string;
     jobTitle?: string;
