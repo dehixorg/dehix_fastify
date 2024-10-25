@@ -71,7 +71,7 @@ export class FaqService extends BaseService {
 
     // Update the faq
     const data = await this.FaqDAO.updateFaq(faq_id, body);
-    
+
     return data;
   }
 }

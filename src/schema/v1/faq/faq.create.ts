@@ -1,5 +1,4 @@
 import { FastifySchema } from "fastify";
-import { describe } from "node:test";
 
 export const createFaqSchema: FastifySchema = {
   description: "API to create a Faq",
@@ -78,7 +77,7 @@ export const createFaqSchema: FastifySchema = {
         },
         code: {
           type: "string",
-        }
+        },
       },
     },
     500: {
