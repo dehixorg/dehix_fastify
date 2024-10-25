@@ -1,7 +1,7 @@
 import { FastifySchema } from "fastify";
 
 export const updateFaqSchema: FastifySchema = {
-  description: "API for update faq",
+  description: "API to update a Faq",
   tags: ["Faq"],
   body: {
     type: "object",
@@ -27,6 +27,7 @@ export const updateFaqSchema: FastifySchema = {
       },
     },
     401: {
+      description: "Unauthorized",
       type: "object",
       properties: {
         message: {
@@ -38,6 +39,7 @@ export const updateFaqSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -48,7 +50,20 @@ export const updateFaqSchema: FastifySchema = {
         },
       },
     },
+    404: {
+      description: "Faq not found",
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },

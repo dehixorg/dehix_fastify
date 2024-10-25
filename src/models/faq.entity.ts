@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const { String } = Schema.Types;
 
+// Interface to represent the Faq model
 export interface IFaq extends Document {
   _id?: string;
   question?: string;
@@ -15,6 +16,7 @@ export interface IFaq extends Document {
   }[];
 }
 
+// Faq schema to define the structure of the Faq model
 const FaqSchema: Schema = new Schema(
   {
     _id: {
@@ -52,4 +54,5 @@ const FaqSchema: Schema = new Schema(
   },
 );
 
+// Faq model to perform CRUD operations
 export const FaqModel: Model<IFaq> = mongoose.model<IFaq>("Faq", FaqSchema);
