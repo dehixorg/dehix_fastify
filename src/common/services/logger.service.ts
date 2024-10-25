@@ -117,7 +117,7 @@ export class Logger {
     const { fileName, functionName, fileType } = getCallerInfo();
     const color = this.getColorForFileType(fileType);
     this.logger.info(
-      `${color}ℹ️  LOG [${fileName} -> ${fileType}: ${functionName}] ${messages.join(' ')}${colors.reset}`,
+      `${color}ℹ️  LOG [${fileName} -> ${fileType}: ${functionName}] ${messages.join(" ")}${colors.reset}`,
     );
   }
 
@@ -126,7 +126,7 @@ export class Logger {
     const { fileName, functionName, fileType } = getCallerInfo();
     const color = this.getColorForFileType(fileType);
     this.logger.error(
-      `${color}❌ ERROR [${fileName} -> ${fileType}: ${functionName}] ${errors.join(' ')}${colors.reset}`,
+      `${color}❌ ERROR [${fileName} -> ${fileType}: ${functionName}] ${errors.join(" ")}${colors.reset}`,
     );
   }
 
@@ -135,7 +135,7 @@ export class Logger {
     const { fileName, functionName, fileType } = getCallerInfo();
     const color = this.getColorForFileType(fileType);
     this.logger.warn(
-      `${color}⚠️  WARN [${fileName} -> ${fileType}: ${functionName}] ${messages.join(' ')}${colors.reset}`,
+      `${color}⚠️  WARN [${fileName} -> ${fileType}: ${functionName}] ${messages.join(" ")}${colors.reset}`,
     );
   }
 }
