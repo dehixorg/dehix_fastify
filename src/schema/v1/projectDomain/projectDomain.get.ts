@@ -2,7 +2,7 @@ import { FastifySchema } from "fastify";
 
 export const getAllProjectDomainSchema: FastifySchema = {
   description: "API to get all projectDomain",
-  tags: ["Project_Domain"],
+  tags: ["Project Domain"],
   response: {
     200: {
       description: "Success",

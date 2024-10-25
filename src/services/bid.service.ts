@@ -32,10 +32,10 @@ export class BidService extends BaseService {
       current_price,
       profile_id,
       description,
-      } = body;
-      this.logger.info(`BidServices -> create -> Create `);
-      const bidderExist = await this.FreelancerDao.findFreelancerById(bidder_id);
-      const projectExist = await this.BusinesssDao.getProjectById(project_id);
+    } = body;
+    this.logger.info(`BidServices -> create -> Create `);
+    const bidderExist = await this.FreelancerDao.findFreelancerById(bidder_id);
+    const projectExist = await this.BusinesssDao.getProjectById(project_id);
     if (!bidderExist) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
@@ -57,14 +57,19 @@ export class BidService extends BaseService {
       profile_id,
       description,
     });
-    const bidValue = await this.BusinesssDao.updateTotalBidProfile(
+    await this.BusinesssDao.updateTotalBidProfile(
       bidder_id,
       profile_id,
       project_id,
     );
 
-    await this.BusinesssDao.updateProjectProfile(bid._id, bidder_id, project_id, profile_id);
-    
+    await this.BusinesssDao.updateProjectProfile(
+      bid._id,
+      bidder_id,
+      project_id,
+      profile_id,
+    );
+
     return bid;
   }
 
@@ -82,8 +87,10 @@ export class BidService extends BaseService {
   }
 
   async bidStatusUpdate(bid_id: string, bid_status: string): Promise<any> {
-    this.logger.info(`BidServices -> updateBidStatus -> Updating Bid Status Using bidId -> ${bid_id} `);
-    
+    this.logger.info(
+      `BidServices -> updateBidStatus -> Updating Bid Status Using bidId -> ${bid_id} `,
+    );
+
     const updateStatus = async (bid_status: string) => {
       return await this.BidDAO.updateStatus(bid_id, bid_status);
     };

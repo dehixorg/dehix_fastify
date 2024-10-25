@@ -138,8 +138,8 @@ const ProjectSchema: Schema<IProject> = new Schema(
             bidId: {
               type: String,
             },
-          }
-        ]
+          },
+        ],
       },
     ],
     status: {
