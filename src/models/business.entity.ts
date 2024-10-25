@@ -7,6 +7,7 @@ export interface IBusiness extends Document {
   firstName: string;
   lastName: string;
   companyName: string;
+  profilePic: string;
   companySize: string;
   email: string;
   phone: string;
@@ -39,6 +40,10 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
     companyName: {
       type: String,
       required: true,
+    },
+    profilePic: {
+      type: String,
+      required: false,
     },
     companySize: {
       type: String,

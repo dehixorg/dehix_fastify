@@ -7,6 +7,7 @@ export interface PutBusinessBody {
   firstName: string;
   lastName: string;
   companyName: string;
+  profilePic: string;
   companySize: string;
   password: string;
   email: string;
