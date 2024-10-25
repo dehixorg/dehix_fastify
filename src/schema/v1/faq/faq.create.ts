@@ -1,7 +1,8 @@
 import { FastifySchema } from "fastify";
+import { describe } from "node:test";
 
 export const createFaqSchema: FastifySchema = {
-  description: "API for creating Faq",
+  description: "API to create a Faq",
   tags: ["Faq"],
   body: {
     type: "object",
@@ -31,6 +32,7 @@ export const createFaqSchema: FastifySchema = {
   },
   response: {
     200: {
+      description: "Success",
       type: "object",
       properties: {
         data: {
@@ -56,6 +58,7 @@ export const createFaqSchema: FastifySchema = {
       },
     },
     401: {
+      description: "Unauthorized",
       type: "object",
       properties: {
         message: {
@@ -67,20 +70,23 @@ export const createFaqSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
-        code: {
-          type: "string",
-        },
         message: {
           type: "string",
         },
+        code: {
+          type: "string",
+        }
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },
+        code: { type: "string" },
       },
     },
   },

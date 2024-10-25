@@ -1,7 +1,7 @@
 import { FastifySchema } from "fastify";
 
 export const deleteFaqSchema: FastifySchema = {
-  description: "API to faq data",
+  description: "API to delete a Faq",
   tags: ["Faq"],
   params: {
     type: "object",
@@ -21,7 +21,16 @@ export const deleteFaqSchema: FastifySchema = {
         message: { type: "string" },
       },
     },
+    401: {
+      description: "Unauthorized",
+      type: "object",
+      properties: {
+        message: { type: "string" },
+        code: { type: "string" },
+      },
+    },
     404: {
+      description: "Faq not found",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -29,16 +38,19 @@ export const deleteFaqSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
-        code: { type: "string" },
         message: { type: "string" },
+        code: { type: "string" },
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },
+        code: { type: "string" },
       },
     },
   },

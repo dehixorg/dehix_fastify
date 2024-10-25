@@ -1,3 +1,3 @@
-export interface DeleteFaqPathParams {
+export interface deleteFaqPathParams {
   faq_id: string;
 }

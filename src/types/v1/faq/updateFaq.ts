@@ -1,8 +1,8 @@
-export interface PutFaqPathParams {
+export interface putFaqPathParams {
   faq_id: string;
 }
 
-export interface PutFaqBody {
+export interface putFaqBody {
   question?: string;
   answer?: string;
 }
