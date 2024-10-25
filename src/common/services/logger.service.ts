@@ -112,27 +112,30 @@ export class Logger {
     }
   }
 
-  info(message: any) {
+  // Modify info to accept multiple arguments
+  info(...messages: any[]) {
     const { fileName, functionName, fileType } = getCallerInfo();
     const color = this.getColorForFileType(fileType);
     this.logger.info(
-      `${color}ℹ️  LOG [${fileName} -> ${fileType}: ${functionName}] ${message}${colors.reset}`,
+      `${color}ℹ️  LOG [${fileName} -> ${fileType}: ${functionName}] ${messages.join(' ')}${colors.reset}`,
     );
   }
 
-  error(error: any) {
+  // Modify error to accept multiple arguments
+  error(...errors: any[]) {
     const { fileName, functionName, fileType } = getCallerInfo();
     const color = this.getColorForFileType(fileType);
     this.logger.error(
-      `${color}❌ ERROR [${fileName} -> ${fileType}: ${functionName}] ${error}${colors.reset}`,
+      `${color}❌ ERROR [${fileName} -> ${fileType}: ${functionName}] ${errors.join(' ')}${colors.reset}`,
     );
   }
 
-  warn(message: any) {
+  // Modify warn to accept multiple arguments
+  warn(...messages: any[]) {
     const { fileName, functionName, fileType } = getCallerInfo();
     const color = this.getColorForFileType(fileType);
     this.logger.warn(
-      `${color}⚠️  WARN [${fileName} -> ${fileType}: ${functionName}] ${message}${colors.reset}`,
+      `${color}⚠️  WARN [${fileName} -> ${fileType}: ${functionName}] ${messages.join(' ')}${colors.reset}`,
     );
   }
 }
