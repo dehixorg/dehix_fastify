@@ -366,11 +366,18 @@ export class FreelancerService extends BaseService {
           experienceData,
         );
 
-      await this.VerificationService.requestVerification(
-        experienceId,
-        "experience",
-        freelancer_id,
-      );
+      try {
+        await this.VerificationService.requestVerification(
+          experienceId,
+          "experience",
+          freelancer_id,
+        );
+      } catch (error) {
+        // Log the error using your logger service
+        this.logger.error(
+          `Error requesting verification for experience ID ${experienceId}: ${error.message}`,
+        );
+      }
       return createdExperience;
     } catch (error: any) {
       throw new Error(
