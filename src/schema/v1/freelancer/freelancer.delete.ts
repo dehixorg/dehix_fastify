@@ -1,7 +1,7 @@
 import { FastifySchema } from "fastify";
 
 export const deleteFreelancerProjectSchema: FastifySchema = {
-  description: "API to delete project freelancer",
+  description: "API to delete project of a freelancer",
   tags: ["Freelancer"],
   response: {
     200: {
@@ -95,7 +95,7 @@ export const deleteFreelancerSkillSchema: FastifySchema = {
   },
 };
 export const deleteProfessionalInfoSchema: FastifySchema = {
-  description: "API to delete professional information",
+  description: "API to delete professional information of a freelancer",
   tags: ["Freelancer"],
   params: {
     type: "object",
@@ -143,7 +143,7 @@ export const deleteProfessionalInfoSchema: FastifySchema = {
 };
 
 export const deleteEducationSchema: FastifySchema = {
-  description: "API to delete education data",
+  description: "API to delete education data of a freelancer",
   tags: ["Freelancer"],
   params: {
     type: "object",
@@ -239,7 +239,7 @@ export const deleteFreelancerDomainSchema: FastifySchema = {
 };
 
 export const deleteDehixTalentFreelancerSchema: FastifySchema = {
-  description: "API to delete professional information",
+  description: "API to delete professional information of a freelancer",
   tags: ["Freelancer"],
   params: {
     type: "object",

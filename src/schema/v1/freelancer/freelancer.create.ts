@@ -1,7 +1,7 @@
 import { FastifySchema } from "fastify";
 
 export const createFreelancerSchema: FastifySchema = {
-  description: "API to create freelancer data",
+  description: "API to create a freelancer",
   tags: ["Register"],
   body: {
     type: "object",
@@ -278,7 +278,16 @@ export const createFreelancerSchema: FastifySchema = {
         },
       },
     },
+    401: {
+      description: "Unauthorized",
+      type: "object",
+      properties: {
+        message: { type: "string" },
+        code: { type: "string" },
+      },
+    },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -286,6 +295,7 @@ export const createFreelancerSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: { type: "string" },
@@ -293,6 +303,7 @@ export const createFreelancerSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -300,8 +311,9 @@ export const createFreelancerSchema: FastifySchema = {
     },
   },
 };
+
 export const createProfessionalInfoSchema: FastifySchema = {
-  description: "API to create professional information",
+  description: "API to create professional information for freelancer",
   tags: ["Freelancer"],
   body: {
     type: "object",
@@ -356,7 +368,16 @@ export const createProfessionalInfoSchema: FastifySchema = {
         },
       },
     },
+    401: {
+      description: "Unauthorized",
+      type: "object",
+      properties: {
+        message: { type: "string" },
+        code: { type: "string" },
+      },
+    },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -364,6 +385,7 @@ export const createProfessionalInfoSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: { type: "string" },
@@ -371,6 +393,7 @@ export const createProfessionalInfoSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -380,7 +403,7 @@ export const createProfessionalInfoSchema: FastifySchema = {
 };
 
 export const createEducationSchema: FastifySchema = {
-  description: "API to create education",
+  description: "API to create education information for freelancer",
   tags: ["Freelancer"],
   body: {
     type: "object",
@@ -590,7 +613,7 @@ export const createProjectSchema: FastifySchema = {
 };
 
 export const createDehixTalentSchema: FastifySchema = {
-  description: "API to create Dehix talent",
+  description: "API to create Dehix talent for freelancer",
   tags: ["Freelancer"],
   body: {
     type: "object",

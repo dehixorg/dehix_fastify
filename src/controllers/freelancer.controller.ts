@@ -40,7 +40,6 @@ import {
   FREELANCER_DELETE_EDUCATION_BY_ID,
   FREELANCER_PROJECT_ID_ENDPOINT,
   FREELANCER_UPDATE_PROJECT_BY_ID,
-  ALL_FREELANCER,
   FREELANCER_DOMAIN_ADD_BY_ID,
   FREELANCER_DOMAIN_DELETE_BY_ID,
   FREELANCER_OWN_PROJECT_ID_ENDPOINT,
@@ -126,13 +125,14 @@ import { updateConsultantSchema } from "../schema/v1/consultant/consultant.updat
 import { PutConsultantBody } from "../types/v1/freelancer/updateConsultant";
 import { getConsultantSchema } from "../schema/v1/consultant/consultant.get";
 import { deleteConsultantSchema } from "../schema/v1/consultant/consultant.delete";
-import { updateNotinterestedPathParams } from "../types/v1/freelancer/updateNotInterestedProject";
+import { UpdateNotinterestedPathParams } from "../types/v1/freelancer/updateNotInterestedProject";
 import {
   DehixTalentPathParams,
   PutDehixTalentBody,
 } from "../types/v1/freelancer/updateDehixTalent";
 import { GetFreelancerDehixTalentQueryParams } from "../types/v1/freelancer/getDehixTalent";
 
+// Controller for Freelancer
 @Controller({ route: FREELANCER_ENDPOINT })
 export default class FreelancerController extends AuthController {
   @Inject(FreelancerService)
@@ -151,7 +151,6 @@ export default class FreelancerController extends AuthController {
       const data = await this.freelancerService.getFreelancerProfile(
         request.params.freelancer_id,
       );
-      console.log("DATA:", data);
 
       reply.status(STATUS_CODES.SUCCESS).send({ ...data._doc });
     } catch (error: any) {
@@ -431,6 +430,7 @@ export default class FreelancerController extends AuthController {
       }
     }
   }
+
   @PUT(FREELANCER_UPDATE_EXPERIENCE_BY_ID, {
     schema: experinceInProfessionalInfo,
   })
@@ -481,6 +481,7 @@ export default class FreelancerController extends AuthController {
       }
     }
   }
+
   @DELETE(FREELANCER_EXPERINCE_DELETE_BY_ID, {
     schema: deleteProfessionalInfoSchema,
   })
@@ -531,6 +532,7 @@ export default class FreelancerController extends AuthController {
       }
     }
   }
+
   @POST(FREELANCER_CREATE_EXPERIENCE_BY_ID, {
     schema: createProfessionalInfoSchema,
   })
@@ -845,7 +847,7 @@ export default class FreelancerController extends AuthController {
     }
   }
 
-  @GET(ALL_FREELANCER, { schema: getFreelancerSchema })
+  @GET("", { schema: getFreelancerSchema })
   async getAllFreelancer(request: FastifyRequest, reply: FastifyReply) {
     try {
       const { experience, jobType, domain, skills, page, limit } =
@@ -1187,6 +1189,7 @@ export default class FreelancerController extends AuthController {
       }
     }
   }
+
   @POST(FREELANCER_ADD_CONSULTANT_BY_ID, { schema: createConsultantSchema })
   async createConsultant(
     request: FastifyRequest<{
@@ -1367,9 +1370,10 @@ export default class FreelancerController extends AuthController {
       }
     }
   }
+
   @PUT(NOT_INTERESTED_PROJECT, { schema: updateNotInterestedProjectSchema })
   async updateNotInterestedProject(
-    request: FastifyRequest<{ Params: updateNotinterestedPathParams }>,
+    request: FastifyRequest<{ Params: UpdateNotinterestedPathParams }>,
     reply: FastifyReply,
   ) {
     try {
@@ -1542,6 +1546,7 @@ export default class FreelancerController extends AuthController {
       }
     }
   }
+
   @GET(FREELANCER_EDUCATION_BY_ID, {
     schema: getFreelancerEducationSchema,
   })

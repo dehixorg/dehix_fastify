@@ -726,7 +726,7 @@ export const interviewsAlignedSchema: FastifySchema = {
   },
 };
 export const experinceInProfessionalInfo: FastifySchema = {
-  description: "API to manage professional experience",
+  description: "API to manage professional experience of a freelancer",
   tags: ["Freelancer"],
   body: {
     type: "object",
@@ -815,7 +815,7 @@ export const experinceInProfessionalInfo: FastifySchema = {
 };
 
 export const updateEducationSchema: FastifySchema = {
-  description: "API to update education data",
+  description: "API to update education data of a freelancer",
   tags: ["Freelancer"],
   body: {
     type: "object",
@@ -900,7 +900,7 @@ export const updateEducationSchema: FastifySchema = {
 };
 
 export const updateProjectSchema: FastifySchema = {
-  description: "API to update project data",
+  description: "API to update project data of a freelancer",
   tags: ["Freelancer"],
   body: {
     type: "object",
@@ -996,6 +996,7 @@ export const updateProjectSchema: FastifySchema = {
     },
   },
 };
+
 export const updateNotInterestedProjectSchema: FastifySchema = {
   description: "API to update the not interested project list for a freelancer",
   tags: ["Freelancer"],
