@@ -20,6 +20,8 @@ export interface IBusiness extends Document {
   isBusiness: boolean;
   connects: number;
   ProjectList: string[];
+  projectId: string;
+  freelancerId: string;
 }
 
 const BusinessSchema: Schema<IBusiness> = new Schema(
@@ -89,6 +91,14 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
     connects: {
       type: Number,
       default: 0,
+    },
+    projectId: {
+      type: String,
+      required: true,
+    },
+    freelancerId: {
+      type: String,
+      required: true,
     },
     ProjectList: [
       {

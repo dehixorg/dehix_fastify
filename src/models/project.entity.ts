@@ -39,6 +39,8 @@ export interface IProject extends Document {
   team?: string[];
   createdAt?: Date;
   updatedAt?: Date;
+  createdBy: string;
+  updatedBy: string;
 }
 
 // Define the Project schema
@@ -152,6 +154,14 @@ const ProjectSchema: Schema<IProject> = new Schema(
       required: false,
       default: [],
     },
+    createdBy: {
+      type: String,
+      required: true
+    },
+    updatedBy: {
+      type: String,
+      required: true
+    }
   },
   {
     timestamps: true,

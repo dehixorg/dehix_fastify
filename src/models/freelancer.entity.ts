@@ -40,6 +40,8 @@ export interface IFreelancer extends Document {
   phone: string;
   dob?: Date;
   description?: string;
+  businessId: string;
+  projectId: string;
   professionalInfo?: Map<
     string,
     {
@@ -195,6 +197,14 @@ const FreelancerSchema: Schema = new Schema(
       type: String,
       required: false,
       maxlenght: 500,
+    },
+    businessId: {
+      type: String,
+      required: true
+    },
+    projectId: {
+      type: String,
+      required: true,
     },
     professionalInfo: {
       type: Map,
