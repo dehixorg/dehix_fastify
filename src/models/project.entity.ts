@@ -156,12 +156,12 @@ const ProjectSchema: Schema<IProject> = new Schema(
     },
     createdBy: {
       type: String,
-      required: true
+      required: true,
     },
     updatedBy: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   {
     timestamps: true,

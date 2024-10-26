@@ -200,7 +200,7 @@ const FreelancerSchema: Schema = new Schema(
     },
     businessId: {
       type: String,
-      required: true
+      required: true,
     },
     projectId: {
       type: String,
