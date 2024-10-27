@@ -1,4 +1,4 @@
-export interface updateInterviewBody {
+export interface UpdateInterviewBody {
   interviewer: string;
   interviewee: string;
   skill: string;

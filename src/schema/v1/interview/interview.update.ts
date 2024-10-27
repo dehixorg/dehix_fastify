@@ -1,7 +1,7 @@
 import { FastifySchema } from "fastify";
 
 export const updateInterviewSchema: FastifySchema = {
-  description: "API to update interview data",
+  description: "API to update interview",
   tags: ["Interview"],
   params: {
     type: "object",

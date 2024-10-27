@@ -1,7 +1,7 @@
 import { FastifySchema } from "fastify";
 
 export const getInterviewSchema: FastifySchema = {
-  description: "API to get interview data",
+  description: "API to get interview details",
   tags: ["Interview"],
   // querystring: {
   //   type: "object",
@@ -74,7 +74,7 @@ export const getInterviewSchema: FastifySchema = {
 };
 
 export const getAllInterviewSchema: FastifySchema = {
-  description: "API to get interview data",
+  description: "API to get all interview",
   tags: ["Interview"],
   querystring: {
     type: "object",
