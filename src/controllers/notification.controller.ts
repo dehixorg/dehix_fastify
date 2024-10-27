@@ -9,7 +9,6 @@ import { AuthController } from "../common/auth.controller";
 import {
   NOTIFICATION_ENDPOINT,
   NOTIFICATION_BY_ID_ENDPOINT,
-  NOTIFICATION_DELETE_BY_ID_ENDPOINT,
 } from "../constants/notification.constant";
 import { NotificationService } from "../services";
 import { createNotificationSchema } from "../schema/v1/notification/notification.create";
@@ -88,7 +87,7 @@ export default class NotificationController extends AuthController {
     }
   }
 
-  @DELETE(NOTIFICATION_DELETE_BY_ID_ENDPOINT, {
+  @DELETE(NOTIFICATION_BY_ID_ENDPOINT, {
     schema: deleteNotificationSchema,
   })
   async deleteNotificationById(
