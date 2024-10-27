@@ -1,4 +1,4 @@
-export interface createNotificationBody {
+export interface CreateNotificationBody {
   heading: string;
   description: string;
   type: "business" | "freelancer" | "both";

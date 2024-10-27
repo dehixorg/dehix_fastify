@@ -9,13 +9,11 @@ import { AuthController } from "../common/auth.controller";
 import {
   NOTIFICATION_ENDPOINT,
   NOTIFICATION_BY_ID_ENDPOINT,
-  NOTIFICATION_CREATE_ENDPOINT,
   NOTIFICATION_DELETE_BY_ID_ENDPOINT,
-  NOTIFICATION_GET_ALL_ENDPOINT,
 } from "../constants/notification.constant";
 import { NotificationService } from "../services";
 import { createNotificationSchema } from "../schema/v1/notification/notification.create";
-import { createNotificationBody } from "../types/v1/notification/createNotification";
+import { CreateNotificationBody } from "../types/v1/notification/createNotification";
 import { getNotificationSchema } from "../schema/v1/notification/notification.get";
 import { GetNotificationPathParams } from "../types/v1/notification/getNotification";
 import { deleteNotificationSchema } from "../schema/v1/notification/notification.delete";
@@ -28,9 +26,9 @@ export default class NotificationController extends AuthController {
   @Inject(NotificationService)
   notificationService!: NotificationService;
 
-  @POST(NOTIFICATION_CREATE_ENDPOINT, { schema: createNotificationSchema })
+  @POST("", { schema: createNotificationSchema })
   async createNotification(
-    request: FastifyRequest<{ Body: createNotificationBody }>,
+    request: FastifyRequest<{ Body: CreateNotificationBody }>,
     reply: FastifyReply,
   ) {
     try {
@@ -166,7 +164,7 @@ export default class NotificationController extends AuthController {
     }
   }
 
-  @GET(NOTIFICATION_GET_ALL_ENDPOINT, { schema: getNotificationSchema })
+  @GET("", { schema: getNotificationSchema })
   async getAllNotification(request: FastifyRequest, reply: FastifyReply) {
     try {
       this.logger.info(
