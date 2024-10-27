@@ -1,4 +1,4 @@
-export interface addDehixTalentInLobbyBody {
+export interface AddDehixTalentInLobbyBody {
   freelancerId: string;
   dehixTalentId: string;
 }

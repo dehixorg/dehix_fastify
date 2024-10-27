@@ -14,11 +14,11 @@ import {
 } from "../constants/faq.constant"; // Importing constants defining FAQ endpoints
 import { FaqService } from "../services"; // Importing the FAQ service to handle business logic
 import { createFaqSchema } from "../schema/v1/faq/faq.create"; // Importing schema for creating FAQ validation
-import { createFaqBody } from "../types/v1/faq/createFaq"; // Importing type definitions for creating FAQ
-import { deleteFaqPathParams } from "../types/v1/faq/deleteFaq"; // Importing type definitions for deleting FAQ
+import { CreateFaqBody } from "../types/v1/faq/createFaq"; // Importing type definitions for creating FAQ
+import { DeleteFaqPathParams } from "../types/v1/faq/deleteFaq"; // Importing type definitions for deleting FAQ
 import { deleteFaqSchema } from "../schema/v1/faq/faq.delete"; // Importing schema for deleting FAQ validation
 import { getAllFaqSchema } from "../schema/v1/faq/faq.get"; // Importing schema for fetching all FAQs
-import { putFaqBody } from "../types/v1/faq/updateFaq"; // Importing type definitions for updating FAQ
+import { PutFaqBody } from "../types/v1/faq/updateFaq"; // Importing type definitions for updating FAQ
 import { updateFaqSchema } from "../schema/v1/faq/faq.update"; // Importing schema for updating FAQ validation
 
 // Define the FaqController class with a base route of FAQ_ENDPOINT
@@ -31,7 +31,7 @@ export default class FaqController extends AuthController {
   // POST handler to create a new FAQ
   @POST("", { schema: createFaqSchema })
   async createFaq(
-    request: FastifyRequest<{ Body: createFaqBody }>, // Expecting a request body matching createFaqBody type
+    request: FastifyRequest<{ Body: CreateFaqBody }>, // Expecting a request body matching createFaqBody type
     reply: FastifyReply, // Response object
   ) {
     try {
@@ -55,7 +55,7 @@ export default class FaqController extends AuthController {
   // DELETE handler to delete a specific FAQ by ID
   @DELETE(FAQ_DELETE_BY_ID_ENDPOINT, { schema: deleteFaqSchema })
   async deleteFaqById(
-    request: FastifyRequest<{ Params: deleteFaqPathParams }>, // Expecting URL parameters matching DeleteFaqPathParams type
+    request: FastifyRequest<{ Params: DeleteFaqPathParams }>, // Expecting URL parameters matching DeleteFaqPathParams type
     reply: FastifyReply, // Response object
   ) {
     try {
@@ -128,8 +128,8 @@ export default class FaqController extends AuthController {
   @PUT(FAQ_UPDATE_BY_ID_ENDPOINT, { schema: updateFaqSchema })
   async updateFaqById(
     request: FastifyRequest<{
-      Params: deleteFaqPathParams; // Expecting URL parameters matching DeleteFaqPathParams type
-      Body: putFaqBody; // Expecting a request body matching PutFaqBody type
+      Params: DeleteFaqPathParams; // Expecting URL parameters matching DeleteFaqPathParams type
+      Body: PutFaqBody; // Expecting a request body matching PutFaqBody type
     }>,
     reply: FastifyReply, // Response object
   ) {

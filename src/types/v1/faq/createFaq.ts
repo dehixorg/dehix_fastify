@@ -1,4 +1,4 @@
-export interface createFaqBody {
+export interface CreateFaqBody {
   question: string;
   answer: string;
   type: "business" | "freelancer" | "both";

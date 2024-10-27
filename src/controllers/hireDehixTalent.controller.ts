@@ -42,7 +42,7 @@ import { deleteHireDehixTalentSchema } from "../schema/v1/hireDehixTalent/hireDe
 import { BUSINESS_END_POINT } from "../constants/business.constant";
 import { GetBusinessPathParams } from "../types/v1/business/getBusiness";
 import { getHireDehixTalentSchema } from "../schema/v1/hireDehixTalent/hireDehixTalent.get";
-import { addDehixTalentInLobbyBody } from "../types/v1/hireDehixTalent/addFreelancerIntoLobby";
+import { AddDehixTalentInLobbyBody } from "../types/v1/hireDehixTalent/addFreelancerIntoLobby";
 
 @Controller({ route: BUSINESS_END_POINT })
 export default class HireController extends AuthController {
@@ -247,7 +247,7 @@ export default class HireController extends AuthController {
   async addDehixTalentIntoLobby(
     request: FastifyRequest<{
       Params: HireDehixTalentPathParams;
-      Body: addDehixTalentInLobbyBody;
+      Body: AddDehixTalentInLobbyBody;
     }>,
     reply: FastifyReply,
   ) {
