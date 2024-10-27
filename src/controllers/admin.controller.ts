@@ -17,7 +17,6 @@ import {
   ADMIN_BY_ID_ENDPOINT,
   ADMIN_ENDPOINT,
   ADMIN_ID_ENDPOINT,
-  DELETE_ADMIN_BY_ID_ENDPOINT,
 } from "../constants/admin.constant";
 
 // Importing necessary services for admin and verification handling
@@ -63,7 +62,7 @@ export default class AdminsController extends AuthController {
   }
 
   // DELETE request to remove an admin by ID
-  @DELETE(DELETE_ADMIN_BY_ID_ENDPOINT, { schema: deleteAdminSchema })
+  @DELETE(ADMIN_BY_ID_ENDPOINT, { schema: deleteAdminSchema })
   async deleteAdminById(
     request: FastifyRequest<{ Params: adminPathParams }>,
     reply: FastifyReply,

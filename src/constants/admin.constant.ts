@@ -4,12 +4,11 @@ export const ADMIN_ENDPOINT = "/admin";
 // Endpoint for creating a new admin
 export const ADMIN_ID_ENDPOINT = "";
 
-// Endpoint for deleting an admin by their unique ID
-export const DELETE_ADMIN_BY_ID_ENDPOINT = "/:admin_id";
-
 // Endpoint for fetching all admins
 export const ADMIN_ALL_ENDPOINT = "";
 
 // Endpoint for fetching a specific admin by their unique ID
 export const ADMIN_BY_ID_ENDPOINT = "/:admin_id";
-export const ADMIN_ALL_SKILL_ENDPOINT = "/admin/all/domains";
+
+// Endpoint for fetching all skills for admin
+export const ADMIN_ALL_SKILL_ENDPOINT = "/admin";
