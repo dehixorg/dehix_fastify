@@ -35,7 +35,7 @@ export class SkillDAO extends BaseDAO {
 
   async getAllSkills() {
     try {
-      const skills = await this.model.find({ status: "Active" });
+      const skills = await this.model.find({ status: "active" });
       return skills;
     } catch (error: any) {
       throw new Error(`Failed to fetch skills: ${error.message}`);
