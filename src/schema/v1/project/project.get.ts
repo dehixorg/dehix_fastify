@@ -36,6 +36,7 @@ export const getProjectSchema: FastifySchema = {
   },
   response: {
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: {
@@ -47,6 +48,7 @@ export const getProjectSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -58,6 +60,7 @@ export const getProjectSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -71,6 +74,7 @@ export const getAllProjectsSchema: FastifySchema = {
   tags: ["Project"],
   response: {
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: {
@@ -82,6 +86,7 @@ export const getAllProjectsSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -93,6 +98,7 @@ export const getAllProjectsSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -106,6 +112,7 @@ export const getProjectsAndBidsSchema: FastifySchema = {
   tags: ["Project"],
   response: {
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: {
@@ -117,6 +124,7 @@ export const getProjectsAndBidsSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -128,6 +136,7 @@ export const getProjectsAndBidsSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },

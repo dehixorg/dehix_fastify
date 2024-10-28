@@ -26,6 +26,7 @@ export const updateProjectProfileByIdSchema: FastifySchema = {
   },
   response: {
     200: {
+      description: "Success",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -33,6 +34,7 @@ export const updateProjectProfileByIdSchema: FastifySchema = {
       },
     },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: { type: "string" },

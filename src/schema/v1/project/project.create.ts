@@ -123,6 +123,7 @@ export const createProjectSchema: FastifySchema = {
       },
     },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: {
@@ -134,6 +135,7 @@ export const createProjectSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -145,6 +147,7 @@ export const createProjectSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },

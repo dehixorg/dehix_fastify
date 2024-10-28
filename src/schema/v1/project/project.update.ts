@@ -122,6 +122,7 @@ export const updateProjectSchema: FastifySchema = {
       },
     },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: {
@@ -133,6 +134,7 @@ export const updateProjectSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -144,6 +146,7 @@ export const updateProjectSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },
@@ -178,6 +181,7 @@ export const updateProjectStatusSchema: FastifySchema = {
       },
     },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: {
@@ -189,6 +193,7 @@ export const updateProjectStatusSchema: FastifySchema = {
       },
     },
     403: {
+      description: "Forbidden",
       type: "object",
       properties: {
         code: {
@@ -200,6 +205,7 @@ export const updateProjectStatusSchema: FastifySchema = {
       },
     },
     500: {
+      description: "Internal Server Error",
       type: "object",
       properties: {
         message: { type: "string" },

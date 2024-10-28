@@ -13,12 +13,14 @@ export const deleteProjectProfileByIdSchema: FastifySchema = {
   },
   response: {
     200: {
+      description: "Success",
       type: "object",
       properties: {
         message: { type: "string" },
       },
     },
     404: {
+      description: "Not Found",
       type: "object",
       properties: {
         message: { type: "string" },
