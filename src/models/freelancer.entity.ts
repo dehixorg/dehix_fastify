@@ -156,7 +156,6 @@ export interface IFreelancer extends Document {
   interviewsAligned?: string[];
   interviewee?: boolean;
   notInterestedProject?: string[];
-  profilePicture?: string;
 }
 
 const FreelancerSchema: Schema = new Schema(
@@ -464,10 +463,6 @@ const FreelancerSchema: Schema = new Schema(
         type: String,
       },
     ],
-    profilePicture: {
-      type: String,
-      required: false,
-    },
   },
   {
     timestamps: true,

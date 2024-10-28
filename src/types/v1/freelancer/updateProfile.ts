@@ -11,7 +11,7 @@ export interface PutFreelancerBody {
   email: string;
   phone: string;
   dob?: Date;
-  profilePic: string;
+  profilePic?: string;
   professionalInfo?: {
     company?: string;
     jobTitle?: string;
@@ -116,7 +116,6 @@ export interface PutFreelancerBody {
   oracleProject?: string[];
   userDataForVerification?: string[];
   interviewsAligned?: string[];
-  profilePicture?: string;
 }
 
 export interface PutFreelancerSkillsBody {
