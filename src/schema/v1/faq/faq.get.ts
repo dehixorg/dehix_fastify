@@ -34,6 +34,7 @@ export const getAllFaqSchema: FastifySchema = {
         },
       },
     },
+    
     ...commonErrorResponses,
   },
 };
