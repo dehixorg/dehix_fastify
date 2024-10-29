@@ -81,6 +81,9 @@ export const getFreelancerDetails: FastifySchema = {
         firstName: { type: "string" },
         lastName: { type: "string" },
         userName: { type: "string" },
+        profilePic: {
+          type: "string",
+        },
         description: { type: "string" },
         professionalInfo: {
           type: "object",

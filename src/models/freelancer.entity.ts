@@ -39,6 +39,7 @@ export interface IFreelancer extends Document {
   email: string;
   phone: string;
   dob?: Date;
+  profilePic: string;
   description?: string;
   professionalInfo?: Map<
     string,
@@ -155,7 +156,6 @@ export interface IFreelancer extends Document {
   interviewsAligned?: string[];
   interviewee?: boolean;
   notInterestedProject?: string[];
-  profilePicture?: string;
 }
 
 const FreelancerSchema: Schema = new Schema(
@@ -189,6 +189,10 @@ const FreelancerSchema: Schema = new Schema(
     },
     dob: {
       type: Date,
+      required: false,
+    },
+    profilePic: {
+      type: String,
       required: false,
     },
     description: {
@@ -459,10 +463,6 @@ const FreelancerSchema: Schema = new Schema(
         type: String,
       },
     ],
-    profilePicture: {
-      type: String,
-      required: false,
-    },
   },
   {
     timestamps: true,

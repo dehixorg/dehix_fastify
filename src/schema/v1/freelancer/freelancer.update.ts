@@ -13,6 +13,7 @@ export const updateFreelancerSchema: FastifySchema = {
       email: { type: "string" },
       phone: { type: "string" },
       dob: { type: "string", format: "date-time" },
+      profilePic: { type: "string" },
       professionalInfo: {
         type: "array",
         items: {
@@ -287,7 +288,6 @@ export const updateFreelancerSchema: FastifySchema = {
         type: "array",
         items: { type: "string" },
       },
-      profilePicture: { type: "string" },
     },
     required: [],
   },

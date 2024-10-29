@@ -16,6 +16,9 @@ export const updateBusinessSchema: FastifySchema = {
       companyName: {
         type: "string",
       },
+      profilePic: {
+        type: "string",
+      },
       companySize: {
         type: "string",
       },
