@@ -12,6 +12,8 @@ export interface IVerification extends Document {
   verification_status: "Pending" | "Approved" | "Denied";
   createdAt: Date;
   updatedAt: Date;
+  comment: string;
+  verifiedAt: Date;
 }
 
 // Define the Verification schema
@@ -47,6 +49,14 @@ const VerificationSchema: Schema<IVerification> = new Schema(
       type: String,
       enum: ["Pending", "Approved", "Denied"],
       default: "Pending",
+    },
+    comment: {
+      type: String,
+      required: false,
+    },
+    verifiedAt: {
+      type: Date,
+      required: false,
     },
   },
   {
