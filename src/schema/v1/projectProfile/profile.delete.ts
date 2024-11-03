@@ -1,4 +1,5 @@
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const deleteProjectProfileByIdSchema: FastifySchema = {
   description: "API for deleting a project profile by ID",
@@ -18,12 +19,6 @@ export const deleteProjectProfileByIdSchema: FastifySchema = {
         message: { type: "string" },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
+    ...commonErrorResponses
   },
 };

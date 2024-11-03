@@ -1,4 +1,5 @@
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const getProjectProfileByIdSchema: FastifySchema = {
   description: "API for getting a project profile by ID",
@@ -51,12 +52,6 @@ export const getProjectProfileByIdSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };
