@@ -1,4 +1,5 @@
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const updateProjectSchema: FastifySchema = {
   description: "API to update project",
@@ -121,34 +122,7 @@ export const updateProjectSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };
 
@@ -177,33 +151,6 @@ export const updateProjectStatusSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses
   },
 };
