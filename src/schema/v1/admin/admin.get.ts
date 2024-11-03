@@ -1,4 +1,5 @@
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const getAllAdminSchema: FastifySchema = {
   description: "API to get all admins",
@@ -24,37 +25,7 @@ export const getAllAdminSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      description: "Not Found",
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      description: "Forbidden",
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      description: "Internal Server Error",
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses
   },
 };
 
@@ -82,36 +53,6 @@ export const getAdminByIdSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      description: "Not Found",
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      description: "Forbidden",
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      description: "Internal Server Error",
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses
   },
 };

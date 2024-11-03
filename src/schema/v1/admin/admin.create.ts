@@ -1,4 +1,5 @@
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const createAdminSchema: FastifySchema = {
   description: "API for creating an Admin",
@@ -37,28 +38,6 @@ export const createAdminSchema: FastifySchema = {
         },
       },
     },
-    401: {
-      description: "Unauthorized",
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    403: {
-      description: "Forbidden",
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    500: {
-      description: "Internal Server Error",
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };
