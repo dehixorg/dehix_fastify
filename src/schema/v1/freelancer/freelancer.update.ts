@@ -1,4 +1,5 @@
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const updateFreelancerSchema: FastifySchema = {
   description: "API to update freelancer",
@@ -300,34 +301,7 @@ export const updateFreelancerSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses
   },
 };
 
@@ -410,34 +384,7 @@ export const addFreelancerSkillsSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses
   },
 };
 
@@ -545,34 +492,7 @@ export const addFreelancerDomainSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses
   },
 };
 
@@ -621,34 +541,7 @@ export const oracleStatusSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses
   },
 };
 
@@ -695,36 +588,10 @@ export const interviewsAlignedSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses
   },
 };
+
 export const experinceInProfessionalInfo: FastifySchema = {
   description: "API to manage professional experience of a freelancer",
   tags: ["Freelancer"],
@@ -783,34 +650,7 @@ export const experinceInProfessionalInfo: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses
   },
 };
 
@@ -868,34 +708,7 @@ export const updateEducationSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses
   },
 };
 
@@ -966,34 +779,7 @@ export const updateProjectSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses
   },
 };
 
@@ -1019,27 +805,7 @@ export const updateNotInterestedProjectSchema: FastifySchema = {
         },
       },
     },
-    400: {
-      description: "Invalid request parameters",
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
-    404: {
-      description: "Freelancer or project not found",
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
-    500: {
-      description: "Internal server error",
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses
   },
 };
 
@@ -1091,25 +857,6 @@ export const updateDehixTalentSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: { type: "string" },
-        message: { type: "string" },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses
   },
 };
