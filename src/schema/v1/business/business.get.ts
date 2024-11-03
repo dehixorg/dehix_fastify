@@ -1,40 +1,12 @@
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const getBusinessSchema: FastifySchema = {
   description: "API to get business data by business id",
   tags: ["Business"],
   response: {
-    404: {
-      description: "Not Found",
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      description: "Forbidden",
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      description: "Internal Server Error",
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    // TODO: Add 200 response schema
+    ...commonErrorResponses
   },
 };
 
@@ -100,37 +72,7 @@ export const getAllBusinessSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      description: "Not Found",
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      description: "Forbidden",
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      description: "Internal Server Error",
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };
 
@@ -148,36 +90,7 @@ export const getBusinessProjectSchema: FastifySchema = {
     },
   },
   response: {
-    404: {
-      description: "Not Found",
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      description: "Forbidden",
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      description: "Internal Server Error",
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    // TODO: Add 200 response schema
+    ...commonErrorResponses
   },
 };
