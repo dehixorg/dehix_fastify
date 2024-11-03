@@ -1,4 +1,5 @@
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const UpdateHireDehixTalent: FastifySchema = {
   description: "API to manage Hire Dehix Talent",
@@ -145,34 +146,7 @@ export const UpdateHireDehixTalent: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses
   },
 };
 
@@ -275,25 +249,6 @@ export const updateStatusHireDehixTalentSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: { type: "string" },
-        message: { type: "string" },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses
   },
 };
