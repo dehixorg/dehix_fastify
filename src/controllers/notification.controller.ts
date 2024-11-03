@@ -19,6 +19,7 @@ import { deleteNotificationSchema } from "../schema/v1/notification/notification
 import { DeleteNotificationPathParams } from "../types/v1/notification/deleteNotification";
 import { PutNotificationBody } from "../types/v1/notification/updateNotification";
 import { updateNotificationSchema } from "../schema/v1/notification/notification.update";
+import { getAllNotificationsSchema } from "../schema/v1/notification/notification.get";
 
 @Controller({ route: NOTIFICATION_ENDPOINT })
 export default class NotificationController extends AuthController {
@@ -163,7 +164,7 @@ export default class NotificationController extends AuthController {
     }
   }
 
-  @GET("", { schema: getNotificationSchema })
+  @GET("", { schema: getAllNotificationsSchema })
   async getAllNotification(request: FastifyRequest, reply: FastifyReply) {
     try {
       this.logger.info(
