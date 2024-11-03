@@ -1,4 +1,5 @@
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const getBidForProjectIdSchema: FastifySchema = {
   description: "API to get Bid data using project id",
@@ -33,22 +34,7 @@ export const getBidForProjectIdSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      description: "Not Found",
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    500: {
-      description: "Internal Server Error",
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
+    ...commonErrorResponses
   },
 };
 
@@ -82,22 +68,7 @@ export const getBidForBidderIdSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      description: "Not Found",
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    500: {
-      description: "Internal Server Error",
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
+    ...commonErrorResponses
   },
 };
 
@@ -124,38 +95,8 @@ export const getAllBidsSchema: FastifySchema = {
           },
         },
       },
-      404: {
-        description: "Not Found",
-        type: "object",
-        properties: {
-          message: {
-            type: "string",
-          },
-          code: {
-            type: "string",
-          },
-        },
-      },
-      403: {
-        description: "Forbidden",
-        type: "object",
-        properties: {
-          code: {
-            type: "string",
-          },
-          message: {
-            type: "string",
-          },
-        },
-      },
-      500: {
-        description: "Internal Server Error",
-        type: "object",
-        properties: {
-          message: { type: "string" },
-        },
-      },
     },
+    ...commonErrorResponses
   },
 };
 
@@ -191,21 +132,6 @@ export const getBidForProfileIdSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      description: "Not Found",
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    500: {
-      description: "Internal Server Error",
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
+    ...commonErrorResponses
   },
 };
