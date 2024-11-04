@@ -14,7 +14,10 @@ import {
   UPDATE_STATUS_OF_BUSINESS_BY_BUSINESS_ID,
   GET_BUSINESS_DETAILS_BY_ID,
 } from "../constants/business.constant";
-import { getBusinessSchema, getBusinessDetailsSchema } from "../schema/v1/business/business.get";
+import {
+  getBusinessSchema,
+  getBusinessDetailsSchema,
+} from "../schema/v1/business/business.get";
 import {
   updateBusinessSchema,
   updateBusinessStatusSchema,
@@ -191,7 +194,7 @@ export default class BusinessController extends AuthController {
       }
     }
   }
-  @GET(GET_BUSINESS_DETAILS_BY_ID, { schema: getBusinessDetailsSchema})
+  @GET(GET_BUSINESS_DETAILS_BY_ID, { schema: getBusinessDetailsSchema })
   async getBusinessdetails(
     request: FastifyRequest<{ Params: GetBusinessPathParams }>,
     reply: FastifyReply,

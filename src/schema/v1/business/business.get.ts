@@ -84,8 +84,8 @@ export const getBusinessDetailsSchema: FastifySchema = {
   description: "API to get BUSINESS profile data",
   tags: ["Business"],
   response: {
-    200:{
-      type: "object",    
+    200: {
+      type: "object",
       properties: {
         _id: { type: "string" },
         firstName: { type: "string" },
@@ -97,8 +97,8 @@ export const getBusinessDetailsSchema: FastifySchema = {
         connects: { type: "number" },
         ProjectList: {
           type: "array",
-          items: { type: "string" }
-        }
+          items: { type: "string" },
+        },
       },
     },
     404: {
@@ -136,8 +136,8 @@ export const getBusinessDetailsPublicSchema: FastifySchema = {
   description: "API to get BUSINESS profile data",
   tags: ["Public"],
   response: {
-    200:{
-      type: "object",    
+    200: {
+      type: "object",
       properties: {
         _id: { type: "string" },
         firstName: { type: "string" },
@@ -149,8 +149,8 @@ export const getBusinessDetailsPublicSchema: FastifySchema = {
         connects: { type: "number" },
         ProjectList: {
           type: "array",
-          items: { type: "string" }
-        }
+          items: { type: "string" },
+        },
       },
     },
     404: {
