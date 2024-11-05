@@ -45,6 +45,7 @@ export default class NotificationController extends AuthController {
       reply.status(STATUS_CODES.SERVER_ERROR).send({
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
+//      comment: "this is a comment"
       });
     }
   }
