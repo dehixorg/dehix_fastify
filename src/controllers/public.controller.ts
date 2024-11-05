@@ -68,7 +68,6 @@ export default class PublicController extends BaseController {
       const data = await this.freelancerService.getFreelancerProfile(
         request.params.freelancer_id,
       );
-      console.log("DATA:", data);
 
       reply.status(STATUS_CODES.SUCCESS).send({ ...data._doc });
     } catch (error: any) {
