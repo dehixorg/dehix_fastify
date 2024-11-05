@@ -151,6 +151,9 @@ export class VerificationDAO extends BaseDAO {
           verifier_id: doc.verifier_id,
           verifier_username: doc.verifier_username,
           doc_type: doc.doc_type,
+          verification_status: doc.verification_status,
+          verifiedAt: doc.verifiedAt,
+          comment: doc.comment,
         }));
 
         return data;
@@ -161,6 +164,9 @@ export class VerificationDAO extends BaseDAO {
           requester_id: doc.requester_id,
           document_id: doc.document_id,
           doc_type: doc.doc_type,
+          verification_status: doc.verification_status,
+          verifiedAt: doc.verifiedAt,
+          comment: doc.comment,
         }));
 
         return data;
