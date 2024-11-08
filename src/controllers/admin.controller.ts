@@ -190,9 +190,10 @@ export default class AdminsController extends AuthController {
         `AdminsController -> getAllVerificationData -> Fetching verification data`,
       );
       const { doc_type } = request.query;
+      const { type } = request.query;
 
       const data =
-        await this.verificationService.getAllVerificationData(doc_type);
+        await this.verificationService.getAllVerificationData(doc_type, type);
 
       if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({

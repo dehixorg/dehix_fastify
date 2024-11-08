@@ -178,3 +178,7 @@ export const ORACLE_UPDATE_END_POINT = "/:document_id/oracle";
 // Endpoint for marking a freelancer as "not interested" in a project
 export const NOT_INTERESTED_PROJECT =
   "/:freelancer_id/:project_id/not_interested_project";
+
+export const VERIFICATION_BY_VERIFIER_ID = "/verifier/:verifier_id";
+
+export const UPDATE_COMMENT_IN_VERIFICATION = "/:verification_id/update"

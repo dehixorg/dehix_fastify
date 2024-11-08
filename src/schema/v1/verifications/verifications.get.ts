@@ -78,6 +78,13 @@ export const getAllVerificationDataSchema: FastifySchema = {
         ],
         description: "Filter verification request by doc_type",
       },
+      type: {
+        type: "string",
+        enum: [
+          "freelancer",
+          "admin"
+        ]
+      },
     },
   },
   response: {
