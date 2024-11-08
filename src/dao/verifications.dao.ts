@@ -138,9 +138,7 @@ export class VerificationDAO extends BaseDAO {
       | "project"
       | "experience"
       | "business",
-    type?:
-      | "freelancer"
-      | "admin",
+    type?: "freelancer" | "admin",
   ) {
     try {
       const query = {
@@ -201,13 +199,13 @@ export class VerificationDAO extends BaseDAO {
   async getVerificationByVerifierId(
     verifier_id: string,
     doc_type:
-    | "skill"
-    | "domain"
-    | "education"
-    | "project"
-    | "experience"
-    | "business",) {
-
+      | "skill"
+      | "domain"
+      | "education"
+      | "project"
+      | "experience"
+      | "business",
+  ) {
     const query = {
       verifier_id: verifier_id,
       ...(doc_type && { doc_type }),
@@ -218,16 +216,16 @@ export class VerificationDAO extends BaseDAO {
     try {
       const updatedComment = await this.model.findOneAndUpdate(
         { _id },
-        { 
+        {
           comment: comment,
           verifiedAt: verifiedAt || new Date(),
         },
-        { new: true }
+        { new: true },
       );
 
-      return updatedComment
+      return updatedComment;
     } catch (error: any) {
-      throw new Error('Error updating comment: ' + error.message);
+      throw new Error("Error updating comment: " + error.message);
     }
   }
 }

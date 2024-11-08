@@ -63,7 +63,7 @@ const VerificationSchema: Schema<IVerification> = new Schema(
       type: String,
       enum: ["freelancer", "admin"],
       required: false,
-    }
+    },
   },
   {
     timestamps: true,

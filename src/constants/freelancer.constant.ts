@@ -181,4 +181,4 @@ export const NOT_INTERESTED_PROJECT =
 
 export const VERIFICATION_BY_VERIFIER_ID = "/verifier/:verifier_id";
 
-export const UPDATE_COMMENT_IN_VERIFICATION = "/:verification_id/update"
+export const UPDATE_COMMENT_IN_VERIFICATION = "/:verification_id/update";

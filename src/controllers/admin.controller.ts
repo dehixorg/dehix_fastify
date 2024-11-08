@@ -192,8 +192,10 @@ export default class AdminsController extends AuthController {
       const { doc_type } = request.query;
       const { type } = request.query;
 
-      const data =
-        await this.verificationService.getAllVerificationData(doc_type, type);
+      const data = await this.verificationService.getAllVerificationData(
+        doc_type,
+        type,
+      );
 
       if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({

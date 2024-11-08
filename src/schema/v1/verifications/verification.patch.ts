@@ -96,7 +96,7 @@ export const updateVerificationCommentSchema: FastifySchema = {
       },
       verifiedAt: {
         type: "string",
-        format: "date-time"
+        format: "date-time",
       },
     },
     required: [],
@@ -122,5 +122,5 @@ export const updateVerificationCommentSchema: FastifySchema = {
         message: { type: "string" },
       },
     },
-  }
-}
+  },
+};

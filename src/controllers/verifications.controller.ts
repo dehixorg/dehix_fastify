@@ -14,12 +14,18 @@ import {
   ORACLE_ID_ENDPOINT,
   ORACLE_UPDATE_END_POINT,
   VERIFICATION_BY_VERIFIER_ID,
-  UPDATE_COMMENT_IN_VERIFICATION
+  UPDATE_COMMENT_IN_VERIFICATION,
 } from "../constants/freelancer.constant";
 import { GetVerifierPathParams } from "../types/v1/verifications/getVerificationData";
 import { GetDocTypeQueryParams } from "../types/v1/verifications/getDocType";
-import { updateVerificationStatusSchema,updateVerificationCommentSchema } from "../schema/v1/verifications/verification.patch";
-import { PatchOracleBody, PutCommentBody } from "../types/v1/verifications/updateVerificationBody";
+import {
+  updateVerificationStatusSchema,
+  updateVerificationCommentSchema,
+} from "../schema/v1/verifications/verification.patch";
+import {
+  PatchOracleBody,
+  PutCommentBody,
+} from "../types/v1/verifications/updateVerificationBody";
 
 @Controller({ route: FREELANCER_ENDPOINT })
 export default class VerificationsController extends AuthController {
@@ -115,12 +121,11 @@ export default class VerificationsController extends AuthController {
       }
     }
   }
-  @GET(VERIFICATION_BY_VERIFIER_ID, {schema: getVerificationDataSchema})
+  @GET(VERIFICATION_BY_VERIFIER_ID, { schema: getVerificationDataSchema })
   async getVerificationByVerifierId(
     request: FastifyRequest<{
       Params: GetVerifierPathParams;
       Querystring: GetDocTypeQueryParams;
-
     }>,
     reply: FastifyReply,
   ) {
@@ -128,15 +133,15 @@ export default class VerificationsController extends AuthController {
       this.logger.info(
         `VerificationsController -> getVerificationData -> Fetching verification request for verifier ID: ${request.params.verifier_id}`,
       );
-  
+
       const { verifier_id } = request.params;
       const { doc_type } = request.query;
-  
+
       const data = await this.verificationService.getVerificationByVerifierId(
         verifier_id,
         doc_type,
       );
-  
+
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(`Error in getVerificationData: ${error.message}`);
@@ -157,9 +162,10 @@ export default class VerificationsController extends AuthController {
         });
       }
     }
-
   }
-  @PUT(UPDATE_COMMENT_IN_VERIFICATION, { schema: updateVerificationCommentSchema })
+  @PUT(UPDATE_COMMENT_IN_VERIFICATION, {
+    schema: updateVerificationCommentSchema,
+  })
   async updateVerificationComment(
     request: FastifyRequest<{
       Body: PutCommentBody;

@@ -482,7 +482,7 @@ export class FreelancerService extends BaseService {
     }
 
     const data = await this.BidDAO.getProjectByBidderId(freelancer_id, status);
-    
+
     return data;
   }
 

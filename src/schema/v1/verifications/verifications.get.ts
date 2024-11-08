@@ -80,10 +80,7 @@ export const getAllVerificationDataSchema: FastifySchema = {
       },
       type: {
         type: "string",
-        enum: [
-          "freelancer",
-          "admin"
-        ]
+        enum: ["freelancer", "admin"],
       },
     },
   },

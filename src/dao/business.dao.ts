@@ -197,14 +197,19 @@ export class businessDAO extends BaseDAO {
     }
   }
 
-  async updateProjectProfile(bidId: string, freelancerId: string, project_id: string, profile_id: string) {
+  async updateProjectProfile(
+    bidId: string,
+    freelancerId: string,
+    project_id: string,
+    profile_id: string,
+  ) {
     const result = await this.projectmodel.updateOne(
       { _id: project_id, "profiles._id": profile_id },
       {
         $addToSet: {
           "profiles.$.freelancers": {
-            "freelancerId": freelancerId,
-            "bidId": bidId,
+            freelancerId: freelancerId,
+            bidId: bidId,
           },
         },
       },
