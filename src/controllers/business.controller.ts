@@ -12,8 +12,12 @@ import {
   BUSINESS_ID_END_POINT,
   BUSINESS_UPDATE_END_POINT,
   UPDATE_STATUS_OF_BUSINESS_BY_BUSINESS_ID,
+  GET_BUSINESS_DETAILS_BY_ID,
 } from "../constants/business.constant";
-import { getBusinessSchema } from "../schema/v1/business/business.get";
+import {
+  getBusinessSchema,
+  getBusinessDetailsSchema,
+} from "../schema/v1/business/business.get";
 import {
   updateBusinessSchema,
   updateBusinessStatusSchema,
@@ -188,6 +192,36 @@ export default class BusinessController extends AuthController {
           code: ERROR_CODES.SERVER_ERROR,
         });
       }
+    }
+  }
+  @GET(GET_BUSINESS_DETAILS_BY_ID, { schema: getBusinessDetailsSchema })
+  async getBusinessdetails(
+    request: FastifyRequest<{ Params: GetBusinessPathParams }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `BusinessController -> getBusiness -> Fetching Business profile for ID: ${request.params.business_id}`,
+      );
+
+      const data = await this.BusinessService.getBusinessProfile(
+        request.params.business_id,
+      );
+
+      if (!data) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Business"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+
+      reply.status(STATUS_CODES.SUCCESS).send({ ...data._doc });
+    } catch (error) {
+      this.logger.info(error, "error in getBusiness");
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
+        message: RESPONSE_MESSAGE.SERVER_ERROR,
+        code: ERROR_CODES.SERVER_ERROR,
+      });
     }
   }
 }

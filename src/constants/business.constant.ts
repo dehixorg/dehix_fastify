@@ -63,3 +63,5 @@ export const GET_PROJECT_AND_BIDS_DATA_BY_PROJECT_ID = "/project/:project_id";
 
 // Endpoint to update the status of a business using its business ID
 export const UPDATE_STATUS_OF_BUSINESS_BY_BUSINESS_ID = "/:business_id/status";
+
+export const GET_BUSINESS_DETAILS_BY_ID = "/:business_id/details";
