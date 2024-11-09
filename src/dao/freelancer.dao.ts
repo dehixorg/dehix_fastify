@@ -682,14 +682,17 @@ export class FreelancerDAO extends BaseDAO {
       // Fetch freelancers who have dehixTalent
       const freelancers = await this.model
         .find({ dehixTalent: { $exists: true, $ne: {} } })
-        .select("firstName lastName userName dehixTalent")
+        .select("_id firstName lastName userName profilePic dehixTalent")
         .lean()
         .exec();
 
       // Flatten the talents from all freelancers
       const allTalents = freelancers.flatMap((freelancer: any) =>
         Object.keys(freelancer.dehixTalent).map((talentId) => ({
+          freelancer_id: `${freelancer._id}`,
           Name: `${freelancer.firstName} ${freelancer.lastName}`, // freelancer's name
+          userName: `${freelancer.userName}`,
+          profilePic: `${freelancer.profilePic}`,
           dehixTalent: {
             _id: talentId, // each talent's _id
             ...freelancer.dehixTalent[talentId], // the rest of the talent data
