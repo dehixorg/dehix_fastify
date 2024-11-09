@@ -24,7 +24,7 @@ export class BidDAO extends BaseDAO {
     return this.model
       .findOne(
         { email },
-        "id password firebase_id full_name email is_email_verified owner_id"
+        "id password firebase_id full_name email is_email_verified owner_id",
       )
       .lean()
       .exec();
@@ -57,7 +57,7 @@ export class BidDAO extends BaseDAO {
   async updateStatus(bid_id: string, status: any) {
     return this.model.updateOne(
       { _id: bid_id },
-      { $set: { bid_status: status } }
+      { $set: { bid_status: status } },
     );
   }
   async findBidByProjectId(project_id: string) {
@@ -84,7 +84,7 @@ export class BidDAO extends BaseDAO {
 
   async getProjectByBidderId(
     bidder_id: string,
-    status?: "Active" | "Pending" | "Completed" | "Rejected"
+    status?: "Active" | "Pending" | "Completed" | "Rejected",
   ) {
     let bidStatus;
     if (status === "Active" || status === "Completed") {
@@ -94,33 +94,34 @@ export class BidDAO extends BaseDAO {
     } else {
       bidStatus = "Rejected";
     }
-  
+
     const result = await this.model.aggregate([
-      { 
-        $match: { 
-          bidder_id: bidder_id, 
-          bid_status: bidStatus 
-        } 
+      {
+        $match: {
+          bidder_id: bidder_id,
+          bid_status: bidStatus,
+        },
       },
       {
         $lookup: {
-          from: 'projects',           
-          localField: 'project_id',    
-          foreignField: '_id',         
-          as: 'projectData'            
-        }
+          from: "projects",
+          localField: "project_id",
+          foreignField: "_id",
+          as: "projectData",
+        },
       },
-      { 
-        $unwind: '$projectData' 
+      {
+        $unwind: "$projectData",
       },
       // Only add this $match stage if status is "Active" or "Completed"
-      ...(status === "Active" || status === "Completed" ? [{ $match: { 'projectData.status': status } }] : []),
+      ...(status === "Active" || status === "Completed"
+        ? [{ $match: { "projectData.status": status } }]
+        : []),
       {
-        $replaceRoot: { newRoot: '$projectData' }
-      }
+        $replaceRoot: { newRoot: "$projectData" },
+      },
     ]);
-  
+
     return result;
   }
-  
 }
