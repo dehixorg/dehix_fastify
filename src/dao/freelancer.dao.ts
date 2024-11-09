@@ -35,8 +35,8 @@ export class FreelancerDAO extends BaseDAO {
     );
   }
 
-  async findProject(project_id: string, freelancer_id: string) {
-    return this.model.find({
+  async findProject(freelancer_id: string, project_id: string) {
+    return this.model.findOne({
       _id: freelancer_id,
       projects: { $elemMatch: { project_id: project_id } },
     });
@@ -53,12 +53,16 @@ export class FreelancerDAO extends BaseDAO {
   async updateFreelancerData(id: string, update: any) {
     return this.model.findByIdAndUpdate({ _id: id }, update);
   }
-  async findAllFreelancers(filters: {
-    experience?: string[];
-    jobType?: string[];
-    domain?: string[];
-    skills?: string[];
-  }) {
+  async findAllFreelancers(
+    filters: {
+      experience?: string[];
+      jobType?: string[];
+      domain?: string[];
+      skills?: string[];
+    },
+    page: string = "1",
+    limit: string = "20",
+  ) {
     const { experience, jobType, domain, skills } = filters;
 
     // Build the query object based on the provided filters
@@ -80,23 +84,31 @@ export class FreelancerDAO extends BaseDAO {
     if (skills && skills.length > 0) {
       query["skills.name"] = { $in: skills };
     }
-
-    return await this.model.find(query);
+    const pages = parseInt(page) - 1;
+    const pageSize = parseInt(limit);
+    const pageIndex = pages * pageSize;
+    return await this.model.find(query).skip(pageIndex).limit(pageSize);
   }
 
   async addFreelancerSkill(id: string, skills: any) {
+    const skillsWithId = skills.map((skill: any) => ({
+      ...skill,
+      _id: uuidv4(),
+    }));
+
     const result = await this.model.updateOne(
       { _id: id },
-      { $addToSet: { skills: { $each: skills } } },
-      { new: true },
+      { $addToSet: { skills: { $each: skillsWithId } } },
+      { new: true, projection: { skills: 1 } },
     );
     if (!result) {
       throw new Error("Freelancer not found or skills could not be added");
     }
+    const skillIds = skillsWithId.map((skill: any) => skill._id);
     return {
-      id,
-      skills,
-    }; // Fetch and return the updated document
+      skillIds,
+      skillsWithId,
+    };
   }
 
   async findDomainExistInFreelancer(freelancer_id: string, domain_id: any) {
@@ -219,12 +231,34 @@ export class FreelancerDAO extends BaseDAO {
 
   async addExperienceById(id: string, update: any) {
     const experienceId = uuidv4();
-    return this.model.findByIdAndUpdate(
+    const result = await this.model.findByIdAndUpdate(
       id,
       {
         $set: {
           [`professionalInfo.${experienceId}`]: {
             _id: experienceId,
+            ...update,
+          },
+        },
+      },
+      { new: true, upsert: true },
+    );
+
+    return {
+      experienceId,
+      result,
+    };
+  }
+  async updateExperienceVerification(
+    id: string,
+    document_id: string,
+    update: any,
+  ) {
+    return await this.model.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          [`professionalInfo.${document_id}`]: {
             ...update,
           },
         },
@@ -269,8 +303,24 @@ export class FreelancerDAO extends BaseDAO {
 
   async getExperienceById(freelancerId: string, experienceId: string) {
     return this.model.findOne(
-      { _id: freelancerId },
+      {
+        _id: freelancerId,
+        [`professionalInfo.${experienceId}`]: { $exists: true },
+      },
       { [`professionalInfo.${experienceId}`]: 1 },
+    );
+  }
+  async updateEducationVerification(
+    id: string,
+    document_id: string,
+    update: any,
+  ) {
+    return this.model.findOneAndUpdate(
+      { _id: id, [`education.${document_id}`]: { $exists: true } },
+      {
+        $set: { [`education.${document_id}`]: { ...update } },
+      },
+      { new: true },
     );
   }
 
@@ -283,7 +333,7 @@ export class FreelancerDAO extends BaseDAO {
 
   async addEducationById(id: string, update: any) {
     const educationId = uuidv4();
-    return this.model.findByIdAndUpdate(
+    const result = await this.model.findByIdAndUpdate(
       id,
       {
         $set: {
@@ -292,6 +342,11 @@ export class FreelancerDAO extends BaseDAO {
       },
       { new: true, upsert: true },
     );
+
+    return {
+      educationId,
+      result,
+    };
   }
 
   async putEducationById(
@@ -322,7 +377,7 @@ export class FreelancerDAO extends BaseDAO {
 
   async addProjectById(id: string, update: any) {
     const projectId = uuidv4();
-    return this.model.findByIdAndUpdate(
+    const result = await this.model.findByIdAndUpdate(
       id,
       {
         $set: {
@@ -331,6 +386,11 @@ export class FreelancerDAO extends BaseDAO {
       },
       { new: true, upsert: true },
     );
+
+    return {
+      projectId,
+      result,
+    };
   }
 
   async getProjectById(freelancerId: string, project_id: string) {
@@ -339,7 +399,19 @@ export class FreelancerDAO extends BaseDAO {
       { [`projects.${project_id}`]: 1 },
     );
   }
-
+  async putProjectVerification(
+    freelancer_id: string,
+    project_id: string,
+    update: any,
+  ) {
+    return this.model.findOneAndUpdate(
+      { _id: freelancer_id, [`projects.${project_id}`]: { $exists: true } },
+      {
+        $set: { [`projects.${project_id}`]: { ...update } },
+      },
+      { new: true },
+    );
+  }
   async putProjectById(freelancer_id: string, project_id: string, update: any) {
     return this.model.findOneAndUpdate(
       { _id: freelancer_id, [`projects.${project_id}`]: { $exists: true } },
@@ -362,19 +434,24 @@ export class FreelancerDAO extends BaseDAO {
     ]);
   }
 
-  async addFreelancerDomain(id: string, domain: any) {
+  async addFreelancerDomain(id: string, domains: any) {
+    const domainsWithId = domains.map((domain) => ({
+      ...domain,
+      _id: uuidv4(),
+    }));
     const result = await this.model.updateOne(
       { _id: id },
-      { $addToSet: { domain: { $each: domain } } },
-      { new: true },
+      { $addToSet: { domain: { $each: domainsWithId } } },
+      { new: true, projection: { domains: 1 } },
     );
     if (!result) {
-      throw new Error("Freelancer not found or domain could not be added");
+      throw new Error("Freelancer not found or domains could not be added");
     }
+    const domainIds = domainsWithId.map((domain) => domain._id);
     return {
-      id,
-      domain,
-    }; // Fetch and return the updated document
+      domainIds,
+      domainsWithId,
+    };
   }
 
   async getFreelancerOwnProjects(freelancer_id: string) {
@@ -414,8 +491,8 @@ export class FreelancerDAO extends BaseDAO {
   }
 
   async addDehixTalentById(id: string, update: any) {
-    const dehixTalentId = uuidv4();
-    return this.model.findByIdAndUpdate(
+    const dehixTalentId = uuidv4(); // Generate a unique ID for dehixTalent
+    const updatedFreelancer = await this.model.findByIdAndUpdate(
       id,
       {
         $set: {
@@ -425,8 +502,11 @@ export class FreelancerDAO extends BaseDAO {
           },
         },
       },
-      { new: true, upsert: true },
+      { new: true, upsert: true }, // Return the new document after update
     );
+
+    // Return the newly created dehixTalent entry
+    return updatedFreelancer?.dehixTalent?.get(dehixTalentId);
   }
 
   async getDehixTalentById(freelancerId: string, dehixTalent_id: string) {
@@ -484,10 +564,9 @@ export class FreelancerDAO extends BaseDAO {
     });
   }
   async getConsultant(freelancer_id: string, consultant_id: string) {
-    return this.model.findOne(
-      { _id: freelancer_id },
-      { [`consultant.${consultant_id}`]: 1 },
-    );
+    return this.model
+      .findOne({ _id: freelancer_id }, { [`consultant.${consultant_id}`]: 1 })
+      .lean(); // Return a plain JS object instead of a Mongoose document(Map -> plain object)
   }
   async updateConsultant(
     freelancer_id: string,
@@ -510,6 +589,177 @@ export class FreelancerDAO extends BaseDAO {
       freelancer_id,
       { $unset: { [`consultant.${consultant_id}`]: "" } },
       { new: true },
+    );
+  }
+  async findOracle(requester_id: string) {
+    const freelancer = await this.model
+      .aggregate([
+        {
+          $match: {
+            oracleStatus: "approved",
+          },
+        },
+        {
+          $lookup: {
+            from: "verifications",
+            localField: "_id",
+            foreignField: "verifier_id",
+            as: "verifications",
+          },
+        },
+        {
+          // Exclude the freelancer whose _id matches the requester_id
+          $match: {
+            _id: { $ne: requester_id },
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            userName: 1,
+            verificationCount: { $size: "$verifications" },
+          },
+        },
+        {
+          $sort: {
+            verificationCount: -1, // Sort in descending order to get the most verified
+          },
+        },
+        {
+          $limit: 1,
+        },
+      ])
+      .exec();
+
+    if (!freelancer || freelancer.length === 0) {
+      return null;
+    }
+
+    // Return the freelancer object with id and username
+    return {
+      id: freelancer[0]._id,
+      username: freelancer[0].userName,
+    };
+  }
+
+  async getSkillById(freelancerId: string, skillId: string) {
+    return this.model.findOne(
+      { _id: freelancerId, "skills._id": skillId }, // Use dot notation to match subdocument _id
+      { "skills.$": 1 }, // Use $ to project only the matching element in the array
+    );
+  }
+
+  async getDomainById(freelancerId: string, domainId: string) {
+    return this.model.findOne(
+      { _id: freelancerId, "domain._id": domainId }, // Use dot notation to match subdocument _id
+      { "domain.$": 1 }, // Use $ to project only the matching element in the array
+    );
+  }
+  async updateNotInterestedProject(freelancer_id: string, project_id: string) {
+    return this.model.findByIdAndUpdate(
+      freelancer_id,
+      {
+        $addToSet: { notInterestedProject: project_id },
+      },
+      { new: true },
+    );
+  }
+
+  async changeOracleStatus(verifier_id: string) {
+    try {
+      await this.model.findByIdAndUpdate(verifier_id, {
+        oracleStatus: "stopped",
+      });
+    } catch (error: any) {
+      throw new Error(
+        `Unable to update oracleStatus to 'stopped': ${error.message}`,
+      );
+    }
+  }
+
+  async getAllDehixTalent(limit: number, skip: number) {
+    try {
+      // Fetch freelancers who have dehixTalent
+      const freelancers = await this.model
+        .find({ dehixTalent: { $exists: true, $ne: {} } })
+        .select("_id firstName lastName userName profilePic dehixTalent")
+        .lean()
+        .exec();
+
+      // Flatten the talents from all freelancers
+      const allTalents = freelancers.flatMap((freelancer: any) =>
+        Object.keys(freelancer.dehixTalent).map((talentId) => ({
+          freelancer_id: `${freelancer._id}`,
+          Name: `${freelancer.firstName} ${freelancer.lastName}`, // freelancer's name
+          userName: `${freelancer.userName}`,
+          profilePic: `${freelancer.profilePic}`,
+          dehixTalent: {
+            _id: talentId, // each talent's _id
+            ...freelancer.dehixTalent[talentId], // the rest of the talent data
+          },
+        })),
+      );
+
+      // Apply the pagination (limit and skip) on the flattened talents
+      const paginatedTalents = allTalents.slice(skip, skip + limit);
+
+      return paginatedTalents; // Return the paginated talents
+    } catch (error: any) {
+      throw new Error(`Failed to fetch dehix talent: ${error.message}`);
+    }
+  }
+
+  async getFreelancerDehixTalent(freelancer_id: string) {
+    try {
+      return await this.model.find(
+        { _id: freelancer_id },
+        { dehixTalent: 1, _id: 0 },
+      );
+    } catch (error) {
+      console.error("Error fetching freelancer dehix talent:", error);
+      throw error;
+    }
+  }
+
+  async getFreelancerEducation(freelancer_id: string) {
+    try {
+      const data = await this.model.find(
+        { _id: freelancer_id },
+        { education: 1, _id: 0 },
+      );
+      return data;
+    } catch (error) {
+      console.error("Error fetching freelancer education:", error);
+      throw error;
+    }
+  }
+
+  async updateDehixTalent(
+    freelancer_id: string,
+    dehixTalent_id: string,
+    update: { status?: string; activeStatus?: boolean },
+  ) {
+    // Use the $set operator to only update the specific fields
+    const updateFields = {} as any;
+
+    if (update.status !== undefined) {
+      updateFields[`dehixTalent.${dehixTalent_id}.status`] = update.status;
+    }
+    if (update.activeStatus !== undefined) {
+      updateFields[`dehixTalent.${dehixTalent_id}.activeStatus`] =
+        update.activeStatus;
+    }
+
+    // Perform the update with only the necessary fields
+    return this.model.findOneAndUpdate(
+      {
+        _id: freelancer_id,
+        [`dehixTalent.${dehixTalent_id}`]: { $exists: true },
+      },
+      { $set: updateFields },
+      {
+        new: true, // Return the updated document
+      },
     );
   }
 }

@@ -5,10 +5,13 @@ import { v4 as uuidv4 } from "uuid";
 export interface IBid extends Document {
   _id: string;
   bidder_id: string;
+  userName: string;
   current_price: number;
   project_id: string;
-  domain_id: string; // Make sure to include domain_id in the interface
-  bid_status: "Pending" | "Accepted" | "Rejected";
+  profile_id: string;
+  bid_status: "Pending" | "Accepted" | "Rejected" | "Panel" | "Interview";
+  description: string;
+  domain_id: string;
 }
 
 // Define the Bid schema
@@ -19,9 +22,11 @@ const BidSchema: Schema<IBid> = new Schema(
       default: uuidv4,
       required: true,
     },
+    userName: {
+      type: String,
+    },
     bidder_id: {
       type: String,
-      default: uuidv4, // Use uuidv4 for generating unique IDs
       required: true,
     },
     current_price: {
@@ -33,19 +38,24 @@ const BidSchema: Schema<IBid> = new Schema(
       type: String,
       required: true,
     },
+    profile_id: {
+      type: String,
+    },
     domain_id: {
       type: String,
-      required: true,
     },
     bid_status: {
       type: String,
-      enum: ["Pending", "Accepted", "Rejected"],
+      enum: ["Pending", "Accepted", "Rejected", "Panel"],
       default: "Pending",
+    },
+    description: {
+      type: String,
     },
   },
   {
-    timestamps: true, // Add createdAt and updatedAt fields
-    versionKey: false, // Disable __v versioning field
+    timestamps: true,
+    versionKey: false,
   },
 );
 

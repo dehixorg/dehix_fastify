@@ -7,10 +7,11 @@ export interface IBusiness extends Document {
   firstName: string;
   lastName: string;
   companyName: string;
+  profilePic: string;
   companySize: string;
-  password: string;
   email: string;
   phone: string;
+  status: "Active" | "Inactive" | "Notverified";
   position?: string;
   refer?: string;
   verified?: any;
@@ -19,14 +20,7 @@ export interface IBusiness extends Document {
   personalWebsite?: string;
   isBusiness: boolean;
   connects: number;
-  otp?: string;
-  otpverified?: string;
   ProjectList: string[];
-  Appliedcandidates: string[];
-  hirefreelancer: {
-    freelancer: string;
-    status: string;
-  }[];
 }
 
 const BusinessSchema: Schema<IBusiness> = new Schema(
@@ -47,13 +41,13 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
       type: String,
       required: true,
     },
+    profilePic: {
+      type: String,
+      required: false,
+    },
     companySize: {
       type: String,
       required: true,
-    },
-    password: {
-      type: String,
-      required: false,
     },
     email: {
       type: String,
@@ -62,6 +56,11 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
     phone: {
       type: String,
       required: true,
+    },
+    status: {
+      type: String,
+      enum: ["Active", "Inactive", "Notverified"],
+      default: "Notverified",
     },
     position: {
       type: String,
@@ -96,36 +95,10 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
       type: Number,
       default: 0,
     },
-    otp: {
-      type: String,
-      required: false,
-    },
-    otpverified: {
-      type: String,
-      required: false,
-    },
     ProjectList: [
       {
         type: String,
         ref: "Project",
-      },
-    ],
-    Appliedcandidates: [
-      {
-        type: String,
-        ref: "Applicationforwork",
-      },
-    ],
-    hirefreelancer: [
-      {
-        freelancer: {
-          type: String,
-          ref: "Freelancer",
-        },
-        status: {
-          type: String,
-          default: "Pending",
-        },
       },
     ],
   },

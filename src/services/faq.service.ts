@@ -46,4 +46,35 @@ export class FaqService extends BaseService {
 
     return faqs;
   }
+
+  async updateFaqById(faq_id: string, body: any) {
+    this.logger.info(
+      `FaqService: updateFaqById: Updating FAQ for Faq ID:${faq_id}`,
+    );
+
+    const checkFaq = await this.FaqDAO.findFaq(faq_id);
+    if (!checkFaq) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.DATA_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+
+    const data = await this.FaqDAO.updateFaq(faq_id, body);
+
+    return data;
+  }
+  async updateFaqStatus(faq_id, status) {
+    try {
+      const result = await this.FaqDAO.updateFaqStatus(faq_id, status);
+
+      if (!result) {
+        throw new Error("Failed to update the faq status. No faq found.");
+      }
+
+      return { message: `Faq status updated to ${status}` };
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }

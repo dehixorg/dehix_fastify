@@ -4,9 +4,14 @@ import { BusinessModel, IBusiness } from "./business.entity";
 import { ProjectModel, IProject } from "./project.entity";
 import { BidModel, IBid } from "./bid.entity";
 import { InterviewModel, IInterview } from "./interview.entity";
-import { SkillModel, ISkill } from "./skill.entity";
+import { SkillModel, ISkill } from "./skills.entity";
 import { HireModel, IHire } from "./hireDehixTalent.entity";
 import { FaqModel, IFaq } from "./faq.entity";
+import { DomainModel, IDomain } from "./domain.entity";
+import { VerificationModel, IVerification } from "./verifications.entity";
+import { AdminModel, IAdmin } from "./admin.entity";
+import { NotificationModel, INotification } from "./notification.entity";
+import { ProjectDomainModel, IProjectDomain } from "./projectDomain.entity";
 
 export interface DBModels {
   FreelancerModel?: Model<IFreelancer>;
@@ -17,6 +22,11 @@ export interface DBModels {
   SkillModel?: Model<ISkill>;
   HireModel?: Model<IHire>;
   FaqModel?: Model<IFaq>;
+  DomainModel?: Model<IDomain>;
+  VerificationModel?: Model<IVerification>;
+  AdminModel?: Model<IAdmin>;
+  NotificationModel?: Model<INotification>;
+  ProjectDomainModel?: Model<IProjectDomain>;
 }
 
 const models: DBModels = {
@@ -28,6 +38,11 @@ const models: DBModels = {
   SkillModel,
   HireModel,
   FaqModel,
+  DomainModel,
+  VerificationModel,
+  AdminModel,
+  NotificationModel,
+  ProjectDomainModel,
 };
 
 export default models;

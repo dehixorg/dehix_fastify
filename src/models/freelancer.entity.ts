@@ -21,16 +21,26 @@ export interface IDomain extends Document {
   interviewInfo?: string;
   interviewerRating?: number;
 }
+export interface IProjectDomain extends Document {
+  _id: string;
+  name: string;
+  level: string;
+  experience: string;
+  interviewStatus?: "pending" | "accepted" | "rejected" | "reapplied";
+  interviewInfo?: string;
+  interviewerRating?: number;
+}
 
 export interface IFreelancer extends Document {
   _id?: string;
   firstName: string;
   lastName: string;
   userName: string;
-  password: string;
   email: string;
   phone: string;
   dob?: Date;
+  profilePic: string;
+  description?: string;
   professionalInfo?: Map<
     string,
     {
@@ -51,6 +61,7 @@ export interface IFreelancer extends Document {
   >;
   skills?: ISkill[];
   domain?: IDomain[];
+  projectDomain?: IProjectDomain[];
   education?: Map<
     string,
     {
@@ -96,8 +107,10 @@ export interface IFreelancer extends Document {
       skillName?: string;
       domainId?: string;
       domainName?: string;
+      experience?: string;
+      monthlyPay?: string;
       status?: "added" | "verified" | "rejected";
-      activeStatus?: "Active" | "Inactive";
+      activeStatus?: boolean;
     }
   >;
   refer?: {
@@ -142,6 +155,7 @@ export interface IFreelancer extends Document {
   userDataForVerification?: string[];
   interviewsAligned?: string[];
   interviewee?: boolean;
+  notInterestedProject?: string[];
 }
 
 const FreelancerSchema: Schema = new Schema(
@@ -164,10 +178,6 @@ const FreelancerSchema: Schema = new Schema(
       required: true,
       unique: true,
     },
-    password: {
-      type: String,
-      required: false,
-    },
     email: {
       type: String,
       required: true,
@@ -180,6 +190,15 @@ const FreelancerSchema: Schema = new Schema(
     dob: {
       type: Date,
       required: false,
+    },
+    profilePic: {
+      type: String,
+      required: false,
+    },
+    description: {
+      type: String,
+      required: false,
+      maxlenght: 500,
     },
     professionalInfo: {
       type: Map,
@@ -237,6 +256,30 @@ const FreelancerSchema: Schema = new Schema(
       },
     ],
     domain: [
+      {
+        _id: {
+          type: String,
+          default: uuidv4,
+          required: true,
+        },
+        name: { type: String, required: false },
+        level: { type: String, required: false },
+        experience: { type: String, required: false },
+        interviewStatus: {
+          type: String,
+          enum: ["pending", "accepted", "rejected", "reapplied"],
+          default: "pending",
+          required: false,
+        },
+        interviewInfo: {
+          type: String,
+          ref: "Interview",
+          required: false,
+        },
+        interviewerRating: { type: Number, required: false },
+      },
+    ],
+    projectDomain: [
       {
         _id: {
           type: String,
@@ -329,17 +372,16 @@ const FreelancerSchema: Schema = new Schema(
         skillName: { type: String, required: false },
         domainId: { type: String, required: false },
         domainName: { type: String, required: false },
+        experience: { type: String, require: true },
+        monthlyPay: { type: String, require: true },
         status: {
           type: String,
-          enum: ["added", "verified", "rejected"],
+          enum: ["pending", "verified", "rejected"],
           required: false,
-          default: "added",
+          default: "pending",
         },
-        activestatus: {
-          type: String,
-          enum: ["Active", "Inactive"],
-          required: false,
-          default: "Active",
+        activeStatus: {
+          type: Boolean,
         },
       }),
       required: false,
@@ -371,7 +413,7 @@ const FreelancerSchema: Schema = new Schema(
     consultant: {
       type: Map,
       of: new Schema({
-        _id: { type: String, default: uuidv4, required: true },
+        _id: { type: String },
         status: {
           type: String,
           enum: [
@@ -416,6 +458,11 @@ const FreelancerSchema: Schema = new Schema(
       default: false,
       require: false,
     },
+    notInterestedProject: [
+      {
+        type: String,
+      },
+    ],
   },
   {
     timestamps: true,

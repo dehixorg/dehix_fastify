@@ -15,8 +15,8 @@ provider:
     securityGroupIds:
       - sg-00a7e063a51760a4c
     subnetIds:
-      - 'subnet-052466bf39d865cbc'
-      - 'subnet-06a068ba4e842ac48'
+      - "subnet-052466bf39d865cbc"
+      - "subnet-06a068ba4e842ac48"
   httpApi:
     # authorizers:
     #   firebaseJwtAuthorizer:
@@ -25,7 +25,7 @@ provider:
     #     audience:
     #       - ${file(../env/${self:provider.stage}.json):OPENID_AUD}
     cors:
-      allowedOrigins: '*'
+      allowedOrigins: "*"
       allowedHeaders:
         - Content-Type
         - X-Amz-Date
@@ -41,14 +41,14 @@ provider:
     REGION: ${self:provider.region}
 
   iamRoleStatements:
-    - Effect: 'Allow'
+    - Effect: "Allow"
       Action:
-        - 'lambda:*'
-      Resource: '*'
-    - Effect: 'Allow'
+        - "lambda:*"
+      Resource: "*"
+    - Effect: "Allow"
       Action:
-        - 's3:*'
-      Resource: '*'
+        - "s3:*"
+      Resource: "*"
 
 functions:
   handleAPI:
@@ -64,12 +64,12 @@ functions:
     package:
       individually: true
       exclude:
-        - './src/**'
-        - './tsconfig.json'
-        - './resources/**'
-        - './Readme.md'
-        - './lambda.ts'
-        - './package-lock.json'
+        - "./src/**"
+        - "./tsconfig.json"
+        - "./resources/**"
+        - "./Readme.md"
+        - "./lambda.ts"
+        - "./package-lock.json"
 
 resources:
   - ${file(resources/roles.yml)}

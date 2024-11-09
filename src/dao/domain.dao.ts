@@ -19,6 +19,8 @@ export class DomainDAO extends BaseDAO {
           const domain = await this.model.create({
             _id: uuidv4(),
             ...domainData,
+            createdBy: "admin",
+            status: "active",
           });
           return domain;
         }),
@@ -29,12 +31,47 @@ export class DomainDAO extends BaseDAO {
     }
   }
 
+  async findDomain(domain_id: string) {
+    return this.model.findById(domain_id);
+  }
+
   async getAllDomain() {
+    try {
+      const domains = await this.model.find({ status: "active" });
+      return domains;
+    } catch (error: any) {
+      throw new Error(`Failed to fetch domains: ${error.message}`);
+    }
+  }
+  async getAllDomainAdmin() {
     try {
       const domains = await this.model.find();
       return domains;
     } catch (error: any) {
       throw new Error(`Failed to fetch domains: ${error.message}`);
     }
+  }
+
+  async deleteDomain(id: string) {
+    return this.model.findByIdAndDelete(id);
+  }
+
+  async createDomain(data: any) {
+    return this.model.create(data);
+  }
+
+  async findDomainById(id: string) {
+    return this.model.findById(id);
+  }
+
+  async updateDomain(id: string, update: any) {
+    if (update.status) {
+      return this.model.findByIdAndUpdate(
+        { _id: id },
+        { ...update, status: update.status },
+        { new: true },
+      );
+    }
+    return this.model.findByIdAndUpdate({ _id: id }, update, { new: true });
   }
 }

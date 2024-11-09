@@ -12,10 +12,11 @@ import { BaseService } from "../common/base.service";
 import { ConflictError, NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { FreelancerDAO } from "../dao/freelancer.dao";
-import { IFreelancer } from "../models/freelancer.entity";
 import { firebaseClient } from "../common/services";
 import { SESService } from "../common/services";
 import { ProjectDAO } from "../dao/project.dao";
+import { VerificationService } from "./verifications.service";
+import { BidDAO } from "../dao";
 
 @Service()
 export class FreelancerService extends BaseService {
@@ -25,27 +26,41 @@ export class FreelancerService extends BaseService {
   @Inject(ProjectDAO)
   private ProjectDAO!: ProjectDAO;
 
+  @Inject(BidDAO)
+  private BidDAO!: BidDAO;
+
   @Inject(SESService)
   private sesService!: SESService;
 
-  async getAllFreelancer(filters: {
-    experience?: string[];
-    jobType?: string[];
-    domain?: string[];
-    skills?: string[];
-  }) {
+  @Inject(VerificationService)
+  private VerificationService!: VerificationService;
+
+  async getAllFreelancer(
+    filters: {
+      experience?: string[];
+      jobType?: string[];
+      domain?: string[];
+      skills?: string[];
+    },
+    page: string,
+    limit: string,
+  ) {
     const { experience, jobType, domain, skills } = filters;
 
     this.logger.info(
       `FreelancerService: Fetching all freelancers with filters - Experience: ${experience}, Job Type: ${jobType}, Domain: ${domain}, Skills: ${skills}`,
     );
 
-    const data = await this.FreelancerDAO.findAllFreelancers({
-      experience,
-      jobType,
-      domain,
-      skills,
-    });
+    const data = await this.FreelancerDAO.findAllFreelancers(
+      {
+        experience,
+        jobType,
+        domain,
+        skills,
+      },
+      page,
+      limit,
+    );
 
     return data;
   }
@@ -105,7 +120,7 @@ export class FreelancerService extends BaseService {
     return freelancer;
   }
 
-  async createFreelancerProfile(freelancer: IFreelancer) {
+  async createFreelancerProfile(freelancer: any) {
     try {
       this.logger.info(
         "FreelancerService: createFreelancerProfile: Creating Freelancer: ",
@@ -127,7 +142,11 @@ export class FreelancerService extends BaseService {
       //   subject: SUBJECT,
       //   textBody: TEXTBODY.replace(":passLink", reset_link),
       // });
-      const data: any = await this.FreelancerDAO.createFreelancer(freelancer);
+      const userObj = { ...freelancer, password: "" };
+      const data: any = await this.FreelancerDAO.createFreelancer(userObj);
+      if (data.description && data.description.length > 500) {
+        throw new Error("Description cannot exceed 500 characters.");
+      }
 
       return data;
     } catch (error: any) {
@@ -172,12 +191,25 @@ export class FreelancerService extends BaseService {
       );
     }
 
-    const updatedFreelancer = await this.FreelancerDAO.addFreelancerSkill(
-      freelancer_id,
-      skills,
+    const { skillIds, skillsWithId: addSkills } =
+      await this.FreelancerDAO.addFreelancerSkill(freelancer_id, skills);
+
+    console.log(skillIds);
+
+    await Promise.all(
+      skillIds.map((skillId) =>
+        this.VerificationService.requestVerification(
+          skillId,
+          "skill",
+          freelancer_id,
+        ),
+      ),
     );
 
-    return updatedFreelancer;
+    return {
+      addSkills,
+      freelancer_id,
+    };
   }
 
   async updateProfileFreelancer(freelancer_id: string, freelancer: any) {
@@ -191,6 +223,9 @@ export class FreelancerService extends BaseService {
       { _id: freelancer_id },
       freelancer,
     );
+    if (data.description && data.description.length > 500) {
+      throw new Error("Description cannot exceed 500 characters.");
+    }
 
     return data;
   }
@@ -329,10 +364,24 @@ export class FreelancerService extends BaseService {
       }
 
       // Create new experience entry
-      const createdExperience = await this.FreelancerDAO.addExperienceById(
-        freelancer_id,
-        experienceData,
-      );
+      const { experienceId, result: createdExperience } =
+        await this.FreelancerDAO.addExperienceById(
+          freelancer_id,
+          experienceData,
+        );
+
+      try {
+        await this.VerificationService.requestVerification(
+          experienceId,
+          "experience",
+          freelancer_id,
+        );
+      } catch (error: any) {
+        // Log the error using your logger service
+        this.logger.error(
+          `Error requesting verification for experience ID ${experienceId}: ${error.message}`,
+        );
+      }
       return createdExperience;
     } catch (error: any) {
       throw new Error(
@@ -359,9 +408,13 @@ export class FreelancerService extends BaseService {
       }
 
       // Create new education entry
-      const createdEducation = await this.FreelancerDAO.addEducationById(
+      const { educationId, result: createdEducation } =
+        await this.FreelancerDAO.addEducationById(freelancer_id, educationData);
+
+      await this.VerificationService.requestVerification(
+        educationId,
+        "education",
         freelancer_id,
-        educationData,
       );
       return createdEducation;
     } catch (error: any) {
@@ -428,11 +481,8 @@ export class FreelancerService extends BaseService {
       );
     }
 
-    const data = await this.ProjectDAO.getFreelancerProjects(
-      freelancer_id,
-      status,
-    );
-    this.logger.info(data, "in get freelancer projects");
+    const data = await this.BidDAO.getProjectByBidderId(freelancer_id, status);
+
     return data;
   }
 
@@ -487,9 +537,13 @@ export class FreelancerService extends BaseService {
       }
 
       // Create new project entry
-      const createdProject = await this.FreelancerDAO.addProjectById(
+      const { projectId, result: createdProject } =
+        await this.FreelancerDAO.addProjectById(freelancer_id, projectData);
+
+      await this.VerificationService.requestVerification(
+        projectId,
+        "project",
         freelancer_id,
-        projectData,
       );
       return createdProject;
     } catch (error: any) {
@@ -558,7 +612,7 @@ export class FreelancerService extends BaseService {
     return delete_project;
   }
 
-  async addFreelancerDomain(freelancer_id: string, domain: string[]) {
+  async addFreelancerDomain(freelancer_id: string, domains: string[]) {
     this.logger.info(
       `FreelancerService -> addFreelancerDomain -> Adding domain for freelancer ID: ${freelancer_id}`,
     );
@@ -575,12 +629,25 @@ export class FreelancerService extends BaseService {
       );
     }
 
-    const updatedFreelancer = await this.FreelancerDAO.addFreelancerDomain(
-      freelancer_id,
-      domain,
+    const { domainIds, domainsWithId: addDomains } =
+      await this.FreelancerDAO.addFreelancerDomain(freelancer_id, domains);
+
+    console.log(domainIds);
+
+    await Promise.all(
+      domainIds.map((domainId) =>
+        this.VerificationService.requestVerification(
+          domainId,
+          "domain",
+          freelancer_id,
+        ),
+      ),
     );
 
-    return updatedFreelancer;
+    return {
+      addDomains,
+      freelancer_id,
+    };
   }
 
   async deleteFreelancerDomain(freelancer_id: string, domain_id: string) {
@@ -699,6 +766,8 @@ export class FreelancerService extends BaseService {
         freelancer_id,
         dehixTalentData,
       );
+
+      // Return the newly created talent data
       return createDehixTalent;
     } catch (error: any) {
       throw new Error(
@@ -832,6 +901,124 @@ export class FreelancerService extends BaseService {
       freelancer_id,
       consultant_id,
     );
+    return data;
+  }
+  async notInterestedProject(freelancer_id: string, project_id: string) {
+    this.logger.info("services->freelancer.service->notInterestedProject");
+    const freelancerExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!freelancerExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+    const projectExist = await this.ProjectDAO.getProjectById(project_id);
+    if (!projectExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.NOT_FOUND("Project"),
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+    const data = await this.FreelancerDAO.updateNotInterestedProject(
+      freelancer_id,
+      project_id,
+    );
+    return data;
+  }
+
+  async getAllDehixTalent(limit: number, skip: number) {
+    this.logger.info(
+      "SkillsService: getAllDehixTalent: Fetching All dehix talent ",
+    );
+
+    const dehixTalent: any = await this.FreelancerDAO.getAllDehixTalent(
+      limit,
+      skip,
+    );
+
+    if (!dehixTalent || dehixTalent.length === 0) {
+      this.logger.error(
+        "FreelancerServices: getAllDehixTalent: Dehix talent not found ",
+      );
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.DEHIX_TALENT_NOT_FOUND,
+        ERROR_CODES.DEHIX_TALENT_NOT_FOUND,
+      );
+    }
+
+    return dehixTalent;
+  }
+
+  async getFreelancerDehixTalent(freelancer_id: string) {
+    this.logger.info(
+      "FreelancerService: freelancer get dehix talent: ",
+      freelancer_id,
+    );
+
+    const userExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const data =
+      await this.FreelancerDAO.getFreelancerDehixTalent(freelancer_id);
+    this.logger.info(data, "in get freelancer projects");
+    return data;
+  }
+
+  async updateDehixTalent(
+    freelancer_id: string,
+    dehixTalent_id: string,
+    update: any,
+  ) {
+    this.logger.info("FreelancerService: updateDehixTalent", freelancer_id);
+    const freelancerExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!freelancerExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+    const dehixTalent = await this.FreelancerDAO.getDehixTalentById(
+      freelancer_id,
+      dehixTalent_id,
+    );
+    if (!dehixTalent) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.DEHIX_TALENT_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+    const data = await this.FreelancerDAO.updateDehixTalent(
+      freelancer_id,
+      dehixTalent_id,
+      update,
+    );
+    return data;
+  }
+  async getFreelancerEducation(freelancer_id: string) {
+    this.logger.info(
+      "FreelancerService: freelancer get education: ",
+      freelancer_id,
+    );
+
+    const userExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const data = await this.FreelancerDAO.getFreelancerEducation(freelancer_id);
+    this.logger.info(data, "in get freelancer education");
     return data;
   }
 }

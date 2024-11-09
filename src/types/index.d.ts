@@ -13,6 +13,7 @@ declare module "fastify" {
     em: EntityManager;
     metadata: { [key: string]: any };
     decodedToken: any;
+    file(): Promise<FastifyMultipartFile>;
   }
 
   export interface FastifyInstance<

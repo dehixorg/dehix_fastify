@@ -10,11 +10,19 @@ export interface IHire extends Document {
   skillName: string;
   description: string;
   experience: string;
-  freelancerRequired: number;
   status: string;
-  visible: string;
-  freelancerApplied: string[];
-  freelancerSelected: string[];
+  visible: boolean;
+  freelancerRequired: number;
+  freelancerInLobby: {
+    _id: string;
+    freelancerId: string;
+    dehixTalentId: string;
+  }[];
+  freelancerSelected: {
+    _id: string;
+    freelancerId: string;
+    dehixTalentId: string;
+  }[];
 }
 
 // Define the Hire schema
@@ -58,33 +66,49 @@ const hireSchema: Schema<IHire> = new Schema(
       type: String,
       required: true,
     },
-    freelancerRequired: {
-      type: Number,
-      default: 1,
-      required: true,
-    },
     status: {
       type: String,
       enum: ["added", "approved", "closed", "completed"],
       default: "added",
     },
     visible: {
-      type: String,
-      enum: ["on", "off"],
-      default: "on",
+      type: Boolean,
     },
-    freelancerApplied: [
+    freelancerRequired: {
+      type: Number,
+      default: 1,
+      required: false,
+    },
+    freelancerInLobby: [
       {
-        type: String,
-        ref: "Freelancer",
-        required: false,
+        _id: {
+          type: String,
+          default: uuidv4,
+          required: true,
+        },
+        freelancerId: {
+          type: String,
+          ref: "Freelancer",
+        },
+        dehixTalentId: {
+          type: String,
+        },
       },
     ],
     freelancerSelected: [
       {
-        type: String,
-        ref: "Freelancer",
-        required: false,
+        _id: {
+          type: String,
+          default: uuidv4,
+          required: true,
+        },
+        freelancerId: {
+          type: String,
+          ref: "Freelancer",
+        },
+        dehixTalentId: {
+          type: String,
+        },
       },
     ],
   },

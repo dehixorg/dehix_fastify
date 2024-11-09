@@ -11,6 +11,7 @@ export interface PutFreelancerBody {
   email: string;
   phone: string;
   dob?: Date;
+  profilePic?: string;
   professionalInfo?: {
     company?: string;
     jobTitle?: string;
@@ -34,6 +35,14 @@ export interface PutFreelancerBody {
     interviewerRating?: number;
   }[];
   domain?: {
+    name: string;
+    level: string;
+    experience: string;
+    interviewStatus?: "pending" | "accepted" | "rejected" | "reapplied";
+    interviewInfo?: string;
+    interviewerRating?: number;
+  }[];
+  projectDomain?: {
     name: string;
     level: string;
     experience: string;
@@ -82,7 +91,7 @@ export interface PutFreelancerBody {
   personalWebsite?: string;
   perHourPrice?: number;
   connects?: number;
-  resume?: Buffer;
+  resume?: string;
   workExperience?: number;
   isFreelancer?: boolean;
   oracleStatus?:

@@ -3,6 +3,7 @@ import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
 import { IBusiness, BusinessModel } from "../models/business.entity";
 import { IProject, ProjectModel } from "../models/project.entity";
+import { v4 as uuidv4 } from "uuid";
 
 @Service()
 export class businessDAO extends BaseDAO {
@@ -56,8 +57,41 @@ export class businessDAO extends BaseDAO {
     return this.model.find();
   }
   async createProjectBusiness(data: any) {
-    return this.projectmodel.create(data);
+    try {
+      const { profiles } = data;
+      const updatedProfiles =
+        profiles?.map((profile: any) => ({
+          _id: uuidv4(),
+          ...profile,
+        })) || [];
+
+      const projectData = {
+        ...data,
+        profiles: updatedProfiles,
+      };
+
+      return await this.projectmodel.create(projectData);
+    } catch (error) {
+      console.error("Error creating project:", error);
+      throw new Error("Internal Server Error");
+    }
   }
+  async updateTotalBidProfile(
+    bidder_id: string,
+    profile_id: string,
+    project_id: string,
+  ) {
+    return this.projectmodel.findOneAndUpdate(
+      { _id: project_id, "profiles._id": profile_id },
+      {
+        $addToSet: {
+          "profiles.$.totalBid": bidder_id,
+        },
+      },
+      { new: true },
+    );
+  }
+
   async findBusinessProject(id: string) {
     return this.projectmodel.findById(id);
   }
@@ -75,13 +109,14 @@ export class businessDAO extends BaseDAO {
     return this.projectmodel.findByIdAndDelete(id);
   }
 
-  async addAppliedCandidateById(business_id: string, candidate_id: string) {
-    return this.model.findByIdAndUpdate(business_id, {
-      $addToSet: {
-        Appliedcandidates: candidate_id,
-      },
-    });
-  }
+  // async addAppliedCandidateById(business_id: string, candidate_id: string) {
+  //   return this.model.findByIdAndUpdate(business_id, {
+  //     $addToSet: {
+  //       Appliedcandidates: candidate_id,
+  //     },
+  //   });
+  // }
+
   async addCandidateByCategory(
     project_id: string,
     category: string,
@@ -103,13 +138,18 @@ export class businessDAO extends BaseDAO {
       { $set: { "TotalNeedOffreelancer.$.status": "not assigned" } },
     );
   }
-  async findAllProjects(filters: {
-    location?: string[];
-    jobType?: string[];
-    domain?: string[];
-    skills?: string[];
-  }) {
-    const { location, jobType, domain, skills } = filters;
+  async findAllProjects(
+    filters: {
+      location?: string[];
+      jobType?: string[];
+      domain?: string[];
+      skills?: string[];
+      projectDomain?: string[];
+    },
+    page: string = "1",
+    limit: string = "20",
+  ) {
+    const { location, jobType, domain, skills, projectDomain } = filters;
 
     // Build the query object based on the provided filters
     const query: any = {};
@@ -131,9 +171,50 @@ export class businessDAO extends BaseDAO {
       query.skillsRequired = { $in: skills };
     }
 
-    return await this.projectmodel.find(query);
+    if (projectDomain && projectDomain.length > 0) {
+      query.projectDomain = { $in: projectDomain };
+    }
+    query.status = { $ne: "Completed" };
+    const pageIndex: number = parseInt(page) - 1;
+    const pageSize: number = parseInt(limit);
+    const startIndex = pageIndex * pageSize;
+    return await this.projectmodel.find(query).skip(startIndex).limit(pageSize);
   }
   async getProjectById(project_id: string) {
     return this.projectmodel.findById(project_id);
+  }
+
+  async updateBusinessStatus(business_id: string, status: string) {
+    try {
+      return await this.model.findByIdAndUpdate(
+        business_id,
+        { status, updatedAt: new Date() },
+        { new: true },
+      );
+    } catch (error) {
+      console.error("Error updating business status:", error);
+      throw new Error("Failed to update business status");
+    }
+  }
+
+  async updateProjectProfile(
+    bidId: string,
+    freelancerId: string,
+    project_id: string,
+    profile_id: string,
+  ) {
+    const result = await this.projectmodel.updateOne(
+      { _id: project_id, "profiles._id": profile_id },
+      {
+        $addToSet: {
+          "profiles.$.freelancers": {
+            freelancerId: freelancerId,
+            bidId: bidId,
+          },
+        },
+      },
+    );
+
+    return result;
   }
 }

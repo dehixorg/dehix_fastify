@@ -1,7 +1,7 @@
 import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
-import { BaseDAO } from "src/common/base.dao";
-import { ConsultantModel, IConsultant } from "src/models/consultant.entity";
+import { BaseDAO } from "../common/base.dao";
+import { ConsultantModel, IConsultant } from "../models/consultant.entity";
 @Service()
 export class ConsultantDao extends BaseDAO {
   model: Model<IConsultant>;
@@ -18,8 +18,11 @@ export class ConsultantDao extends BaseDAO {
   async getConsultantById(consulant_id: string) {
     return this.model.findById(consulant_id);
   }
-  async getAllConsultant() {
-    return this.model.find();
+  async getAllConsultant(page: string = "1", limit: string = "20") {
+    const pages = parseInt(page) - 1;
+    const pageSize = parseInt(limit);
+    const pageIndex = pages * pageSize;
+    return this.model.find().skip(pageIndex).limit(pageSize);
   }
   async deleteConsultant(consultant_id: string) {
     return this.model.findByIdAndDelete(consultant_id);

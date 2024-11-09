@@ -68,9 +68,9 @@ export class InterviewService extends BaseService {
     return data;
   }
 
-  async getAllInterview() {
+  async getAllInterview(page: string, limit: string) {
     this.logger.info("service->interview.service->getAllInterview");
-    const data = await this.interviewDao.getAllInterviews();
+    const data = await this.interviewDao.getAllInterviews(page, limit);
     return data;
   }
   async getSingleInterview(interview_id: string) {
@@ -97,5 +97,30 @@ export class InterviewService extends BaseService {
       );
     }
     return data;
+  }
+  async currentinterview(interviewee_id: string) {
+    const data: any = await this.interviewDao.getInterviewById(interviewee_id);
+    if (!data) {
+      throw new Error("Interview not found");
+    }
+
+    const interviewdate = await data.interviewDate;
+    const currentdate = new Date();
+    if (interviewdate > currentdate) {
+      return data;
+    }
+  }
+
+  async completedinterview(interviewee_id: string) {
+    const data: any = await this.interviewDao.getInterviewById(interviewee_id);
+    if (!data) {
+      throw new Error("Interview not found");
+    }
+
+    const interviewDate = await data.interviewDate;
+    const currentdate = new Date();
+    if (interviewDate < currentdate) {
+      return data;
+    }
   }
 }
