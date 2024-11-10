@@ -81,4 +81,47 @@ export class BidDAO extends BaseDAO {
   async getBidByProjectProfile(profile_id: string) {
     return this.model.find({ profile_id: profile_id });
   }
+
+  async getProjectByBidderId(
+    bidder_id: string,
+    status?: "Active" | "Pending" | "Completed" | "Rejected",
+  ) {
+    let bidStatus;
+    if (status === "Active" || status === "Completed") {
+      bidStatus = "Accepted";
+    } else if (status === "Pending") {
+      bidStatus = "Pending";
+    } else {
+      bidStatus = "Rejected";
+    }
+
+    const result = await this.model.aggregate([
+      {
+        $match: {
+          bidder_id: bidder_id,
+          bid_status: bidStatus,
+        },
+      },
+      {
+        $lookup: {
+          from: "projects",
+          localField: "project_id",
+          foreignField: "_id",
+          as: "projectData",
+        },
+      },
+      {
+        $unwind: "$projectData",
+      },
+      // Only add this $match stage if status is "Active" or "Completed"
+      ...(status === "Active" || status === "Completed"
+        ? [{ $match: { "projectData.status": status } }]
+        : []),
+      {
+        $replaceRoot: { newRoot: "$projectData" },
+      },
+    ]);
+
+    return result;
+  }
 }

@@ -17,6 +17,7 @@ import { SESService } from "../common/services";
 import { ProjectDAO } from "../dao/project.dao";
 import { VerificationService } from "./verifications.service";
 import crypto from "crypto";
+import { BidDAO } from "../dao";
 
 @Service()
 export class FreelancerService extends BaseService {
@@ -25,6 +26,9 @@ export class FreelancerService extends BaseService {
 
   @Inject(ProjectDAO)
   private ProjectDAO!: ProjectDAO;
+
+  @Inject(BidDAO)
+  private BidDAO!: BidDAO;
 
   @Inject(SESService)
   private sesService!: SESService;
@@ -424,7 +428,7 @@ export class FreelancerService extends BaseService {
           "experience",
           freelancer_id,
         );
-      } catch (error) {
+      } catch (error: any) {
         // Log the error using your logger service
         this.logger.error(
           `Error requesting verification for experience ID ${experienceId}: ${error.message}`,
@@ -529,11 +533,8 @@ export class FreelancerService extends BaseService {
       );
     }
 
-    const data = await this.ProjectDAO.getFreelancerProjects(
-      freelancer_id,
-      status,
-    );
-    this.logger.info(data, "in get freelancer projects");
+    const data = await this.BidDAO.getProjectByBidderId(freelancer_id, status);
+
     return data;
   }
 
