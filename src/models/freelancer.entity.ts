@@ -470,32 +470,32 @@ const FreelancerSchema: Schema = new Schema(
       },
     ],
     referral: {
-      referralCode: { 
-        type: String, 
+      referralCode: {
+        type: String,
         required: false,
       },
-      referredBy: { 
-        type: String, 
-        required: false, 
+      referredBy: {
+        type: String,
+        required: false,
       },
       referredTo: [
-        { 
-          type: String, 
+        {
+          type: String,
           required: false,
-        }
+        },
       ],
-      referredCount: { 
-        type: Number, 
+      referredCount: {
+        type: Number,
         required: false,
       },
     },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export const FreelancerModel: Model<IFreelancer> = mongoose.model<IFreelancer>(
   "Freelancer",
-  FreelancerSchema
+  FreelancerSchema,
 );

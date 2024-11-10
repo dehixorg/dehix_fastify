@@ -16,7 +16,7 @@ import { firebaseClient } from "../common/services";
 import { SESService } from "../common/services";
 import { ProjectDAO } from "../dao/project.dao";
 import { VerificationService } from "./verifications.service";
-import crypto from 'crypto';
+import crypto from "crypto";
 
 @Service()
 export class FreelancerService extends BaseService {
@@ -117,6 +117,17 @@ export class FreelancerService extends BaseService {
     return freelancer;
   }
 
+  // Generate referral code for new user
+  async generateReferralCode(userName: string) {
+    const randomStr = crypto
+      .randomBytes(3)
+      .toString("hex")
+      .slice(0, 5)
+      .toUpperCase();
+    const prefix = userName.slice(0, 4).toUpperCase();
+    return `${prefix}${randomStr}`;
+  }
+
   async createFreelancerProfile(freelancer: any, referralCode?: string | null) {
     try {
       this.logger.info(
@@ -135,7 +146,8 @@ export class FreelancerService extends BaseService {
       // Check if referral code is provided and referrer is valid
       let referrer: any = null;
       if (referralCode != null) {
-        referrer = await this.FreelancerDAO.getFreelancerByReferralCode(referralCode);
+        referrer =
+          await this.FreelancerDAO.getFreelancerByReferralCode(referralCode);
         if (!referrer) {
           this.logger.error(
             "FreelancerService: createFreelancerProfile: Referrer not found with Referral Code: ",
@@ -163,14 +175,11 @@ export class FreelancerService extends BaseService {
       //   subject: SUBJECT,
       //   textBody: TEXTBODY.replace(":passLink", reset_link),
       // });
-    
-      // generate referrer code for new user
-      async function generateReferralCode() {
-        const randomStr = crypto.randomBytes(3).toString('hex').slice(0, 5).toUpperCase();
-        const prefix = freelancer.userName.slice(0, 4).toUpperCase();
-        return `${prefix}${randomStr}`;
-      }
-      freelancer.referral.referralCode = await generateReferralCode(); //Assign referralCode
+
+      // Generate referrer code for new user
+      freelancer.referral.referralCode = await this.generateReferralCode(
+        freelancer.userName,
+      ); //Assign referralCode
 
       // create new freelancer
       const userObj = { ...freelancer, password: "" };
@@ -181,8 +190,10 @@ export class FreelancerService extends BaseService {
 
       // Add referral bonus if the referrer exists
       if (referrer) {
-        const referDetails = await this.FreelancerDAO.addReferralBonus(referrer._id, freelancer._id);
-        // console.log("Referral details: ->>>>>>", referDetails);
+        await this.FreelancerDAO.addReferralBonus(referrer._id, freelancer._id);
+        this.logger.info(
+          `FreelancerService: createFreelancerProfile: Referral bonus added for Referrer ID: ${referrer._id} and Referee ID: ${freelancer._id}`,
+        );
       }
 
       return data;

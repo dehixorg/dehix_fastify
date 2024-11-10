@@ -29,7 +29,10 @@ export default class RegisterController extends BaseController {
 
   @POST(FREELANCER_ENDPOINT, { schema: createFreelancerSchema })
   async create(
-    request: FastifyRequest<{ Body: IFreelancer, Querystring: { referralCode? : string} }>,
+    request: FastifyRequest<{
+      Body: IFreelancer;
+      Querystring: { referralCode?: string };
+    }>,
     reply: FastifyReply,
   ) {
     try {
@@ -45,7 +48,7 @@ export default class RegisterController extends BaseController {
           code: ERROR_CODES.BAD_REQUEST_ERROR,
         });
       }
-    
+
       const data = await this.freelancerService.createFreelancerProfile(
         request.body,
         referralCode,
