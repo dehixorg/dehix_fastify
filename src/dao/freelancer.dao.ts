@@ -713,7 +713,7 @@ export class FreelancerDAO extends BaseDAO {
     try {
       return await this.model.find(
         { _id: freelancer_id },
-        { dehixTalent: 1, _id: 0 },
+        { dehixTalent: 1, _id: 1 },
       );
     } catch (error) {
       console.error("Error fetching freelancer dehix talent:", error);
