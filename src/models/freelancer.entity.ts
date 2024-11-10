@@ -156,6 +156,12 @@ export interface IFreelancer extends Document {
   interviewsAligned?: string[];
   interviewee?: boolean;
   notInterestedProject?: string[];
+  referral?: {
+    referralCode?: string;
+    referredBy?: string;
+    referredTo?: string[];
+    referredCount?: number;
+  };
 }
 
 const FreelancerSchema: Schema = new Schema(
@@ -463,13 +469,33 @@ const FreelancerSchema: Schema = new Schema(
         type: String,
       },
     ],
+    referral: {
+      referralCode: { 
+        type: String, 
+        required: false,
+      },
+      referredBy: { 
+        type: String, 
+        required: false, 
+      },
+      referredTo: [
+        { 
+          type: String, 
+          required: false,
+        }
+      ],
+      referredCount: { 
+        type: Number, 
+        required: false,
+      },
+    },
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 export const FreelancerModel: Model<IFreelancer> = mongoose.model<IFreelancer>(
   "Freelancer",
-  FreelancerSchema,
+  FreelancerSchema
 );

@@ -29,15 +29,26 @@ export default class RegisterController extends BaseController {
 
   @POST(FREELANCER_ENDPOINT, { schema: createFreelancerSchema })
   async create(
-    request: FastifyRequest<{ Body: IFreelancer }>,
+    request: FastifyRequest<{ Body: IFreelancer, Querystring: { referralCode? : string} }>,
     reply: FastifyReply,
   ) {
     try {
       this.logger.info(
         `FreelancerController -> create -> : Creating a new freelancer`,
       );
+
+      const referralCode: string | null = request.query.referralCode || null;
+      // Validate referral code format
+      if (referralCode && !referralCode.match(/^[A-Z0-9]{9}$/)) {
+        return reply.status(STATUS_CODES.BAD_REQUEST).send({
+          message: "Invalid referral code format",
+          code: ERROR_CODES.BAD_REQUEST_ERROR,
+        });
+      }
+    
       const data = await this.freelancerService.createFreelancerProfile(
         request.body,
+        referralCode,
       );
       this.logger.warn(data);
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -49,6 +60,14 @@ export default class RegisterController extends BaseController {
       if (error.message === RESPONSE_MESSAGE.USER_EXISTS) {
         return reply.status(STATUS_CODES.BAD_REQUEST).send({
           message: RESPONSE_MESSAGE.USER_EXISTS,
+          code: ERROR_CODES.BAD_REQUEST_ERROR,
+        });
+      }
+
+      // If the error is related to the referral code being invalid, return 400
+      if (error.message.includes("Invalid referral code.")) {
+        return reply.status(STATUS_CODES.BAD_REQUEST).send({
+          message: "Invalid referral code.",
           code: ERROR_CODES.BAD_REQUEST_ERROR,
         });
       }

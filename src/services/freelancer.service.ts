@@ -16,6 +16,7 @@ import { firebaseClient } from "../common/services";
 import { SESService } from "../common/services";
 import { ProjectDAO } from "../dao/project.dao";
 import { VerificationService } from "./verifications.service";
+import crypto from 'crypto';
 
 @Service()
 export class FreelancerService extends BaseService {
@@ -116,12 +117,35 @@ export class FreelancerService extends BaseService {
     return freelancer;
   }
 
-  async createFreelancerProfile(freelancer: any) {
+  async createFreelancerProfile(freelancer: any, referralCode?: string | null) {
     try {
       this.logger.info(
         "FreelancerService: createFreelancerProfile: Creating Freelancer: ",
         freelancer,
       );
+      /*
+        Flow will be in this order:
+          1- check if referral code given or not, if yes then check the referrer exits not not
+          2- create firebase user
+          3- generatw referral code for new user
+          4- create new freelancer in db
+          5- after succesful creation of freelancer, referral bonus will be given
+      */
+
+      // Check if referral code is provided and referrer is valid
+      let referrer: any = null;
+      if (referralCode != null) {
+        referrer = await this.FreelancerDAO.getFreelancerByReferralCode(referralCode);
+        if (!referrer) {
+          this.logger.error(
+            "FreelancerService: createFreelancerProfile: Referrer not found with Referral Code: ",
+            referralCode,
+          );
+          throw new Error("Invalid referral code.");
+        }
+      }
+
+      // Create Firebase user
       const freelancer_id =
         await firebaseClient.createFireBaseUserWithCustomClaims(
           freelancer.email,
@@ -130,6 +154,7 @@ export class FreelancerService extends BaseService {
           freelancer.phone,
         );
       freelancer._id = freelancer_id;
+
       //uncomment when SES is up
       // const { SENDER, SUBJECT, TEXTBODY } = CREATE_PASSWORD_EMAIL_CONSTANTS;
       // await this.sesService.sendEmail({
@@ -138,10 +163,26 @@ export class FreelancerService extends BaseService {
       //   subject: SUBJECT,
       //   textBody: TEXTBODY.replace(":passLink", reset_link),
       // });
+    
+      // generate referrer code for new user
+      async function generateReferralCode() {
+        const randomStr = crypto.randomBytes(3).toString('hex').slice(0, 5).toUpperCase();
+        const prefix = freelancer.userName.slice(0, 4).toUpperCase();
+        return `${prefix}${randomStr}`;
+      }
+      freelancer.referral.referralCode = await generateReferralCode(); //Assign referralCode
+
+      // create new freelancer
       const userObj = { ...freelancer, password: "" };
       const data: any = await this.FreelancerDAO.createFreelancer(userObj);
       if (data.description && data.description.length > 500) {
         throw new Error("Description cannot exceed 500 characters.");
+      }
+
+      // Add referral bonus if the referrer exists
+      if (referrer) {
+        const referDetails = await this.FreelancerDAO.addReferralBonus(referrer._id, freelancer._id);
+        // console.log("Referral details: ->>>>>>", referDetails);
       }
 
       return data;
