@@ -16,7 +16,3 @@ skill_status: "active" | "inactive" | "archived"
 ticket_coustomertype: "business" | "freelancer"
 ticket_status: "created" | "closed" | "active"
 verification_status: "Pending" | "Approved" | "Denied"
-
-
-
-
