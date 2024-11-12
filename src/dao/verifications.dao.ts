@@ -138,10 +138,12 @@ export class VerificationDAO extends BaseDAO {
       | "project"
       | "experience"
       | "business",
+    type?: "freelancer" | "admin",
   ) {
     try {
       const query = {
         ...(doc_type && { doc_type }),
+        ...(type && { type }),
       };
       const verificationData = await this.model.find(query);
 
@@ -199,5 +201,37 @@ export class VerificationDAO extends BaseDAO {
     );
 
     return data;
+  }
+  async getVerificationByVerifierId(
+    verifier_id: string,
+    doc_type:
+      | "skill"
+      | "domain"
+      | "education"
+      | "project"
+      | "experience"
+      | "business",
+  ) {
+    const query = {
+      verifier_id: verifier_id,
+      ...(doc_type && { doc_type }),
+    };
+    return await this.model.find(query);
+  }
+  async updateVerificationById(_id: string, comment: string, verifiedAt: Date) {
+    try {
+      const updatedComment = await this.model.findOneAndUpdate(
+        { _id },
+        {
+          comment: comment,
+          verifiedAt: verifiedAt || new Date(),
+        },
+        { new: true },
+      );
+
+      return updatedComment;
+    } catch (error: any) {
+      throw new Error("Error updating comment: " + error.message);
+    }
   }
 }
