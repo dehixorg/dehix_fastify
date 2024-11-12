@@ -34,7 +34,7 @@ export const getBidForProjectIdSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -68,7 +68,7 @@ export const getBidForBidderIdSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -96,7 +96,7 @@ export const getAllBidsSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -132,6 +132,6 @@ export const getBidForProfileIdSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

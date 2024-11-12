@@ -25,7 +25,7 @@ export const getAllAdminSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -53,6 +53,6 @@ export const getAdminByIdSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

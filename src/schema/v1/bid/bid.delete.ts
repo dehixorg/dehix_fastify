@@ -17,6 +17,6 @@ export const deleteBidSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

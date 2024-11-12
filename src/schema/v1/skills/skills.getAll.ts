@@ -35,7 +35,7 @@ export const getSkillsSchema: FastifySchema = {
           },
         },
       },
-      ...commonErrorResponses
+      ...commonErrorResponses,
     },
   },
 };

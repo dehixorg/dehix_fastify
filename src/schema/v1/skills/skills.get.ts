@@ -24,6 +24,6 @@ export const getSkillByIdSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

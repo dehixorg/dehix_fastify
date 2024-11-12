@@ -20,6 +20,6 @@ export const deleteConsultantSchema: FastifySchema = {
         message: { type: "string" },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

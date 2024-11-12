@@ -301,7 +301,7 @@ export const updateFreelancerSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -384,7 +384,7 @@ export const addFreelancerSkillsSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -492,7 +492,7 @@ export const addFreelancerDomainSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -541,7 +541,7 @@ export const oracleStatusSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -588,7 +588,7 @@ export const interviewsAlignedSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -650,7 +650,7 @@ export const experinceInProfessionalInfo: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -708,7 +708,7 @@ export const updateEducationSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -779,7 +779,7 @@ export const updateProjectSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -805,7 +805,7 @@ export const updateNotInterestedProjectSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -857,6 +857,6 @@ export const updateDehixTalentSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

@@ -27,6 +27,6 @@ export const updateFaqSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

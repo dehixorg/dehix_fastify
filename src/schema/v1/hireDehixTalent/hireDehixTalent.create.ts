@@ -113,7 +113,7 @@ export const createhireDehixTalentSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -130,6 +130,6 @@ export const addTalentIntoLobbySchema: FastifySchema = {
   },
   response: {
     // TODO: Add 200 response schema
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

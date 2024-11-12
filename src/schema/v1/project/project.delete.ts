@@ -19,6 +19,6 @@ export const deleteProjectSchema: FastifySchema = {
         message: { type: "string" },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

@@ -65,7 +65,7 @@ export const getVerificationDataSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -107,6 +107,6 @@ export const getAllVerificationDataSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

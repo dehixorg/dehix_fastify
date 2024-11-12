@@ -22,6 +22,6 @@ export const deleteFaqSchema: FastifySchema = {
         message: { type: "string" },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

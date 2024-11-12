@@ -22,6 +22,6 @@ export const deleteHireDehixTalentSchema: FastifySchema = {
         message: { type: "string" },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

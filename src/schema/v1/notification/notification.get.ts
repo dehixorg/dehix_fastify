@@ -32,7 +32,7 @@ export const getNotificationSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -69,6 +69,6 @@ export const getAllNotificationsSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
-  }
-}
+    ...commonErrorResponses,
+  },
+};

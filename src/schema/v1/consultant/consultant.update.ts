@@ -34,6 +34,6 @@ export const updateConsultantSchema: FastifySchema = {
         code: { type: "string" },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

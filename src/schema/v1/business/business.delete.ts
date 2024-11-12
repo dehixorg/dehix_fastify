@@ -27,6 +27,6 @@ export const deleteHireFreelancerSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

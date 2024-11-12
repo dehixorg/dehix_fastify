@@ -75,6 +75,6 @@ export const updateBusinessSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

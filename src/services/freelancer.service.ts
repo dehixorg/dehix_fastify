@@ -999,7 +999,7 @@ export class FreelancerService extends BaseService {
     );
     return data;
   }
-  
+
   async getFreelancerEducation(freelancer_id: string) {
     this.logger.info(
       "FreelancerService: freelancer get education: ",

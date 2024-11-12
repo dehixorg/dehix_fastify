@@ -146,7 +146,7 @@ export const UpdateHireDehixTalent: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -249,6 +249,6 @@ export const updateStatusHireDehixTalentSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

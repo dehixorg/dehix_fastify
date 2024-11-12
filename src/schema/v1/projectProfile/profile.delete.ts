@@ -19,6 +19,6 @@ export const deleteProjectProfileByIdSchema: FastifySchema = {
         message: { type: "string" },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

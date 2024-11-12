@@ -3,4 +3,3 @@ export const PROJECT_DOMAIN_ENDPOINT = "/projectdomain";
 
 // Endpoint for deleting a project domain by its ID
 export const PROJECT_DOMAIN_BY_ID_ENDPOINT = "/:projectdomain_id";
-

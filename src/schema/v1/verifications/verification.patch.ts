@@ -53,6 +53,6 @@ export const updateVerificationStatusSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

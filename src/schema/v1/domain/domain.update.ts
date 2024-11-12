@@ -29,6 +29,6 @@ export const updateDomainSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

@@ -57,6 +57,6 @@ export const createInterviewSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

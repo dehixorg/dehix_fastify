@@ -37,7 +37,7 @@ export const getProjectSchema: FastifySchema = {
   },
   response: {
     // TODO: Add 200 response schema
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -46,7 +46,7 @@ export const getAllProjectsSchema: FastifySchema = {
   tags: ["Project"],
   response: {
     // TODO: Add 200 response schema
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -55,6 +55,6 @@ export const getProjectsAndBidsSchema: FastifySchema = {
   tags: ["Project"],
   response: {
     // TODO: Add 200 response schema
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

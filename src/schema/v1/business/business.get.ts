@@ -6,7 +6,7 @@ export const getBusinessSchema: FastifySchema = {
   tags: ["Business"],
   response: {
     // TODO: Add 200 response schema
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -91,6 +91,6 @@ export const getBusinessProjectSchema: FastifySchema = {
   },
   response: {
     // TODO: Add 200 response schema
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

@@ -49,6 +49,6 @@ export const createConsultantSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

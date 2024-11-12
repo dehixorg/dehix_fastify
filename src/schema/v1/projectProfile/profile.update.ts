@@ -33,6 +33,6 @@ export const updateProjectProfileByIdSchema: FastifySchema = {
         data: { type: "object" },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

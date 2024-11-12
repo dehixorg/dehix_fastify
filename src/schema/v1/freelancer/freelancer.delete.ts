@@ -17,7 +17,7 @@ export const deleteFreelancerProjectSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -46,7 +46,7 @@ export const deleteFreelancerSkillSchema: FastifySchema = {
         data: { type: "object" },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 export const deleteProfessionalInfoSchema: FastifySchema = {
@@ -74,7 +74,7 @@ export const deleteProfessionalInfoSchema: FastifySchema = {
         message: { type: "string" },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -103,7 +103,7 @@ export const deleteEducationSchema: FastifySchema = {
         message: { type: "string" },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -132,7 +132,7 @@ export const deleteFreelancerDomainSchema: FastifySchema = {
         data: { type: "object" },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -161,6 +161,6 @@ export const deleteDehixTalentFreelancerSchema: FastifySchema = {
         message: { type: "string" },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

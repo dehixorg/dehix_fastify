@@ -37,8 +37,7 @@ export const GET_BUSINESS_SINGLE_PROJECT_BY_ID =
   "/:project_id/freelancer/:freelancer_id";
 
 // Endpoint to retrieve a single project by its project ID without verifying additional data (e.g., freelancer ID)
-export const GET_BUSINESS_SINGLE_PROJECT_BY_ID_WITH_OUT_CHECK =
-  "/:project_id";
+export const GET_BUSINESS_SINGLE_PROJECT_BY_ID_WITH_OUT_CHECK = "/:project_id";
 
 // Endpoint for retrieving all projects in the system
 export const ALL_PROJECT_ENDPOINT = "";

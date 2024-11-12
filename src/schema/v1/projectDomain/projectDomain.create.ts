@@ -26,6 +26,6 @@ export const createProjectDomainSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

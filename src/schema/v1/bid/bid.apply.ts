@@ -34,6 +34,6 @@ export const bidApplySchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

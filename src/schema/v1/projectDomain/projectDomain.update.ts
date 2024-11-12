@@ -27,6 +27,6 @@ export const updateProjectDomainSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

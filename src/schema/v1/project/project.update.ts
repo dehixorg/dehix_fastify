@@ -151,6 +151,6 @@ export const updateProjectStatusSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

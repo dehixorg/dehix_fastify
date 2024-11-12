@@ -41,7 +41,7 @@ export const getFreelancerSchema: FastifySchema = {
   },
   response: {
     // TODO: Add 200 response schema
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -157,7 +157,7 @@ export const getFreelancerOwnProjectSchema: FastifySchema = {
   tags: ["Freelancer"],
   response: {
     // TODO: Add 200 response schema
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -166,7 +166,7 @@ export const getFreelancerSkillsSchema: FastifySchema = {
   tags: ["Freelancer"],
   response: {
     // TODO: Add 200 response schema
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -175,7 +175,7 @@ export const getFreelancerDomainSchema: FastifySchema = {
   tags: ["Freelancer"],
   response: {
     // TODO: Add 200 response schema
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -197,7 +197,7 @@ export const getAllDehixTalentSchema: FastifySchema = {
   },
   response: {
     // TODO: Add 200 response schema
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -206,7 +206,7 @@ export const getFreelancerDehixTalentSchema: FastifySchema = {
   tags: ["Freelancer"],
   response: {
     // TODO: Add 200 response schema
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
 
@@ -215,6 +215,6 @@ export const getFreelancerEducationSchema: FastifySchema = {
   tags: ["Freelancer"],
   response: {
     // TODO: Add 200 response schema
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

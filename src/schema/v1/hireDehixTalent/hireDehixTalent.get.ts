@@ -6,6 +6,6 @@ export const getHireDehixTalentSchema: FastifySchema = {
   tags: ["Hire"],
   response: {
     // TODO: Add 200 response schema
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };

@@ -24,6 +24,6 @@ export const getDomainByIdSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses
+    ...commonErrorResponses,
   },
 };
