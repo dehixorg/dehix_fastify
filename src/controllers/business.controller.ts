@@ -17,6 +17,7 @@ import {
 import {
   getBusinessSchema,
   getBusinessDetailsSchema,
+  getAllBusinessSchema,
 } from "../schema/v1/business/business.get";
 import {
   updateBusinessSchema,
