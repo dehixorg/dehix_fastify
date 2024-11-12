@@ -32,8 +32,8 @@ const DomainSchema: Schema<IDomain> = new Schema(
     },
     status: {
       type: String,
-      enum: ["Active", "In Active", "Archived"],
-      default: "Active",
+      enum: ["active", "inctive", "archived"],
+      default: "active",
     },
   },
   {

@@ -11,6 +11,7 @@ import {
   FAQ_DELETE_BY_ID_ENDPOINT,
   FAQ_ENDPOINT,
   FAQ_UPDATE_BY_ID_ENDPOINT,
+  UPDATE_STATUS_OF_FAQ_BY_FAQ_ID,
 } from "../constants/faq.constant"; // Importing constants defining FAQ endpoints
 import { FaqService } from "../services"; // Importing the FAQ service to handle business logic
 import { createFaqSchema } from "../schema/v1/faq/faq.create"; // Importing schema for creating FAQ validation
@@ -18,8 +19,15 @@ import { CreateFaqBody } from "../types/v1/faq/createFaq"; // Importing type def
 import { DeleteFaqPathParams } from "../types/v1/faq/deleteFaq"; // Importing type definitions for deleting FAQ
 import { deleteFaqSchema } from "../schema/v1/faq/faq.delete"; // Importing schema for deleting FAQ validation
 import { getAllFaqSchema } from "../schema/v1/faq/faq.get"; // Importing schema for fetching all FAQs
-import { PutFaqBody } from "../types/v1/faq/updateFaq"; // Importing type definitions for updating FAQ
-import { updateFaqSchema } from "../schema/v1/faq/faq.update"; // Importing schema for updating FAQ validation
+import {
+  PutFaqBody,
+  PutFaqPathParams,
+  PutFaqStatusBody,
+} from "../types/v1/faq/updateFaq"; // Importing type definitions for updating FAQ
+import {
+  updateFaqSchema,
+  updateFaqStatusSchema,
+} from "../schema/v1/faq/faq.update"; // Importing schema for updating FAQ validation
 
 // Define the FaqController class with a base route of FAQ_ENDPOINT
 @Controller({ route: FAQ_ENDPOINT })
@@ -169,6 +177,57 @@ export default class FaqController extends AuthController {
         });
       } else {
         // Send a server error response for any other errors
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+  @PUT(UPDATE_STATUS_OF_FAQ_BY_FAQ_ID, {
+    schema: updateFaqStatusSchema,
+  })
+  async updateFaqStatusById(
+    request: FastifyRequest<{
+      Params: PutFaqPathParams;
+      Body: PutFaqStatusBody;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FaqController -> updateFaqStatusById -> Updating status with ID: ${request.params.faq_id}`,
+      );
+
+      const data = await this.faqService.updateFaqStatus(
+        request.params.faq_id,
+        request.body.status,
+      );
+
+      reply.status(STATUS_CODES.SUCCESS).send({
+        message: "Faq Status updated",
+        data,
+      });
+    } catch (error: any) {
+      this.logger.error(`Error in updateFaqStatusById: ${error.message}`);
+
+      if (
+        error.ERROR_CODES === "FAQ_NOT_FOUND" ||
+        error.message.includes("Faq with provided ID could not be found.")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Faq"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else if (
+        error.ERROR_CODES === "FAQ_NOT_FOUND" ||
+        error.message.includes("Faq not found by id")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("FAQ"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
         reply.status(STATUS_CODES.SERVER_ERROR).send({
           message: RESPONSE_MESSAGE.SERVER_ERROR,
           code: ERROR_CODES.SERVER_ERROR,

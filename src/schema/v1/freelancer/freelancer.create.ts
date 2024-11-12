@@ -14,6 +14,7 @@ export const createFreelancerSchema: FastifySchema = {
       password: { type: "string" },
       phone: { type: "string" },
       dob: { type: "string", format: "date-time" },
+      profilePic: { type: "string" },
       professionalInfo: {
         type: "object",
         properties: {

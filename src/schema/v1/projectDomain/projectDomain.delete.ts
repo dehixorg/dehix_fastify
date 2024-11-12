@@ -3,7 +3,7 @@ import { commonErrorResponses } from "../commonErrorCodes";
 
 export const deleteProjectDomainSchema: FastifySchema = {
   description: "API to delete project-domain data",
-  tags: ["Project_Domain"],
+  tags: ["Project Domain"],
   params: {
     type: "object",
     properties: {

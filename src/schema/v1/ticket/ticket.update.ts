@@ -1,14 +1,14 @@
 import { FastifySchema } from "fastify";
-import { commonErrorResponses } from "../commonErrorCodes";
 
-export const updateFaqSchema: FastifySchema = {
-  description: "API to update a Faq",
-  tags: ["Faq"],
+export const updateTicketSchema: FastifySchema = {
+  description: "API for update Ticket",
+  tags: ["Ticket"],
   body: {
     type: "object",
     properties: {
-      question: { type: "string" },
-      answer: { type: "string" },
+      customerType: { type: "string" },
+      description: { type: "string" },
+      subject: { type: "string" },
     },
     required: [],
   },
@@ -20,27 +20,54 @@ export const updateFaqSchema: FastifySchema = {
         data: {
           type: "object",
           properties: {
-            _id: { type: "string" },
-            question: { type: "string" },
-            answer: { type: "string" },
+            customerType: { type: "string" },
+            description: { type: "string" },
+            subject: { type: "string" },
           },
         },
       },
     },
-    ...commonErrorResponses,
+    401: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
   },
 };
 
-export const updateFaqStatusSchema = {
-  description: "API to update faq status",
-  tags: ["Faq"],
+export const updateTicketStatusSchema = {
+  description: "API to update ticket status",
+  tags: ["Ticket"],
   body: {
     type: "object",
     properties: {
       status: {
         type: "string",
-        enum: ["active", "inactive"],
-        description: "The status of the faq",
+        enum: ["created", "closed", "active"],
+        description: "The status of the Ticket",
       },
     },
     required: ["status"],

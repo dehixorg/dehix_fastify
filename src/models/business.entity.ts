@@ -7,9 +7,11 @@ export interface IBusiness extends Document {
   firstName: string;
   lastName: string;
   companyName: string;
+  profilePic: string;
   companySize: string;
   email: string;
   phone: string;
+  status: "Active" | "Inactive" | "Notverified";
   position?: string;
   refer?: string;
   verified?: any;
@@ -39,6 +41,10 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
       type: String,
       required: true,
     },
+    profilePic: {
+      type: String,
+      required: false,
+    },
     companySize: {
       type: String,
       required: true,
@@ -50,6 +56,11 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
     phone: {
       type: String,
       required: true,
+    },
+    status: {
+      type: String,
+      enum: ["Active", "Inactive", "Notverified"],
+      default: "Notverified",
     },
     position: {
       type: String,

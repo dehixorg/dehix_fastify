@@ -3,7 +3,7 @@ import { commonErrorResponses } from "../commonErrorCodes";
 
 export const createProjectDomainSchema: FastifySchema = {
   description: "API for creating Project-Domain",
-  tags: ["Project_Domain"],
+  tags: ["Project Domain"],
   body: {
     type: "object",
     properties: {

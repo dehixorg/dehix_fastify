@@ -11,6 +11,7 @@ export interface PutFreelancerBody {
   email: string;
   phone: string;
   dob?: Date;
+  profilePic?: string;
   professionalInfo?: {
     company?: string;
     jobTitle?: string;
@@ -90,7 +91,7 @@ export interface PutFreelancerBody {
   personalWebsite?: string;
   perHourPrice?: number;
   connects?: number;
-  resume?: Buffer;
+  resume?: string;
   workExperience?: number;
   isFreelancer?: boolean;
   oracleStatus?:

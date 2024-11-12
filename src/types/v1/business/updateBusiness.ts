@@ -7,6 +7,7 @@ export interface PutBusinessBody {
   firstName: string;
   lastName: string;
   companyName: string;
+  profilePic: string;
   companySize: string;
   password: string;
   email: string;
@@ -20,4 +21,8 @@ export interface PutBusinessBody {
   isBusiness: boolean;
   connects: number;
   ProjectList: string[];
+}
+
+export interface PutBusinessStatusBody {
+  status: string;
 }

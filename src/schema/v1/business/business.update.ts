@@ -17,6 +17,9 @@ export const updateBusinessSchema: FastifySchema = {
       companyName: {
         type: "string",
       },
+      profilePic: {
+        type: "string",
+      },
       companySize: {
         type: "string",
       },
@@ -76,5 +79,57 @@ export const updateBusinessSchema: FastifySchema = {
       },
     },
     ...commonErrorResponses,
+  },
+};
+
+export const updateBusinessStatusSchema = {
+  description: "API to update business status",
+  tags: ["Business"],
+  body: {
+    type: "object",
+    properties: {
+      status: {
+        type: "string",
+        enum: ["Active", "Inactive", "Notverified"], // Allowed values for status
+        description: "The status of the business",
+      },
+    },
+    required: ["status"], // status is required
+  },
+  response: {
+    200: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+        },
+        code: {
+          type: "string",
+        },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
   },
 };

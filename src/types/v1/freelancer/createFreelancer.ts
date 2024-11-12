@@ -70,6 +70,7 @@ export interface CreateFreelancerBody {
   email: string;
   phone: string;
   dob: string;
+  profilePic: string;
   professionalInfo: ProfessionalInfo[];
   skills: Skill[];
   education: Education[];
