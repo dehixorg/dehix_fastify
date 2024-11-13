@@ -24,10 +24,11 @@ export class TransactionDAO extends BaseDAO {
     return data;
   }
   async deleteTransaction(transaction_id: string) {
-    return this.model.findByIdAndDelete(transaction_id
-    );
+    return this.model.findByIdAndDelete(transaction_id);
   }
-  async getTransactionByType(type: "payment" | "referral" | "rewards" | "system generated") {
+  async getTransactionByType(
+    type: "payment" | "referral" | "rewards" | "system generated",
+  ) {
     try {
       const query = {
         ...(type && { type }),
@@ -38,7 +39,9 @@ export class TransactionDAO extends BaseDAO {
       throw new Error(`Failed to fetch transaction data: ${error.message}`);
     }
   }
-  async getTransactionByFromType(from_type: "system" | "freelancer" | "business" | "admin") {
+  async getTransactionByFromType(
+    from_type: "system" | "freelancer" | "business" | "admin",
+  ) {
     try {
       const query = {
         ...(from_type && { from_type }),

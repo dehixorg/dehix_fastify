@@ -6,15 +6,15 @@ export const updateTransactionSchema: FastifySchema = {
   body: {
     type: "object",
     properties: {
-      type: { 
+      type: {
         type: "string",
-        enum: ["payment", "referral", "reward", "system generated"]
-    },
-    reference: { type: "string" },
-    from_type: { 
+        enum: ["payment", "referral", "reward", "system generated"],
+      },
+      reference: { type: "string" },
+      from_type: {
         type: "string",
-        enum: ["system", "freelancer", "business", "admin"]
-    },
+        enum: ["system", "freelancer", "business", "admin"],
+      },
       reference_id: { type: "string" },
     },
     required: [],

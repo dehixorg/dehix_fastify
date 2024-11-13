@@ -1,4 +1,3 @@
 export interface DeleteTransactionPathParams {
-    transaction_id: string;
-  }
-  
+  transaction_id: string;
+}

@@ -30,13 +30,7 @@ export const createTransactionSchema: FastifySchema = {
         type: "string",
       },
     },
-    required: [
-      "from",
-      "to",
-      "amount",
-      "type",
-      "from_type",
-    ],
+    required: ["from", "to", "amount", "type", "from_type"],
   },
   response: {
     200: {

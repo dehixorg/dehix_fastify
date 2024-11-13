@@ -1,13 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import {
-  Controller,
-  DELETE,
-  GET,
-  Inject,
-  PATCH,
-  POST,
-  PUT,
-} from "fastify-decorators";
+import { Controller, DELETE, GET, Inject, POST, PUT } from "fastify-decorators";
 import {
   STATUS_CODES,
   ERROR_CODES,
@@ -26,7 +18,7 @@ import {
   GET_TRANSACTION_BY_REFERENCE_ID,
   GET_TRANSACTION_BY_TO,
   GET_TRANSACTION_BY_TYPE,
-  UPDATE_TRANSACTION_BY_ID
+  UPDATE_TRANSACTION_BY_ID,
 } from "../constants/transaction.constant";
 
 import { TransactionService } from "../services/transaction.service";
@@ -34,20 +26,16 @@ import { TransactionService } from "../services/transaction.service";
 import { createTransactionSchema } from "../schema/v1/transaction/transaction.create";
 import { deleteTransactionSchema } from "../schema/v1/transaction/transaction.delete";
 
-import {
-  updateTransactionSchema,
-} from "../schema/v1/transaction/transaction.update";
-import {
-  PutTransactionBody,
-} from "../types/v1/transaction/updateTransaction";
+import { updateTransactionSchema } from "../schema/v1/transaction/transaction.update";
+import { PutTransactionBody } from "../types/v1/transaction/updateTransaction";
 import { createTransactionBody } from "../types/v1/transaction/createTransaction";
-import { 
+import {
   GetTransactionPathParams,
   GetTransactionByFromQueryParams,
   GetTransactionByFromTypeQueryParams,
   GetTransactionByReferenceIdQueryParams,
   GetTransactionByToQueryParams,
-  GetTransactionByTypeQueryParams
+  GetTransactionByTypeQueryParams,
 } from "../types/v1/transaction/getTransaction";
 import { DeleteTransactionPathParams } from "../types/v1/transaction/deleteTransaction";
 import {
@@ -57,9 +45,8 @@ import {
   getTransactionByFromTypeSchema,
   getTransactionByFromSchema,
   getTransactionByReferenceIdSchema,
-  getTransactionByToSchema
+  getTransactionByToSchema,
 } from "../schema/v1/transaction/transaction.get";
-
 
 @Controller({ route: TRANSACTION_ENDPOINT })
 export default class TransactionController extends AuthController {
@@ -72,7 +59,9 @@ export default class TransactionController extends AuthController {
     reply: FastifyReply,
   ) {
     try {
-      this.logger.info(`TransactionController  -> createTransaction -> create Transction}`);
+      this.logger.info(
+        `TransactionController  -> createTransaction -> create Transction}`,
+      );
       const data = await this.transactionService.create(request.body);
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -88,7 +77,9 @@ export default class TransactionController extends AuthController {
   @GET(GET_ALL_TRANSACTION, { schema: getAllTransactionSchema })
   async getAllTransaction(request: FastifyRequest, reply: FastifyReply) {
     try {
-      this.logger.info(`TransactionController -> getAllTransaction -> Fetching Transaction`);
+      this.logger.info(
+        `TransactionController -> getAllTransaction -> Fetching Transaction`,
+      );
 
       const data = await this.transactionService.getAllTransaction();
 
@@ -162,9 +153,13 @@ export default class TransactionController extends AuthController {
       this.logger.info(
         `TransactionController -> deleteTransactionById -> Deleting transaction using: ${request.params.transaction_id}`,
       );
-      await this.transactionService.deleteTransactionById(request.params.transaction_id);
+      await this.transactionService.deleteTransactionById(
+        request.params.transaction_id,
+      );
 
-      reply.status(STATUS_CODES.SUCCESS).send({ message: "Transaction deleted" });
+      reply
+        .status(STATUS_CODES.SUCCESS)
+        .send({ message: "Transaction deleted" });
     } catch (error: any) {
       this.logger.error(`Error in delete transaction: ${error.message}`);
       if (
@@ -197,8 +192,7 @@ export default class TransactionController extends AuthController {
       );
       const { type } = request.query;
 
-      const data =
-        await this.transactionService.getTransactionByType(type);
+      const data = await this.transactionService.getTransactionByType(type);
       if (data.length === 0) {
         return reply
           .code(404)
@@ -321,8 +315,7 @@ export default class TransactionController extends AuthController {
       );
       const { from } = request.query;
 
-      const data =
-        await this.transactionService.getTransactionByFrom(from);
+      const data = await this.transactionService.getTransactionByFrom(from);
       if (data.length === 0) {
         return reply
           .code(404)
@@ -362,8 +355,7 @@ export default class TransactionController extends AuthController {
       );
       const { to } = request.query;
 
-      const data =
-        await this.transactionService.getTransactionByTo(to);
+      const data = await this.transactionService.getTransactionByTo(to);
       if (data.length === 0) {
         return reply
           .code(404)
@@ -389,7 +381,9 @@ export default class TransactionController extends AuthController {
       }
     }
   }
-  @GET(GET_TRANSACTION_BY_REFERENCE_ID, { schema: getTransactionByReferenceIdSchema })
+  @GET(GET_TRANSACTION_BY_REFERENCE_ID, {
+    schema: getTransactionByReferenceIdSchema,
+  })
   async getTransactionByReferenceId(
     request: FastifyRequest<{
       Querystring: GetTransactionByReferenceIdQueryParams;
@@ -412,7 +406,9 @@ export default class TransactionController extends AuthController {
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
-      this.logger.error(`Error in getTransactionByReferenceId: ${error.message}`);
+      this.logger.error(
+        `Error in getTransactionByReferenceId: ${error.message}`,
+      );
       if (
         error.ERROR_CODES === "NOT_FOUND" ||
         error.message.includes("Transaction not found")
