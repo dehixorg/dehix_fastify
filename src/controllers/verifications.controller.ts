@@ -17,11 +17,19 @@ import {
   ORACLE_UPDATE_END_POINT,
   GET_ALL_ORACLE_ENDPOINT,
   VERIFICATION_ENDPOINT,
+  VERIFICATION_BY_VERIFIER_ID,
+  UPDATE_COMMENT_IN_VERIFICATION,
 } from "../constants/verification.constant";
 import { GetVerifierPathParams } from "../types/v1/verifications/getVerificationData";
 import { GetDocTypeQueryParams } from "../types/v1/verifications/getDocType";
-import { updateVerificationStatusSchema } from "../schema/v1/verifications/verification.patch";
-import { PatchOracleBody } from "../types/v1/verifications/updateVerificationBody";
+import {
+  updateVerificationStatusSchema,
+  updateVerificationCommentSchema,
+} from "../schema/v1/verifications/verification.patch";
+import {
+  PatchOracleBody,
+  PutCommentBody,
+} from "../types/v1/verifications/updateVerificationBody";
 
 @Controller({ route: VERIFICATION_ENDPOINT })
 export default class VerificationsController extends AuthController {
@@ -147,6 +155,95 @@ export default class VerificationsController extends AuthController {
         message: RESPONSE_MESSAGE.SERVER_ERROR,
         code: ERROR_CODES.SERVER_ERROR,
       });
+    }
+  }
+  @GET(VERIFICATION_BY_VERIFIER_ID, { schema: getVerificationDataSchema })
+  async getVerificationByVerifierId(
+    request: FastifyRequest<{
+      Params: GetVerifierPathParams;
+      Querystring: GetDocTypeQueryParams;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `VerificationsController -> getVerificationData -> Fetching verification request for verifier ID: ${request.params.verifier_id}`,
+      );
+
+      const { verifier_id } = request.params;
+      const { doc_type } = request.query;
+
+      const data = await this.verificationService.getVerificationByVerifierId(
+        verifier_id,
+        doc_type,
+      );
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getVerificationData: ${error.message}`);
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found.",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+  @PUT(UPDATE_COMMENT_IN_VERIFICATION, {
+    schema: updateVerificationCommentSchema,
+  })
+  async updateVerificationComment(
+    request: FastifyRequest<{
+      Body: PutCommentBody;
+      Params: GetVerifierPathParams;
+      Querystring: GetDocTypeQueryParams;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `VerificationsController -> updateVerificationData -> updating verification request for verifier ID: ${request.params.verification_id}`,
+      );
+      await this.verificationService.putCommentInVerification(
+        request.params.verification_id,
+        request.body.comment,
+        request.body.verifiedAt,
+      );
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "verification done" });
+    } catch (error: any) {
+      this.logger.error(`Error in updateVerificationData: ${error.message}`);
+      if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Verification not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Verification"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Verification Document not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Verification"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
     }
   }
 }

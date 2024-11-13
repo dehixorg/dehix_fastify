@@ -713,7 +713,7 @@ export class FreelancerDAO extends BaseDAO {
     try {
       return await this.model.find(
         { _id: freelancer_id },
-        { dehixTalent: 1, _id: 0 },
+        { dehixTalent: 1, _id: 1 },
       );
     } catch (error) {
       console.error("Error fetching freelancer dehix talent:", error);
@@ -730,6 +730,35 @@ export class FreelancerDAO extends BaseDAO {
       return data;
     } catch (error) {
       console.error("Error fetching freelancer education:", error);
+      throw error;
+    }
+  }
+
+  async getFreelancerByReferralCode(referralCode: string) {
+    try {
+      return await this.model.findOne({
+        "referral.referralCode": referralCode,
+      });
+    } catch (error) {
+      console.error("Error fetching freelancer by referral code:", error);
+      throw error;
+    }
+  }
+
+  async addReferralBonus(referrer_id: string, freelancer_id: string) {
+    try {
+      // Update the referrer's connects and referral data
+      await this.updateFreelancerData(referrer_id, {
+        $inc: { connects: 100, "referral.referredCount": 1 }, // Increment the connects and referredCount
+        $push: { "referral.referredTo": freelancer_id }, // Add the referred freelancer to the referrer's list
+      });
+      // Update the referred freelancer's connects and referral data
+      await this.updateFreelancerData(freelancer_id, {
+        $inc: { connects: 100 }, // Increment the referred freelancer's connects
+        $set: { "referral.referredBy": referrer_id }, // Set the referrer's ID in the referred freelancer's data
+      });
+    } catch (error) {
+      console.error("Error adding referral bonus:", error);
       throw error;
     }
   }

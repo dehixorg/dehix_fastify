@@ -4,6 +4,15 @@ import { commonErrorResponses } from "../commonErrorCodes";
 export const createFreelancerSchema: FastifySchema = {
   description: "API to create a freelancer",
   tags: ["Register"],
+  querystring: {
+    type: "object",
+    properties: {
+      referralCode: {
+        type: "string",
+        nullable: true, // This makes it optional
+      },
+    },
+  },
   body: {
     type: "object",
     properties: {
@@ -236,6 +245,20 @@ export const createFreelancerSchema: FastifySchema = {
       interviewsAligned: {
         type: "array",
         items: { type: "string" },
+      },
+      referral: {
+        type: "object",
+        default: {},
+        properties: {
+          referralCode: { type: "string" },
+          referredBy: { type: "string" },
+          referredTo: {
+            type: "array",
+            items: { type: "string" },
+          },
+          referredCount: { type: "number" },
+        },
+        required: [],
       },
     },
     required: [
