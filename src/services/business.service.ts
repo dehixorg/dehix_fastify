@@ -69,6 +69,22 @@ export class BusinessService extends BaseService {
       `Business Service: business id:${business_id}
         updating business profile`,
     );
+    // If a profile picture is provided, update the avatar_url in Firebase
+    if (update.profilePic) {
+      try {
+        // Call the updateUser function to update the avatar_url in Firebase
+        await firebaseClient.updateUser(business_id, {
+          photoURL: update.profilePic, // Assuming the profilePic is the URL of the image
+        });
+        this.logger.info(
+          "Updated avatar_url in Firebase for freelancer: ",
+          business_id,
+        );
+      } catch (error) {
+        this.logger.error("Error updating avatar_url in Firebase:", error);
+        throw new Error("Error updating avatar in Firebase.");
+      }
+    }
 
     const data = await this.businessDao.updateBusinessData(business_id, update);
     return data;
