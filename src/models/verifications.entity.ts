@@ -14,6 +14,7 @@ export interface IVerification extends Document {
   updatedAt: Date;
   comment: string;
   verifiedAt: Date;
+  type?: "freelancer" | "admin";
 }
 
 // Define the Verification schema
@@ -56,6 +57,11 @@ const VerificationSchema: Schema<IVerification> = new Schema(
     },
     verifiedAt: {
       type: Date,
+      required: false,
+    },
+    type: {
+      type: String,
+      enum: ["freelancer", "admin"],
       required: false,
     },
   },

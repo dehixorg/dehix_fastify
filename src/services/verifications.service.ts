@@ -360,12 +360,16 @@ export class VerificationService extends BaseService {
       | "project"
       | "experience"
       | "business",
+    type?: "freelancer" | "admin",
   ) {
     this.logger.info(
       `VerificationsService: getAllVerificationData: Fetching verification data for ${doc_type}`,
     );
 
-    const data = await this.verificationDAO.getAllVerificationData(doc_type);
+    const data = await this.verificationDAO.getAllVerificationData(
+      doc_type,
+      type,
+    );
 
     if (!data || data.length === 0) {
       this.logger.error("No verification data found.");
@@ -458,5 +462,58 @@ export class VerificationService extends BaseService {
 
       return verification;
     }
+  }
+  async getVerificationByVerifierId(
+    verifier_id: string,
+    doc_type:
+      | "skill"
+      | "domain"
+      | "education"
+      | "project"
+      | "experience"
+      | "business",
+  ) {
+    this.logger.info(
+      `VerificationsService: getAllVerificationData: Fetching verification data for ${verifier_id}`,
+    );
+
+    const data = await this.verificationDAO.getVerificationByVerifierId(
+      verifier_id,
+      doc_type,
+    );
+
+    if (!data) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    return data;
+  }
+  async putCommentInVerification(
+    verification_id: string,
+    comment: string,
+    verifiedAt: Date,
+  ) {
+    this.logger.info(
+      `VerificationService: updateVerificationById: Updating Verification for Verifier ID:${verification_id}`,
+    );
+    const verificationexists =
+      await this.verificationDAO.getVerificationById(verification_id);
+    if (!verificationexists) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.DATA_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+
+    const data = await this.verificationDAO.updateVerificationById(
+      verification_id,
+      comment,
+      verifiedAt,
+    );
+
+    return data;
   }
 }

@@ -16,6 +16,7 @@ import { firebaseClient } from "../common/services";
 import { SESService } from "../common/services";
 import { ProjectDAO } from "../dao/project.dao";
 import { VerificationService } from "./verifications.service";
+import crypto from "crypto";
 import { BidDAO } from "../dao";
 
 @Service()
@@ -120,12 +121,47 @@ export class FreelancerService extends BaseService {
     return freelancer;
   }
 
-  async createFreelancerProfile(freelancer: any) {
+  // Generate referral code for new user
+  async generateReferralCode(userName: string) {
+    const randomStr = crypto
+      .randomBytes(3)
+      .toString("hex")
+      .slice(0, 5)
+      .toUpperCase();
+    const prefix = userName.slice(0, 4).toUpperCase();
+    return `${prefix}${randomStr}`;
+  }
+
+  async createFreelancerProfile(freelancer: any, referralCode?: string | null) {
     try {
       this.logger.info(
         "FreelancerService: createFreelancerProfile: Creating Freelancer: ",
         freelancer,
       );
+      /*
+        Flow will be in this order:
+          1- check if referral code given or not, if yes then check the referrer exits not not
+          2- create firebase user
+          3- generatw referral code for new user
+          4- create new freelancer in db
+          5- after succesful creation of freelancer, referral bonus will be given
+      */
+
+      // Check if referral code is provided and referrer is valid
+      let referrer: any = null;
+      if (referralCode != null) {
+        referrer =
+          await this.FreelancerDAO.getFreelancerByReferralCode(referralCode);
+        if (!referrer) {
+          this.logger.error(
+            "FreelancerService: createFreelancerProfile: Referrer not found with Referral Code: ",
+            referralCode,
+          );
+          throw new Error("Invalid referral code.");
+        }
+      }
+
+      // Create Firebase user
       const freelancer_id =
         await firebaseClient.createFireBaseUserWithCustomClaims(
           freelancer.email,
@@ -134,6 +170,7 @@ export class FreelancerService extends BaseService {
           freelancer.phone,
         );
       freelancer._id = freelancer_id;
+
       //uncomment when SES is up
       // const { SENDER, SUBJECT, TEXTBODY } = CREATE_PASSWORD_EMAIL_CONSTANTS;
       // await this.sesService.sendEmail({
@@ -142,10 +179,25 @@ export class FreelancerService extends BaseService {
       //   subject: SUBJECT,
       //   textBody: TEXTBODY.replace(":passLink", reset_link),
       // });
+
+      // Generate referrer code for new user
+      freelancer.referral.referralCode = await this.generateReferralCode(
+        freelancer.userName,
+      ); //Assign referralCode
+
+      // create new freelancer
       const userObj = { ...freelancer, password: "" };
       const data: any = await this.FreelancerDAO.createFreelancer(userObj);
       if (data.description && data.description.length > 500) {
         throw new Error("Description cannot exceed 500 characters.");
+      }
+
+      // Add referral bonus if the referrer exists
+      if (referrer) {
+        await this.FreelancerDAO.addReferralBonus(referrer._id, freelancer._id);
+        this.logger.info(
+          `FreelancerService: createFreelancerProfile: Referral bonus added for Referrer ID: ${referrer._id} and Referee ID: ${freelancer._id}`,
+        );
       }
 
       return data;
@@ -219,10 +271,28 @@ export class FreelancerService extends BaseService {
       freelancer,
     );
 
+    // If a profile picture is provided, update the avatar_url in Firebase
+    if (freelancer.profilePic) {
+      try {
+        // Call the updateUser function to update the avatar_url in Firebase
+        await firebaseClient.updateUser(freelancer_id, {
+          photoURL: freelancer.profilePic, // Assuming the profilePic is the URL of the image
+        });
+        this.logger.info(
+          "Updated avatar_url in Firebase for freelancer: ",
+          freelancer_id,
+        );
+      } catch (error) {
+        this.logger.error("Error updating avatar_url in Firebase:", error);
+        throw new Error("Error updating avatar in Firebase.");
+      }
+    }
+
     const data: any = await this.FreelancerDAO.updateFreelancer(
       { _id: freelancer_id },
       freelancer,
     );
+
     if (data.description && data.description.length > 500) {
       throw new Error("Description cannot exceed 500 characters.");
     }

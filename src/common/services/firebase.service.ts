@@ -6,7 +6,13 @@ import * as path from "path";
 // import serviceAccount from '../../../config/test-service-account.json' assert { type: 'json' };
 import { ERROR_CODES } from "../constants";
 import { logger } from "./logger.service";
-
+interface FirebaseUserProperties {
+  email?: string;
+  phoneNumber?: string;
+  displayName?: string;
+  photoURL?: string;
+  disabled?: boolean;
+}
 class FirebaseClient {
   private admin!: admin.app.App;
 
@@ -222,16 +228,21 @@ class FirebaseClient {
    * @param phoneNumber
    * @returns
    */
-  // async updateUser(userId: string, properties: {}): Promise<string> {
-  //   try {
-  //     const userRecord = await this.admin.auth().updateUser(userId, properties);
-  //     return userRecord.uid;
-  //   } catch (error) {
-  //     throw new Error(
-  //       `FirebaseClient-> updateUserEmailAndPhone ->Error updating  user: ${error}`,
-  //     );
-  //   }
-  // }
+  async updateUser(
+    userId: string,
+    properties: FirebaseUserProperties,
+  ): Promise<string> {
+    try {
+      // Call Firebase Admin SDK to update the user
+      const userRecord = await this.admin.auth().updateUser(userId, properties);
+      return userRecord.uid; // Return the UID of the updated user
+    } catch (error) {
+      // Throw an error if updating the user fails
+      throw new Error(
+        `FirebaseClient-> updateUser -> Error updating user: ${error}`,
+      );
+    }
+  }
 }
 
 export const firebaseClient = new FirebaseClient();

@@ -74,3 +74,53 @@ export const updateVerificationStatusSchema: FastifySchema = {
     },
   },
 };
+
+export const updateVerificationCommentSchema: FastifySchema = {
+  description: "API to update verification status",
+  tags: ["Verification"],
+  params: {
+    type: "object",
+    properties: {
+      verification_id: {
+        type: "string",
+        description: "Verification ID",
+      },
+    },
+  },
+  body: {
+    type: "object",
+    properties: {
+      comment: {
+        type: "string",
+        description: "The new verification comment",
+      },
+      verifiedAt: {
+        type: "string",
+        format: "date-time",
+      },
+    },
+    required: [],
+  },
+  response: {
+    404: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+        code: { type: "string" },
+      },
+    },
+    403: {
+      type: "object",
+      properties: {
+        code: { type: "string" },
+        message: { type: "string" },
+      },
+    },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};

@@ -60,7 +60,6 @@ export class TicketDAO extends BaseDAO {
         ...(customerType && { customerType }),
       };
       const TicketData = await this.model.find(query);
-      console.log("data>>>>>>>>>", TicketData);
       return TicketData;
     } catch (error: any) {
       throw new Error(`Failed to fetch ticket data: ${error.message}`);

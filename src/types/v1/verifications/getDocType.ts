@@ -6,4 +6,5 @@ export interface GetDocTypeQueryParams {
     | "project"
     | "experience"
     | "business";
+  type?: "freelancer" | "admin";
 }

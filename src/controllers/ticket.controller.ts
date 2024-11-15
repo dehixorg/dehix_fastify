@@ -154,7 +154,7 @@ export default class TicketController extends AuthController {
   @PATCH(UPDATE_STATUS_BY_TICKET_ID, {
     schema: updateTicketStatusSchema,
   })
-  async updateFaqStatusById(
+  async updateTicketStatusById(
     request: FastifyRequest<{
       Params: GetTicketPathParams;
       Body: PutTicketStatusBody;
