@@ -133,7 +133,10 @@ export default class RegisterController extends BaseController {
 
       // Handle file upload
       try {
-        const uploadResult = await handleFileUpload(file, filename); // Your function to upload to S3
+        const uploadResult = await handleFileUpload(
+          file,
+          filename.replaceAll(" ", ""),
+        ); // Your function to upload to S3
         console.log("uploaded result", uploadResult);
 
         // Respond once all files are processed
