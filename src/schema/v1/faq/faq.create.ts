@@ -1,7 +1,8 @@
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const createFaqSchema: FastifySchema = {
-  description: "API for creating Faq",
+  description: "API to create a Faq",
   tags: ["Faq"],
   body: {
     type: "object",
@@ -31,6 +32,7 @@ export const createFaqSchema: FastifySchema = {
   },
   response: {
     200: {
+      description: "Success",
       type: "object",
       properties: {
         data: {
@@ -55,33 +57,6 @@ export const createFaqSchema: FastifySchema = {
         },
       },
     },
-    401: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };

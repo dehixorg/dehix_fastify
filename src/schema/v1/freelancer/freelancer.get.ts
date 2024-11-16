@@ -6,6 +6,7 @@
  */
 
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const getFreelancerSchema: FastifySchema = {
   description: "API to get FREELANCER profile data",
@@ -39,34 +40,8 @@ export const getFreelancerSchema: FastifySchema = {
     required: [],
   },
   response: {
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    // TODO: Add 200 response schema
+    ...commonErrorResponses,
   },
 };
 
@@ -156,26 +131,7 @@ export const getFreelancerDetails: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: { type: "string" },
-        message: { type: "string" },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };
 
@@ -193,34 +149,8 @@ export const getFreelancerProjectSchema: FastifySchema = {
     },
   },
   response: {
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    // TODO: Add 200 response schema
+    ...commonErrorResponses,
   },
 };
 
@@ -228,34 +158,8 @@ export const getFreelancerOwnProjectSchema: FastifySchema = {
   description: "API to get freelancer own projects data",
   tags: ["Freelancer"],
   response: {
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    // TODO: Add 200 response schema
+    ...commonErrorResponses,
   },
 };
 
@@ -263,34 +167,8 @@ export const getFreelancerSkillsSchema: FastifySchema = {
   description: "API to get freelancer skills data",
   tags: ["Freelancer"],
   response: {
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    // TODO: Add 200 response schema
+    ...commonErrorResponses,
   },
 };
 
@@ -298,34 +176,8 @@ export const getFreelancerDomainSchema: FastifySchema = {
   description: "API to get freelancer domain data",
   tags: ["Freelancer"],
   response: {
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    // TODO: Add 200 response schema
+    ...commonErrorResponses,
   },
 };
 
@@ -346,34 +198,8 @@ export const getAllDehixTalentSchema: FastifySchema = {
     },
   },
   response: {
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    // TODO: Add 200 response schema
+    ...commonErrorResponses,
   },
 };
 
@@ -381,69 +207,17 @@ export const getFreelancerDehixTalentSchema: FastifySchema = {
   description: "API to get freelancer dehix talent data",
   tags: ["Freelancer"],
   response: {
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    // TODO: Add 200 response schema
+    ...commonErrorResponses,
   },
 };
 
 export const getFreelancerEducationSchema: FastifySchema = {
-  description: "API to get freelancer education data",
+  description: "API to get education data of a freelancer",
   tags: ["Freelancer"],
   response: {
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    // TODO: Add 200 response schema
+    ...commonErrorResponses,
   },
 };
 

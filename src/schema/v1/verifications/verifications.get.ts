@@ -1,7 +1,8 @@
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const getVerificationDataSchema: FastifySchema = {
-  description: "API to get verification data",
+  description: "API to get verification data by verifier id",
   tags: ["Verification"],
   querystring: {
     type: "object",
@@ -29,39 +30,47 @@ export const getVerificationDataSchema: FastifySchema = {
     },
   },
   response: {
-    404: {
+    200: {
       type: "object",
       properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
+        data: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              _id: { type: "string" },
+              firstName: { type: "string" },
+              lastName: { type: "string" },
+              companyName: { type: "string" },
+              companySize: { type: "string" },
+              email: { type: "string" },
+              phone: { type: "string" },
+              position: { type: "string" },
+              refer: { type: "string" },
+              verified: { type: "string" },
+              isVerified: { type: "boolean" },
+              linkedin: { type: "string" },
+              personalWebsite: { type: "string" },
+              isBusiness: { type: "boolean" },
+              connects: { type: "integer" },
+              ProjectList: {
+                type: "array",
+                items: { type: "string" },
+              },
+              createdAt: { type: "string" },
+              updatedAt: { type: "string" },
+              __v: { type: "integer" },
+            },
+          },
         },
       },
     },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };
 
 export const getAllVerificationDataSchema: FastifySchema = {
-  description: "API to get all verification request",
+  description: "API to get all verification data",
   tags: ["Verification"],
   querystring: {
     type: "object",
@@ -85,33 +94,23 @@ export const getAllVerificationDataSchema: FastifySchema = {
     },
   },
   response: {
-    404: {
+    200: {
       type: "object",
       properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
+        data: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              verifier_id: { type: "string" },
+              verifier_username: { type: "string" },
+              requester_id: { type: "string" },
+              document_id: { type: "string", nullable: true }, // document_id can be null in some records
+            },
+          },
         },
       },
     },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };

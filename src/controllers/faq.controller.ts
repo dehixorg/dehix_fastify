@@ -15,7 +15,7 @@ import {
 } from "../constants/faq.constant"; // Importing constants defining FAQ endpoints
 import { FaqService } from "../services"; // Importing the FAQ service to handle business logic
 import { createFaqSchema } from "../schema/v1/faq/faq.create"; // Importing schema for creating FAQ validation
-import { createFaqBody } from "../types/v1/faq/createFaq"; // Importing type definitions for creating FAQ
+import { CreateFaqBody } from "../types/v1/faq/createFaq"; // Importing type definitions for creating FAQ
 import { DeleteFaqPathParams } from "../types/v1/faq/deleteFaq"; // Importing type definitions for deleting FAQ
 import { deleteFaqSchema } from "../schema/v1/faq/faq.delete"; // Importing schema for deleting FAQ validation
 import { getAllFaqSchema } from "../schema/v1/faq/faq.get"; // Importing schema for fetching all FAQs
@@ -39,7 +39,7 @@ export default class FaqController extends AuthController {
   // POST handler to create a new FAQ
   @POST("", { schema: createFaqSchema })
   async createFaq(
-    request: FastifyRequest<{ Body: createFaqBody }>, // Expecting a request body matching createFaqBody type
+    request: FastifyRequest<{ Body: CreateFaqBody }>, // Expecting a request body matching createFaqBody type
     reply: FastifyReply, // Response object
   ) {
     try {
@@ -108,8 +108,6 @@ export default class FaqController extends AuthController {
       // Call the faqService to retrieve all FAQs
       const data = await this.faqService.getAllFaqs();
 
-      // Log the retrieved data for debugging
-      console.log("DATA:", data);
       // Send a success response with the fetched FAQs
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {

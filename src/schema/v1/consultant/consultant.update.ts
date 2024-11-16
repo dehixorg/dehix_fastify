@@ -1,4 +1,5 @@
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const updateConsultantSchema: FastifySchema = {
   description: "API to update consultant data for a freelancer",
@@ -33,25 +34,6 @@ export const updateConsultantSchema: FastifySchema = {
         code: { type: "string" },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: { type: "string" },
-        message: { type: "string" },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };

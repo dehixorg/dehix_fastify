@@ -14,37 +14,36 @@ export const BUSINESS_ID_END_POINT = "/:business_id";
 export const BUSINESS_UPDATE_END_POINT = "/:business_id";
 
 // Endpoint for retrieving all businesses in the system
-export const ALL_BUSINESS_END_POINT = "/all";
+export const ALL_BUSINESS_END_POINT = "";
 
 // Endpoint for creating/registering a new business
 export const CREATE_BUSINESS_END_POINT = "/register";
 
 // Endpoint to create a new project under a specific business by its business ID
-export const CREATE_BUSINESS_PROJECT_END_POINT = "/:business_id/project";
+export const CREATE_BUSINESS_PROJECT_END_POINT = "/business/:business_id";
 
 // Endpoint for freelancers to retrieve all projects associated with them using their freelancer ID
-export const GET_ALL_BUSINESS_PROJECT_END_POINT = "/:freelancer_id/all_project";
+export const GET_ALL_BUSINESS_PROJECT_END_POINT = "/freelancer/:freelancer_id";
 
 // Endpoint to delete a specific project under a business using the business ID and project ID
 export const DELETE_BUSINESS_PROJECT_END_POINT =
-  "/:business_id/project/:project_id";
+  "/:project_id/business/:business_id";
 
 // Endpoint to retrieve all projects associated with a specific business by its business ID
-export const GET_BUSINESS_PROJECT_BY_ID = "/:business_id/projects";
+export const GET_BUSINESS_PROJECT_BY_ID = "/business/:business_id";
 
 // Endpoint to retrieve a single project by its project ID and the freelancer's ID
 export const GET_BUSINESS_SINGLE_PROJECT_BY_ID =
-  "/:project_id/:freelancer_id/project";
+  "/:project_id/freelancer/:freelancer_id";
 
 // Endpoint to retrieve a single project by its project ID without verifying additional data (e.g., freelancer ID)
-export const GET_BUSINESS_SINGLE_PROJECT_BY_ID_WITH_OUT_CHECK =
-  "/:project_id/project";
+export const GET_BUSINESS_SINGLE_PROJECT_BY_ID_WITH_OUT_CHECK = "/:project_id";
 
 // Endpoint for retrieving all projects in the system
-export const ALL_PROJECT_ENDPOINT = "/all_projects";
+export const ALL_PROJECT_ENDPOINT = "";
 
 // Endpoint to update the status of a specific project using its project ID
-export const UPDATE_STATUS_BY_PROJECT_ID = "/:project_id/updateStatus";
+export const UPDATE_STATUS_BY_PROJECT_ID = "/:project_id";
 
 // Endpoint to update the project profile for a specific project and profile using project ID and profile ID
 export const UPDATE_BUSINESS_PROJECT_PROFILE_BY_ID =

@@ -1,4 +1,5 @@
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const getBidForProjectIdSchema: FastifySchema = {
   description: "API to get Bid data using project id",
@@ -34,20 +35,7 @@ export const getBidForProjectIdSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };
 
@@ -83,20 +71,7 @@ export const getBidForBidderIdSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };
 
@@ -124,35 +99,8 @@ export const getAllBidsSchema: FastifySchema = {
           },
         },
       },
-      404: {
-        type: "object",
-        properties: {
-          message: {
-            type: "string",
-          },
-          code: {
-            type: "string",
-          },
-        },
-      },
-      403: {
-        type: "object",
-        properties: {
-          code: {
-            type: "string",
-          },
-          message: {
-            type: "string",
-          },
-        },
-      },
-      500: {
-        type: "object",
-        properties: {
-          message: { type: "string" },
-        },
-      },
     },
+    ...commonErrorResponses,
   },
 };
 
@@ -168,19 +116,26 @@ export const getBidForProfileIdSchema: FastifySchema = {
     required: ["profile_id"],
   },
   response: {
-    404: {
+    200: {
+      description: "Success",
       type: "object",
       properties: {
-        message: { type: "string" },
-        code: { type: "string" },
+        data: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              _id: { type: "string" },
+              bid_status: { type: "string" },
+              project_id: { type: "string" },
+              bidder_id: { type: "string" },
+              current_price: { type: "number" },
+              domain_id: { type: "string" },
+            },
+          },
+        },
       },
     },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };

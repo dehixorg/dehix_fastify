@@ -1,7 +1,8 @@
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const createFreelancerSchema: FastifySchema = {
-  description: "API to create freelancer data",
+  description: "API to create a freelancer",
   tags: ["Register"],
   querystring: {
     type: "object",
@@ -302,30 +303,12 @@ export const createFreelancerSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: { type: "string" },
-        message: { type: "string" },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };
+
 export const createProfessionalInfoSchema: FastifySchema = {
-  description: "API to create professional information",
+  description: "API to create professional information for freelancer",
   tags: ["Freelancer"],
   body: {
     type: "object",
@@ -380,31 +363,12 @@ export const createProfessionalInfoSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: { type: "string" },
-        message: { type: "string" },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };
 
 export const createEducationSchema: FastifySchema = {
-  description: "API to create education",
+  description: "API to create education information for freelancer",
   tags: ["Freelancer"],
   body: {
     type: "object",
@@ -462,26 +426,7 @@ export const createEducationSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: { type: "string" },
-        message: { type: "string" },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };
 
@@ -582,39 +527,12 @@ export const createProjectSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };
 
 export const createDehixTalentSchema: FastifySchema = {
-  description: "API to create Dehix talent",
+  description: "API to create Dehix talent for freelancer",
   tags: ["Freelancer"],
   body: {
     type: "object",
@@ -659,25 +577,6 @@ export const createDehixTalentSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: { type: "string" },
-        message: { type: "string" },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };

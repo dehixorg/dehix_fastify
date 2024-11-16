@@ -15,6 +15,7 @@ import {
   DOMAIN_DELETE_BY_ID_ENDPOINT,
   DOMAIN_ID_ENDPOINT,
   DOMAIN_BY_ID_ENDPOINT,
+  GET_ALL_ADMIN_ENDPOINT,
 } from "../constants/domain.constant";
 
 // Importing schemas for validation
@@ -31,7 +32,6 @@ import {
   PutDomainBody,
   PutDomainPathParams,
 } from "../types/v1/domain/updateDomain";
-import { GET_ALL_ADMIN_ENDPOINT } from "../constants/admin.constant";
 
 // Define the DomainController class with a base route of DOMAIN_ENDPOINT
 @Controller({ route: DOMAIN_ENDPOINT })

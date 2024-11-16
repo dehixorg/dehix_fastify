@@ -1,7 +1,8 @@
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const updateVerificationStatusSchema: FastifySchema = {
-  description: "API to update verification status",
+  description: "API to update verification status by document id",
   tags: ["Verification"],
   querystring: {
     type: "object",
@@ -52,26 +53,7 @@ export const updateVerificationStatusSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: { type: "string" },
-        message: { type: "string" },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };
 

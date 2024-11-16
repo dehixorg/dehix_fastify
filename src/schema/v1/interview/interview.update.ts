@@ -1,7 +1,8 @@
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const updateInterviewSchema: FastifySchema = {
-  description: "API to update interview data",
+  description: "API to update interview",
   tags: ["Interview"],
   params: {
     type: "object",
@@ -52,28 +53,6 @@ export const updateInterviewSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      description: "Not Found",
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    403: {
-      description: "Forbidden",
-      type: "object",
-      properties: {
-        code: { type: "string" },
-        message: { type: "string" },
-      },
-    },
-    500: {
-      description: "Internal Server Error",
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };

@@ -8,14 +8,18 @@ import {
 } from "../common/constants";
 import { AuthController } from "../common/auth.controller";
 import { VerificationService } from "../services";
-import { getVerificationDataSchema } from "../schema/v1/verifications/verifications.get";
 import {
-  FREELANCER_ENDPOINT,
+  getVerificationDataSchema,
+  getAllVerificationDataSchema,
+} from "../schema/v1/verifications/verifications.get";
+import {
   ORACLE_ID_ENDPOINT,
   ORACLE_UPDATE_END_POINT,
+  GET_ALL_ORACLE_ENDPOINT,
+  VERIFICATION_ENDPOINT,
   VERIFICATION_BY_VERIFIER_ID,
   UPDATE_COMMENT_IN_VERIFICATION,
-} from "../constants/freelancer.constant";
+} from "../constants/verification.constant";
 import { GetVerifierPathParams } from "../types/v1/verifications/getVerificationData";
 import { GetDocTypeQueryParams } from "../types/v1/verifications/getDocType";
 import {
@@ -27,7 +31,7 @@ import {
   PutCommentBody,
 } from "../types/v1/verifications/updateVerificationBody";
 
-@Controller({ route: FREELANCER_ENDPOINT })
+@Controller({ route: VERIFICATION_ENDPOINT })
 export default class VerificationsController extends AuthController {
   @Inject(VerificationService)
   verificationService!: VerificationService;
@@ -119,6 +123,38 @@ export default class VerificationsController extends AuthController {
           code: ERROR_CODES.SERVER_ERROR,
         });
       }
+    }
+  }
+  // GET request to fetch all verification data for oracle
+  @GET(GET_ALL_ORACLE_ENDPOINT, { schema: getAllVerificationDataSchema })
+  async getAllVerificationData(
+    request: FastifyRequest<{
+      Querystring: GetDocTypeQueryParams;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `AdminsController -> getAllVerificationData -> Fetching verification data`,
+      );
+      const { doc_type } = request.query;
+
+      const data =
+        await this.verificationService.getAllVerificationData(doc_type);
+
+      if (!data) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Verification Data"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in getAllVerificationData: ${error.message}`);
+      reply.status(STATUS_CODES.SERVER_ERROR).send({
+        message: RESPONSE_MESSAGE.SERVER_ERROR,
+        code: ERROR_CODES.SERVER_ERROR,
+      });
     }
   }
   @GET(VERIFICATION_BY_VERIFIER_ID, { schema: getVerificationDataSchema })

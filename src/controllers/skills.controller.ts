@@ -10,9 +10,6 @@ import {
 
 import {
   SKILLS_ENDPOINT,
-  SKILLS_ALL_ENDPOINT,
-  SKILLS_DELETE_BY_ID_ENDPOINT,
-  SKILLS_ID_ENDPOINT,
   SKILLS_BY_ID_ENDPOINT,
 } from "../constants/skills.constant";
 
@@ -36,7 +33,7 @@ export default class SkillsController extends AuthController {
   @Inject(SkillsService)
   skillsService!: SkillsService;
 
-  @POST(SKILLS_ID_ENDPOINT, { schema: createSkillSchema })
+  @POST("", { schema: createSkillSchema })
   async createSkills(
     request: FastifyRequest<{ Body: createSkillBody }>,
     reply: FastifyReply,
@@ -56,7 +53,7 @@ export default class SkillsController extends AuthController {
     }
   }
 
-  @DELETE(SKILLS_DELETE_BY_ID_ENDPOINT, { schema: deleteSkillSchema })
+  @DELETE(SKILLS_BY_ID_ENDPOINT, { schema: deleteSkillSchema })
   async deleteSkillById(
     request: FastifyRequest<{ Params: DeleteSkillPathParams }>,
     reply: FastifyReply,
@@ -87,7 +84,7 @@ export default class SkillsController extends AuthController {
     }
   }
 
-  @GET(SKILLS_ALL_ENDPOINT, { schema: getSkillsSchema })
+  @GET("", { schema: getSkillsSchema })
   async getSkills(request: FastifyRequest, reply: FastifyReply) {
     try {
       this.logger.info(`SkillsController -> getSkills -> Fetching skills`);

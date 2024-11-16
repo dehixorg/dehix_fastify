@@ -416,6 +416,7 @@ export class FreelancerService extends BaseService {
     );
     return data;
   }
+
   async createFreelancerExperience(freelancer_id: string, experienceData: any) {
     try {
       this.logger.info(
@@ -880,6 +881,7 @@ export class FreelancerService extends BaseService {
     );
     return data;
   }
+
   async createConsultant(freelancer_id: string, body: any) {
     this.logger.info("FreelancerService: createConsultant", freelancer_id);
     const freelancerExist =
@@ -893,6 +895,7 @@ export class FreelancerService extends BaseService {
     const data = await this.FreelancerDAO.addConsultant(freelancer_id, body);
     return data;
   }
+
   async updateConsultant(
     freelancer_id: string,
     consultant_id: string,
@@ -924,6 +927,7 @@ export class FreelancerService extends BaseService {
     );
     return data;
   }
+
   async getConsultantById(freelancer_id: string, consultant_id: string) {
     this.logger.info("FreelancerService:  getConsultantById", freelancer_id);
     const freelancerExist =
@@ -973,6 +977,7 @@ export class FreelancerService extends BaseService {
     );
     return data;
   }
+
   async notInterestedProject(freelancer_id: string, project_id: string) {
     this.logger.info("services->freelancer.service->notInterestedProject");
     const freelancerExist =
@@ -1072,6 +1077,7 @@ export class FreelancerService extends BaseService {
     );
     return data;
   }
+
   async getFreelancerEducation(freelancer_id: string) {
     this.logger.info(
       "FreelancerService: freelancer get education: ",

@@ -1,17 +1,12 @@
 // Base endpoint for all freelancer-related operations
 export const FREELANCER_ENDPOINT = "/freelancer";
 
-// Endpoint for creating a new freelancer
-export const FREELANCER_CREATE_ENDPOINT = "/create";
-
 // Endpoint for fetching or modifying a specific freelancer by their ID
 export const FREELANCER_ID_ENDPOINT = "/:freelancer_id";
 
-// Endpoint for getting a specific freelancer details/profile by their ID
-export const FREELANCER_ID_DETAILS_ENDPOINT = "/:freelancer_id/details";
+// Endpoint for getting a specific freelancer profile info by their ID
+export const FREELANCER_ID_DETAILS_ENDPOINT = "/:freelancer_id/profile-info";
 
-// Endpoint for retrieving all freelancers in the system
-export const ALL_FREELANCER = "/allfreelancer";
 // Project related endpoints for freelancers
 export const FREELANCER_PROJECT_ID_ENDPOINT = "/:freelancer_id/project";
 
@@ -88,14 +83,14 @@ export const FREELANCER_EDUCATION_BY_ID = "/:freelancer_id/education";
 
 // Endpoint for deleting a freelancer from Dehix Talent by Dehix Talent ID
 export const FREELANCER_DEHIX_TALENT_DELETE_BY_ID =
-  "/:freelancer_id/dehix-talent/:dehixTalent_id";
+  "/:freelancer_id/dehix-talent/:dehixtalent_id";
 
 // Endpoint for updating Dehix Talent information for a specific freelancer by Dehix Talent ID
 export const FREELANCER_DEHIX_TALENT_UPDATE_BY_ID =
-  "/:freelancer_id/dehix-talent/:dehixTalent_id";
+  "/:freelancer_id/dehix-talent/:dehixtalent_id";
 
 // Endpoint for retrieving all Dehix Talent entries
-export const ALL_DEHIX_TALENT_ENDPOINT = "/dehixTalent";
+export const ALL_DEHIX_TALENT_ENDPOINT = "/dehixtalent";
 
 // Dehix Talent
 // export const FREELANCER_DEHIX_TALENT_ADD_BY_ID = "/:freelancer_id/dehix-talent";
@@ -130,10 +125,10 @@ export const RESET_PASSWORD_ENDPOINT = "/reset-password";
 export const SUBMIT_FOR_REVIEW_ENDPOINT = "/submit-for-review";
 
 // (Not in use) Endpoint for creating a project
-export const CREATE_PROJECT = "/create_project"; //not used
+export const CREATE_PROJECT = "/create-project"; //not used
 
 // Endpoint for retrieving freelancer information
-export const FREELANCER_INFO = "/freelancer_info";
+export const FREELANCER_INFO = "/freelancer-info";
 
 // Domain for verification process
 export const VERIFICATION_DOMAIN = "https://dev.findmyvenue.com/verify";
@@ -164,21 +159,8 @@ export const FREELANCER_DELETE_CONSULTANT_BY_ID =
 // Base Oracle endpoint
 export const ORACLE_ENDPOINT = "/oracle";
 
-// Endpoint for retrieving or modifying Oracle details for a specific verifier
-export const ORACLE_ID_ENDPOINT = "/:verifier_id/oracle";
-
-// Endpoint for retrieving all Oracle entries
-export const GET_ALL_ORACLE_ENDPOINT = "/oracles";
-
-// Endpoint for updating an Oracle entry by document ID
-export const ORACLE_UPDATE_END_POINT = "/:document_id/oracle";
-
 // Not interested project
 
 // Endpoint for marking a freelancer as "not interested" in a project
 export const NOT_INTERESTED_PROJECT =
   "/:freelancer_id/:project_id/not_interested_project";
-
-export const VERIFICATION_BY_VERIFIER_ID = "/verifier/:verifier_id";
-
-export const UPDATE_COMMENT_IN_VERIFICATION = "/:verification_id/update";

@@ -9,10 +9,8 @@ import {
 
 import { AuthController } from "../common/auth.controller";
 import {
-  DELETE_PROJECT_DOMAIN_BY_ID_ENDPOINT,
-  PROJECT_DOMAIN_ALL_ENDPOINT,
   PROJECT_DOMAIN_ENDPOINT,
-  PROJECT_DOMAIN_ID_ENDPOINT,
+  PROJECT_DOMAIN_BY_ID_ENDPOINT,
 } from "../constants/projectDomain.constant";
 import { createProjectDomainSchema } from "../schema/v1/projectDomain/projectDomain.create";
 import { CreateProjectDomainBody } from "../types/v1/projectDomain/createProjectDomain";
@@ -30,7 +28,7 @@ export default class ProjectDomainController extends AuthController {
   @Inject(ProjectDomainService)
   projectDomainService!: ProjectDomainService;
 
-  @POST(PROJECT_DOMAIN_ID_ENDPOINT, { schema: createProjectDomainSchema })
+  @POST("", { schema: createProjectDomainSchema })
   async createProjectDomain(
     request: FastifyRequest<{ Body: CreateProjectDomainBody }>,
     reply: FastifyReply,
@@ -54,7 +52,7 @@ export default class ProjectDomainController extends AuthController {
     }
   }
 
-  @DELETE(DELETE_PROJECT_DOMAIN_BY_ID_ENDPOINT, {
+  @DELETE(PROJECT_DOMAIN_BY_ID_ENDPOINT, {
     schema: deleteProjectDomainSchema,
   })
   async deleteProjectDomainById(
@@ -91,7 +89,7 @@ export default class ProjectDomainController extends AuthController {
     }
   }
 
-  @GET(PROJECT_DOMAIN_ALL_ENDPOINT, { schema: getAllProjectDomainSchema })
+  @GET("", { schema: getAllProjectDomainSchema })
   async getallProjectDomain(request: FastifyRequest, reply: FastifyReply) {
     try {
       this.logger.info(
@@ -116,7 +114,7 @@ export default class ProjectDomainController extends AuthController {
     }
   }
 
-  @PUT(DELETE_PROJECT_DOMAIN_BY_ID_ENDPOINT, {
+  @PUT(PROJECT_DOMAIN_BY_ID_ENDPOINT, {
     schema: updateProjectDomainSchema,
   })
   async updateProjectDomain(

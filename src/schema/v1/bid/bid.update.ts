@@ -6,9 +6,10 @@
  */
 
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const updateBidSchema: FastifySchema = {
-  description: "API for update bidding",
+  description: "API for update the bid data",
   tags: ["Bid"],
   body: {
     type: "object",
@@ -34,39 +35,12 @@ export const updateBidSchema: FastifySchema = {
         },
       },
     },
-    401: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };
 
 export const updateBidStatusSchema: FastifySchema = {
-  description: "API for update bidding",
+  description: "API to update status of bid",
   tags: ["Bid"],
   body: {
     type: "object",
@@ -87,33 +61,6 @@ export const updateBidStatusSchema: FastifySchema = {
         },
       },
     },
-    401: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };

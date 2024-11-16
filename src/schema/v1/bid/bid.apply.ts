@@ -1,7 +1,8 @@
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const bidApplySchema: FastifySchema = {
-  description: "API for bidding",
+  description: "API for creating a bid",
   tags: ["Bid"],
   body: {
     type: "object",
@@ -33,33 +34,6 @@ export const bidApplySchema: FastifySchema = {
         },
       },
     },
-    401: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };

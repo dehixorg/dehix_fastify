@@ -1,7 +1,8 @@
 import { FastifySchema } from "fastify";
+import { commonErrorResponses } from "../commonErrorCodes";
 
 export const deleteFreelancerProjectSchema: FastifySchema = {
-  description: "API to delete project freelancer",
+  description: "API to delete project of a freelancer",
   tags: ["Freelancer"],
   response: {
     200: {
@@ -16,34 +17,7 @@ export const deleteFreelancerProjectSchema: FastifySchema = {
         },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-        },
-        message: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };
 
@@ -72,30 +46,11 @@ export const deleteFreelancerSkillSchema: FastifySchema = {
         data: { type: "object" },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: {
-          type: "string",
-        },
-      },
-    },
+    ...commonErrorResponses,
   },
 };
 export const deleteProfessionalInfoSchema: FastifySchema = {
-  description: "API to delete professional information",
+  description: "API to delete professional information of a freelancer",
   tags: ["Freelancer"],
   params: {
     type: "object",
@@ -119,31 +74,12 @@ export const deleteProfessionalInfoSchema: FastifySchema = {
         message: { type: "string" },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: { type: "string" },
-        message: { type: "string" },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };
 
 export const deleteEducationSchema: FastifySchema = {
-  description: "API to delete education data",
+  description: "API to delete education data of a freelancer",
   tags: ["Freelancer"],
   params: {
     type: "object",
@@ -167,26 +103,7 @@ export const deleteEducationSchema: FastifySchema = {
         message: { type: "string" },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: { type: "string" },
-        message: { type: "string" },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };
 
@@ -215,31 +132,12 @@ export const deleteFreelancerDomainSchema: FastifySchema = {
         data: { type: "object" },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: {
-          type: "string",
-        },
-        code: {
-          type: "string",
-        },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: {
-          type: "string",
-        },
-      },
-    },
+    ...commonErrorResponses,
   },
 };
 
 export const deleteDehixTalentFreelancerSchema: FastifySchema = {
-  description: "API to delete professional information",
+  description: "API to delete professional information of a freelancer",
   tags: ["Freelancer"],
   params: {
     type: "object",
@@ -263,25 +161,6 @@ export const deleteDehixTalentFreelancerSchema: FastifySchema = {
         message: { type: "string" },
       },
     },
-    404: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-        code: { type: "string" },
-      },
-    },
-    403: {
-      type: "object",
-      properties: {
-        code: { type: "string" },
-        message: { type: "string" },
-      },
-    },
-    500: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
+    ...commonErrorResponses,
   },
 };

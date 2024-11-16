@@ -2,11 +2,10 @@ import { Controller, GET, Inject, POST, PUT } from "fastify-decorators";
 import { AuthController } from "../common/auth.controller";
 import {
   CREATE_INTERVIEW_END_POINT,
-  GET_ALL_INTERVIEW,
   INTERVIEW,
   UPDATE_INTERVIEW_END_POINT,
-  CompletedInterviewForInterviewee,
-  CurrentInterviewForInterviewee,
+  COMPLETED_INTERVIEW_FOR_INTERVIEWEE,
+  CURRENT_INTERVIEW_FOR_INTERVIEWEE,
 } from "../constants/interview.constant";
 import { createInterviewSchema } from "../schema/v1/interview/interview.create";
 import { InterviewService } from "../services/interview.service";
@@ -19,7 +18,7 @@ import {
   STATUS_CODES,
 } from "../common/constants";
 import { updateInterviewSchema } from "../schema/v1/interview/interview.update";
-import { updateInterviewBody } from "../types/v1/interview/updateInterview";
+import { UpdateInterviewBody } from "../types/v1/interview/updateInterview";
 import {
   getAllInterviewSchema,
   getInterviewSchema,
@@ -78,7 +77,7 @@ export default class InterviewController extends AuthController {
   async updateInterviewById(
     request: FastifyRequest<{
       Params: GetInterviewPathParams;
-      Body: updateInterviewBody;
+      Body: UpdateInterviewBody;
     }>,
     reply: FastifyReply,
   ) {
@@ -115,7 +114,8 @@ export default class InterviewController extends AuthController {
       }
     }
   }
-  @GET(GET_ALL_INTERVIEW, { schema: getAllInterviewSchema })
+
+  @GET("", { schema: getAllInterviewSchema })
   async getAllInterview(request: FastifyRequest, reply: FastifyReply) {
     try {
       this.logger.info("controllers->interview.controller->getAllInterview");
@@ -131,7 +131,8 @@ export default class InterviewController extends AuthController {
         .send({ message: "Internal server error" });
     }
   }
-  @GET(CompletedInterviewForInterviewee, { schema: getInterviewSchema })
+
+  @GET(COMPLETED_INTERVIEW_FOR_INTERVIEWEE, { schema: getInterviewSchema })
   async getCompletedInterviews(
     request: FastifyRequest<{
       Params: GetInterviewPathParams;
@@ -173,7 +174,8 @@ export default class InterviewController extends AuthController {
       }
     }
   }
-  @GET(CurrentInterviewForInterviewee, { schema: getInterviewSchema })
+
+  @GET(CURRENT_INTERVIEW_FOR_INTERVIEWEE, { schema: getInterviewSchema })
   async getCurrentInterviews(
     request: FastifyRequest<{
       Params: GetInterviewPathParams;
