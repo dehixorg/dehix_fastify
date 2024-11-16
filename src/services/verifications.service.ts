@@ -527,16 +527,17 @@ export class VerificationService extends BaseService {
       connectsToAdd = 7;
     } else if (doc_type === "project") {
       connectsToAdd = 5;
-    }
-    else {
+    } else {
       throw new Error("Invalid verification type");
     }
-    const freelancer = await this.freelancerDAO.findFreelancerById(freelancerId);
+    const freelancer =
+      await this.freelancerDAO.findFreelancerById(freelancerId);
     if (!freelancer) {
       throw new Error("Freelancer not found");
     }
 
-    let currentConnects = await this.freelancerDAO.getFreelancerConnects(freelancerId)
+    let currentConnects =
+      await this.freelancerDAO.getFreelancerConnects(freelancerId);
     if (!currentConnects) {
       currentConnects = 0;
     }
@@ -544,7 +545,7 @@ export class VerificationService extends BaseService {
 
     const updatedFreelancer = await this.freelancerDAO.updateFreelancerConnects(
       freelancerId,
-      newConnects
+      newConnects,
     );
 
     return updatedFreelancer;
@@ -553,12 +554,13 @@ export class VerificationService extends BaseService {
     this.logger.info(
       `VerificationService: getVerificationById: Getting Verification for ID:${verification_id}`,
     );
-    const verificationResult = await this.verificationDAO.findVerificationById(verification_id);
+    const verificationResult =
+      await this.verificationDAO.findVerificationById(verification_id);
 
     if (!verificationResult) {
       throw new Error(`Verification with ID ${verification_id} not found.`);
     }
-    
+
     const { doc_type, verifier_id } = verificationResult;
     return { doc_type, verifier_id };
   }

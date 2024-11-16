@@ -184,12 +184,12 @@ export default class VerificationsController extends AuthController {
         request.body.verifiedAt,
         request.body.verification_status,
       );
-      const { doc_type, verifier_id } = await this.verificationService.getVerificationByID(request.params.verification_id);
+      const { doc_type, verifier_id } =
+        await this.verificationService.getVerificationByID(
+          request.params.verification_id,
+        );
       const freelancer_id = verifier_id;
-      await this.verificationService.increaseConnects(
-        freelancer_id,
-        doc_type
-      );
+      await this.verificationService.increaseConnects(freelancer_id, doc_type);
       reply.status(STATUS_CODES.SUCCESS).send({ message: "verification done" });
     } catch (error: any) {
       this.logger.error(`Error in updateVerificationData: ${error.message}`);

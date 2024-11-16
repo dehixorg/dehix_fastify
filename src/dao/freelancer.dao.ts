@@ -799,7 +799,7 @@ export class FreelancerDAO extends BaseDAO {
         throw new Error("Freelancer not found");
       }
       if (freelancer.connects == 0) {
-        return freelancer.connects = 0;
+        return (freelancer.connects = 0);
       }
       return freelancer.connects;
     } catch (error: any) {
@@ -812,7 +812,7 @@ export class FreelancerDAO extends BaseDAO {
       const updatedFreelancer = await this.model.findByIdAndUpdate(
         freelancer_id,
         { connects: connects },
-        { new: true }
+        { new: true },
       );
       return updatedFreelancer;
     } catch (error: any) {

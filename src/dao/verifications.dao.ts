@@ -218,7 +218,12 @@ export class VerificationDAO extends BaseDAO {
     };
     return await this.model.find(query);
   }
-  async updateVerificationById(_id: string, comment: string, verifiedAt: Date, verification_status: "pending" | "approved" | "denied") {
+  async updateVerificationById(
+    _id: string,
+    comment: string,
+    verifiedAt: Date,
+    verification_status: "pending" | "approved" | "denied",
+  ) {
     try {
       const updatedComment = await this.model.findOneAndUpdate(
         { _id },

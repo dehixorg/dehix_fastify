@@ -100,8 +100,8 @@ export const updateVerificationCommentSchema: FastifySchema = {
       },
       verification_status: {
         type: "string",
-        enum: [ "pending", "approved", "denied" ],
-      }
+        enum: ["pending", "approved", "denied"],
+      },
     },
     required: [],
   },
