@@ -5,4 +5,5 @@ export interface PatchOracleBody {
 export interface PutCommentBody {
   comment: string;
   verifiedAt: Date;
+  verification_status: "pending" | "approved" | "denied";
 }

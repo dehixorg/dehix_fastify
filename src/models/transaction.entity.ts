@@ -8,7 +8,7 @@ export interface ITransaction extends Document {
   amount?: number;
   type?: "payment" | "referral" | "rewards" | "system generated";
   reference?: string;
-  from_type?: "system" | "freelancer" | "business" | "admin";
+  from_type?: "system" | "freelancer" | "business" | "admin" | "verification";
   reference_id?: string;
 }
 

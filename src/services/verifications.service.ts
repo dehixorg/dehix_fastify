@@ -495,6 +495,7 @@ export class VerificationService extends BaseService {
     verification_id: string,
     comment: string,
     verifiedAt: Date,
+    verification_status: "pending" | "approved" | "denied",
   ) {
     this.logger.info(
       `VerificationService: updateVerificationById: Updating Verification for Verifier ID:${verification_id}`,
@@ -512,8 +513,53 @@ export class VerificationService extends BaseService {
       verification_id,
       comment,
       verifiedAt,
+      verification_status,
     );
 
     return data;
+  }
+
+  async increaseConnects(freelancerId, doc_type) {
+    let connectsToAdd = 0;
+    if (doc_type === "business") {
+      connectsToAdd = 10;
+    } else if (doc_type === "education" || doc_type === "profile") {
+      connectsToAdd = 7;
+    } else if (doc_type === "project") {
+      connectsToAdd = 5;
+    }
+    else {
+      throw new Error("Invalid verification type");
+    }
+    const freelancer = await this.freelancerDAO.findFreelancerById(freelancerId);
+    if (!freelancer) {
+      throw new Error("Freelancer not found");
+    }
+
+    let currentConnects = await this.freelancerDAO.getFreelancerConnects(freelancerId)
+    if (!currentConnects) {
+      currentConnects = 0;
+    }
+    const newConnects = currentConnects + connectsToAdd;
+
+    const updatedFreelancer = await this.freelancerDAO.updateFreelancerConnects(
+      freelancerId,
+      newConnects
+    );
+
+    return updatedFreelancer;
+  }
+  async getVerificationByID(verification_id: string) {
+    this.logger.info(
+      `VerificationService: getVerificationById: Getting Verification for ID:${verification_id}`,
+    );
+    const verificationResult = await this.verificationDAO.findVerificationById(verification_id);
+
+    if (!verificationResult) {
+      throw new Error(`Verification with ID ${verification_id} not found.`);
+    }
+    
+    const { doc_type, verifier_id } = verificationResult;
+    return { doc_type, verifier_id };
   }
 }

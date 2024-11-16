@@ -13,7 +13,7 @@ export const updateTransactionSchema: FastifySchema = {
       reference: { type: "string" },
       from_type: {
         type: "string",
-        enum: ["system", "freelancer", "business", "admin"],
+        enum: ["system", "freelancer", "business", "admin", "verification"],
       },
       reference_id: { type: "string" },
     },
