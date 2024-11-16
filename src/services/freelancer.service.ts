@@ -271,10 +271,28 @@ export class FreelancerService extends BaseService {
       freelancer,
     );
 
+    // If a profile picture is provided, update the avatar_url in Firebase
+    if (freelancer.profilePic) {
+      try {
+        // Call the updateUser function to update the avatar_url in Firebase
+        await firebaseClient.updateUser(freelancer_id, {
+          photoURL: freelancer.profilePic, // Assuming the profilePic is the URL of the image
+        });
+        this.logger.info(
+          "Updated avatar_url in Firebase for freelancer: ",
+          freelancer_id,
+        );
+      } catch (error) {
+        this.logger.error("Error updating avatar_url in Firebase:", error);
+        throw new Error("Error updating avatar in Firebase.");
+      }
+    }
+
     const data: any = await this.FreelancerDAO.updateFreelancer(
       { _id: freelancer_id },
       freelancer,
     );
+
     if (data.description && data.description.length > 500) {
       throw new Error("Description cannot exceed 500 characters.");
     }

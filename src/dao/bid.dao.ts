@@ -87,20 +87,31 @@ export class BidDAO extends BaseDAO {
     status?: "Active" | "Pending" | "Completed" | "Rejected",
   ) {
     let bidStatus;
+
+    // Determine the bidStatus based on the provided status
     if (status === "Active" || status === "Completed") {
       bidStatus = "Accepted";
     } else if (status === "Pending") {
       bidStatus = "Pending";
-    } else {
+    } else if (status === "Rejected") {
       bidStatus = "Rejected";
+    } else {
+      // If no status is provided, don't filter by bid status
+      bidStatus = undefined;
+    }
+
+    const matchStage: any = {
+      bidder_id: bidder_id,
+    };
+
+    // If status is provided, add the bid_status condition to the match
+    if (bidStatus) {
+      matchStage.bid_status = bidStatus;
     }
 
     const result = await this.model.aggregate([
       {
-        $match: {
-          bidder_id: bidder_id,
-          bid_status: bidStatus,
-        },
+        $match: matchStage, // Match based on bidder_id and optional bid_status
       },
       {
         $lookup: {
