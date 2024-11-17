@@ -26,11 +26,15 @@ import {
   PatchOracleBody,
   PutCommentBody,
 } from "../types/v1/verifications/updateVerificationBody";
+import { TransactionService } from "../services/transaction.service";
 
 @Controller({ route: FREELANCER_ENDPOINT })
 export default class VerificationsController extends AuthController {
   @Inject(VerificationService)
   verificationService!: VerificationService;
+
+  @Inject(TransactionService)
+  transactionService!: TransactionService;
 
   @GET(ORACLE_ID_ENDPOINT, { schema: getVerificationDataSchema })
   async getVerificationData(
@@ -189,6 +193,47 @@ export default class VerificationsController extends AuthController {
           request.params.verification_id,
         );
       const freelancer_id = verifier_id;
+      try {
+        if (doc_type === "business") {
+          const transactionData = {
+            from: "system",
+            to: "freelancer",
+            amount: 10, 
+            type: "rewards", 
+            from_type: "admin", 
+            reference: "freelancer", 
+            reference_id: freelancer_id,
+          };
+          await this.transactionService.create(transactionData);
+        }
+        else if (doc_type === "education" || doc_type === "profile") {
+          const transactionData = {
+            from: "system",
+            to: "freelancer",
+            amount: 7, 
+            type: "rewards", 
+            from_type: "admin", 
+            reference: "freelancer", 
+            reference_id: freelancer_id,
+          };
+          await this.transactionService.create(transactionData);
+        }
+        else if (doc_type === "project") {
+            const transactionData = {
+              from: "system",
+              to: "freelancer",
+              amount: 5, 
+              type: "rewards", 
+              from_type: "admin", 
+              reference: "freelancer", 
+              reference_id: freelancer_id,
+            };
+          await this.transactionService.create(transactionData);
+          }
+        } catch (error: any) {
+          this.logger.error(`Error in updateVerificationComment: ${error.message}`);
+        }
+
       await this.verificationService.increaseConnects(freelancer_id, doc_type);
       reply.status(STATUS_CODES.SUCCESS).send({ message: "verification done" });
     } catch (error: any) {
