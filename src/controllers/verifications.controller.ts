@@ -198,41 +198,41 @@ export default class VerificationsController extends AuthController {
           const transactionData = {
             from: "system",
             to: "freelancer",
-            amount: 10, 
-            type: "rewards", 
-            from_type: "admin", 
-            reference: "freelancer", 
+            amount: 10,
+            type: "rewards",
+            from_type: "admin",
+            reference: "freelancer",
             reference_id: freelancer_id,
           };
           await this.transactionService.create(transactionData);
-        }
-        else if (doc_type === "education" || doc_type === "profile") {
+        } else if (doc_type === "education" || doc_type === "profile") {
           const transactionData = {
             from: "system",
             to: "freelancer",
-            amount: 7, 
-            type: "rewards", 
-            from_type: "admin", 
-            reference: "freelancer", 
+            amount: 7,
+            type: "rewards",
+            from_type: "admin",
+            reference: "freelancer",
+            reference_id: freelancer_id,
+          };
+          await this.transactionService.create(transactionData);
+        } else if (doc_type === "project") {
+          const transactionData = {
+            from: "system",
+            to: "freelancer",
+            amount: 5,
+            type: "rewards",
+            from_type: "admin",
+            reference: "freelancer",
             reference_id: freelancer_id,
           };
           await this.transactionService.create(transactionData);
         }
-        else if (doc_type === "project") {
-            const transactionData = {
-              from: "system",
-              to: "freelancer",
-              amount: 5, 
-              type: "rewards", 
-              from_type: "admin", 
-              reference: "freelancer", 
-              reference_id: freelancer_id,
-            };
-          await this.transactionService.create(transactionData);
-          }
-        } catch (error: any) {
-          this.logger.error(`Error in updateVerificationComment: ${error.message}`);
-        }
+      } catch (error: any) {
+        this.logger.error(
+          `Error in updateVerificationComment: ${error.message}`,
+        );
+      }
 
       await this.verificationService.increaseConnects(freelancer_id, doc_type);
       reply.status(STATUS_CODES.SUCCESS).send({ message: "verification done" });
