@@ -197,16 +197,28 @@ export default class VerificationsController extends AuthController {
         let amount = 0;
         switch (doc_type) {
           case "business":
-            amount = parseInt(process.env.VERIFICATION_REWARD_BUSINESS || "0", 10);
+            amount = parseInt(
+              process.env.VERIFICATION_REWARD_BUSINESS || "0",
+              10,
+            );
             break;
           case "education":
-            amount = parseInt(process.env.VERIFICATION_REWARD_EDUCATION || "0", 10);
+            amount = parseInt(
+              process.env.VERIFICATION_REWARD_EDUCATION || "0",
+              10,
+            );
             break;
           case "experience":
-            amount = parseInt(process.env.VERIFICATION_REWARD_EXPERIENCE || "0", 10);
+            amount = parseInt(
+              process.env.VERIFICATION_REWARD_EXPERIENCE || "0",
+              10,
+            );
             break;
           case "project":
-            amount = parseInt(process.env.VERIFICATION_REWARD_PROJECT || "0", 10);
+            amount = parseInt(
+              process.env.VERIFICATION_REWARD_PROJECT || "0",
+              10,
+            );
             break;
           default:
             throw new Error("Invalid doc_type");
@@ -220,7 +232,7 @@ export default class VerificationsController extends AuthController {
           reference: "freelancer",
           reference_id: freelancer_id,
         };
-      
+
         await this.transactionService.create(transactionData);
       } catch (error: any) {
         this.logger.error(
