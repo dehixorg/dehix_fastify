@@ -194,40 +194,34 @@ export default class VerificationsController extends AuthController {
         );
       const freelancer_id = verifier_id;
       try {
-        if (doc_type === "business") {
-          const transactionData = {
-            from: "system",
-            to: "freelancer",
-            amount: 10,
-            type: "rewards",
-            from_type: "admin",
-            reference: "freelancer",
-            reference_id: freelancer_id,
-          };
-          await this.transactionService.create(transactionData);
-        } else if (doc_type === "education" || doc_type === "profile") {
-          const transactionData = {
-            from: "system",
-            to: "freelancer",
-            amount: 7,
-            type: "rewards",
-            from_type: "admin",
-            reference: "freelancer",
-            reference_id: freelancer_id,
-          };
-          await this.transactionService.create(transactionData);
-        } else if (doc_type === "project") {
-          const transactionData = {
-            from: "system",
-            to: "freelancer",
-            amount: 5,
-            type: "rewards",
-            from_type: "admin",
-            reference: "freelancer",
-            reference_id: freelancer_id,
-          };
-          await this.transactionService.create(transactionData);
+        let amount = 0;
+        switch (doc_type) {
+          case "business":
+            amount = parseInt(process.env.VERIFICATION_REWARD_BUSINESS || "0", 10);
+            break;
+          case "education":
+            amount = parseInt(process.env.VERIFICATION_REWARD_EDUCATION || "0", 10);
+            break;
+          case "experience":
+            amount = parseInt(process.env.VERIFICATION_REWARD_EXPERIENCE || "0", 10);
+            break;
+          case "project":
+            amount = parseInt(process.env.VERIFICATION_REWARD_PROJECT || "0", 10);
+            break;
+          default:
+            throw new Error("Invalid doc_type");
         }
+        const transactionData = {
+          from: "system",
+          to: "freelancer",
+          amount,
+          type: "rewards",
+          from_type: "admin",
+          reference: "freelancer",
+          reference_id: freelancer_id,
+        };
+      
+        await this.transactionService.create(transactionData);
       } catch (error: any) {
         this.logger.error(
           `Error in updateVerificationComment: ${error.message}`,

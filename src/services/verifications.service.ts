@@ -523,7 +523,7 @@ export class VerificationService extends BaseService {
     let connectsToAdd = 0;
     if (doc_type === "business") {
       connectsToAdd = 10;
-    } else if (doc_type === "education" || doc_type === "profile") {
+    } else if (doc_type === "education" || doc_type === "experience") {
       connectsToAdd = 7;
     } else if (doc_type === "project") {
       connectsToAdd = 5;
