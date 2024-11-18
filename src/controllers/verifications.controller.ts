@@ -198,25 +198,25 @@ export default class VerificationsController extends AuthController {
         switch (doc_type) {
           case "business":
             amount = parseInt(
-              process.env.VERIFICATION_REWARD_BUSINESS || "0",
+              process.env.VERIFICATION_REWARD_BUSINESS || "10",
               10,
             );
             break;
           case "education":
             amount = parseInt(
-              process.env.VERIFICATION_REWARD_EDUCATION || "0",
+              process.env.VERIFICATION_REWARD_EDUCATION || "7",
               10,
             );
             break;
           case "experience":
             amount = parseInt(
-              process.env.VERIFICATION_REWARD_EXPERIENCE || "0",
+              process.env.VERIFICATION_REWARD_EXPERIENCE || "7",
               10,
             );
             break;
           case "project":
             amount = parseInt(
-              process.env.VERIFICATION_REWARD_PROJECT || "0",
+              process.env.VERIFICATION_REWARD_PROJECT || "5",
               10,
             );
             break;
