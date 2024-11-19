@@ -1,14 +1,34 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
+export enum FromType {
+  SYSTEM = "system",
+  FREELANCER = "freelancer",
+  BUSINESS = "business",
+  ADMIN = "admin",
+  VERIFICATION = "verification",
+}
+
+export enum Type {
+  PAYMENT = "payment",
+  REFERRAL = "referral",
+  REWARDS = "rewards",
+  SYSTEM_GENERATED = "system generated",
+}
+export const VERIFICATION_ENUM_TYPES = {
+  FROM_TYPE: Object.values(FromType),
+  TYPE: Object.values(Type),
+  
+}
+
 export interface ITransaction extends Document {
   _id?: string;
   from?: string;
   to?: string;
   amount?: number;
-  type?: "payment" | "referral" | "rewards" | "system generated";
+  type?: Type;
   reference?: string;
-  from_type?: "system" | "freelancer" | "business" | "admin" | "verification";
+  from_type?: FromType;
   reference_id?: string;
 }
 
@@ -33,7 +53,7 @@ const TransactionSchema: Schema = new Schema(
     },
     type: {
       type: String,
-      enum: ["payment", "referral", "rewards", "system generated"],
+      enum: Object.values(Type),
       required: true,
     },
     reference: {
@@ -42,7 +62,7 @@ const TransactionSchema: Schema = new Schema(
     },
     from_type: {
       type: String,
-      enum: ["system", "freelancer", "business", "admin"],
+      enum: Object.values(FromType),
       required: true,
     },
     reference_id: {

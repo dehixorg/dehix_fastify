@@ -1,6 +1,16 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
+export enum VerificationStatus {
+  PENDING = "pending",
+  APPROVED = "approved",
+  DENIED = "denied",
+  }
+
+export enum Type {
+  FREELANCER = "freelancer",
+  ADMIN = "admin",
+}
 // Define an interface for the Verification document
 export interface IVerification extends Document {
   _id: string;
@@ -9,12 +19,12 @@ export interface IVerification extends Document {
   requester_id: string;
   document_id: string;
   doc_type: string; // Added doc_type field
-  verification_status: "Pending" | "Approved" | "Denied";
+  verification_status: VerificationStatus;
   createdAt: Date;
   updatedAt: Date;
   comment: string;
   verifiedAt: Date;
-  type?: "freelancer" | "admin";
+  type?: Type;
 }
 
 // Define the Verification schema
@@ -48,8 +58,8 @@ const VerificationSchema: Schema<IVerification> = new Schema(
     },
     verification_status: {
       type: String,
-      enum: ["Pending", "Approved", "Denied"],
-      default: "Pending",
+      enum: Object.values(VerificationStatus),
+      default: VerificationStatus.PENDING,
     },
     comment: {
       type: String,
@@ -61,7 +71,7 @@ const VerificationSchema: Schema<IVerification> = new Schema(
     },
     type: {
       type: String,
-      enum: ["freelancer", "admin"],
+      enum: Object.values(Type),
       required: false,
     },
   },
