@@ -526,11 +526,11 @@ export class VerificationService extends BaseService {
       project: 5,
       experience: 7,
     };
-    
+
     function getConnectsToAdd(doc_type: string): number {
       return CONNECTS_MAPPING[doc_type] || 0;
     }
-    let connectsToAdd = getConnectsToAdd(doc_type);
+    const connectsToAdd = getConnectsToAdd(doc_type);
 
     const freelancer =
       await this.freelancerDAO.findFreelancerById(freelancerId);

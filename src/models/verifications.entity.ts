@@ -5,7 +5,7 @@ export enum VerificationStatus {
   PENDING = "pending",
   APPROVED = "approved",
   DENIED = "denied",
-  }
+}
 
 export enum Type {
   FREELANCER = "freelancer",

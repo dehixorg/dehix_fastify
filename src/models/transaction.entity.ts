@@ -18,8 +18,7 @@ export enum Type {
 export const VERIFICATION_ENUM_TYPES = {
   FROM_TYPE: Object.values(FromType),
   TYPE: Object.values(Type),
-  
-}
+};
 
 export interface ITransaction extends Document {
   _id?: string;
