@@ -520,16 +520,18 @@ export class VerificationService extends BaseService {
   }
 
   async increaseConnects(freelancerId, doc_type) {
-    let connectsToAdd = 0;
-    if (doc_type === "business") {
-      connectsToAdd = 10;
-    } else if (doc_type === "education" || doc_type === "experience") {
-      connectsToAdd = 7;
-    } else if (doc_type === "project") {
-      connectsToAdd = 5;
-    } else {
-      throw new Error("Invalid verification type");
+    const CONNECTS_MAPPING: { [key: string]: number } = {
+      business: 10,
+      education: 7,
+      project: 5,
+      experience: 7,
+    };
+
+    function getConnectsToAdd(doc_type: string): number {
+      return CONNECTS_MAPPING[doc_type] || 0;
     }
+    const connectsToAdd = getConnectsToAdd(doc_type);
+
     const freelancer =
       await this.freelancerDAO.findFreelancerById(freelancerId);
     if (!freelancer) {
