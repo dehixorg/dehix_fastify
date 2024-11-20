@@ -791,4 +791,32 @@ export class FreelancerDAO extends BaseDAO {
       },
     );
   }
+
+  async getFreelancerConnects(freelancer_id) {
+    try {
+      const freelancer = await this.model.findById(freelancer_id);
+      if (!freelancer) {
+        throw new Error("Freelancer not found");
+      }
+      if (freelancer.connects == 0) {
+        return (freelancer.connects = 0);
+      }
+      return freelancer.connects;
+    } catch (error: any) {
+      throw new Error(`Error fetching freelancer connects: ${error.message}`);
+    }
+  }
+
+  async updateFreelancerConnects(freelancer_id, connects) {
+    try {
+      const updatedFreelancer = await this.model.findByIdAndUpdate(
+        freelancer_id,
+        { connects: connects },
+        { new: true },
+      );
+      return updatedFreelancer;
+    } catch (error: any) {
+      throw new Error(`Error updating connects: ${error.message}`);
+    }
+  }
 }

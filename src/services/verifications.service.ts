@@ -495,6 +495,7 @@ export class VerificationService extends BaseService {
     verification_id: string,
     comment: string,
     verifiedAt: Date,
+    verification_status: "pending" | "approved" | "denied",
   ) {
     this.logger.info(
       `VerificationService: updateVerificationById: Updating Verification for Verifier ID:${verification_id}`,
@@ -512,8 +513,57 @@ export class VerificationService extends BaseService {
       verification_id,
       comment,
       verifiedAt,
+      verification_status,
     );
 
     return data;
+  }
+
+  async increaseConnects(freelancerId, doc_type) {
+    const CONNECTS_MAPPING: { [key: string]: number } = {
+      business: 10,
+      education: 7,
+      project: 5,
+      experience: 7,
+    };
+
+    function getConnectsToAdd(doc_type: string): number {
+      return CONNECTS_MAPPING[doc_type] || 0;
+    }
+    const connectsToAdd = getConnectsToAdd(doc_type);
+
+    const freelancer =
+      await this.freelancerDAO.findFreelancerById(freelancerId);
+    if (!freelancer) {
+      throw new Error("Freelancer not found");
+    }
+
+    let currentConnects =
+      await this.freelancerDAO.getFreelancerConnects(freelancerId);
+    if (!currentConnects) {
+      currentConnects = 0;
+    }
+    const newConnects = currentConnects + connectsToAdd;
+
+    const updatedFreelancer = await this.freelancerDAO.updateFreelancerConnects(
+      freelancerId,
+      newConnects,
+    );
+
+    return updatedFreelancer;
+  }
+  async getVerificationByID(verification_id: string) {
+    this.logger.info(
+      `VerificationService: getVerificationById: Getting Verification for ID:${verification_id}`,
+    );
+    const verificationResult =
+      await this.verificationDAO.findVerificationById(verification_id);
+
+    if (!verificationResult) {
+      throw new Error(`Verification with ID ${verification_id} not found.`);
+    }
+
+    const { doc_type, verifier_id } = verificationResult;
+    return { doc_type, verifier_id };
   }
 }
