@@ -56,6 +56,7 @@ import {
   FREELANCER_DEHIX_TALENT_BY_ID,
   FREELANCER_DEHIX_TALENT_UPDATE_BY_ID,
   FREELANCER_EDUCATION_BY_ID,
+  FREELANCER_ONBOARDING_STATUS_BY_ID,
 } from "../constants/freelancer.constant";
 import {
   getAllDehixTalentSchema,
@@ -78,6 +79,7 @@ import {
   updateEducationSchema,
   updateFreelancerSchema,
   updateNotInterestedProjectSchema,
+  updateOnboardingStatusSchema,
   updateProjectSchema,
 } from "../schema/v1/freelancer/freelancer.update";
 import {
@@ -92,6 +94,7 @@ import {
   PutFreelancerEducationBody,
   PutProjectPathParams,
   PutFreelancerDomainBody,
+  PutFreelancerOnboardingStatusBody,
 } from "../types/v1/freelancer/updateProfile";
 import {
   deleteDehixTalentFreelancerSchema,
@@ -1575,6 +1578,46 @@ export default class FreelancerController extends AuthController {
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(`Error in getFreelancerEducation: ${error.message}`);
+      if (
+        error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
+        error.message.includes(
+          "Freelancer with provided ID could not be found.",
+        )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @PUT(FREELANCER_ONBOARDING_STATUS_BY_ID, { schema: updateOnboardingStatusSchema })
+  async updateOnboardingStatusById(
+    request: FastifyRequest<{
+      Params: PutFreelancerPathParams;
+      Body: PutFreelancerOnboardingStatusBody;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `FreelancerController -> updateOnboardingStatusById -> Updating onboarding status of freelancer using ID: ${request.params.freelancer_id}`,
+      );
+
+      const data = await this.freelancerService.updateFreelancerOnboardingStatus(
+        request.params.freelancer_id,
+        request.body.onboardingStatus,
+      );
+
+      reply.status(STATUS_CODES.SUCCESS).send({ data });
+    } catch (error: any) {
+      this.logger.error(`Error in updateOnboardingStatusById: ${error.message}`);
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(

@@ -819,4 +819,12 @@ export class FreelancerDAO extends BaseDAO {
       throw new Error(`Error updating connects: ${error.message}`);
     }
   }
+
+  async updateFreelancerOnboardingStatus(freelancer_id: string, onboardingStatus: string) {
+    return this.model.findByIdAndUpdate(
+      freelancer_id,
+      { onboardingStatus },
+      { new: true },
+    );
+  }
 }
