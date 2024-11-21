@@ -310,7 +310,7 @@ export const getFreelancerPublicDetails: FastifySchema = {
         },
         onboardingStatus: {
           type: "boolean",
-        }
+        },
       },
     },
     404: {

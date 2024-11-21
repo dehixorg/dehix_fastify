@@ -1597,7 +1597,9 @@ export default class FreelancerController extends AuthController {
     }
   }
 
-  @PUT(FREELANCER_ONBOARDING_STATUS_BY_ID, { schema: updateOnboardingStatusSchema })
+  @PUT(FREELANCER_ONBOARDING_STATUS_BY_ID, {
+    schema: updateOnboardingStatusSchema,
+  })
   async updateOnboardingStatusById(
     request: FastifyRequest<{
       Params: PutFreelancerPathParams;
@@ -1610,14 +1612,17 @@ export default class FreelancerController extends AuthController {
         `FreelancerController -> updateOnboardingStatusById -> Updating onboarding status of freelancer using ID: ${request.params.freelancer_id}`,
       );
 
-      const data = await this.freelancerService.updateFreelancerOnboardingStatus(
-        request.params.freelancer_id,
-        request.body.onboardingStatus,
-      );
+      const data =
+        await this.freelancerService.updateFreelancerOnboardingStatus(
+          request.params.freelancer_id,
+          request.body.onboardingStatus,
+        );
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
-      this.logger.error(`Error in updateOnboardingStatusById: ${error.message}`);
+      this.logger.error(
+        `Error in updateOnboardingStatusById: ${error.message}`,
+      );
       if (
         error.ERROR_CODES === "FREELANCER_NOT_FOUND" ||
         error.message.includes(

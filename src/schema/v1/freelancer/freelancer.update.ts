@@ -292,7 +292,7 @@ export const updateFreelancerSchema: FastifySchema = {
       onboardingStatus: {
         type: "boolean",
         default: false,
-      }
+      },
     },
     required: [],
   },

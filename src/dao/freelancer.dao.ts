@@ -820,7 +820,10 @@ export class FreelancerDAO extends BaseDAO {
     }
   }
 
-  async updateFreelancerOnboardingStatus(freelancer_id: string, onboardingStatus: string) {
+  async updateFreelancerOnboardingStatus(
+    freelancer_id: string,
+    onboardingStatus: string,
+  ) {
     return this.model.findByIdAndUpdate(
       freelancer_id,
       { onboardingStatus },
