@@ -129,6 +129,9 @@ export const getFreelancerDetails: FastifySchema = {
             },
           },
         },
+        onboardingStatus: {
+          type: "boolean",
+        },
       },
     },
     ...commonErrorResponses,
@@ -304,6 +307,9 @@ export const getFreelancerPublicDetails: FastifySchema = {
               projectType: { type: "string" },
             },
           },
+        },
+        onboardingStatus: {
+          type: "boolean",
         },
       },
     },

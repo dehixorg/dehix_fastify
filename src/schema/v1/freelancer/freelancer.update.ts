@@ -289,6 +289,10 @@ export const updateFreelancerSchema: FastifySchema = {
         type: "array",
         items: { type: "string" },
       },
+      onboardingStatus: {
+        type: "boolean",
+        default: false,
+      },
     },
     required: [],
   },
@@ -854,6 +858,47 @@ export const updateDehixTalentSchema: FastifySchema = {
             activeStatus: {
               type: "boolean",
             },
+          },
+        },
+      },
+    },
+    ...commonErrorResponses,
+  },
+};
+
+export const updateOnboardingStatusSchema: FastifySchema = {
+  description: "API to update onboarding status of freelancer",
+  tags: ["Freelancer"],
+  body: {
+    type: "object",
+    properties: {
+      onboardingStatus: {
+        type: "boolean",
+      },
+    },
+    required: ["onboardingStatus"],
+  },
+  params: {
+    type: "object",
+    properties: {
+      freelancer_id: {
+        type: "string",
+        description:
+          "The ID of the freelancer to where the onboarding status updated",
+      },
+    },
+    required: ["freelancer_id"],
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: {
+          type: "object",
+          properties: {
+            freelancer_id: { type: "string" },
+            onboardingStatus: { type: "string" },
           },
         },
       },

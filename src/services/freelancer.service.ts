@@ -1097,6 +1097,33 @@ export class FreelancerService extends BaseService {
     this.logger.info(data, "in get freelancer education");
     return data;
   }
+
+  async updateFreelancerOnboardingStatus(
+    freelancer_id: string,
+    onboarding_status: string,
+  ) {
+    this.logger.info(
+      "FreelancerService: updateFreelancerOnboardingStatus: Updating Freelancer Onboarding Status: ",
+      freelancer_id,
+      onboarding_status,
+    );
+
+    const userExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const data: any = await this.FreelancerDAO.updateFreelancerOnboardingStatus(
+      freelancer_id,
+      onboarding_status,
+    );
+
+    return data;
+  }
 }
 /**
  * Service method for FREELANCER login
