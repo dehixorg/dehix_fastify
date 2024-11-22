@@ -31,7 +31,7 @@ export namespace MongoClient {
     logger.info("mongo client -> init -> dbModels", models);
 
     // Seed skills, domains and project domains when its a new DB
-    seedProjectDomains();
+    // seedProjectDomains();
     // await seedSkills();
     // await seedDomains();
   }
