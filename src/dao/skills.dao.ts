@@ -12,6 +12,10 @@ export class SkillDAO extends BaseDAO {
     this.model = SkillModel;
   }
 
+  async countSkills(): Promise<number> {
+    return this.model.countDocuments(); // Returns the count of skills
+  }
+
   async addSkills(skillsData: Partial<ISkill>[]) {
     try {
       const insertedSkills = await Promise.all(

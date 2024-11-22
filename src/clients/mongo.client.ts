@@ -31,15 +31,20 @@ export namespace MongoClient {
     logger.info("mongo client -> init -> dbModels", models);
 
     // Seed skills, domains and project domains when its a new DB
-    // await seedProjectDomains();
-    // await seedSkills();
-    // await seedDomains();
+    await seedProjectDomains();
+    await seedSkills();
+    await seedDomains();
   }
 }
-
 export async function seedProjectDomains() {
   const projectDomainDAO = new ProjectDomainDAO();
   try {
+    const existingCount = await projectDomainDAO.countDomains(); // Check if there are existing domains
+    if (existingCount > 0) {
+      logger.info(`Project domains already exist. Skipping seeding.`);
+      return;
+    }
+
     const insertedProjectDomains =
       await projectDomainDAO.addDomain(projectDomains);
     logger.info(
@@ -54,6 +59,12 @@ export async function seedProjectDomains() {
 export async function seedSkills() {
   const skillDAO = new SkillDAO();
   try {
+    const existingCount = await skillDAO.countSkills(); // Check if there are existing skills
+    if (existingCount > 0) {
+      logger.info(`Skills already exist. Skipping seeding.`);
+      return;
+    }
+
     const insertedSkills = await skillDAO.addSkills(skills);
     logger.info(`Successfully inserted ${insertedSkills.length} skills.`);
   } catch (error: any) {
@@ -65,6 +76,12 @@ export async function seedSkills() {
 export async function seedDomains() {
   const domainDAO = new DomainDAO();
   try {
+    const existingCount = await domainDAO.countDomains(); // Check if there are existing domains
+    if (existingCount > 0) {
+      logger.info(`Domains already exist. Skipping seeding.`);
+      return;
+    }
+
     const insertedDomains = await domainDAO.addDomain(domains);
     logger.info(`Successfully inserted ${insertedDomains.length} domains.`);
   } catch (error: any) {

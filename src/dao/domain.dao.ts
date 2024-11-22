@@ -12,6 +12,10 @@ export class DomainDAO extends BaseDAO {
     this.model = DomainModel;
   }
 
+  async countDomains(): Promise<number> {
+    return this.model.countDocuments(); // Returns the count of domains
+  }
+
   async addDomain(domainsData: Partial<IDomain>[]) {
     try {
       const insertedDomain = await Promise.all(
