@@ -28,3 +28,7 @@ export interface PutProjectBody {
   status?: string;
   team?: string[];
 }
+export interface PutBiddingDateProjectBody {
+  maxBiddingDate: Date;
+  startBiddingDate: Date;
+}

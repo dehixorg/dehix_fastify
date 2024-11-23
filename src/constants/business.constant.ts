@@ -45,6 +45,8 @@ export const ALL_PROJECT_ENDPOINT = "";
 // Endpoint to update the status of a specific project using its project ID
 export const UPDATE_STATUS_BY_PROJECT_ID = "/:project_id";
 
+export const UPDATE_BIDDING_DATE = "/:project_id/min_and_max_bid_date";
+
 // Endpoint to update the project profile for a specific project and profile using project ID and profile ID
 export const UPDATE_BUSINESS_PROJECT_PROFILE_BY_ID =
   "/:project_id/:profile_id/project/profile";

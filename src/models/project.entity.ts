@@ -39,6 +39,8 @@ export interface IProject extends Document {
   team?: string[];
   createdAt?: Date;
   updatedAt?: Date;
+  maxBidDate?: Date;
+  startBidDate?: Date;
 }
 
 // Define the Project schema
@@ -110,7 +112,26 @@ const ProjectSchema: Schema<IProject> = new Schema(
       type: String,
       required: false,
     },
-
+    maxBidDate: {
+      type: Date,
+      required: false,
+      validate: {
+        validator: function (value: Date) {
+          return value > new Date();
+        },
+        message: 'maxBidDate must be in the future'
+      }
+    },
+    startBidDate: {
+      type: Date,
+      required: false,
+      validate: {
+        validator: function (value: Date) {
+          return value > new Date();
+        },
+        message: 'startBidDate must be in the future'
+      }
+    },
     profiles: [
       {
         _id: { type: String },
