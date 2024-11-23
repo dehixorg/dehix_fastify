@@ -133,6 +133,7 @@ export const getBidForProfileIdSchema: FastifySchema = {
               domain_id: { type: "string" },
               description: { type: "string" },
               userName: { type: "string" },
+              createdAt: { type: "string" },
             },
           },
         },
