@@ -159,29 +159,29 @@ export const updateBidDateSchema: FastifySchema = {
   description: "API to update bidding date of project",
   tags: ["Project"],
   params: {
-    type: 'object',
+    type: "object",
     properties: {
       project_id: {
         type: "string",
         description: "Project Id",
       },
     },
-    required: ['project_id']
+    required: ["project_id"],
   },
   body: {
-    type: 'object',
+    type: "object",
     properties: {
       maxBiddingDate: {
         type: "string",
-        format: "date-time"
+        format: "date-time",
       },
       startBiddingDate: {
         type: "string",
-        format: "date-time"
+        format: "date-time",
       },
     },
   },
   response: {
     ...commonErrorResponses,
   },
-}
+};

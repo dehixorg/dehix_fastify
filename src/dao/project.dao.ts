@@ -115,13 +115,15 @@ export class ProjectDAO extends BaseDAO {
       },
     ]);
   }
-  async updateBiddingDate(project_id: string, maxBiddingDate: Date, startBiddingDate: Date) {
+  async updateBiddingDate(
+    project_id: string,
+    maxBiddingDate: Date,
+    startBiddingDate: Date,
+  ) {
     return await this.model.findByIdAndUpdate(
       project_id,
-      { maxBidDate: maxBiddingDate,
-        startBidDate: startBiddingDate
-      },
-      { new: true},
-    )
+      { maxBidDate: maxBiddingDate, startBidDate: startBiddingDate },
+      { new: true },
+    );
   }
 }

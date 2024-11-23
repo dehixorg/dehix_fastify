@@ -21,7 +21,7 @@ import {
   GET_BUSINESS_SINGLE_PROJECT_BY_ID_WITH_OUT_CHECK,
   UPDATE_STATUS_BY_PROJECT_ID,
   PROJECT_END_POINT,
-  UPDATE_BIDDING_DATE
+  UPDATE_BIDDING_DATE,
 } from "../constants/business.constant";
 import { getBusinessProjectSchema } from "../schema/v1/business/business.get";
 import { BusinessService } from "../services";
@@ -47,11 +47,14 @@ import {
 } from "../types/v1/projectProfile/updateProfile";
 import { deleteProjectProfileByIdSchema } from "../schema/v1/projectProfile/profile.delete";
 import { DeleteProjectProfilePathParams } from "../types/v1/projectProfile/deleteProfile";
-import { updateProjectStatusSchema, updateBidDateSchema } from "../schema/v1/project/project.update";
+import {
+  updateProjectStatusSchema,
+  updateBidDateSchema,
+} from "../schema/v1/project/project.update";
 import {
   PutProjectBody,
   PutProjectPathParams,
-  PutBiddingDateProjectBody
+  PutBiddingDateProjectBody,
 } from "../types/v1/project/updateProject";
 
 // Define the controller with the main business endpoint

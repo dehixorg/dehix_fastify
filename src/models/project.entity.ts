@@ -119,8 +119,8 @@ const ProjectSchema: Schema<IProject> = new Schema(
         validator: function (value: Date) {
           return value > new Date();
         },
-        message: 'maxBidDate must be in the future'
-      }
+        message: "maxBidDate must be in the future",
+      },
     },
     startBidDate: {
       type: Date,
@@ -129,8 +129,8 @@ const ProjectSchema: Schema<IProject> = new Schema(
         validator: function (value: Date) {
           return value > new Date();
         },
-        message: 'startBidDate must be in the future'
-      }
+        message: "startBidDate must be in the future",
+      },
     },
     profiles: [
       {
