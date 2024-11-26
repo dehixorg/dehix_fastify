@@ -129,6 +129,12 @@ export const getFreelancerDetails: FastifySchema = {
             },
           },
         },
+        referral: {
+          type: "object",
+          properties: {
+            referralCode: { type: "string" },
+          }
+        },
         onboardingStatus: {
           type: "boolean",
         },
