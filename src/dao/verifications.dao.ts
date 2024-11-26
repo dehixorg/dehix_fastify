@@ -204,7 +204,7 @@ export class VerificationDAO extends BaseDAO {
   }
   async getVerificationByVerifierId(
     verifier_id: string,
-    doc_type:
+    doc_type?:
       | "skill"
       | "domain"
       | "education"

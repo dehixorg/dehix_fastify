@@ -18,6 +18,7 @@ import { ProjectDAO } from "../dao/project.dao";
 import { VerificationService } from "./verifications.service";
 import crypto from "crypto";
 import { BidDAO } from "../dao";
+import { StatusEnum } from "src/models/project.entity";
 
 @Service()
 export class FreelancerService extends BaseService {
@@ -532,10 +533,7 @@ export class FreelancerService extends BaseService {
     return data;
   }
 
-  async getFreelancerProjects(
-    freelancer_id: string,
-    status?: "Active" | "Pending" | "Completed" | "Rejected",
-  ) {
+  async getFreelancerProjects(freelancer_id: string, status?: StatusEnum) {
     this.logger.info(
       "FreelancerService: freelancer get projects",
       freelancer_id,

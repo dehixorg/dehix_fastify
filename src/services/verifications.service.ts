@@ -465,7 +465,7 @@ export class VerificationService extends BaseService {
   }
   async getVerificationByVerifierId(
     verifier_id: string,
-    doc_type:
+    doc_type?:
       | "skill"
       | "domain"
       | "education"
