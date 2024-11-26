@@ -133,7 +133,7 @@ export const getFreelancerDetails: FastifySchema = {
           type: "object",
           properties: {
             referralCode: { type: "string" },
-          }
+          },
         },
         onboardingStatus: {
           type: "boolean",
