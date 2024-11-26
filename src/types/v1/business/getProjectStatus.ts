@@ -1,3 +1,5 @@
+import { StatusEnum } from "src/models/project.entity";
+
 export interface GetBusinessProjectQueryParams {
-  status?: "Active" | "Pending" | "Completed" | "Rejected";
+  status?: StatusEnum;
 }

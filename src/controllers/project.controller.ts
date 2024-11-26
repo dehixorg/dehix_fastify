@@ -48,8 +48,8 @@ import { deleteProjectProfileByIdSchema } from "../schema/v1/projectProfile/prof
 import { DeleteProjectProfilePathParams } from "../types/v1/projectProfile/deleteProfile";
 import { updateProjectStatusSchema } from "../schema/v1/project/project.update";
 import {
-  PutProjectBody,
   PutProjectPathParams,
+  PutStatusProjectBody,
 } from "../types/v1/project/updateProject";
 
 // Define the controller with the main business endpoint
@@ -630,10 +630,10 @@ export default class BusinessController extends AuthController {
     schema: updateProjectStatusSchema,
   })
   // Handler to update the status of a project by its ID
-  async updateStatusByProject_Id(
+  async updateStatusByProjectId(
     request: FastifyRequest<{
       Params: PutProjectPathParams;
-      Body: PutProjectBody;
+      Body: PutStatusProjectBody;
     }>,
     reply: FastifyReply,
   ) {
@@ -657,7 +657,7 @@ export default class BusinessController extends AuthController {
         });
       }
 
-      reply.status(STATUS_CODES.SUCCESS).send({ message: "update sucessfull" });
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "update sucessful" });
     } catch (error: any) {
       // Log any errors encountered during the update
       this.logger.error(`Error updating Status: ${error.message}`);
