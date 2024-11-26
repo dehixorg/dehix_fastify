@@ -1,5 +1,6 @@
 import { FastifySchema } from "fastify";
 import { commonErrorResponses } from "../commonErrorCodes";
+import { AdminStatus, AdminType } from "../../../models/admin.entity"; // Import enums
 
 export const createAdminSchema: FastifySchema = {
   description: "API endpoint for creating a new Admin user.",
@@ -32,14 +33,16 @@ export const createAdminSchema: FastifySchema = {
       },
       status: {
         type: "string",
-        enum: ["Pending", "Accept", "Reject"],
+        enum: Object.values(AdminStatus), // Use AdminStatus enum values
         description: "The current status of the admin. Defaults to 'Pending'.",
+        default: AdminStatus.PENDING, // Set default value to PENDING
       },
       type: {
         type: "string",
-        enum: ["Admin", "Super_Admin"],
+        enum: Object.values(AdminType), // Use AdminType enum values
         description:
           "The type of admin being created. Either 'Admin' or 'Super_Admin'.",
+        default: AdminType.ADMIN, // Set default value to ADMIN
       },
     },
     required: ["firstName", "lastName", "userName", "email"],
@@ -79,12 +82,12 @@ export const createAdminSchema: FastifySchema = {
             },
             status: {
               type: "string",
-              enum: ["Pending", "Accept", "Reject"],
+              enum: Object.values(AdminStatus), // Use AdminStatus enum values
               description: "The current status of the admin.",
             },
             type: {
               type: "string",
-              enum: ["Admin", "Super_Admin"],
+              enum: Object.values(AdminType), // Use AdminType enum values
               description: "The type of admin (Admin or Super_Admin).",
             },
             createdAt: {
@@ -102,6 +105,6 @@ export const createAdminSchema: FastifySchema = {
         },
       },
     },
-    ...commonErrorResponses,
+    ...commonErrorResponses, // Include common error responses
   },
 };

@@ -1,8 +1,9 @@
 import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
-import { DomainModel, IDomain } from "../models/domain.entity";
+import { DomainModel, IDomain, DomainStatus } from "../models/domain.entity"; // Import DomainStatus Enum
 import { v4 as uuidv4 } from "uuid";
+
 @Service()
 export class DomainDAO extends BaseDAO {
   model: Model<IDomain>;
@@ -12,70 +13,108 @@ export class DomainDAO extends BaseDAO {
     this.model = DomainModel;
   }
 
+  // Count the total number of domains
   async countDomains(): Promise<number> {
-    return this.model.countDocuments(); // Returns the count of domains
+    try {
+      return await this.model.countDocuments();
+    } catch (error: any) {
+      throw new Error(`Failed to count domains: ${error.message}`);
+    }
   }
 
-  async addDomain(domainsData: Partial<IDomain>[]) {
+  // Add new domains
+  async addDomain(domainsData: Partial<IDomain>[]): Promise<IDomain[]> {
     try {
-      const insertedDomain = await Promise.all(
+      const insertedDomains = await Promise.all(
         domainsData.map(async (domainData) => {
           const domain = await this.model.create({
             _id: uuidv4(),
+            createdBy: "admin", // Assuming admin for now
+            status: DomainStatus.ACTIVE, // Using the enum for consistency
             ...domainData,
-            createdBy: "admin",
-            status: "active",
           });
           return domain;
         }),
       );
-      return insertedDomain;
+      return insertedDomains;
     } catch (error: any) {
       throw new Error(`Failed to add domains: ${error.message}`);
     }
   }
 
-  async findDomain(domain_id: string) {
-    return this.model.findById(domain_id);
+  // Find a domain by ID
+  async findDomain(domain_id: string): Promise<IDomain | null> {
+    try {
+      return await this.model.findById(domain_id);
+    } catch (error: any) {
+      throw new Error(`Failed to find domain: ${error.message}`);
+    }
   }
 
-  async getAllDomain() {
+  // Get all active domains
+  async getAllDomain(): Promise<IDomain[]> {
     try {
-      const domains = await this.model.find({ status: "active" });
-      return domains;
+      return await this.model.find({ status: DomainStatus.ACTIVE }); // Filter by active status
     } catch (error: any) {
       throw new Error(`Failed to fetch domains: ${error.message}`);
     }
   }
-  async getAllDomainAdmin() {
+
+  // Get all domains (admin access)
+  async getAllDomainAdmin(): Promise<IDomain[]> {
     try {
-      const domains = await this.model.find();
-      return domains;
+      return await this.model.find(); // Fetch all domains regardless of status
     } catch (error: any) {
-      throw new Error(`Failed to fetch domains: ${error.message}`);
+      throw new Error(`Failed to fetch domains for admin: ${error.message}`);
     }
   }
 
-  async deleteDomain(id: string) {
-    return this.model.findByIdAndDelete(id);
-  }
-
-  async createDomain(data: any) {
-    return this.model.create(data);
-  }
-
-  async findDomainById(id: string) {
-    return this.model.findById(id);
-  }
-
-  async updateDomain(id: string, update: any) {
-    if (update.status) {
-      return this.model.findByIdAndUpdate(
-        { _id: id },
-        { ...update, status: update.status },
-        { new: true },
-      );
+  // Delete a domain by ID
+  async deleteDomain(id: string): Promise<IDomain | null> {
+    try {
+      return await this.model.findByIdAndDelete(id);
+    } catch (error: any) {
+      throw new Error(`Failed to delete domain: ${error.message}`);
     }
-    return this.model.findByIdAndUpdate({ _id: id }, update, { new: true });
+  }
+
+  // Create a new domain
+  async createDomain(data: Partial<IDomain>): Promise<IDomain> {
+    try {
+      return await this.model.create({
+        ...data,
+        _id: uuidv4(), // Ensure each domain gets a unique ID
+        status: DomainStatus.ACTIVE, // Default to active status
+      });
+    } catch (error: any) {
+      throw new Error(`Failed to create domain: ${error.message}`);
+    }
+  }
+
+  // Find a domain by ID
+  async findDomainById(id: string): Promise<IDomain | null> {
+    try {
+      return await this.model.findById(id);
+    } catch (error: any) {
+      throw new Error(`Failed to find domain by ID: ${error.message}`);
+    }
+  }
+
+  // Update a domain by ID
+  async updateDomain(
+    id: string,
+    update: Partial<IDomain>,
+  ): Promise<IDomain | null> {
+    try {
+      const domainUpdate = update.status
+        ? { ...update, status: update.status } // Ensure status is updated correctly
+        : update;
+
+      return await this.model.findByIdAndUpdate(id, domainUpdate, {
+        new: true,
+      });
+    } catch (error: any) {
+      throw new Error(`Failed to update domain: ${error.message}`);
+    }
   }
 }
