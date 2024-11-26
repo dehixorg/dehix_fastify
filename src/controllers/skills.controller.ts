@@ -27,7 +27,6 @@ import {
 import { updateSkillSchema } from "../schema/v1/skills/skills.update";
 import { getSkillByIdSchema } from "../schema/v1/skills/skills.get";
 import { ADMIN_ALL_SKILL_ENDPOINT } from "../constants/admin.constant";
-import { addConversation } from "../dao/conversations.dao";
 
 @Controller({ route: SKILLS_ENDPOINT })
 export default class SkillsController extends AuthController {
@@ -90,19 +89,6 @@ export default class SkillsController extends AuthController {
     try {
       this.logger.info(`SkillsController -> getSkills -> Fetching skills`);
 
-      const conversationData = {
-        participants: [
-          "qcCAoNXxgFZyVyTxK8UZrHzxilz2",
-          "bneEbLrN3sYnR8Gj3GYMY3Id7Ms2",
-        ],
-        project_name: "abc",
-      };
-
-      await addConversation(conversationData)
-        .then((id) =>
-          console.log(`Conversation successfully added with ID: ${id}`),
-        )
-        .catch((err) => console.error(err));
       const data = await this.skillsService.getAllSkills();
 
       if (!data) {
@@ -144,7 +130,6 @@ export default class SkillsController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       }
-      console.log("DATA:", data);
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {

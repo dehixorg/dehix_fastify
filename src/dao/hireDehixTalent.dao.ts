@@ -69,7 +69,6 @@ export class HireDAO extends BaseDAO {
           new: true, // Return the updated document
         },
       );
-      // console.log("Data is",data);
       return data;
     } catch (error) {
       console.error("Error in updateStatusHireDehixTalent:", error);

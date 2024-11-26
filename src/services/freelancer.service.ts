@@ -246,8 +246,6 @@ export class FreelancerService extends BaseService {
     const { skillIds, skillsWithId: addSkills } =
       await this.FreelancerDAO.addFreelancerSkill(freelancer_id, skills);
 
-    console.log(skillIds);
-
     await Promise.all(
       skillIds.map((skillId) =>
         this.VerificationService.requestVerification(
@@ -702,8 +700,6 @@ export class FreelancerService extends BaseService {
 
     const { domainIds, domainsWithId: addDomains } =
       await this.FreelancerDAO.addFreelancerDomain(freelancer_id, domains);
-
-    console.log(domainIds);
 
     await Promise.all(
       domainIds.map((domainId) =>
