@@ -1,14 +1,21 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
+// Define Enums for Status with uppercase values
+export enum SkillStatus {
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE",
+  ARCHIVED = "ARCHIVED",
+}
+
 export interface ISkill extends Document {
   _id: string;
   label: string;
-  description: string;
+  description?: string; // Optional field
   createdBy?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  status?: string;
+  status: SkillStatus; // Use SkillStatus Enum
 }
 
 // Define the Skill schema
@@ -25,7 +32,7 @@ const SkillSchema: Schema<ISkill> = new Schema(
     },
     description: {
       type: String,
-      required: false,
+      required: false, // Optional description field
     },
     createdBy: {
       type: String,
@@ -33,8 +40,8 @@ const SkillSchema: Schema<ISkill> = new Schema(
     },
     status: {
       type: String,
-      enum: ["active", "inactive", "archived"],
-      default: "active",
+      enum: Object.values(SkillStatus), // Use the SkillStatus Enum for status
+      default: SkillStatus.ACTIVE, // Default to "ACTIVE"
     },
   },
   {
