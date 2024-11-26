@@ -1,4 +1,4 @@
-import { StatusEnum } from "src/models/project.entity";
+import { StatusEnum } from "../../../models/project.entity";
 
 export interface GetBusinessProjectQueryParams {
   status?: StatusEnum;

@@ -1,3 +1,5 @@
+import { StatusEnum } from "../../../models/bid.entity";
+
 export interface PutBidPathParams {
   bid_id: string;
 }
@@ -8,5 +10,5 @@ export interface PutBidBody {
 }
 
 export interface BidStatusBody {
-  bid_status: string;
+  bid_status: StatusEnum;
 }

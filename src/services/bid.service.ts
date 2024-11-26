@@ -6,6 +6,7 @@ import { NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { businessDAO, FreelancerDAO } from "../dao";
 import { ProjectDAO } from "../dao/project.dao";
+import { StatusEnum } from "../models/bid.entity"; // Enum imported here
 
 @Service()
 export class BidService extends BaseService {
@@ -33,7 +34,7 @@ export class BidService extends BaseService {
       profile_id,
       description,
     } = body;
-    this.logger.info(`BidServices -> create -> Create `);
+    this.logger.info(`BidServices -> create -> Create`);
     const bidderExist = await this.FreelancerDao.findFreelancerById(bidder_id);
     const projectExist = await this.BusinesssDao.getProjectById(project_id);
     if (!bidderExist) {
@@ -74,7 +75,7 @@ export class BidService extends BaseService {
   }
 
   async updateBid(bid_id: string, bid: any) {
-    this.logger.info(`BidServices -> updateBid Using bidId -> ${bid_id} `);
+    this.logger.info(`BidServices -> updateBid Using bidId -> ${bid_id}`);
     const bidExist = await this.BidDAO.findBidById(bid_id);
     if (!bidExist) {
       throw new NotFoundError(
@@ -86,14 +87,19 @@ export class BidService extends BaseService {
     return data;
   }
 
-  async bidStatusUpdate(bid_id: string, bid_status: string): Promise<any> {
+  async bidStatusUpdate(bid_id: string, bid_status: StatusEnum): Promise<any> {
     this.logger.info(
-      `BidServices -> updateBidStatus -> Updating Bid Status Using bidId -> ${bid_id} `,
+      `BidServices -> updateBidStatus -> Updating Bid Status Using bidId -> ${bid_id}`,
     );
 
-    const updateStatus = async (bid_status: string) => {
-      return await this.BidDAO.updateStatus(bid_id, bid_status);
-    };
+    if (!Object.values(StatusEnum).includes(bid_status)) {
+      throw new Error(
+        `Invalid status: ${bid_status}. Allowed values are: ${Object.values(
+          StatusEnum,
+        ).join(", ")}.`,
+      );
+    }
+
     const bidExist = await this.BidDAO.findBidById(bid_id);
     if (!bidExist) {
       throw new NotFoundError(
@@ -102,21 +108,12 @@ export class BidService extends BaseService {
       );
     }
 
-    const data =
-      bid_status == "Accepted"
-        ? await updateStatus("Accepted")
-        : bid_status == "Rejected"
-          ? await updateStatus("Rejected")
-          : bid_status == "Interview"
-            ? await updateStatus("Interview")
-            : bid_status == "Panel"
-              ? await updateStatus("Panel")
-              : await updateStatus("Pending");
+    const data = await this.BidDAO.updateStatus(bid_id, bid_status);
     return data;
   }
 
   async getBidBusiness(project_id: string) {
-    this.logger.info(`Bid Service: Getting  business project bid`);
+    this.logger.info(`Bid Service: Getting business project bid`);
     const projectExist = await this.BusinesssDao.getProjectById(project_id);
 
     if (!projectExist) {
@@ -128,8 +125,9 @@ export class BidService extends BaseService {
     const data = await this.BidDAO.findBidByProjectId(project_id);
     return data;
   }
-  async getBidfreelancer(bidder_id: string) {
-    this.logger.info(`Bid Service: Getting  Freelancer project bid`);
+
+  async getBidFreelancer(bidder_id: string) {
+    this.logger.info(`Bid Service: Getting Freelancer project bid`);
     const bidderExist = await this.FreelancerDao.findFreelancerById(bidder_id);
 
     if (!bidderExist) {
@@ -142,8 +140,9 @@ export class BidService extends BaseService {
     const data = await this.BidDAO.findBidByBidderId(bidder_id);
     return data;
   }
+
   async deleteBid(id: string) {
-    this.logger.info(`Bid Service: Deleting  project bid`);
+    this.logger.info(`Bid Service: Deleting project bid`);
     const bidExist = await this.BidDAO.findBidById(id);
     if (!bidExist) {
       throw new NotFoundError(
@@ -156,12 +155,12 @@ export class BidService extends BaseService {
   }
 
   async getAllBids() {
-    this.logger.info("BidService: getAllBids: Fetching All Bids ");
+    this.logger.info("BidService: getAllBids: Fetching All Bids");
 
     const bids: any = await this.BidDAO.getAllBids();
 
     if (!bids) {
-      this.logger.error("BidService: getAllBids: Bids not found ");
+      this.logger.error("BidService: getAllBids: Bids not found");
       throw new NotFoundError(
         RESPONSE_MESSAGE.NOT_FOUND("Bids"),
         ERROR_CODES.FREELANCER_NOT_FOUND,
@@ -170,8 +169,9 @@ export class BidService extends BaseService {
 
     return bids;
   }
+
   async getAllBidByProject(project_id: string) {
-    this.logger.info("BidService: getAllBidByProject: Fetching All Bids ");
+    this.logger.info("BidService: getAllBidByProject: Fetching All Bids");
     const projectExist = await this.ProjectDao.getProjectById(project_id);
 
     if (!projectExist) {
@@ -184,9 +184,10 @@ export class BidService extends BaseService {
 
     return data;
   }
+
   async getAllBidByProjectProfile(project_id: string, profile_id: string) {
     this.logger.info(
-      "BidService: getAllBidByProjectProfile: Fetching All Bids ",
+      "BidService: getAllBidByProjectProfile: Fetching All Bids",
     );
     const projectExist = await this.ProjectDao.getProjectById(project_id);
 
