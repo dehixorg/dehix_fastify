@@ -57,7 +57,6 @@ export interface IProfile {
     bidId: string;
   }[];
   totalBid?: string[];
-
 }
 
 // Define the Project schema
