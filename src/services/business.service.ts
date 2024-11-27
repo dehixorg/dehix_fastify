@@ -6,6 +6,7 @@ import { ConflictError, NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { ProjectDAO } from "../dao/project.dao";
 import { VerificationService } from "./verifications.service";
+import { IProject, StatusEnum } from "../models/project.entity";
 @Service()
 export class BusinessService extends BaseService {
   @Inject(businessDAO)
@@ -300,31 +301,45 @@ export class BusinessService extends BaseService {
   }
 
   async getBusinessProjectsById(
-    business_id: string,
-    status?: "Active" | "Pending" | "Completed" | "Rejected",
-  ) {
-    this.logger.info("BusinessService: business get projects", business_id);
+    businessId: string,
+    status?: StatusEnum,
+  ): Promise<IProject[]> {
+    this.logger.info("BusinessService: Fetching projects for business", {
+      businessId,
+    });
 
-    const businessExist = await this.businessDao.findBusinessById(business_id);
-    if (!businessExist) {
+    // Check if the business exists
+    const businessExists = await this.businessDao.findBusinessById(businessId);
+    if (!businessExists) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.BUSINESS_NOT_FOUND,
         ERROR_CODES.BUSINESS_NOT_FOUND,
       );
     }
 
-    const data = await this.ProjectDAO.getBusinessProjectsById(
-      business_id,
+    // Validate status if provided
+    if (status && !Object.values(StatusEnum).includes(status)) {
+      throw new Error(RESPONSE_MESSAGE.INVALID("Status"));
+    }
+
+    // Fetch the projects for the business
+    const projects = await this.ProjectDAO.getBusinessProjectsById(
+      businessId,
       status,
     );
-    this.logger.info(data, "in get business projects");
-    return data;
+    this.logger.info("BusinessService: Projects fetched", {
+      businessId,
+      status,
+      projectsCount: projects.length,
+    });
+
+    return projects;
   }
 
   async getAllProject() {
     this.logger.info("BusinessService: getAllProject: Fetching All Projects ");
 
-    const projects: any = await this.ProjectDAO.getAllProject();
+    const projects: any = await this.ProjectDAO.getAllProjects();
 
     if (!projects) {
       this.logger.error("BusinessService: getAllProject: project not found ");
@@ -467,19 +482,27 @@ export class BusinessService extends BaseService {
     const data = await this.ProjectDAO.getProjectAndBidsData(project_id);
     return data;
   }
-  async updateProjectStatusByProjectID(project_id, status) {
-    const validStatuses = ["Active", "Pending", "Completed", "Rejected"];
-    if (!validStatuses.includes(status)) {
+
+  async updateProjectStatusByProjectID(
+    projectId: string,
+    status: StatusEnum,
+  ): Promise<IProject> {
+    // Validate the status against the StatusEnum
+    if (!Object.values(StatusEnum).includes(status)) {
       throw new Error(RESPONSE_MESSAGE.INVALID("Status"));
     }
 
-    const project = await this.ProjectDAO.updateStatus(project_id, status);
+    // Update the status using the DAO
+    const project = await this.ProjectDAO.updateStatus(projectId, status);
+
+    // Handle the case where the project is not found
     if (!project) {
       throw new Error(RESPONSE_MESSAGE.NOT_FOUND("Project"));
     }
 
     return project;
   }
+
   // Method to update the status of a business
   async updateBusinessStatus(business_id, status) {
     try {

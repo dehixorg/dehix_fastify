@@ -1,8 +1,10 @@
-export interface createTicketBody {
+import { CustomerType, TicketStatus } from "../../../models/ticket.entity";
+
+export interface CreateTicketBody {
   customerID: string;
-  customerType: "business" | "freelancer";
+  customerType: CustomerType; // Using the CustomerType enum here
   description: string;
   filesAttached: string;
-  status: "created" | "closed" | "active";
+  status: TicketStatus; // Using the TicketStatus enum here
   subject: string;
 }

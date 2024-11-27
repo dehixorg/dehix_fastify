@@ -1,3 +1,5 @@
+import { StatusEnum } from "../../../models/project.entity";
+
 export interface GetFreelancerProjectQueryParams {
-  status?: "Active" | "Pending" | "Completed" | "Rejected";
+  status?: StatusEnum;
 }

@@ -26,9 +26,7 @@ export const getGoogleAuthUrl = (redirectUri: string): string => {
 
 // Function to handle the OAuth2 callback and set credentials
 export const handleAuthCallback = async (code: string): Promise<void> => {
-  console.log("TOKENS START");
   const { tokens } = await oauth2Client.getToken(code);
-  console.log("TOKENS:", tokens);
   oauth2Client.setCredentials(tokens);
 };
 

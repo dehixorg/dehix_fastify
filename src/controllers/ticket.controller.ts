@@ -43,7 +43,7 @@ import {
   updateTicketSchema,
   updateTicketStatusSchema,
 } from "../schema/v1/ticket/ticket.update";
-import { createTicketBody } from "../types/v1/ticket/createTicket";
+import { CreateTicketBody } from "../types/v1/ticket/createTicket";
 import {
   GetTicketPathParams,
   GetTicketByCustomerTypeQueryParams,
@@ -65,7 +65,7 @@ export default class TicketController extends AuthController {
 
   @POST(CREATE_TICKET, { schema: createTicketSchema })
   async createTicket(
-    request: FastifyRequest<{ Body: createTicketBody }>,
+    request: FastifyRequest<{ Body: CreateTicketBody }>,
     reply: FastifyReply,
   ) {
     try {

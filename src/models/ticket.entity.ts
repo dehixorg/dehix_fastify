@@ -1,16 +1,30 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
+// Define Enums for customerType and status
+export enum CustomerType {
+  BUSINESS = "BUSINESS",
+  FREELANCER = "FREELANCER",
+}
+
+export enum TicketStatus {
+  CREATED = "CREATED",
+  CLOSED = "CLOSED",
+  ACTIVE = "ACTIVE",
+}
+
+// Define ITicket interface
 export interface ITicket extends Document {
   _id?: string;
   customerID?: string;
-  customerType: string;
+  customerType: CustomerType;
   description?: string;
-  filesAttached?: string;
-  status: string;
+  filesAttached?: string[];
+  status: TicketStatus;
   subject?: string;
 }
 
+// Define the Ticket schema
 const TicketSchema: Schema = new Schema(
   {
     _id: {
@@ -24,19 +38,19 @@ const TicketSchema: Schema = new Schema(
     },
     customerType: {
       type: String,
-      enum: ["business", "freelancer"],
+      enum: Object.values(CustomerType), // Enum values for customerType
       required: true,
     },
     description: {
       type: String,
     },
     filesAttached: {
-      type: String,
+      type: [String], // Array of strings for files attached
       default: [],
     },
     status: {
       type: String,
-      enum: ["created", "closed", "active"],
+      enum: Object.values(TicketStatus), // Enum values for status
       required: true,
     },
     subject: {
@@ -49,6 +63,7 @@ const TicketSchema: Schema = new Schema(
   },
 );
 
+// Create and export the Ticket model
 export const TicketModel: Model<ITicket> = mongoose.model<ITicket>(
   "Ticket",
   TicketSchema,

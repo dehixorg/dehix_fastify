@@ -1,7 +1,8 @@
 import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
-import { IBid, BidModel } from "../models/bid.entity";
+import { IBid, BidModel, StatusEnum } from "../models/bid.entity";
+import { StatusEnum as ProjectStatusEnum } from "../models/project.entity";
 
 @Service()
 export class BidDAO extends BaseDAO {
@@ -54,17 +55,23 @@ export class BidDAO extends BaseDAO {
   async deleteBid(id: string) {
     return this.model.findByIdAndDelete(id);
   }
-  async updateStatus(bid_id: string, status: any) {
+
+  async updateStatus(bid_id: string, status: StatusEnum) {
+    if (!Object.values(StatusEnum).includes(status)) {
+      throw new Error(`Invalid status: ${status}`);
+    }
     return this.model.updateOne(
       { _id: bid_id },
       { $set: { bid_status: status } },
     );
   }
+
   async findBidByProjectId(project_id: string) {
-    return this.model.find({ project_id: project_id });
+    return this.model.find({ project_id });
   }
+
   async findBidByBidderId(bidder_id: string) {
-    return this.model.find({ bidder_id: bidder_id });
+    return this.model.find({ bidder_id });
   }
 
   async getAllBids() {
@@ -75,29 +82,32 @@ export class BidDAO extends BaseDAO {
       throw new Error(`Failed to fetch bids: ${error.message}`);
     }
   }
+
   async getBidByProject(project_id: string) {
-    return this.model.find({ project_id: project_id });
-  }
-  async getBidByProjectProfile(profile_id: string) {
-    return this.model.find({ profile_id: profile_id });
+    return this.model.find({ project_id });
   }
 
-  async getProjectByBidderId(
-    bidder_id: string,
-    status?: "Active" | "Pending" | "Completed" | "Rejected",
-  ) {
+  async getBidByProjectProfile(profile_id: string) {
+    return this.model.find({ profile_id });
+  }
+
+  async getProjectByBidderId(bidder_id: string, status?: ProjectStatusEnum) {
     let bidStatus;
 
     // Determine the bidStatus based on the provided status
-    if (status === "Active" || status === "Completed") {
-      bidStatus = "Accepted";
-    } else if (status === "Pending") {
-      bidStatus = "Pending";
-    } else if (status === "Rejected") {
-      bidStatus = "Rejected";
-    } else {
-      // If no status is provided, don't filter by bid status
-      bidStatus = undefined;
+    // Map project status to bidStatus
+    switch (status) {
+      case ProjectStatusEnum.ACTIVE:
+        bidStatus = StatusEnum.ACCEPTED;
+        break;
+      case ProjectStatusEnum.PENDING:
+        bidStatus = StatusEnum.PENDING;
+        break;
+      case ProjectStatusEnum.REJECTED:
+        bidStatus = StatusEnum.REJECTED;
+        break;
+      default:
+        bidStatus = undefined; // No status filter
     }
 
     const matchStage: any = {
@@ -125,7 +135,7 @@ export class BidDAO extends BaseDAO {
         $unwind: "$projectData",
       },
       // Only add this $match stage if status is "Active" or "Completed"
-      ...(status === "Active" || status === "Completed"
+      ...(status === ProjectStatusEnum.ACTIVE
         ? [{ $match: { "projectData.status": status } }]
         : []),
       {

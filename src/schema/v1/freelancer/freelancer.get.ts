@@ -129,6 +129,15 @@ export const getFreelancerDetails: FastifySchema = {
             },
           },
         },
+        referral: {
+          type: "object",
+          properties: {
+            referralCode: { type: "string" },
+          },
+        },
+        onboardingStatus: {
+          type: "boolean",
+        },
       },
     },
     ...commonErrorResponses,
@@ -304,6 +313,9 @@ export const getFreelancerPublicDetails: FastifySchema = {
               projectType: { type: "string" },
             },
           },
+        },
+        onboardingStatus: {
+          type: "boolean",
         },
       },
     },

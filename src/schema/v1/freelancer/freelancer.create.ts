@@ -260,6 +260,10 @@ export const createFreelancerSchema: FastifySchema = {
         },
         required: [],
       },
+      onboardingStatus: {
+        type: "boolean",
+        default: false,
+      },
     },
     required: [
       "firstName",

@@ -1,4 +1,5 @@
 import { FastifySchema } from "fastify";
+import { CustomerType, TicketStatus } from "../../../models/ticket.entity"; // Adjust the import as needed
 
 export const createTicketSchema: FastifySchema = {
   description: "API for creating Ticket",
@@ -11,7 +12,7 @@ export const createTicketSchema: FastifySchema = {
       },
       customerType: {
         type: "string",
-        enum: ["business", "freelancer"],
+        enum: Object.values(CustomerType), // Using CustomerType enum values
       },
       description: {
         type: "string",
@@ -21,7 +22,7 @@ export const createTicketSchema: FastifySchema = {
       },
       status: {
         type: "string",
-        enum: ["created", "closed", "active"],
+        enum: Object.values(TicketStatus), // Using TicketStatus enum values
       },
       subject: {
         type: "string",

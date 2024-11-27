@@ -146,8 +146,8 @@ export class businessDAO extends BaseDAO {
       skills?: string[];
       projectDomain?: string[];
     },
-    page: string = "1",
-    limit: string = "20",
+    page: string,
+    limit: string,
   ) {
     const { location, jobType, domain, skills, projectDomain } = filters;
 

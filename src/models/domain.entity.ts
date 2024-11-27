@@ -1,21 +1,30 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
+// Define Enum for Domain Status
+export enum DomainStatus {
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE",
+  ARCHIVED = "ARCHIVED",
+}
+
+// Define the Domain interface using the Enum
 export interface IDomain extends Document {
   _id: string;
   label: string;
   description?: string;
   createdBy?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  status?: string;
+  status: DomainStatus; // Use the DomainStatus Enum
+  createdAt: Date; // Managed by Mongoose
+  updatedAt: Date; // Managed by Mongoose
 }
 
+// Domain Schema definition
 const DomainSchema: Schema<IDomain> = new Schema(
   {
     _id: {
       type: String,
-      default: uuidv4,
+      default: uuidv4, // Default to UUID v4
       required: true,
     },
     label: {
@@ -32,16 +41,17 @@ const DomainSchema: Schema<IDomain> = new Schema(
     },
     status: {
       type: String,
-      enum: ["active", "inactive", "archived"],
-      default: "active",
+      enum: Object.values(DomainStatus), // Use Enum values for status
+      default: DomainStatus.ACTIVE, // Default to ACTIVE
     },
   },
   {
-    timestamps: true,
-    versionKey: false,
+    timestamps: true, // Mongoose will automatically handle createdAt and updatedAt
+    versionKey: false, // Disable versioning (_v field)
   },
 );
 
+// Domain model to perform CRUD operations
 export const DomainModel: Model<IDomain> = mongoose.model<IDomain>(
   "Domain",
   DomainSchema,

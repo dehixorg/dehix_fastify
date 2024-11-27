@@ -162,6 +162,7 @@ export interface IFreelancer extends Document {
     referredTo?: string[];
     referredCount?: number;
   };
+  onboardingStatus?: boolean;
 }
 
 const FreelancerSchema: Schema = new Schema(
@@ -488,6 +489,11 @@ const FreelancerSchema: Schema = new Schema(
         type: Number,
         required: false,
       },
+    },
+    onboardingStatus: {
+      type: Boolean,
+      default: false,
+      required: true,
     },
   },
   {
