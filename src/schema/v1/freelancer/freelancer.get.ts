@@ -7,6 +7,7 @@
 
 import { FastifySchema } from "fastify";
 import { commonErrorResponses } from "../commonErrorCodes";
+import { StatusEnum } from "../../../models/project.entity";
 
 export const getFreelancerSchema: FastifySchema = {
   description: "API to get FREELANCER profile data",
@@ -152,7 +153,7 @@ export const getFreelancerProjectSchema: FastifySchema = {
     properties: {
       status: {
         type: "string",
-        enum: ["Active", "Pending", "Completed", "Rejected"],
+        enum: Object.values(StatusEnum),
         description: "Filter projects by status",
       },
     },
