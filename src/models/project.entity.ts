@@ -6,6 +6,7 @@ export enum StatusEnum {
   ACTIVE = "ACTIVE",
   PENDING = "PENDING",
   REJECTED = "REJECTED",
+  COMPLETED = "COMPLETED",
 }
 
 export enum ProjectTypeEnum {
