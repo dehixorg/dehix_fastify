@@ -157,3 +157,34 @@ export const updateProjectStatusSchema: FastifySchema = {
     ...commonErrorResponses,
   },
 };
+
+export const updateBidDateSchema: FastifySchema = {
+  description: "API to update bidding date of project",
+  tags: ["Project"],
+  params: {
+    type: "object",
+    properties: {
+      project_id: {
+        type: "string",
+        description: "Project Id",
+      },
+    },
+    required: ["project_id"],
+  },
+  body: {
+    type: "object",
+    properties: {
+      maxBiddingDate: {
+        type: "string",
+        format: "date-time",
+      },
+      startBiddingDate: {
+        type: "string",
+        format: "date-time",
+      },
+    },
+  },
+  response: {
+    ...commonErrorResponses,
+  },
+};

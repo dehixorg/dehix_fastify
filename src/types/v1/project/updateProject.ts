@@ -34,3 +34,7 @@ export interface PutProjectBody {
 export interface PutStatusProjectBody {
   status: StatusEnum;
 }
+export interface PutBiddingDateProjectBody {
+  maxBiddingDate: Date;
+  startBiddingDate: Date;
+}

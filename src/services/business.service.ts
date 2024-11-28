@@ -523,4 +523,42 @@ export class BusinessService extends BaseService {
       console.log(error);
     }
   }
+
+  async updateBiddingDate(
+    project_id: string,
+    maxBiddingDate: Date,
+    startBiddingDate: Date,
+  ) {
+    this.logger.info("FreelancerService: maxBiddingDate", project_id);
+    const projectExist = await this.ProjectDAO.getProjectById(project_id);
+    if (!projectExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.PROJECT_NOT_FOUND,
+        ERROR_CODES.NOT_FOUND,
+      );
+    }
+    if (maxBiddingDate < new Date()) {
+      throw new Error("maxBidDate is less than current date");
+    }
+
+    const now = new Date();
+    const startOfToday = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+    );
+
+    if (startBiddingDate.getTime() < startOfToday.getTime()) {
+      throw new Error(
+        "startBiddingDate cannot be in the past. It must be today or a future date.",
+      );
+    }
+
+    const data = await this.ProjectDAO.updateBiddingDate(
+      project_id,
+      maxBiddingDate,
+      startBiddingDate,
+    );
+    return data;
+  }
 }

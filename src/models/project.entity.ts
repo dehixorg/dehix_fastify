@@ -37,6 +37,8 @@ export interface IProject extends Document {
   team?: string[];
   createdAt?: Date;
   updatedAt?: Date;
+  maxBidDate?: Date;
+  startBidDate?: Date;
 }
 
 // Define an interface for the Profiles sub-document
@@ -123,6 +125,20 @@ const ProjectSchema: Schema<IProject> = new Schema(
     projectType: {
       type: String,
       enum: Object.values(ProjectTypeEnum),
+    },
+    maxBidDate: {
+      type: Date,
+      required: false,
+      validate: {
+        validator: function (value: Date) {
+          return value > new Date();
+        },
+        message: "maxBidDate must be in the future",
+      },
+    },
+    startBidDate: {
+      type: Date,
+      required: false,
     },
     profiles: [
       {

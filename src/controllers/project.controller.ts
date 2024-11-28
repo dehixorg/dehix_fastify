@@ -21,6 +21,7 @@ import {
   GET_BUSINESS_SINGLE_PROJECT_BY_ID_WITH_OUT_CHECK,
   UPDATE_STATUS_BY_PROJECT_ID,
   PROJECT_END_POINT,
+  UPDATE_BIDDING_DATE,
 } from "../constants/business.constant";
 import { getBusinessProjectSchema } from "../schema/v1/business/business.get";
 import { BusinessService } from "../services";
@@ -46,10 +47,14 @@ import {
 } from "../types/v1/projectProfile/updateProfile";
 import { deleteProjectProfileByIdSchema } from "../schema/v1/projectProfile/profile.delete";
 import { DeleteProjectProfilePathParams } from "../types/v1/projectProfile/deleteProfile";
-import { updateProjectStatusSchema } from "../schema/v1/project/project.update";
+import {
+  updateProjectStatusSchema,
+  updateBidDateSchema,
+} from "../schema/v1/project/project.update";
 import {
   PutProjectPathParams,
   PutStatusProjectBody,
+  PutBiddingDateProjectBody,
 } from "../types/v1/project/updateProject";
 
 // Define the controller with the main business endpoint
@@ -618,6 +623,74 @@ export default class BusinessController extends AuthController {
         });
       } else {
         // Return a server error for any other issues
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @PUT(UPDATE_BIDDING_DATE, {
+    schema: updateBidDateSchema,
+  })
+  async updateMaxBidDate(
+    request: FastifyRequest<{
+      Params: PutProjectPathParams;
+      Body: PutBiddingDateProjectBody;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `Updating date for bidding with Project_ID ${request.params.project_id}`,
+      );
+
+      const maxBiddingDate = new Date(request.body.maxBiddingDate);
+      const startBiddingDate = new Date(request.body.startBiddingDate);
+
+      const data = await this.BusinessService.updateBiddingDate(
+        request.params.project_id,
+        maxBiddingDate,
+        startBiddingDate,
+      );
+
+      if (!data) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "update sucessfull" });
+    } catch (error: any) {
+      this.logger.error(`Error updating Status: ${error.message}`);
+
+      if (
+        error.code === ERROR_CODES.NOT_FOUND ||
+        error.message.includes("Data not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else if (
+        error.ERROR_CODES === "PROJECT_NOT_FOUND" ||
+        error.message.includes("Project by provided ID was not found.")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Project by provided ID was not found.")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Project"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
         reply.status(STATUS_CODES.SERVER_ERROR).send({
           message: RESPONSE_MESSAGE.SERVER_ERROR,
           code: ERROR_CODES.SERVER_ERROR,
