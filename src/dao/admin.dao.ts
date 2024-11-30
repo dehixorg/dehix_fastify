@@ -22,8 +22,7 @@ export class AdminDAO extends BaseDAO {
   async getAdminbyemail(email: string) {
     try {
       const query = {
-        ...(email && { email
-         }),
+        ...(email && { email }),
       };
       const Data = await this.model.find(query);
       return Data;

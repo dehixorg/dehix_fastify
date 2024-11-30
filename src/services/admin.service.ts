@@ -16,11 +16,10 @@ export class AdminsService extends BaseService {
   }
 
   async getAdminByEmail(email: string) {
-
     const data: any = await this.AdminDAO.getAdminbyemail(email);
 
     if (data.length === 0) {
-      return null; 
+      return null;
     }
     return data;
   }
