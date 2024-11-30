@@ -1,6 +1,6 @@
 import { FastifySchema } from "fastify";
 import { commonErrorResponses } from "../commonErrorCodes";
-import { hireDehixTalentStatusEnum } from "../../../models/hireDehixTalent.entity";
+import { HireDehixTalentStatusEnum } from "../../../models/hireDehixTalent.entity";
 
 export const UpdateHireDehixTalent: FastifySchema = {
   description: "API to manage Hire Dehix Talent",
@@ -35,8 +35,8 @@ export const UpdateHireDehixTalent: FastifySchema = {
       },
       status: {
         type: "string",
-        enum: Object.values(hireDehixTalentStatusEnum),
-        default: hireDehixTalentStatusEnum.ADDED,
+        enum: Object.values(HireDehixTalentStatusEnum),
+        default: HireDehixTalentStatusEnum.ADDED,
       },
       visible: {
         type: "boolean",
@@ -105,7 +105,7 @@ export const UpdateHireDehixTalent: FastifySchema = {
             },
             status: {
               type: "string",
-              enum: Object.values(hireDehixTalentStatusEnum),
+              enum: Object.values(HireDehixTalentStatusEnum),
             },
             visible: {
               type: "boolean",
@@ -167,7 +167,7 @@ export const updateStatusHireDehixTalentSchema: FastifySchema = {
     properties: {
       status: {
         type: "string",
-        enum: Object.values(hireDehixTalentStatusEnum),
+        enum: Object.values(HireDehixTalentStatusEnum),
       },
       visible: {
         type: "boolean",
@@ -207,7 +207,7 @@ export const updateStatusHireDehixTalentSchema: FastifySchema = {
             },
             status: {
               type: "string",
-              enum: Object.values(hireDehixTalentStatusEnum),
+              enum: Object.values(HireDehixTalentStatusEnum),
             },
             visible: {
               type: "boolean",

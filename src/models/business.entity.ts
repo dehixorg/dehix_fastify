@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 // const { String } = Schema.Types;
 
 //  Enum for  Business Status
-export enum businessStatusEnum {
+export enum BusinessStatusEnum {
   ACTIVE = "ACTIVE",
   IN_ACTIVE = "IN_ACTIVE",
   NOT_VERIFIED = "NOT_VERIFIED",
@@ -18,7 +18,7 @@ export interface IBusiness extends Document {
   companySize: string;
   email: string;
   phone: string;
-  status: businessStatusEnum;
+  status: BusinessStatusEnum;
   position?: string;
   refer?: string;
   verified?: any;
@@ -66,8 +66,8 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
     },
     status: {
       type: String,
-      enum: Object.values(businessStatusEnum),
-      default: businessStatusEnum.NOT_VERIFIED,
+      enum: Object.values(BusinessStatusEnum),
+      default: BusinessStatusEnum.NOT_VERIFIED,
     },
     position: {
       type: String,

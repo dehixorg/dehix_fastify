@@ -8,7 +8,7 @@ import { ProjectDAO } from "../dao/project.dao";
 import { VerificationService } from "./verifications.service";
 import { IProject, StatusEnum } from "../models/project.entity";
 import { PutBusinessBody } from "../types/v1/business/updateBusiness";
-import { businessStatusEnum } from "../models/business.entity";
+import { BusinessStatusEnum } from "../models/business.entity";
 
 @Service()
 export class BusinessService extends BaseService {
@@ -507,10 +507,10 @@ export class BusinessService extends BaseService {
   }
 
   // Method to update the status of a business
-  async updateBusinessStatus(business_id: string, status: businessStatusEnum) {
+  async updateBusinessStatus(business_id: string, status: BusinessStatusEnum) {
     try {
       // Validate the status against the StatusEnum
-      if (!Object.values(businessStatusEnum).includes(status)) {
+      if (!Object.values(BusinessStatusEnum).includes(status)) {
         throw new Error(RESPONSE_MESSAGE.INVALID("Status"));
       }
       const result = await this.businessDao.updateBusinessStatus(

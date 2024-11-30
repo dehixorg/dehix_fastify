@@ -1,6 +1,6 @@
 import { FastifySchema } from "fastify";
 import { commonErrorResponses } from "../commonErrorCodes";
-import { businessStatusEnum } from "../../../models/business.entity";
+import { BusinessStatusEnum } from "../../../models/business.entity";
 
 export const getBusinessSchema: FastifySchema = {
   description: "API to get business data by business id",
@@ -68,7 +68,7 @@ export const getAllBusinessSchema: FastifySchema = {
             __v: { type: "integer" },
             status: {
               type: "string",
-              enum: Object.values(businessStatusEnum),
+              enum: Object.values(BusinessStatusEnum),
             },
           },
         },

@@ -8,8 +8,8 @@
 import { FastifySchema } from "fastify";
 import { commonErrorResponses } from "../commonErrorCodes";
 import {
-  notificationStatusEnum,
-  notificationTypeEnum,
+  NotificationStatusEnum,
+  NotificationTypeEnum,
 } from "../../../models/notification.entity";
 
 export const createNotificationSchema: FastifySchema = {
@@ -22,11 +22,11 @@ export const createNotificationSchema: FastifySchema = {
       description: { type: "string" },
       type: {
         type: "string",
-        enum: Object.values(notificationTypeEnum),
+        enum: Object.values(NotificationTypeEnum),
       },
       status: {
         type: "string",
-        enum: Object.values(notificationStatusEnum),
+        enum: Object.values(NotificationStatusEnum),
       },
       background_img: { type: "string" },
       importantUrl: {
