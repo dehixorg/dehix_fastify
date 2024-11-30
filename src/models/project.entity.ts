@@ -146,7 +146,7 @@ const ProjectSchema: Schema<IProject> = new Schema(
       {
         _id: {
           type: String,
-          default: uuidv4
+          default: uuidv4,
         },
         domain: { type: String },
         freelancersRequired: { type: String },
