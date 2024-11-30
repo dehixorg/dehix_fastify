@@ -5,6 +5,7 @@ import {
   NotificationModel,
   INotification,
 } from "../models/notification.entity";
+import { PutNotificationBody } from "../types/v1/notification/updateNotification";
 
 @Service()
 export class NotificationDAO extends BaseDAO {
@@ -31,7 +32,10 @@ export class NotificationDAO extends BaseDAO {
     return this.model.findByIdAndDelete(id);
   }
 
-  async updateNotificationById(notification_id: string, update: any) {
+  async updateNotificationById(
+    notification_id: string,
+    update: PutNotificationBody,
+  ) {
     return this.model.findOneAndUpdate({ _id: notification_id }, update, {
       new: true,
     });
