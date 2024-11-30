@@ -1,5 +1,6 @@
 import { FastifySchema } from "fastify";
 import { commonErrorResponses } from "../commonErrorCodes";
+import { hireDehixTalentStatusEnum } from "../../../models/hireDehixTalent.entity";
 
 export const createhireDehixTalentSchema: FastifySchema = {
   description: "API to create project data",
@@ -30,8 +31,8 @@ export const createhireDehixTalentSchema: FastifySchema = {
       },
       status: {
         type: "string",
-        enum: ["added", "approved", "closed", "completed"],
-        default: "added",
+        enum: Object.values(hireDehixTalentStatusEnum),
+        default: hireDehixTalentStatusEnum.ADDED,
       },
       visible: {
         type: "boolean",
@@ -103,8 +104,7 @@ export const createhireDehixTalentSchema: FastifySchema = {
             },
             status: {
               type: "string",
-              enum: ["added", "approved", "closed", "completed"],
-              default: "added",
+              enum: Object.values(hireDehixTalentStatusEnum),
             },
             visible: {
               type: "boolean",

@@ -6,6 +6,8 @@ import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { HireDAO } from "../dao/hireDehixTalent.dao";
 import { IHire } from "../models/hireDehixTalent.entity";
 import { businessDAO } from "../dao";
+import { PutHireDehixTalentBody, PutStatusHireDehixTalent } from "../types/v1";
+import { AddDehixTalentInLobbyBody } from "../types/v1/hireDehixTalent/addFreelancerIntoLobby";
 
 @Service()
 export class HireService extends BaseService {
@@ -33,7 +35,10 @@ export class HireService extends BaseService {
     }
   }
 
-  async putHireDehixTalent(hireDehixTalent_id: string, update: any) {
+  async putHireDehixTalent(
+    hireDehixTalent_id: string,
+    update: PutHireDehixTalentBody,
+  ) {
     this.logger.info(
       "HireService: update hire dehix talent ",
       hireDehixTalent_id,
@@ -85,7 +90,7 @@ export class HireService extends BaseService {
   async updateHireDehixTalent(
     business_id: string,
     hireDehixTalent_id: string,
-    update: any,
+    update: PutStatusHireDehixTalent,
   ) {
     this.logger.info(
       "HireService: updateHireDehixTalent",
@@ -114,7 +119,10 @@ export class HireService extends BaseService {
     return data;
   }
 
-  async addDehixTalentIntoLobby(hireDehixTalent_id: string, data: any) {
+  async addDehixTalentIntoLobby(
+    hireDehixTalent_id: string,
+    data: AddDehixTalentInLobbyBody,
+  ) {
     this.logger.info("HireService: updateHireDehixTalent", hireDehixTalent_id);
 
     const hireDehixTalent =

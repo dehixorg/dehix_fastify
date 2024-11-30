@@ -1,6 +1,14 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
+// Enum for Hire Talent Status
+export enum hireDehixTalentStatusEnum {
+  ADDED = "ADDED",
+  APPROVED = "APPROVED",
+  CLOSED = "CLOSED",
+  COMPLETED = "COMPLETED",
+}
+
 export interface IHire extends Document {
   _id: string;
   businessId: string;
@@ -10,7 +18,7 @@ export interface IHire extends Document {
   skillName: string;
   description: string;
   experience: string;
-  status: string;
+  status: hireDehixTalentStatusEnum;
   visible: boolean;
   freelancerRequired: number;
   freelancerInLobby: {
@@ -68,8 +76,8 @@ const hireSchema: Schema<IHire> = new Schema(
     },
     status: {
       type: String,
-      enum: ["added", "approved", "closed", "completed"],
-      default: "added",
+      enum: Object.values(hireDehixTalentStatusEnum),
+      default: hireDehixTalentStatusEnum.ADDED,
     },
     visible: {
       type: Boolean,
