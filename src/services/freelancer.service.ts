@@ -19,10 +19,7 @@ import { VerificationService } from "./verifications.service";
 import crypto from "crypto";
 import { BidDAO } from "../dao";
 import { StatusEnum } from "src/models/project.entity";
-import {
-  IFreelancer,
-  FreelancerStatusEnum,
-} from "../models/freelancer.entity";
+import { IFreelancer, FreelancerStatusEnum } from "../models/freelancer.entity";
 
 @Service()
 export class FreelancerService extends BaseService {
