@@ -19,6 +19,19 @@ export class AdminDAO extends BaseDAO {
     return this.model.create(data);
   }
 
+  async getAdminbyemail(email: string) {
+    try {
+      const query = {
+        ...(email && { email
+         }),
+      };
+      const Data = await this.model.find(query);
+      return Data;
+    } catch (error: any) {
+      throw new Error(`Failed to fetch admin data: ${error.message}`);
+    }
+  }
+
   async deleteAdminById(admin_id: string) {
     return this.model.findByIdAndDelete(admin_id);
   }

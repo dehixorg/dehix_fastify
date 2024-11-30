@@ -49,6 +49,14 @@ export default class AdminsController extends AuthController {
     try {
       this.logger.info(`AdminsController -> createAdmin -> Creating admin`);
 
+      const adminExists = await this.adminsService.getAdminByEmail(request.body.email);
+      if (adminExists) {
+        return reply.status(STATUS_CODES.BAD_REQUEST).send({
+          message: RESPONSE_MESSAGE.USER_EXISTS,
+          code: ERROR_CODES.USER_ALREADY_EXIST,
+        })
+      }
+
       const data = await this.adminsService.create(request.body);
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });

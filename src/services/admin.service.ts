@@ -15,6 +15,16 @@ export class AdminsService extends BaseService {
     return admin;
   }
 
+  async getAdminByEmail(email: string) {
+
+    const data: any = await this.AdminDAO.getAdminbyemail(email);
+
+    if (data.length === 0) {
+      return null; 
+    }
+    return data;
+  }
+
   async deleteAdminById(admin_id: string) {
     this.logger.info(
       `AdminsService: deleteAdminById: Deleting Admin for AdminId:${admin_id}`,
