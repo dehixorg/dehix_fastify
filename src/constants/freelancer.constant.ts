@@ -167,3 +167,5 @@ export const NOT_INTERESTED_PROJECT =
 
 export const FREELANCER_ONBOARDING_STATUS_BY_ID =
   "/:freelancer_id/onboarding-status";
+
+export const FREELANCER_STATUS_BY_ID = "/:freelancer_id/status";

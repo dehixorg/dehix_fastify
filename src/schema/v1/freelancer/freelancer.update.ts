@@ -1,5 +1,6 @@
 import { FastifySchema } from "fastify";
 import { commonErrorResponses } from "../commonErrorCodes";
+import { FreelancerStatusEnum } from "../../../models/freelancer.entity";
 
 export const updateFreelancerSchema: FastifySchema = {
   description: "API to update freelancer",
@@ -899,6 +900,37 @@ export const updateOnboardingStatusSchema: FastifySchema = {
           properties: {
             freelancer_id: { type: "string" },
             onboardingStatus: { type: "string" },
+          },
+        },
+      },
+    },
+    ...commonErrorResponses,
+  },
+};
+
+export const updateFreelancerStatusSchema: FastifySchema = {
+  description: "API to update the status of a freelancer",
+  tags: ["Freelancer"],
+  body: {
+    type: "object",
+    required: ["status"],
+    properties: {
+      status: {
+        type: "string",
+        enum: Object.values(FreelancerStatusEnum), // Use the enum for status
+        default: FreelancerStatusEnum.PENDING,
+      },
+    },
+  },
+  response: {
+    200: {
+      description: "Success",
+      type: "object",
+      properties: {
+        data: {
+          type: "object",
+          properties: {
+            status: { type: "string" },
           },
         },
       },
