@@ -1,7 +1,11 @@
 import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
-import { IBusiness, BusinessModel } from "../models/business.entity";
+import {
+  IBusiness,
+  BusinessModel,
+  BusinessStatusEnum,
+} from "../models/business.entity";
 import { IProject, ProjectModel } from "../models/project.entity";
 import { v4 as uuidv4 } from "uuid";
 
@@ -184,7 +188,7 @@ export class businessDAO extends BaseDAO {
     return this.projectmodel.findById(project_id);
   }
 
-  async updateBusinessStatus(business_id: string, status: string) {
+  async updateBusinessStatus(business_id: string, status: BusinessStatusEnum) {
     try {
       return await this.model.findByIdAndUpdate(
         business_id,
