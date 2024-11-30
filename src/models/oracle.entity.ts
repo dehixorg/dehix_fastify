@@ -1,10 +1,17 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
+// Enum for Oracle Status
+export enum oracleStatusEnum {
+  NOT_APPLICABLE = "NOT_APPLICABLE",
+  APPLICABLE = "APPLICABLE",
+  STOPPED = "STOPPED",
+}
+
 // Define an interface for the Oracle document
 export interface IOracle extends Document {
   freeLancerId: string;
   experienceYears: number;
-  status: "Not Applicable" | "Applicable" | "Stopped";
+  status: oracleStatusEnum;
 }
 
 // Define the Oracle schema
@@ -22,8 +29,8 @@ const OracleSchema: Schema<IOracle> = new Schema(
     },
     status: {
       type: String,
-      enum: ["Not Applicable", "Applicable", "Stopped"],
-      default: "Not Applicable",
+      enum: Object.values(oracleStatusEnum),
+      default: oracleStatusEnum.NOT_APPLICABLE,
     },
   },
   {
