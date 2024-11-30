@@ -7,6 +7,7 @@ export enum FreelancerStatusEnum {
   ACTIVE = "ACTIVE",
   PENDING = "PENDING",
   INACTIVE = "INACTIVE",
+  CLOSED = "CLOSED",
 }
 
 export interface ISkill extends Document {

@@ -19,7 +19,10 @@ import { VerificationService } from "./verifications.service";
 import crypto from "crypto";
 import { BidDAO } from "../dao";
 import { StatusEnum } from "src/models/project.entity";
-import { IFreelancer, FreelancerStatusEnum } from "src/models/freelancer.entity";
+import {
+  IFreelancer,
+  FreelancerStatusEnum,
+} from "../models/freelancer.entity";
 
 @Service()
 export class FreelancerService extends BaseService {
@@ -1128,7 +1131,10 @@ export class FreelancerService extends BaseService {
       throw new Error(RESPONSE_MESSAGE.INVALID("Status"));
     }
 
-    const freelancer = await this.FreelancerDAO.updateStatusOfFreelancer(freelancer_id, status);
+    const freelancer = await this.FreelancerDAO.updateStatusOfFreelancer(
+      freelancer_id,
+      status,
+    );
 
     if (!freelancer) {
       throw new Error(RESPONSE_MESSAGE.NOT_FOUND("Freelancer"));

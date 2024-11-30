@@ -57,7 +57,7 @@ import {
   FREELANCER_DEHIX_TALENT_UPDATE_BY_ID,
   FREELANCER_EDUCATION_BY_ID,
   FREELANCER_ONBOARDING_STATUS_BY_ID,
-  FREELANCER_STATUS_BY_ID
+  FREELANCER_STATUS_BY_ID,
 } from "../constants/freelancer.constant";
 import {
   getAllDehixTalentSchema,
@@ -98,7 +98,7 @@ import {
   PutFreelancerDomainBody,
   PutFreelancerOnboardingStatusBody,
 } from "../types/v1/freelancer/updateProfile";
-import { PutStatusFreelancerBody } from "../types/v1/freelancer/UpdateFreelancer"
+import { PutStatusFreelancerBody } from "../types/v1/freelancer/UpdateFreelancer";
 import {
   deleteDehixTalentFreelancerSchema,
   deleteEducationSchema,
@@ -1659,10 +1659,11 @@ export default class FreelancerController extends AuthController {
         `Updating status with Freelancer_ID ${request.params.freelancer_id}`,
       );
 
-      const data = await this.freelancerService.updateFreelancerStatusByFreelancerID(
-        request.params.freelancer_id,
-        request.body.status,
-      );
+      const data =
+        await this.freelancerService.updateFreelancerStatusByFreelancerID(
+          request.params.freelancer_id,
+          request.body.status,
+        );
 
       if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
