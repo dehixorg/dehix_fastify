@@ -44,6 +44,7 @@ export interface IProject extends Document {
 
 // Define an interface for the Profiles sub-document
 export interface IProfile {
+  id?: string;
   domain?: string;
   freelancersRequired?: string;
   skills?: string[];
@@ -143,6 +144,10 @@ const ProjectSchema: Schema<IProject> = new Schema(
     },
     profiles: [
       {
+        _id: {
+          type: String,
+          default: uuidv4
+        },
         domain: { type: String },
         freelancersRequired: { type: String },
         skills: { type: [String] },
