@@ -57,6 +57,7 @@ import {
   FREELANCER_DEHIX_TALENT_UPDATE_BY_ID,
   FREELANCER_EDUCATION_BY_ID,
   FREELANCER_ONBOARDING_STATUS_BY_ID,
+  FREELANCER_STATUS_BY_ID
 } from "../constants/freelancer.constant";
 import {
   getAllDehixTalentSchema,
@@ -79,6 +80,7 @@ import {
   updateEducationSchema,
   updateFreelancerSchema,
   updateNotInterestedProjectSchema,
+  updateFreelancerStatusSchema,
   updateOnboardingStatusSchema,
   updateProjectSchema,
 } from "../schema/v1/freelancer/freelancer.update";
@@ -96,6 +98,7 @@ import {
   PutFreelancerDomainBody,
   PutFreelancerOnboardingStatusBody,
 } from "../types/v1/freelancer/updateProfile";
+import { PutStatusFreelancerBody } from "../types/v1/freelancer/UpdateFreelancer"
 import {
   deleteDehixTalentFreelancerSchema,
   deleteEducationSchema,
@@ -1627,6 +1630,70 @@ export default class FreelancerController extends AuthController {
         error.message.includes(
           "Freelancer with provided ID could not be found.",
         )
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else {
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+    }
+  }
+
+  @PUT(FREELANCER_STATUS_BY_ID, {
+    schema: updateFreelancerStatusSchema,
+  })
+  async updateStatusByFreelancerId(
+    request: FastifyRequest<{
+      Params: PutFreelancerPathParams;
+      Body: PutStatusFreelancerBody;
+    }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      this.logger.info(
+        `Updating status with Freelancer_ID ${request.params.freelancer_id}`,
+      );
+
+      const data = await this.freelancerService.updateFreelancerStatusByFreelancerID(
+        request.params.freelancer_id,
+        request.body.status,
+      );
+
+      if (!data) {
+        return reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      }
+
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "update sucessful" });
+    } catch (error: any) {
+      this.logger.error(`Error updating Status: ${error.message}`);
+
+      if (
+        error.code === ERROR_CODES.NOT_FOUND ||
+        error.message.includes("Data not found")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.DATA_NOT_FOUND,
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else if (
+        error.ERROR_CODES === "Freelancer_NOT_FOUND" ||
+        error.message.includes("Freelancer by provided ID was not found.")
+      ) {
+        reply.status(STATUS_CODES.NOT_FOUND).send({
+          message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),
+          code: ERROR_CODES.NOT_FOUND,
+        });
+      } else if (
+        error.ERROR_CODES === "NOT_FOUND" ||
+        error.message.includes("Freelancer by provided ID was not found.")
       ) {
         reply.status(STATUS_CODES.NOT_FOUND).send({
           message: RESPONSE_MESSAGE.NOT_FOUND("Freelancer"),

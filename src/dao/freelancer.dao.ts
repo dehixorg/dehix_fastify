@@ -1,7 +1,7 @@
 import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
-import { IFreelancer, FreelancerModel } from "../models/freelancer.entity";
+import { IFreelancer, FreelancerModel, FreelancerStatusEnum } from "../models/freelancer.entity";
 import { v4 as uuidv4 } from "uuid";
 import ApplicationForWorkModel, {
   IApplicationForWork,
@@ -829,5 +829,23 @@ export class FreelancerDAO extends BaseDAO {
       { onboardingStatus },
       { new: true },
     );
+  }
+
+  async updateStatusOfFreelancer(
+    freelancerId: string,
+    status: FreelancerStatusEnum
+  ): Promise<IFreelancer | null> {
+    try {
+      return await this.model
+        .findByIdAndUpdate(
+          freelancerId,
+          { status },
+          { new: true },
+        )
+        .exec();
+    } catch (error) {
+      console.error("Error updating freelancer status:", error);
+      throw error;
+    }
   }
 }

@@ -3,6 +3,12 @@ import { v4 as uuidv4 } from "uuid";
 
 const { String } = Schema.Types;
 
+export enum FreelancerStatusEnum {
+  ACTIVE = "ACTIVE",
+  PENDING = "PENDING",
+  INACTIVE = "INACTIVE",
+}
+
 export interface ISkill extends Document {
   _id: string;
   name: string;
@@ -163,6 +169,7 @@ export interface IFreelancer extends Document {
     referredCount?: number;
   };
   onboardingStatus?: boolean;
+  status?: FreelancerStatusEnum;
 }
 
 const FreelancerSchema: Schema = new Schema(
@@ -494,6 +501,11 @@ const FreelancerSchema: Schema = new Schema(
       type: Boolean,
       default: false,
       required: true,
+    },
+    status: {
+      type: String,
+      enum: Object.values(FreelancerStatusEnum),
+      default: FreelancerStatusEnum.PENDING,
     },
   },
   {
