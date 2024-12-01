@@ -1,5 +1,5 @@
 export interface GetDocTypeQueryParams {
-  doc_type?:
+  doc_type:
     | "skill"
     | "domain"
     | "education"

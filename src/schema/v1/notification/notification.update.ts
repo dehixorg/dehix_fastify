@@ -1,5 +1,9 @@
 import { FastifySchema } from "fastify";
 import { commonErrorResponses } from "../commonErrorCodes";
+import {
+  NotificationStatusEnum,
+  NotificationTypeEnum,
+} from "../../../models/notification.entity";
 
 export const updateNotificationSchema: FastifySchema = {
   description: "API for updating a Notification by ID",
@@ -18,11 +22,11 @@ export const updateNotificationSchema: FastifySchema = {
       description: { type: "string" },
       type: {
         type: "string",
-        enum: ["business", "freelancer", "both"],
+        enum: Object.values(NotificationTypeEnum),
       },
       status: {
         type: "string",
-        enum: ["active", "inactive"],
+        enum: Object.values(NotificationStatusEnum),
       },
       background_img: { type: "string" },
       importantUrl: {

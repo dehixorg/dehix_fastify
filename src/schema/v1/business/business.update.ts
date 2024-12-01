@@ -1,5 +1,6 @@
 import { FastifySchema } from "fastify";
 import { commonErrorResponses } from "../commonErrorCodes";
+import { BusinessStatusEnum } from "../../../models/business.entity";
 
 export const updateBusinessSchema: FastifySchema = {
   description: "API to update business",
@@ -90,7 +91,7 @@ export const updateBusinessStatusSchema = {
     properties: {
       status: {
         type: "string",
-        enum: ["Active", "Inactive", "Notverified"], // Allowed values for status
+        enum: Object.values(BusinessStatusEnum), // Allowed values for status
         description: "The status of the business",
       },
     },

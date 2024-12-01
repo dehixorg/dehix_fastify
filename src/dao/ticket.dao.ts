@@ -1,7 +1,12 @@
 import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
-import { TicketModel, ITicket } from "../models/ticket.entity";
+import {
+  TicketModel,
+  ITicket,
+  TicketStatus,
+  CustomerType,
+} from "../models/ticket.entity";
 
 @Service()
 export class TicketDAO extends BaseDAO {
@@ -15,14 +20,15 @@ export class TicketDAO extends BaseDAO {
   async createTicket(data: any) {
     return this.model.create(data);
   }
+
   async getAllTicket() {
     return await this.model.find();
   }
 
   async getTicketByID(ticket_id: string) {
-    const data = await this.model.findById(ticket_id);
-    return data;
+    return await this.model.findById(ticket_id);
   }
+
   async deleteTicket(ticket_id: string) {
     return this.model.findByIdAndDelete(ticket_id);
   }
@@ -33,7 +39,7 @@ export class TicketDAO extends BaseDAO {
     });
   }
 
-  async updateTicketStatus(ticket_id: string, status: string) {
+  async updateTicketStatus(ticket_id: string, status: TicketStatus) {
     try {
       return await this.model.findByIdAndUpdate(
         ticket_id,
@@ -45,55 +51,38 @@ export class TicketDAO extends BaseDAO {
       throw new Error("Failed to update ticket status");
     }
   }
+
   async getTicketByCustomerID(customerID: string) {
-    return await this.model.findById(customerID);
+    return await this.model.find({ customerID });
   }
-  async getTicketByStatus(status: string) {
-    return await this.model.findById(status);
-  }
-  async getTicketBySubject(subject: string) {
-    return await this.model.findById(subject);
-  }
-  async getTicketsByCustomerType(customerType: "business" | "freelancer") {
+
+  async getTicketsByCustomerType(customerType: CustomerType) {
     try {
-      const query = {
-        ...(customerType && { customerType }),
-      };
-      const TicketData = await this.model.find(query);
-      return TicketData;
+      return await this.model.find({ customerType });
     } catch (error: any) {
       throw new Error(`Failed to fetch ticket data: ${error.message}`);
     }
   }
-  async getTicketsByStatus(status: "created" | "closed" | "active") {
+
+  async getTicketsByStatus(status: TicketStatus) {
     try {
-      const query = {
-        ...(status && { status }),
-      };
-      const TicketData = await this.model.find(query);
-      return TicketData;
+      return await this.model.find({ status });
     } catch (error: any) {
       throw new Error(`Failed to fetch ticket data: ${error.message}`);
     }
   }
+
   async getTicketsBySubject(subject: string) {
     try {
-      const query = {
-        ...(subject && { subject }),
-      };
-      const TicketData = await this.model.find(query);
-      return TicketData;
+      return await this.model.find({ subject });
     } catch (error: any) {
       throw new Error(`Failed to fetch ticket data: ${error.message}`);
     }
   }
+
   async getTicketsByCustomerID(customerID: string) {
     try {
-      const query = {
-        ...(customerID && { customerID }),
-      };
-      const TicketData = await this.model.find(query);
-      return TicketData;
+      return await this.model.find({ customerID });
     } catch (error: any) {
       throw new Error(`Failed to fetch ticket data: ${error.message}`);
     }

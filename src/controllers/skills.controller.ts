@@ -97,7 +97,6 @@ export default class SkillsController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       }
-      console.log("DATA:", data);
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
@@ -131,7 +130,6 @@ export default class SkillsController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       }
-      console.log("DATA:", data);
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {

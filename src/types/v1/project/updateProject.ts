@@ -1,3 +1,5 @@
+import { StatusEnum } from "../../../models/project.entity";
+
 export interface PutProjectPathParams {
   business_id: string;
   project_id: string;
@@ -25,6 +27,14 @@ export interface PutProjectBody {
     accepted?: string[];
     status?: string;
   }[];
-  status?: string;
+  status?: StatusEnum;
   team?: string[];
+}
+
+export interface PutStatusProjectBody {
+  status: StatusEnum;
+}
+export interface PutBiddingDateProjectBody {
+  maxBiddingDate: Date;
+  startBiddingDate: Date;
 }

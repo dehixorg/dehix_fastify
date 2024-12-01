@@ -2,6 +2,13 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 // const { String } = Schema.Types;
 
+//  Enum for  Business Status
+export enum BusinessStatusEnum {
+  ACTIVE = "ACTIVE",
+  IN_ACTIVE = "IN_ACTIVE",
+  NOT_VERIFIED = "NOT_VERIFIED",
+}
+
 export interface IBusiness extends Document {
   _id: string;
   firstName: string;
@@ -11,7 +18,7 @@ export interface IBusiness extends Document {
   companySize: string;
   email: string;
   phone: string;
-  status: "Active" | "Inactive" | "Notverified";
+  status: BusinessStatusEnum;
   position?: string;
   refer?: string;
   verified?: any;
@@ -59,8 +66,8 @@ const BusinessSchema: Schema<IBusiness> = new Schema(
     },
     status: {
       type: String,
-      enum: ["Active", "Inactive", "Notverified"],
-      default: "Notverified",
+      enum: Object.values(BusinessStatusEnum),
+      default: BusinessStatusEnum.NOT_VERIFIED,
     },
     position: {
       type: String,

@@ -96,7 +96,7 @@ export default class BidController extends AuthController {
     }
   }
 
-  @PUT(UPDATE_BID_BY_ID_ENDPOINT, { schema: updateBidSchema }) //add schema
+  @PUT(UPDATE_BID_BY_ID_ENDPOINT, { schema: updateBidSchema })
   async updateBidById(
     request: FastifyRequest<{
       Params: PutBidPathParams; // Parameters must match PutBidPathParams type
@@ -255,7 +255,7 @@ export default class BidController extends AuthController {
         `BidController -> getBidFreelancer -> Fetching Freelancer Bid for Bidder ID: ${request.params.bidder_id}`,
       );
 
-      const data = await this.bidService.getBidfreelancer(
+      const data = await this.bidService.getBidFreelancer(
         request.params.bidder_id,
       );
 

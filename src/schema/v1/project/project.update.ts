@@ -1,5 +1,6 @@
 import { FastifySchema } from "fastify";
 import { commonErrorResponses } from "../commonErrorCodes";
+import { StatusEnum } from "../../../models/project.entity";
 
 export const updateProjectSchema: FastifySchema = {
   description: "API to update project",
@@ -127,14 +128,16 @@ export const updateProjectSchema: FastifySchema = {
 };
 
 export const updateProjectStatusSchema: FastifySchema = {
-  description: "API to update status of project",
+  description: "API to update the status of a project",
   tags: ["Project"],
   body: {
     type: "object",
+    required: ["status"],
     properties: {
       status: {
         type: "string",
-        default: "Pending",
+        enum: Object.values(StatusEnum), // Use the enum for status
+        default: "PENDING",
       },
     },
   },
@@ -146,11 +149,42 @@ export const updateProjectStatusSchema: FastifySchema = {
         data: {
           type: "object",
           properties: {
-            status: { type: "string" },
+            status: { type: "string", enum: Object.values(StatusEnum) },
           },
         },
       },
     },
+    ...commonErrorResponses,
+  },
+};
+
+export const updateBidDateSchema: FastifySchema = {
+  description: "API to update bidding date of project",
+  tags: ["Project"],
+  params: {
+    type: "object",
+    properties: {
+      project_id: {
+        type: "string",
+        description: "Project Id",
+      },
+    },
+    required: ["project_id"],
+  },
+  body: {
+    type: "object",
+    properties: {
+      maxBiddingDate: {
+        type: "string",
+        format: "date-time",
+      },
+      startBiddingDate: {
+        type: "string",
+        format: "date-time",
+      },
+    },
+  },
+  response: {
     ...commonErrorResponses,
   },
 };

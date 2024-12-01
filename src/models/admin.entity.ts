@@ -1,6 +1,19 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
+// Define Enums in TypeScript
+export enum AdminStatus {
+  PENDING = "PENDING",
+  ACCEPTED = "ACCEPTED",
+  REJECTED = "REJECTED",
+}
+
+export enum AdminType {
+  ADMIN = "ADMIN",
+  SUPER_ADMIN = "SUPER_ADMIN",
+}
+
+// Define IAdmin interface with enums
 export interface IAdmin extends Document {
   _id?: string;
   firstName: string;
@@ -8,8 +21,8 @@ export interface IAdmin extends Document {
   userName: string;
   email: string;
   phone: string;
-  status: "Pending" | "Accept" | "Reject";
-  type: "Admin" | "Super_Admin";
+  status: AdminStatus; // Use TypeScript enum
+  type: AdminType; // Use TypeScript enum
 }
 
 const AdminSchema: Schema = new Schema(
@@ -43,13 +56,13 @@ const AdminSchema: Schema = new Schema(
     },
     status: {
       type: String,
-      enum: ["Pending", "Accept", "Reject"],
-      default: "Admin",
+      enum: Object.values(AdminStatus), // Use enum values from AdminStatus
+      default: AdminStatus.PENDING, // Default value from the enum
     },
     type: {
       type: String,
-      enum: ["Admin", "Super_Admin"],
-      default: "Admin",
+      enum: Object.values(AdminType), // Use enum values from AdminType
+      default: AdminType.ADMIN, // Default value from the enum
     },
   },
   {
@@ -57,6 +70,7 @@ const AdminSchema: Schema = new Schema(
   },
 );
 
+// Model for Admin
 export const AdminModel: Model<IAdmin> = mongoose.model<IAdmin>(
   "Admin",
   AdminSchema,

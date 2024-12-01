@@ -117,7 +117,6 @@ export default class AdminsController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       }
-      console.log("DATA:", data);
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {

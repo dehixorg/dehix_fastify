@@ -7,6 +7,7 @@
 
 import { FastifySchema } from "fastify";
 import { commonErrorResponses } from "../commonErrorCodes";
+import { StatusEnum } from "../../../models/bid.entity";
 
 export const updateBidSchema: FastifySchema = {
   description: "API for update the bid data",
@@ -47,7 +48,7 @@ export const updateBidStatusSchema: FastifySchema = {
     properties: {
       bid_status: {
         type: "string",
-        enum: ["Pending", "Accepted", "Rejected"],
+        enum: Object.values(StatusEnum),
       },
     },
     required: [],

@@ -164,3 +164,8 @@ export const ORACLE_ENDPOINT = "/oracle";
 // Endpoint for marking a freelancer as "not interested" in a project
 export const NOT_INTERESTED_PROJECT =
   "/:freelancer_id/:project_id/not_interested_project";
+
+export const FREELANCER_ONBOARDING_STATUS_BY_ID =
+  "/:freelancer_id/onboarding-status";
+
+export const FREELANCER_STATUS_BY_ID = "/:freelancer_id/status";

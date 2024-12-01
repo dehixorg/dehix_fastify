@@ -3,6 +3,7 @@ import { BaseService } from "../common/base.service";
 import { NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { NotificationDAO } from "../dao";
+import { PutNotificationBody } from "../types/v1/notification/updateNotification";
 
 @Service()
 export class NotificationService extends BaseService {
@@ -56,7 +57,10 @@ export class NotificationService extends BaseService {
     return deleteNotification;
   }
 
-  async updateNotification(notification_id: string, update: any) {
+  async updateNotification(
+    notification_id: string,
+    update: PutNotificationBody,
+  ) {
     this.logger.info(
       `NotificationService: updateNotification: Updating Notification for Notification ID:${notification_id}`,
     );

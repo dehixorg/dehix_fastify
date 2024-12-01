@@ -30,11 +30,15 @@ import {
   PatchOracleBody,
   PutCommentBody,
 } from "../types/v1/verifications/updateVerificationBody";
+import { TransactionService } from "../services/transaction.service";
 
 @Controller({ route: VERIFICATION_ENDPOINT })
 export default class VerificationsController extends AuthController {
   @Inject(VerificationService)
   verificationService!: VerificationService;
+
+  @Inject(TransactionService)
+  transactionService!: TransactionService;
 
   @GET(ORACLE_ID_ENDPOINT, { schema: getVerificationDataSchema })
   async getVerificationData(
@@ -218,7 +222,61 @@ export default class VerificationsController extends AuthController {
         request.params.verification_id,
         request.body.comment,
         request.body.verifiedAt,
+        request.body.verification_status,
       );
+      const { doc_type, verifier_id } =
+        await this.verificationService.getVerificationByID(
+          request.params.verification_id,
+        );
+      const freelancer_id = verifier_id;
+      try {
+        let amount = 0;
+        switch (doc_type) {
+          case "business":
+            amount = parseInt(
+              process.env.VERIFICATION_REWARD_BUSINESS || "10",
+              10,
+            );
+            break;
+          case "education":
+            amount = parseInt(
+              process.env.VERIFICATION_REWARD_EDUCATION || "7",
+              10,
+            );
+            break;
+          case "experience":
+            amount = parseInt(
+              process.env.VERIFICATION_REWARD_EXPERIENCE || "7",
+              10,
+            );
+            break;
+          case "project":
+            amount = parseInt(
+              process.env.VERIFICATION_REWARD_PROJECT || "5",
+              10,
+            );
+            break;
+          default:
+            throw new Error("Invalid doc_type");
+        }
+        const transactionData = {
+          from: "system",
+          to: "freelancer",
+          amount,
+          type: "rewards",
+          from_type: "admin",
+          reference: "freelancer",
+          reference_id: freelancer_id,
+        };
+
+        await this.transactionService.create(transactionData);
+      } catch (error: any) {
+        this.logger.error(
+          `Error in updateVerificationComment: ${error.message}`,
+        );
+      }
+
+      await this.verificationService.increaseConnects(freelancer_id, doc_type);
       reply.status(STATUS_CODES.SUCCESS).send({ message: "verification done" });
     } catch (error: any) {
       this.logger.error(`Error in updateVerificationData: ${error.message}`);

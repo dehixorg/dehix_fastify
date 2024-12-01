@@ -1,3 +1,5 @@
+import { BusinessStatusEnum } from "../../../models/business.entity";
+
 export interface PutBusinessPathParams {
   business_id: string;
 }
@@ -24,5 +26,5 @@ export interface PutBusinessBody {
 }
 
 export interface PutBusinessStatusBody {
-  status: string;
+  status: BusinessStatusEnum;
 }

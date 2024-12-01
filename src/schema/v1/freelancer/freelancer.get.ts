@@ -7,6 +7,7 @@
 
 import { FastifySchema } from "fastify";
 import { commonErrorResponses } from "../commonErrorCodes";
+import { StatusEnum } from "../../../models/project.entity";
 
 export const getFreelancerSchema: FastifySchema = {
   description: "API to get FREELANCER profile data",
@@ -129,6 +130,15 @@ export const getFreelancerDetails: FastifySchema = {
             },
           },
         },
+        referral: {
+          type: "object",
+          properties: {
+            referralCode: { type: "string" },
+          },
+        },
+        onboardingStatus: {
+          type: "boolean",
+        },
       },
     },
     ...commonErrorResponses,
@@ -143,7 +153,7 @@ export const getFreelancerProjectSchema: FastifySchema = {
     properties: {
       status: {
         type: "string",
-        enum: ["Active", "Pending", "Completed", "Rejected"],
+        enum: Object.values(StatusEnum),
         description: "Filter projects by status",
       },
     },
@@ -304,6 +314,9 @@ export const getFreelancerPublicDetails: FastifySchema = {
               projectType: { type: "string" },
             },
           },
+        },
+        onboardingStatus: {
+          type: "boolean",
         },
       },
     },

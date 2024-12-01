@@ -189,3 +189,7 @@ export interface PutProjectPathParams {
   freelancer_id: string;
   project_id: string;
 }
+
+export interface PutFreelancerOnboardingStatusBody {
+  onboardingStatus: string;
+}

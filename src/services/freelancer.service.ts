@@ -18,6 +18,8 @@ import { ProjectDAO } from "../dao/project.dao";
 import { VerificationService } from "./verifications.service";
 import crypto from "crypto";
 import { BidDAO } from "../dao";
+import { StatusEnum } from "src/models/project.entity";
+import { IFreelancer, FreelancerStatusEnum } from "../models/freelancer.entity";
 
 @Service()
 export class FreelancerService extends BaseService {
@@ -245,8 +247,6 @@ export class FreelancerService extends BaseService {
 
     const { skillIds, skillsWithId: addSkills } =
       await this.FreelancerDAO.addFreelancerSkill(freelancer_id, skills);
-
-    console.log(skillIds);
 
     await Promise.all(
       skillIds.map((skillId) =>
@@ -534,10 +534,7 @@ export class FreelancerService extends BaseService {
     return data;
   }
 
-  async getFreelancerProjects(
-    freelancer_id: string,
-    status?: "Active" | "Pending" | "Completed" | "Rejected",
-  ) {
+  async getFreelancerProjects(freelancer_id: string, status?: StatusEnum) {
     this.logger.info(
       "FreelancerService: freelancer get projects",
       freelancer_id,
@@ -702,8 +699,6 @@ export class FreelancerService extends BaseService {
 
     const { domainIds, domainsWithId: addDomains } =
       await this.FreelancerDAO.addFreelancerDomain(freelancer_id, domains);
-
-    console.log(domainIds);
 
     await Promise.all(
       domainIds.map((domainId) =>
@@ -1096,6 +1091,53 @@ export class FreelancerService extends BaseService {
     const data = await this.FreelancerDAO.getFreelancerEducation(freelancer_id);
     this.logger.info(data, "in get freelancer education");
     return data;
+  }
+
+  async updateFreelancerOnboardingStatus(
+    freelancer_id: string,
+    onboarding_status: string,
+  ) {
+    this.logger.info(
+      "FreelancerService: updateFreelancerOnboardingStatus: Updating Freelancer Onboarding Status: ",
+      freelancer_id,
+      onboarding_status,
+    );
+
+    const userExist =
+      await this.FreelancerDAO.findFreelancerById(freelancer_id);
+    if (!userExist) {
+      throw new NotFoundError(
+        RESPONSE_MESSAGE.FREELANCER_NOT_FOUND,
+        ERROR_CODES.FREELANCER_NOT_FOUND,
+      );
+    }
+
+    const data: any = await this.FreelancerDAO.updateFreelancerOnboardingStatus(
+      freelancer_id,
+      onboarding_status,
+    );
+
+    return data;
+  }
+
+  async updateFreelancerStatusByFreelancerID(
+    freelancer_id: string,
+    status: FreelancerStatusEnum,
+  ): Promise<IFreelancer> {
+    if (!Object.values(FreelancerStatusEnum).includes(status)) {
+      throw new Error(RESPONSE_MESSAGE.INVALID("Status"));
+    }
+
+    const freelancer = await this.FreelancerDAO.updateStatusOfFreelancer(
+      freelancer_id,
+      status,
+    );
+
+    if (!freelancer) {
+      throw new Error(RESPONSE_MESSAGE.NOT_FOUND("Freelancer"));
+    }
+
+    return freelancer;
   }
 }
 /**

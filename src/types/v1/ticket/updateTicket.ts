@@ -1,3 +1,5 @@
+import { TicketStatus } from "../../../models/ticket.entity";
+
 export interface PutTicketBody {
   customerType?: string;
   description?: string;
@@ -5,5 +7,5 @@ export interface PutTicketBody {
 }
 
 export interface PutTicketStatusBody {
-  status?: string;
+  status: TicketStatus;
 }

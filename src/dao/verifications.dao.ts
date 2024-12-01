@@ -204,7 +204,7 @@ export class VerificationDAO extends BaseDAO {
   }
   async getVerificationByVerifierId(
     verifier_id: string,
-    doc_type:
+    doc_type?:
       | "skill"
       | "domain"
       | "education"
@@ -218,13 +218,19 @@ export class VerificationDAO extends BaseDAO {
     };
     return await this.model.find(query);
   }
-  async updateVerificationById(_id: string, comment: string, verifiedAt: Date) {
+  async updateVerificationById(
+    _id: string,
+    comment: string,
+    verifiedAt: Date,
+    verification_status: "pending" | "approved" | "denied",
+  ) {
     try {
       const updatedComment = await this.model.findOneAndUpdate(
         { _id },
         {
           comment: comment,
           verifiedAt: verifiedAt || new Date(),
+          verification_status: verification_status,
         },
         { new: true },
       );

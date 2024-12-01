@@ -1,7 +1,11 @@
 import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
-import { IFreelancer, FreelancerModel } from "../models/freelancer.entity";
+import {
+  IFreelancer,
+  FreelancerModel,
+  FreelancerStatusEnum,
+} from "../models/freelancer.entity";
 import { v4 as uuidv4 } from "uuid";
 import ApplicationForWorkModel, {
   IApplicationForWork,
@@ -790,5 +794,58 @@ export class FreelancerDAO extends BaseDAO {
         new: true, // Return the updated document
       },
     );
+  }
+
+  async getFreelancerConnects(freelancer_id) {
+    try {
+      const freelancer = await this.model.findById(freelancer_id);
+      if (!freelancer) {
+        throw new Error("Freelancer not found");
+      }
+      if (freelancer.connects == 0) {
+        return (freelancer.connects = 0);
+      }
+      return freelancer.connects;
+    } catch (error: any) {
+      throw new Error(`Error fetching freelancer connects: ${error.message}`);
+    }
+  }
+
+  async updateFreelancerConnects(freelancer_id, connects) {
+    try {
+      const updatedFreelancer = await this.model.findByIdAndUpdate(
+        freelancer_id,
+        { connects: connects },
+        { new: true },
+      );
+      return updatedFreelancer;
+    } catch (error: any) {
+      throw new Error(`Error updating connects: ${error.message}`);
+    }
+  }
+
+  async updateFreelancerOnboardingStatus(
+    freelancer_id: string,
+    onboardingStatus: string,
+  ) {
+    return this.model.findByIdAndUpdate(
+      freelancer_id,
+      { onboardingStatus },
+      { new: true },
+    );
+  }
+
+  async updateStatusOfFreelancer(
+    freelancerId: string,
+    status: FreelancerStatusEnum,
+  ): Promise<IFreelancer | null> {
+    try {
+      return await this.model
+        .findByIdAndUpdate(freelancerId, { status }, { new: true })
+        .exec();
+    } catch (error) {
+      console.error("Error updating freelancer status:", error);
+      throw error;
+    }
   }
 }

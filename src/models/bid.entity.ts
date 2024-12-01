@@ -1,6 +1,15 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
+// Enum for Bid Status
+export enum StatusEnum {
+  PENDING = "PENDING",
+  ACCEPTED = "ACCEPTED",
+  REJECTED = "REJECTED",
+  PANEL = "PANEL",
+  INTERVIEW = "INTERVIEW",
+}
+
 // Define an interface for the Bid document
 export interface IBid extends Document {
   _id: string;
@@ -9,7 +18,7 @@ export interface IBid extends Document {
   current_price: number;
   project_id: string;
   profile_id: string;
-  bid_status: "Pending" | "Accepted" | "Rejected" | "Panel" | "Interview";
+  bid_status: StatusEnum;
   description: string;
   domain_id: string;
 }
@@ -46,8 +55,8 @@ const BidSchema: Schema<IBid> = new Schema(
     },
     bid_status: {
       type: String,
-      enum: ["Pending", "Accepted", "Rejected", "Panel"],
-      default: "Pending",
+      enum: Object.values(StatusEnum),
+      default: StatusEnum.PENDING,
     },
     description: {
       type: String,

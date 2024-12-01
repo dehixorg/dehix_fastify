@@ -1,7 +1,9 @@
 import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
-import { FaqModel, IFaq } from "../models/faq.entity";
+import { FaqModel, IFaq, StatusEnum } from "../models/faq.entity";
+import { NotFoundError } from "../common/errors";
+import { RESPONSE_MESSAGE, ERROR_CODES } from "../common/constants";
 
 // FaqDAO class to interact with the database
 @Service()
@@ -14,46 +16,102 @@ export class FaqDAO extends BaseDAO {
     this.model = FaqModel;
   }
 
-  // Method to create a new faq
-  async createFaq(data: any) {
-    return this.model.create(data);
-  }
-
-  // Method to find a faq by id
-  async findFaq(faq_id: string) {
-    return this.model.findById(faq_id);
-  }
-
-  // Method to delete a faq by id
-  async deleteFaq(id: string) {
-    return this.model.findByIdAndDelete(id);
-  }
-
-  // Method to get all faqs
-  async getAllFaqs() {
+  // Method to create a new FAQ
+  async createFaq(data: IFaq) {
     try {
-      const faqs = await this.model.find();
-      return faqs;
+      const faq = await this.model.create(data);
+      return faq;
     } catch (error: any) {
-      throw new Error(`Failed to fetch faqs: ${error.message}`);
+      throw new Error(`Failed to create FAQ: ${error.message}`);
     }
   }
 
-  // Method to update a faq by id
-  async updateFaq(faq_id: string, update: any) {
-    return this.model.findByIdAndUpdate({ _id: faq_id }, update, { new: true });
+  // Method to find a FAQ by its ID
+  async findFaq(faq_id: string): Promise<IFaq | null> {
+    try {
+      const faq = await this.model.findById(faq_id).lean().exec();
+      if (!faq) {
+        throw new NotFoundError(
+          RESPONSE_MESSAGE.NOT_FOUND("FAQ"),
+          ERROR_CODES.NOT_FOUND,
+        );
+      }
+      return faq;
+    } catch (error: any) {
+      throw new Error(`Failed to find FAQ: ${error.message}`);
+    }
   }
 
-  async updateFaqStatus(faq_id: string, status: string) {
+  // Method to delete a FAQ by its ID
+  async deleteFaq(id: string): Promise<void> {
     try {
-      return await this.model.findByIdAndUpdate(
-        faq_id,
-        { status, updatedAt: new Date() },
-        { new: true },
-      );
-    } catch (error) {
-      console.error("Error updating faq status:", error);
-      throw new Error("Failed to update faq status");
+      const faq = await this.model.findByIdAndDelete(id);
+      if (!faq) {
+        throw new NotFoundError(
+          RESPONSE_MESSAGE.NOT_FOUND("FAQ"),
+          ERROR_CODES.NOT_FOUND,
+        );
+      }
+    } catch (error: any) {
+      throw new Error(`Failed to delete FAQ: ${error.message}`);
+    }
+  }
+
+  // Method to get all FAQs
+  async getAllFaqs(): Promise<IFaq[]> {
+    try {
+      return await this.model.find().lean().exec();
+    } catch (error: any) {
+      throw new Error(`Failed to fetch FAQs: ${error.message}`);
+    }
+  }
+
+  // Method to update a FAQ by its ID
+  async updateFaq(faq_id: string, update: Partial<IFaq>): Promise<IFaq | null> {
+    try {
+      const updatedFaq = await this.model
+        .findByIdAndUpdate(faq_id, update, { new: true, runValidators: true })
+        .lean()
+        .exec();
+
+      if (!updatedFaq) {
+        throw new NotFoundError(
+          RESPONSE_MESSAGE.NOT_FOUND("FAQ"),
+          ERROR_CODES.NOT_FOUND,
+        );
+      }
+
+      return updatedFaq;
+    } catch (error: any) {
+      throw new Error(`Failed to update FAQ: ${error.message}`);
+    }
+  }
+
+  // Method to update the status of a FAQ
+  async updateFaqStatus(
+    faq_id: string,
+    status: StatusEnum,
+  ): Promise<IFaq | null> {
+    try {
+      const updatedFaq = await this.model
+        .findByIdAndUpdate(
+          faq_id,
+          { status, updatedAt: new Date() },
+          { new: true, runValidators: true },
+        )
+        .lean()
+        .exec();
+
+      if (!updatedFaq) {
+        throw new NotFoundError(
+          RESPONSE_MESSAGE.NOT_FOUND("FAQ"),
+          ERROR_CODES.NOT_FOUND,
+        );
+      }
+
+      return updatedFaq;
+    } catch (error: any) {
+      throw new Error(`Failed to update FAQ status: ${error.message}`);
     }
   }
 }

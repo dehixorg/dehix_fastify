@@ -28,8 +28,8 @@ function getCallerInfo() {
 
     const currentfile = err.stack?.shift()?.getFileName();
 
-    while (err.stack.length) {
-      const callSite = err.stack.shift();
+    while (err?.stack.length) {
+      const callSite = err.stack?.shift();
       callerfile = callSite?.getFileName();
       functionName = callSite?.getFunctionName() || "anonymous";
       if (callerfile !== currentfile) break;
@@ -112,30 +112,45 @@ export class Logger {
     }
   }
 
-  // Modify info to accept multiple arguments
+  // Utility to format data (objects and arrays)
+  formatMessage(message: any) {
+    if (typeof message === "object") {
+      try {
+        return JSON.stringify(message, null, 2); // Pretty-print objects/arrays
+      } catch (err) {
+        return "[Unable to stringify object]";
+      }
+    }
+    return message; // Return as-is for non-object types
+  }
+
+  // Enhanced info logger
   info(...messages: any[]) {
     const { fileName, functionName, fileType } = getCallerInfo();
     const color = this.getColorForFileType(fileType);
+    const formattedMessages = messages.map(this.formatMessage).join(" ");
     this.logger.info(
-      `${color}ℹ️  LOG [${fileName} -> ${fileType}: ${functionName}] ${messages.join(" ")}${colors.reset}`,
+      `${color}ℹ️  LOG [${fileName} -> ${fileType}: ${functionName}]\n ${formattedMessages}${colors.reset}`,
     );
   }
 
-  // Modify error to accept multiple arguments
+  // Enhanced error logger
   error(...errors: any[]) {
     const { fileName, functionName, fileType } = getCallerInfo();
     const color = this.getColorForFileType(fileType);
+    const formattedErrors = errors.map(this.formatMessage).join(" ");
     this.logger.error(
-      `${color}❌ ERROR [${fileName} -> ${fileType}: ${functionName}] ${errors.join(" ")}${colors.reset}`,
+      `${color}❌ ERROR [${fileName} -> ${fileType}: ${functionName}]\n ${formattedErrors}${colors.reset}`,
     );
   }
 
-  // Modify warn to accept multiple arguments
+  // Enhanced warn logger
   warn(...messages: any[]) {
     const { fileName, functionName, fileType } = getCallerInfo();
     const color = this.getColorForFileType(fileType);
+    const formattedMessages = messages.map(this.formatMessage).join(" ");
     this.logger.warn(
-      `${color}⚠️  WARN [${fileName} -> ${fileType}: ${functionName}] ${messages.join(" ")}${colors.reset}`,
+      `${color}⚠️  WARN [${fileName} -> ${fileType}: ${functionName}]\n ${formattedMessages}${colors.reset}`,
     );
   }
 }

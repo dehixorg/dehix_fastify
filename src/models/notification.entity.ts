@@ -3,12 +3,23 @@ import { v4 as uuidv4 } from "uuid";
 
 const { String } = Schema.Types;
 
+// Enum for Notification Type and Status
+export enum NotificationTypeEnum {
+  BUSINESS = "BUSINESS",
+  FREELANCER = "FREELANCER",
+  BOTH = "BOTH",
+}
+export enum NotificationStatusEnum {
+  ACTIVE = "ACTIVE",
+  IN_ACTIVE = "IN_ACTIVE",
+}
+
 export interface INotification extends Document {
   _id: string;
-  heading?: string;
-  description?: string;
-  type?: "business" | "freelancer" | "both";
-  status?: "active" | "inactive";
+  heading: string;
+  description: string;
+  type: NotificationTypeEnum;
+  status: NotificationStatusEnum;
   background_img?: string;
   importantUrl?: {
     urlName?: string;
@@ -33,13 +44,13 @@ const NotificationSchema: Schema = new Schema(
     },
     type: {
       type: String,
-      enum: ["business", "freelancer", "both"],
+      enum: Object.values(NotificationTypeEnum),
       required: true,
     },
     status: {
       type: String,
-      enum: ["active", "inactive"],
-      required: false,
+      enum: Object.values(NotificationStatusEnum),
+      required: true,
     },
     background_img: {
       type: String,

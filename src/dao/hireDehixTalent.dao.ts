@@ -3,7 +3,7 @@ import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
 import { HireModel, IHire } from "../models/hireDehixTalent.entity";
-import { addDehixTalentInLobbyBody } from "../types/v1/hireDehixTalent/addFreelancerIntoLobby";
+import { AddDehixTalentInLobbyBody } from "../types/v1/hireDehixTalent/addFreelancerIntoLobby";
 
 @Service()
 export class HireDAO extends BaseDAO {
@@ -69,7 +69,6 @@ export class HireDAO extends BaseDAO {
           new: true, // Return the updated document
         },
       );
-      // console.log("Data is",data);
       return data;
     } catch (error) {
       console.error("Error in updateStatusHireDehixTalent:", error);
@@ -79,7 +78,7 @@ export class HireDAO extends BaseDAO {
 
   async addDehixTalentIntoLobby(
     hireDehixTalent_id: string,
-    data: addDehixTalentInLobbyBody,
+    data: AddDehixTalentInLobbyBody,
   ) {
     const lobbyId = uuidv4();
     try {

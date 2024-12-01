@@ -14,7 +14,7 @@ interface FirebaseUserProperties {
   disabled?: boolean;
 }
 class FirebaseClient {
-  private admin!: admin.app.App;
+  admin!: admin.app.App;
 
   constructor() {
     logger.info(

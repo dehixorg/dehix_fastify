@@ -74,6 +74,7 @@ export class FaqService extends BaseService {
 
     return data;
   }
+
   async updateFaqStatus(faq_id, status) {
     try {
       const result = await this.FaqDAO.updateFaqStatus(faq_id, status);
