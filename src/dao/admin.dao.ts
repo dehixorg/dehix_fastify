@@ -52,6 +52,18 @@ export class AdminDAO extends BaseDAO {
   }
 
   // Method to delete an admin by ID
+  async getAdminbyemail(email: string) {
+    try {
+      const query = {
+        ...(email && { email }),
+      };
+      const Data = await this.model.find(query);
+      return Data;
+    } catch (error: any) {
+      throw new Error(`Failed to fetch admin data: ${error.message}`);
+    }
+  }
+
   async deleteAdminById(admin_id: string): Promise<IAdmin | null> {
     try {
       const admin = await this.model.findByIdAndDelete(admin_id);
