@@ -1,5 +1,10 @@
 import { FastifySchema } from "fastify";
 import { commonErrorResponses } from "../commonErrorCodes";
+import {
+  FreelancerInterviewStatusEnum,
+  FreelancerOracleNdConsultantStatusEnum,
+  FreelancerVerificationStatusEnum,
+} from "../../../models/freelancer.entity";
 
 export const createFreelancerSchema: FastifySchema = {
   description: "API to create a freelancer",
@@ -39,7 +44,8 @@ export const createFreelancerSchema: FastifySchema = {
           oracleAssigned: { type: "string" },
           verificationStatus: {
             type: "string",
-            enum: ["added", "verified", "rejected", "reapplied"],
+            enum: Object.values(FreelancerVerificationStatusEnum),
+            default: FreelancerVerificationStatusEnum.ADDED,
           },
           verificationUpdateTime: { type: "string", format: "date-time" },
           comments: { type: "string" },
@@ -55,7 +61,8 @@ export const createFreelancerSchema: FastifySchema = {
             experience: { type: "string" },
             interviewStatus: {
               type: "string",
-              enum: ["pending", "accepted", "rejected", "reapplied"],
+              enum: Object.values(FreelancerInterviewStatusEnum),
+              default: FreelancerInterviewStatusEnum.PENDING,
             },
             interviewInfo: { type: "string" },
             interviewerRating: { type: "number" },
@@ -80,7 +87,8 @@ export const createFreelancerSchema: FastifySchema = {
             experience: { type: "string" },
             interviewStatus: {
               type: "string",
-              enum: ["pending", "accepted", "rejected", "reapplied"],
+              enum: Object.values(FreelancerInterviewStatusEnum),
+              default: FreelancerInterviewStatusEnum.PENDING,
             },
             interviewInfo: { type: "string" },
             interviewerRating: { type: "number" },
@@ -108,7 +116,8 @@ export const createFreelancerSchema: FastifySchema = {
           oracleAssigned: { type: "string" },
           verificationStatus: {
             type: "string",
-            enum: ["added", "verified", "rejected", "reapplied"],
+            enum: Object.values(FreelancerVerificationStatusEnum),
+            default: FreelancerVerificationStatusEnum.ADDED,
           },
           verificationUpdateTime: { type: "string", format: "date-time" },
           comments: { type: "string" },
@@ -136,7 +145,8 @@ export const createFreelancerSchema: FastifySchema = {
             oracleAssigned: { type: "string" },
             verificationStatus: {
               type: "string",
-              enum: ["added", "verified", "rejected", "reapplied"],
+              enum: Object.values(FreelancerVerificationStatusEnum),
+              default: FreelancerVerificationStatusEnum.ADDED,
             },
             verificationUpdateTime: { type: "string", format: "date-time" },
             comments: { type: "string" },
@@ -196,28 +206,16 @@ export const createFreelancerSchema: FastifySchema = {
       isFreelancer: { type: "boolean" },
       oracleStatus: {
         type: "string",
-        enum: [
-          "notApplied",
-          "applied",
-          "approved",
-          "failed",
-          "stopped",
-          "reapplied",
-        ],
+        enum: Object.values(FreelancerOracleNdConsultantStatusEnum),
+        default: FreelancerOracleNdConsultantStatusEnum.NOT_APPLIED,
       },
       consultant: {
         type: "object",
         properties: {
           status: {
             type: "string",
-            enum: [
-              "notApplied",
-              "applied",
-              "approved",
-              "failed",
-              "stopped",
-              "reapplied",
-            ],
+            enum: Object.values(FreelancerOracleNdConsultantStatusEnum),
+            default: FreelancerOracleNdConsultantStatusEnum.NOT_APPLIED,
           },
         },
         required: ["status"],
@@ -325,6 +323,12 @@ export const createProfessionalInfoSchema: FastifySchema = {
       referencePersonName: { type: "string" },
       referencePersonContact: { type: "string" },
       githubRepoLink: { type: "string" },
+      oracleAssigned: { type: "string" },
+      verificationStatus: {
+        type: "string",
+        enum: Object.values(FreelancerVerificationStatusEnum),
+        default: FreelancerVerificationStatusEnum.ADDED,
+      },
       comments: { type: "string" },
     },
     required: [
@@ -359,7 +363,7 @@ export const createProfessionalInfoSchema: FastifySchema = {
             oracleAssigned: { type: "string" },
             verificationStatus: {
               type: "string",
-              enum: ["added", "verified", "rejected", "reapplied"],
+              enum: Object.values(FreelancerVerificationStatusEnum),
             },
             verificationUpdateTime: { type: "string", format: "date-time" },
             comments: { type: "string" },
@@ -386,7 +390,8 @@ export const createEducationSchema: FastifySchema = {
       oracleAssigned: { type: "string" },
       verificationStatus: {
         type: "string",
-        enum: ["added", "verified", "rejected", "reapplied"],
+        enum: Object.values(FreelancerVerificationStatusEnum),
+        default: FreelancerVerificationStatusEnum.ADDED,
       },
       verificationUpdateTime: { type: "string", format: "date-time" },
       comments: { type: "string" },
@@ -422,7 +427,7 @@ export const createEducationSchema: FastifySchema = {
             oracleAssigned: { type: "string" },
             verificationStatus: {
               type: "string",
-              enum: ["added", "verified", "rejected", "reapplied"],
+              enum: Object.values(FreelancerVerificationStatusEnum),
             },
             verificationUpdateTime: { type: "string", format: "date-time" },
             comments: { type: "string" },
@@ -487,7 +492,8 @@ export const createProjectSchema: FastifySchema = {
       verificationStatus: {
         type: "string",
         description: "The current verification status of the project",
-        enum: ["added", "verified", "rejected", "reapplied"],
+        enum: Object.values(FreelancerVerificationStatusEnum),
+        default: FreelancerVerificationStatusEnum.ADDED,
       },
       verificationUpdateTime: {
         type: "string",

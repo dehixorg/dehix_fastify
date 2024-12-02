@@ -5,6 +5,7 @@ import {
   IFreelancer,
   FreelancerModel,
   FreelancerStatusEnum,
+  FreelancerOracleNdConsultantStatusEnum,
 } from "../models/freelancer.entity";
 import { v4 as uuidv4 } from "uuid";
 import ApplicationForWorkModel, {
@@ -214,7 +215,10 @@ export class FreelancerDAO extends BaseDAO {
     );
   }
 
-  async updateOracleStatusById(freelancer_id: string, oracleStatus: string) {
+  async updateOracleStatusById(
+    freelancer_id: string,
+    oracleStatus: FreelancerOracleNdConsultantStatusEnum,
+  ) {
     return this.model.findByIdAndUpdate(
       freelancer_id,
       { oracleStatus },
@@ -796,7 +800,7 @@ export class FreelancerDAO extends BaseDAO {
     );
   }
 
-  async getFreelancerConnects(freelancer_id) {
+  async getFreelancerConnects(freelancer_id: string) {
     try {
       const freelancer = await this.model.findById(freelancer_id);
       if (!freelancer) {

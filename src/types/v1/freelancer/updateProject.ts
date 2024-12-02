@@ -1,3 +1,5 @@
+import { FreelancerVerificationStatusEnum } from "../../../models/freelancer.entity";
+
 export interface PutFreelancerProjectBody {
   projectName: string;
   description: string;
@@ -10,7 +12,7 @@ export interface PutFreelancerProjectBody {
   role: string;
   projectType: string;
   oracleAssigned: string;
-  verificationStatus: "added" | "verified" | "rejected" | "reapplied";
+  verificationStatus: FreelancerVerificationStatusEnum;
   verificationUpdateTime: Date;
   comments: string;
 }

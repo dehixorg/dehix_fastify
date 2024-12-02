@@ -10,12 +10,35 @@ export enum FreelancerStatusEnum {
   CLOSED = "CLOSED",
 }
 
+export enum FreelancerVerificationStatusEnum {
+  ADDED = "ADDED",
+  VERIFIED = "VERIFIED",
+  REJECTED = "REJECTED",
+  REAPPLIED = "REAPPLIED",
+}
+
+export enum FreelancerInterviewStatusEnum {
+  PENDING = "PENDING",
+  ACCEPTED = "ACCEPTED",
+  REJECTED = "REJECTED",
+  REAPPLIED = "REAPPLIED",
+}
+
+export enum FreelancerOracleNdConsultantStatusEnum {
+  APPLIED = "APPLIED",
+  NOT_APPLIED = "NOT_APPLIED",
+  APPROVED = "APPROVED",
+  FAILED = "FAILED",
+  STOPPED = "STOPPED",
+  REAPPLIED = "REAPPLIED",
+}
+
 export interface ISkill extends Document {
   _id: string;
   name: string;
   level: string;
   experience: string;
-  interviewStatus?: "pending" | "accepted" | "rejected" | "reapplied";
+  interviewStatus?: FreelancerInterviewStatusEnum;
   interviewInfo?: string;
   interviewerRating?: number;
 }
@@ -24,7 +47,7 @@ export interface IDomain extends Document {
   name: string;
   level: string;
   experience: string;
-  interviewStatus?: "pending" | "accepted" | "rejected" | "reapplied";
+  interviewStatus?: FreelancerInterviewStatusEnum;
   interviewInfo?: string;
   interviewerRating?: number;
 }
@@ -33,7 +56,7 @@ export interface IProjectDomain extends Document {
   name: string;
   level: string;
   experience: string;
-  interviewStatus?: "pending" | "accepted" | "rejected" | "reapplied";
+  interviewStatus?: FreelancerInterviewStatusEnum;
   interviewInfo?: string;
   interviewerRating?: number;
 }
@@ -61,7 +84,7 @@ export interface IFreelancer extends Document {
       referencePersonContact?: string;
       githubRepoLink?: string;
       oracleAssigned?: string;
-      verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
+      verificationStatus?: FreelancerVerificationStatusEnum;
       verificationUpdateTime?: Date;
       comments?: string;
     }
@@ -80,7 +103,7 @@ export interface IFreelancer extends Document {
       endDate?: Date;
       grade?: string;
       oracleAssigned?: string;
-      verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
+      verificationStatus?: FreelancerVerificationStatusEnum;
       verificationUpdateTime?: Date;
       comments?: string;
     }
@@ -101,7 +124,7 @@ export interface IFreelancer extends Document {
       role?: string;
       projectType?: string;
       oracleAssigned?: string;
-      verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
+      verificationStatus?: FreelancerVerificationStatusEnum;
       verificationUpdateTime?: Date;
       comments?: string;
     }
@@ -132,21 +155,9 @@ export interface IFreelancer extends Document {
   resume?: string;
   workExperience?: number;
   isFreelancer?: boolean;
-  oracleStatus?:
-    | "notApplied"
-    | "applied"
-    | "approved"
-    | "failed"
-    | "stopped"
-    | "reapplied";
+  oracleStatus?: FreelancerOracleNdConsultantStatusEnum;
   consultant?: {
-    status:
-      | "notApplied"
-      | "applied"
-      | "approved"
-      | "failed"
-      | "stopped"
-      | "reapplied";
+    status: FreelancerOracleNdConsultantStatusEnum;
     description?: string;
 
     price?: string;
@@ -238,7 +249,8 @@ const FreelancerSchema: Schema = new Schema(
         },
         verificationStatus: {
           type: String,
-          enum: ["added", "verified", "rejected", "reapplied"],
+          enum: Object.values(FreelancerVerificationStatusEnum),
+          default: FreelancerVerificationStatusEnum.ADDED,
           required: false,
         },
         verificationUpdateTime: { type: Date, required: false },
@@ -258,8 +270,8 @@ const FreelancerSchema: Schema = new Schema(
         experience: { type: String, required: false },
         interviewStatus: {
           type: String,
-          enum: ["pending", "accepted", "rejected", "reapplied"],
-          default: "pending",
+          enum: Object.values(FreelancerInterviewStatusEnum),
+          default: FreelancerInterviewStatusEnum.PENDING,
           required: false,
         },
         interviewInfo: {
@@ -282,8 +294,8 @@ const FreelancerSchema: Schema = new Schema(
         experience: { type: String, required: false },
         interviewStatus: {
           type: String,
-          enum: ["pending", "accepted", "rejected", "reapplied"],
-          default: "pending",
+          enum: Object.values(FreelancerInterviewStatusEnum),
+          default: FreelancerInterviewStatusEnum.PENDING,
           required: false,
         },
         interviewInfo: {
@@ -306,8 +318,8 @@ const FreelancerSchema: Schema = new Schema(
         experience: { type: String, required: false },
         interviewStatus: {
           type: String,
-          enum: ["pending", "accepted", "rejected", "reapplied"],
-          default: "pending",
+          enum: Object.values(FreelancerInterviewStatusEnum),
+          default: FreelancerInterviewStatusEnum.PENDING,
           required: false,
         },
         interviewInfo: {
@@ -335,7 +347,8 @@ const FreelancerSchema: Schema = new Schema(
         },
         verificationStatus: {
           type: String,
-          enum: ["added", "verified", "rejected", "reapplied"],
+          enum: Object.values(FreelancerVerificationStatusEnum),
+          default: FreelancerVerificationStatusEnum.ADDED,
           required: false,
         },
         verificationUpdateTime: { type: Date, required: false },
@@ -367,8 +380,8 @@ const FreelancerSchema: Schema = new Schema(
         },
         verificationStatus: {
           type: String,
-          enum: ["added", "verified", "rejected", "reapplied"],
-          default: "added",
+          enum: Object.values(FreelancerVerificationStatusEnum),
+          default: FreelancerVerificationStatusEnum.ADDED,
         },
         verificationUpdateTime: { type: Date },
         comments: { type: String },
@@ -415,14 +428,8 @@ const FreelancerSchema: Schema = new Schema(
     isFreelancer: { type: Boolean, default: true, required: true },
     oracleStatus: {
       type: String,
-      enum: [
-        "notApplied",
-        "applied",
-        "approved",
-        "failed",
-        "stopped",
-        "reapplied",
-      ],
+      enum: Object.values(FreelancerOracleNdConsultantStatusEnum),
+      default: FreelancerOracleNdConsultantStatusEnum.NOT_APPLIED,
       required: false,
     },
     consultant: {
@@ -431,15 +438,8 @@ const FreelancerSchema: Schema = new Schema(
         _id: { type: String },
         status: {
           type: String,
-          enum: [
-            "notApplied",
-            "applied",
-            "approved",
-            "failed",
-            "stopped",
-            "reapplied",
-          ],
-          default: "notApplied",
+          enum: Object.values(FreelancerOracleNdConsultantStatusEnum),
+          default: FreelancerOracleNdConsultantStatusEnum.NOT_APPLIED,
           required: false,
         },
         description: {

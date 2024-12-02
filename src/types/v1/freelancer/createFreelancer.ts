@@ -1,3 +1,9 @@
+import {
+  FreelancerInterviewStatusEnum,
+  FreelancerOracleNdConsultantStatusEnum,
+  FreelancerVerificationStatusEnum,
+} from "../../../models/freelancer.entity";
+
 interface ProfessionalInfo {
   company: string;
   jobTitle: string;
@@ -7,8 +13,8 @@ interface ProfessionalInfo {
   referencePersonName: string;
   referencePersonContact: string;
   githubRepoLink: string;
-  oracleAssigned: null | any;
-  verificationStatus: string;
+  oracleAssigned: string;
+  verificationStatus: FreelancerVerificationStatusEnum;
   verificationUpdateTime: string;
   comments: string;
 }
@@ -17,7 +23,7 @@ interface Skill {
   name: string;
   level: string;
   experience: string;
-  interviewStatus: string;
+  interviewStatus: FreelancerInterviewStatusEnum;
   interviewInfo: null | any;
   interviewerRating: number;
 }
@@ -29,8 +35,8 @@ interface Education {
   startDate: string;
   endDate: string;
   grade: string;
-  oracleAssigned: null | any;
-  verificationStatus: string;
+  oracleAssigned: string;
+  verificationStatus: FreelancerVerificationStatusEnum;
   verificationUpdateTime: string;
   comments: string;
 }
@@ -46,8 +52,8 @@ interface Project {
   techUsed: string[];
   role: string;
   projectType: string;
-  oracleAssigned: null | any;
-  verificationStatus: string;
+  oracleAssigned: string;
+  verificationStatus: FreelancerVerificationStatusEnum;
   verificationUpdateTime: string;
   comments: string;
 }
@@ -58,7 +64,7 @@ interface Refer {
 }
 
 interface Consultant {
-  status: string;
+  status: FreelancerOracleNdConsultantStatusEnum;
 }
 
 export interface CreateFreelancerBody {
@@ -85,7 +91,7 @@ export interface CreateFreelancerBody {
   resume: null | any;
   workExperience: number;
   isFreelancer: boolean;
-  oracleStatus: string;
+  oracleStatus: FreelancerOracleNdConsultantStatusEnum;
   consultant: Consultant[];
   pendingProject: any[];
   rejectedProject: any[];
@@ -105,7 +111,7 @@ export interface CreateFreelancerExperienceBody {
   referencePersonContact?: string;
   githubRepoLink?: string;
   oracleAssigned?: string;
-  verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
+  verificationStatus?: FreelancerVerificationStatusEnum;
   verificationUpdateTime?: Date;
   comments?: string;
 }
@@ -117,8 +123,8 @@ export interface CreateFreelancerEducationBody {
   startDate?: string;
   endDate?: string;
   grade?: string;
-  oracleAssigned?: null | any;
-  verificationStatus?: string;
+  oracleAssigned?: string;
+  verificationStatus?: FreelancerVerificationStatusEnum;
   verificationUpdateTime?: string;
   comments?: string;
 }
@@ -134,14 +140,14 @@ export interface CreateFreelancerProjectBody {
   techUsed: string[];
   role: string;
   projectType: string;
-  oracleAssigned: null | any;
-  verificationStatus: string;
+  oracleAssigned: string;
+  verificationStatus: FreelancerVerificationStatusEnum;
   verificationUpdateTime: string;
   comments: string;
 }
 
 export interface PostConsultantBody {
-  status: string;
+  status: FreelancerOracleNdConsultantStatusEnum;
   description: string;
   price: number;
   experience: string;

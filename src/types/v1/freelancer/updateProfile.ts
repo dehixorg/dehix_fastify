@@ -1,3 +1,9 @@
+import {
+  FreelancerInterviewStatusEnum,
+  FreelancerOracleNdConsultantStatusEnum,
+  FreelancerVerificationStatusEnum,
+} from "../../../models/freelancer.entity";
+
 export interface PutFreelancerPathParams {
   freelancer_id: string;
 }
@@ -22,7 +28,7 @@ export interface PutFreelancerBody {
     referencePersonContact?: string;
     githubRepoLink?: string;
     oracleAssigned?: string;
-    verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
+    verificationStatus?: FreelancerVerificationStatusEnum;
     verificationUpdateTime?: Date;
     comments?: string;
   }[];
@@ -30,7 +36,7 @@ export interface PutFreelancerBody {
     name: string;
     level: string;
     experience: string;
-    interviewStatus?: "pending" | "accepted" | "rejected" | "reapplied";
+    interviewStatus?: FreelancerInterviewStatusEnum;
     interviewInfo?: string;
     interviewerRating?: number;
   }[];
@@ -38,7 +44,7 @@ export interface PutFreelancerBody {
     name: string;
     level: string;
     experience: string;
-    interviewStatus?: "pending" | "accepted" | "rejected" | "reapplied";
+    interviewStatus?: FreelancerInterviewStatusEnum;
     interviewInfo?: string;
     interviewerRating?: number;
   }[];
@@ -46,7 +52,7 @@ export interface PutFreelancerBody {
     name: string;
     level: string;
     experience: string;
-    interviewStatus?: "pending" | "accepted" | "rejected" | "reapplied";
+    interviewStatus?: FreelancerInterviewStatusEnum;
     interviewInfo?: string;
     interviewerRating?: number;
   }[];
@@ -58,7 +64,7 @@ export interface PutFreelancerBody {
     endDate?: Date;
     grade?: string;
     oracleAssigned?: string;
-    verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
+    verificationStatus?: FreelancerVerificationStatusEnum;
     verificationUpdateTime?: Date;
     comments?: string;
   }[];
@@ -77,7 +83,7 @@ export interface PutFreelancerBody {
       role: string;
       projectType: string;
       oracleAssigned?: string;
-      verificationStatus: "added" | "verified" | "rejected" | "reapplied";
+      verificationStatus: FreelancerVerificationStatusEnum;
       verificationUpdateTime: Date;
       comments: string;
     };
@@ -94,21 +100,9 @@ export interface PutFreelancerBody {
   resume?: string;
   workExperience?: number;
   isFreelancer?: boolean;
-  oracleStatus?:
-    | "notApplied"
-    | "applied"
-    | "approved"
-    | "failed"
-    | "stopped"
-    | "reapplied";
+  oracleStatus?: FreelancerOracleNdConsultantStatusEnum;
   consultant?: {
-    status:
-      | "notApplied"
-      | "applied"
-      | "approved"
-      | "failed"
-      | "stopped"
-      | "reapplied";
+    status: FreelancerOracleNdConsultantStatusEnum;
   };
   pendingProject?: string[];
   rejectedProject?: string[];
@@ -125,7 +119,7 @@ export interface PutFreelancerDomainBody {
   domain: string[];
 }
 export interface PutFreelancerOracleStatusBody {
-  oracleStatus: string;
+  oracleStatus: FreelancerOracleNdConsultantStatusEnum;
 }
 
 export interface PutFreelancerInterviewsAlignedBody {
@@ -142,7 +136,7 @@ export interface PutFreelancerExperinceBody {
   referencePersonContact?: string;
   githubRepoLink?: string;
   oracleAssigned?: string;
-  verificationStatus?: "added" | "verified" | "rejected" | "reapplied";
+  verificationStatus?: FreelancerVerificationStatusEnum;
   verificationUpdateTime?: Date;
   comments?: string;
 }
@@ -158,8 +152,8 @@ export interface PutFreelancerEducationBody {
   startDate?: string;
   endDate?: string;
   grade?: string;
-  oracleAssigned?: null | any;
-  verificationStatus?: string;
+  oracleAssigned?: string;
+  verificationStatus?: FreelancerVerificationStatusEnum;
   verificationUpdateTime?: string;
   comments?: string;
 }
@@ -180,7 +174,7 @@ export interface PutFreelancerProjectBody {
   role: string;
   projectType: string;
   oracleAssigned?: string;
-  verificationStatus: "added" | "verified" | "rejected" | "reapplied";
+  verificationStatus: FreelancerVerificationStatusEnum;
   verificationUpdateTime: Date;
   comments: string;
 }
