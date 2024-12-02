@@ -326,7 +326,9 @@ export class FreelancerService extends BaseService {
 
     // Validate the status against the StatusEnum
     if (
-      !Object.values(FreelancerOracleNdConsultantStatusEnum).includes(oracle_status)
+      !Object.values(FreelancerOracleNdConsultantStatusEnum).includes(
+        oracle_status,
+      )
     ) {
       throw new Error(RESPONSE_MESSAGE.INVALID("Status"));
     }
