@@ -1,6 +1,11 @@
 import { FastifySchema } from "fastify";
 import { commonErrorResponses } from "../commonErrorCodes";
-import { FreelancerStatusEnum } from "../../../models/freelancer.entity";
+import {
+  FreelancerInterviewStatusEnum,
+  FreelancerOracleNdConsultantStatusEnum,
+  FreelancerStatusEnum,
+  FreelancerVerificationStatusEnum,
+} from "../../../models/freelancer.entity";
 
 export const updateFreelancerSchema: FastifySchema = {
   description: "API to update freelancer",
@@ -32,7 +37,7 @@ export const updateFreelancerSchema: FastifySchema = {
             oracleAssigned: { type: "string" },
             verificationStatus: {
               type: "string",
-              enum: ["added", "verified", "rejected", "reapplied"],
+              enum: Object.values(FreelancerVerificationStatusEnum),
             },
             verificationUpdateTime: { type: "string", format: "date-time" },
             comments: { type: "string" },
@@ -63,7 +68,7 @@ export const updateFreelancerSchema: FastifySchema = {
             experience: { type: "string" },
             interviewStatus: {
               type: "string",
-              enum: ["pending", "accepted", "rejected", "reapplied"],
+              enum: Object.values(FreelancerInterviewStatusEnum),
             },
             interviewInfo: { type: "string" },
             interviewerRating: { type: "number" },
@@ -88,7 +93,7 @@ export const updateFreelancerSchema: FastifySchema = {
             experience: { type: "string" },
             interviewStatus: {
               type: "string",
-              enum: ["pending", "accepted", "rejected", "reapplied"],
+              enum: Object.values(FreelancerInterviewStatusEnum),
             },
             interviewInfo: { type: "string" },
             interviewerRating: { type: "number" },
@@ -113,7 +118,7 @@ export const updateFreelancerSchema: FastifySchema = {
             experience: { type: "string" },
             interviewStatus: {
               type: "string",
-              enum: ["pending", "accepted", "rejected", "reapplied"],
+              enum: Object.values(FreelancerInterviewStatusEnum),
             },
             interviewInfo: { type: "string" },
             interviewerRating: { type: "number" },
@@ -135,7 +140,7 @@ export const updateFreelancerSchema: FastifySchema = {
             oracleAssigned: { type: "string" },
             verificationStatus: {
               type: "string",
-              enum: ["added", "verified", "rejected", "reapplied"],
+              enum: Object.values(FreelancerVerificationStatusEnum),
             },
             verificationUpdateTime: { type: "string", format: "date-time" },
             comments: { type: "string" },
@@ -176,7 +181,7 @@ export const updateFreelancerSchema: FastifySchema = {
             oracleAssigned: { type: "string" },
             verificationStatus: {
               type: "string",
-              enum: ["added", "verified", "rejected", "reapplied"],
+              enum: Object.values(FreelancerVerificationStatusEnum),
             },
             verificationUpdateTime: { type: "string", format: "date-time" },
             comments: { type: "string" },
@@ -240,28 +245,14 @@ export const updateFreelancerSchema: FastifySchema = {
       isFreelancer: { type: "boolean" },
       oracleStatus: {
         type: "string",
-        enum: [
-          "notApplied",
-          "applied",
-          "approved",
-          "failed",
-          "stopped",
-          "reapplied",
-        ],
+        enum: Object.values(FreelancerOracleNdConsultantStatusEnum),
       },
       consultant: {
         type: "object",
         properties: {
           status: {
             type: "string",
-            enum: [
-              "notApplied",
-              "applied",
-              "approved",
-              "failed",
-              "stopped",
-              "reapplied",
-            ],
+            enum: Object.values(FreelancerOracleNdConsultantStatusEnum),
           },
         },
         required: ["status"],
@@ -324,7 +315,7 @@ const skillProperties = {
   interviewStatus: {
     type: "string",
     description: "The interview status for the skill",
-    enum: ["pending", "accepted", "rejected", "reapplied"],
+    enum: Object.values(FreelancerInterviewStatusEnum),
   },
   interviewInfo: {
     type: "string",
@@ -418,7 +409,7 @@ export const addFreelancerDomainSchema: FastifySchema = {
             interviewStatus: {
               type: "string",
               description: "The interview status for the domain",
-              enum: ["pending", "accepted", "rejected", "reapplied"],
+              enum: Object.values(FreelancerInterviewStatusEnum),
             },
             interviewInfo: {
               type: "string",
@@ -479,7 +470,7 @@ export const addFreelancerDomainSchema: FastifySchema = {
                   interviewStatus: {
                     type: "string",
                     description: "The interview status for the domain",
-                    enum: ["pending", "accepted", "rejected", "reapplied"],
+                    enum: Object.values(FreelancerInterviewStatusEnum),
                   },
                   interviewInfo: {
                     type: "string",
@@ -510,14 +501,7 @@ export const oracleStatusSchema: FastifySchema = {
     properties: {
       oracleStatus: {
         type: "string",
-        enum: [
-          "notApplied",
-          "applied",
-          "approved",
-          "failed",
-          "stopped",
-          "reapplied",
-        ],
+        enum: Object.values(FreelancerOracleNdConsultantStatusEnum),
       },
     },
     required: ["oracleStatus"],
@@ -615,7 +599,7 @@ export const experinceInProfessionalInfo: FastifySchema = {
       oracleAssigned: { type: "string", nullable: true },
       verificationStatus: {
         type: "string",
-        enum: ["added", "verified", "rejected", "reapplied"],
+        enum: Object.values(FreelancerVerificationStatusEnum),
         nullable: true,
       },
       verificationUpdateTime: {
@@ -647,7 +631,7 @@ export const experinceInProfessionalInfo: FastifySchema = {
               oracleAssigned: { type: "string" },
               verificationStatus: {
                 type: "string",
-                enum: ["added", "verified", "rejected", "reapplied"],
+                enum: Object.values(FreelancerVerificationStatusEnum),
               },
               verificationUpdateTime: { type: "string", format: "date-time" },
               comments: { type: "string" },
@@ -675,7 +659,7 @@ export const updateEducationSchema: FastifySchema = {
       oracleAssigned: { type: "string", nullable: true },
       verificationStatus: {
         type: "string",
-        enum: ["added", "verified", "rejected", "reapplied"],
+        enum: Object.values(FreelancerVerificationStatusEnum),
         nullable: true,
       },
       verificationUpdateTime: {
@@ -705,7 +689,7 @@ export const updateEducationSchema: FastifySchema = {
               oracleAssigned: { type: "string" },
               verificationStatus: {
                 type: "string",
-                enum: ["added", "verified", "rejected", "reapplied"],
+                enum: Object.values(FreelancerVerificationStatusEnum),
               },
               verificationUpdateTime: { type: "string", format: "date-time" },
               comments: { type: "string" },
@@ -740,7 +724,7 @@ export const updateProjectSchema: FastifySchema = {
       oracleAssigned: { type: "string" },
       verificationStatus: {
         type: "string",
-        enum: ["added", "verified", "rejected", "reapplied"],
+        enum: Object.values(FreelancerVerificationStatusEnum),
       },
       verificationUpdateTime: { type: "string", format: "date-time" },
       comments: { type: "string" },
@@ -775,7 +759,7 @@ export const updateProjectSchema: FastifySchema = {
                 oracleAssigned: { type: "string" },
                 verificationStatus: {
                   type: "string",
-                  enum: ["added", "verified", "rejected", "reapplied"],
+                  enum: Object.values(FreelancerVerificationStatusEnum),
                 },
                 verificationUpdateTime: { type: "string", format: "date-time" },
                 comments: { type: "string" },

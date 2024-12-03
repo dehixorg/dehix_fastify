@@ -1,5 +1,7 @@
+import { FreelancerOracleNdConsultantStatusEnum } from "../../../models/freelancer.entity";
+
 export interface PutConsultantBody {
-  status: string;
+  status: FreelancerOracleNdConsultantStatusEnum;
   description: string;
   price: number;
   experience: string;

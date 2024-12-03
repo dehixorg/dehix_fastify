@@ -19,7 +19,21 @@ import { VerificationService } from "./verifications.service";
 import crypto from "crypto";
 import { BidDAO } from "../dao";
 import { StatusEnum } from "src/models/project.entity";
-import { IFreelancer, FreelancerStatusEnum } from "../models/freelancer.entity";
+import {
+  IFreelancer,
+  FreelancerStatusEnum,
+  FreelancerOracleNdConsultantStatusEnum,
+} from "../models/freelancer.entity";
+import {
+  PutFreelancerEducationBody,
+  PutFreelancerExperinceBody,
+  PutFreelancerProjectBody,
+} from "../types/v1/freelancer/updateProfile";
+import {
+  CreateFreelancerEducationBody,
+  CreateFreelancerExperienceBody,
+  CreateFreelancerProjectBody,
+} from "../types/v1/freelancer/createFreelancer";
 
 @Service()
 export class FreelancerService extends BaseService {
@@ -302,13 +316,22 @@ export class FreelancerService extends BaseService {
 
   async updateFreelancerOracleStatus(
     freelancer_id: string,
-    oracle_status: string,
+    oracle_status: FreelancerOracleNdConsultantStatusEnum,
   ) {
     this.logger.info(
       "FreelancerService: updateFreelancerOracleStatus: Updating Freelancer Oracle Status: ",
       freelancer_id,
       oracle_status,
     );
+
+    // Validate the status against the StatusEnum
+    if (
+      !Object.values(FreelancerOracleNdConsultantStatusEnum).includes(
+        oracle_status,
+      )
+    ) {
+      throw new Error(RESPONSE_MESSAGE.INVALID("Status"));
+    }
 
     const data: any = await this.FreelancerDAO.updateOracleStatusById(
       freelancer_id,
@@ -351,7 +374,7 @@ export class FreelancerService extends BaseService {
   async putFreelancerExperience(
     freelancer_id: string,
     experience_id: string,
-    update: any,
+    update: PutFreelancerExperinceBody,
   ) {
     this.logger.info(
       "FreelancerService: freelancer experience put ",
@@ -417,7 +440,10 @@ export class FreelancerService extends BaseService {
     return data;
   }
 
-  async createFreelancerExperience(freelancer_id: string, experienceData: any) {
+  async createFreelancerExperience(
+    freelancer_id: string,
+    experienceData: CreateFreelancerExperienceBody,
+  ) {
     try {
       this.logger.info(
         "FreelancerService: create freelancer experience ",
@@ -461,7 +487,10 @@ export class FreelancerService extends BaseService {
     }
   }
 
-  async createFreelancerEducation(freelancer_id: string, educationData: any) {
+  async createFreelancerEducation(
+    freelancer_id: string,
+    educationData: CreateFreelancerEducationBody,
+  ) {
     try {
       this.logger.info(
         "FreelancerService: create freelancer education ",
@@ -498,7 +527,7 @@ export class FreelancerService extends BaseService {
   async putFreelancerEducation(
     freelancer_id: string,
     education_id: string,
-    update: any,
+    update: PutFreelancerEducationBody,
   ) {
     this.logger.info(
       "FreelancerService: freelancer education put ",
@@ -587,7 +616,10 @@ export class FreelancerService extends BaseService {
     return data;
   }
 
-  async createFreelancerProject(freelancer_id: string, projectData: any) {
+  async createFreelancerProject(
+    freelancer_id: string,
+    projectData: CreateFreelancerProjectBody,
+  ) {
     try {
       this.logger.info(
         "FreelancerService: create freelancer project ",
@@ -622,7 +654,7 @@ export class FreelancerService extends BaseService {
   async putFreelancerProject(
     freelancer_id: string,
     project_id: string,
-    update: any,
+    update: PutFreelancerProjectBody,
   ) {
     this.logger.info(
       "FreelancerService: freelancer project put ",
