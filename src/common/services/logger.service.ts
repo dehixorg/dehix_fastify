@@ -22,23 +22,26 @@ function getCallerInfo() {
   try {
     const err = new Error();
 
-    Error.prepareStackTrace = function (err, stack) {
-      return stack;
-    };
+    // Define the custom stack trace formatter
+    Error.prepareStackTrace = (err, stack) => stack;
 
-    const currentfile = err.stack?.shift()?.getFileName();
+    const stack = err.stack as unknown as NodeJS.CallSite[] | undefined;
 
-    while (err?.stack.length) {
-      const callSite = err.stack?.shift();
-      callerfile = callSite?.getFileName();
-      functionName = callSite?.getFunctionName() || "anonymous";
-      if (callerfile !== currentfile) break;
+    if (stack) {
+      const currentfile = stack[0]?.getFileName();
+
+      for (const callSite of stack) {
+        callerfile = callSite?.getFileName() || "Unknown";
+        functionName = callSite?.getFunctionName() || "anonymous";
+        if (callerfile !== currentfile) break;
+      }
     }
   } catch (err) {
     console.error(err);
+  } finally {
+    // Restore the original stack trace formatter
+    Error.prepareStackTrace = originalFunc;
   }
-
-  Error.prepareStackTrace = originalFunc;
 
   const fileName = callerfile ? fileURLToPath(callerfile) : "unknown";
 
