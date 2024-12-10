@@ -1,21 +1,21 @@
 import { Service } from "fastify-decorators";
 import {
-  DehixNotificationModel,
-  IDehixNotification,
-} from "../models/dehixNotification.entity";
+  IUserNotification,
+  UserNotificationModel,
+} from "../models/userNotification.entity";
 import { firestoreClient } from "../common/services/firestore.service";
 import { v4 as uuidv4 } from "uuid";
 import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
 
 @Service()
-export class DehixNotificationDAO extends BaseDAO {
-  model: Model<IDehixNotification>;
+export class UserNotificationDAO extends BaseDAO {
+  model: Model<IUserNotification>;
 
   // Constructor to initialize the model
   constructor() {
     super();
-    this.model = DehixNotificationModel;
+    this.model = UserNotificationModel;
   }
 
   /**
@@ -24,7 +24,7 @@ export class DehixNotificationDAO extends BaseDAO {
    * @param notificationData - The notification data to add.
    * @returns The unique ID of the added conversation.
    */
-  async addNotification(notificationData: IDehixNotification): Promise<string> {
+  async addNotification(notificationData: IUserNotification): Promise<string> {
     try {
       // Generate a unique ID for the notification
       const notificationId = uuidv4();

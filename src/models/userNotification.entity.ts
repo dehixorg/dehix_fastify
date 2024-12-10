@@ -4,22 +4,22 @@ import { v4 as uuidv4 } from "uuid";
 const { String } = Schema.Types;
 
 // Enum for Notification Type and Status
-export enum DehixNotificationTypeEnum {
+export enum UserNotificationTypeEnum {
   PROJECT_HIRING = "PROJECT_HIRING",
   SKILL_INTERVIEW = "SKILL_INTERVIEW",
   DOMAIN_INTERVIEW = "DOMAIN_INTERVIEW",
   TALENT_INTERVIEW = "TALENT_INTERVIEW",
 }
 
-export interface IDehixNotification extends Document {
+export interface IUserNotification extends Document {
   _id: string;
   message: string;
-  type: DehixNotificationTypeEnum;
+  type: UserNotificationTypeEnum;
   entity: string;
   path: string;
 }
 
-const DehixNotificationSchema: Schema = new Schema(
+const UserNotificationSchema: Schema = new Schema(
   {
     _id: {
       type: String,
@@ -32,7 +32,7 @@ const DehixNotificationSchema: Schema = new Schema(
     },
     type: {
       type: String,
-      enum: Object.values(DehixNotificationTypeEnum),
+      enum: Object.values(UserNotificationTypeEnum),
       required: true,
     },
     entity: {
@@ -49,8 +49,5 @@ const DehixNotificationSchema: Schema = new Schema(
   },
 );
 
-export const DehixNotificationModel: Model<IDehixNotification> =
-  mongoose.model<IDehixNotification>(
-    "DehixNotification",
-    DehixNotificationSchema,
-  );
+export const UserNotificationModel: Model<IUserNotification> =
+  mongoose.model<IUserNotification>("UserNotification", UserNotificationSchema);

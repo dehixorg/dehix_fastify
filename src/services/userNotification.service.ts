@@ -1,13 +1,13 @@
 import { Service, Inject } from "fastify-decorators";
 import { BaseService } from "../common/base.service";
-import { DehixNotificationDAO } from "src/dao/dehixNotification.dao";
-import { IDehixNotification } from "src/models/dehixNotification.entity";
+import { UserNotificationDAO } from "../dao/userNotification.dao";
+import { IUserNotification } from "../models/userNotification.entity";
 
 // DehixNotificationService class to interact with the database
 @Service()
 export class DehixNotificationService extends BaseService {
-  @Inject(DehixNotificationDAO)
-  private DehixNotificationDAO!: DehixNotificationDAO;
+  @Inject(UserNotificationDAO)
+  private UserNotificationDAO!: UserNotificationDAO;
 
   /**
    * Creates a new notification.
@@ -15,10 +15,10 @@ export class DehixNotificationService extends BaseService {
    * @returns The ID of the created notification.
    */
   async createNotification(
-    notificationData: IDehixNotification,
+    notificationData: IUserNotification,
   ): Promise<string> {
     try {
-      return await this.DehixNotificationDAO.addNotification(notificationData);
+      return await this.UserNotificationDAO.addNotification(notificationData);
     } catch (error: any) {
       throw new Error(
         `NotificationService -> Failed to create notification: ${error.message}`,

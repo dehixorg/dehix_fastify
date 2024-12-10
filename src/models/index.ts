@@ -13,9 +13,9 @@ import { AdminModel, IAdmin } from "./admin.entity";
 import { NotificationModel, INotification } from "./notification.entity";
 import { ProjectDomainModel, IProjectDomain } from "./projectDomain.entity";
 import {
-  DehixNotificationModel,
-  IDehixNotification,
-} from "./dehixNotification.entity";
+  UserNotificationModel,
+  IUserNotification,
+} from "./userNotification.entity";
 
 export interface DBModels {
   FreelancerModel?: Model<IFreelancer>;
@@ -31,7 +31,7 @@ export interface DBModels {
   AdminModel?: Model<IAdmin>;
   NotificationModel?: Model<INotification>;
   ProjectDomainModel?: Model<IProjectDomain>;
-  DehixNotificationModel?: Model<IDehixNotification>;
+  UserNotificationModel?: Model<IUserNotification>;
 }
 
 const models: DBModels = {
@@ -48,7 +48,7 @@ const models: DBModels = {
   AdminModel,
   NotificationModel,
   ProjectDomainModel,
-  DehixNotificationModel,
+  UserNotificationModel,
 };
 
 export default models;
