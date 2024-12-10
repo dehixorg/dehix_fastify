@@ -243,6 +243,26 @@ class FirebaseClient {
       );
     }
   }
+
+  /**
+   * Sends a notification using Firebase Cloud Messaging.
+   * @param tokens - The device tokens to send the notification to.
+   * @param payload - The notification payload.
+   */
+  async sendNotification(
+    tokens: string[],
+    payload: admin.messaging.MessagingPayload,
+  ) {
+    try {
+      const response = await this.admin
+        .messaging()
+        .sendToDevice(tokens, payload);
+      logger.info("Notification sent successfully:", response);
+    } catch (error) {
+      logger.error("Error sending notification:", error);
+      throw new Error(`Failed to send notification: ${error}`);
+    }
+  }
 }
 
 export const firebaseClient = new FirebaseClient();
