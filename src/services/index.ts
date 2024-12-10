@@ -9,3 +9,4 @@ export * from "./skills.service";
 export * from "./notification.service";
 export * from "./projectDomain.service";
 export * from "./admin.service";
+export * from "./dehixNotification.service";
