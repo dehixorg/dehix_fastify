@@ -17,4 +17,5 @@ export interface IUserNotification {
   path: string;
   createdAt?: Timestamp;
   updatedAt?: Timestamp;
+  userId: string;
 }
