@@ -1,23 +1,10 @@
 import { Service } from "fastify-decorators";
-import {
-  IUserNotification,
-  UserNotificationModel,
-} from "../models/userNotification.entity";
+import { IUserNotification } from "../models/userNotification.entity";
 import { firestoreClient } from "../common/services/firestore.service";
 import { v4 as uuidv4 } from "uuid";
-import { Model } from "mongoose";
-import { BaseDAO } from "../common/base.dao";
 
 @Service()
-export class UserNotificationDAO extends BaseDAO {
-  model: Model<IUserNotification>;
-
-  // Constructor to initialize the model
-  constructor() {
-    super();
-    this.model = UserNotificationModel;
-  }
-
+export class UserNotificationDAO {
   /**
    * Adds a new notification to the Firestore 'notification' collection.
    * The timestamp is generated within the function.

@@ -5,7 +5,7 @@ import { IUserNotification } from "../models/userNotification.entity";
 
 // DehixNotificationService class to interact with the database
 @Service()
-export class DehixNotificationService extends BaseService {
+export class UserNotificationService extends BaseService {
   @Inject(UserNotificationDAO)
   private UserNotificationDAO!: UserNotificationDAO;
 

@@ -1,9 +1,6 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
-import { v4 as uuidv4 } from "uuid";
+import { Timestamp } from "@google-cloud/firestore";
 
-const { String } = Schema.Types;
-
-// Enum for Notification Type and Status
+// Enum for Notification Type
 export enum UserNotificationTypeEnum {
   PROJECT_HIRING = "PROJECT_HIRING",
   SKILL_INTERVIEW = "SKILL_INTERVIEW",
@@ -11,43 +8,13 @@ export enum UserNotificationTypeEnum {
   TALENT_INTERVIEW = "TALENT_INTERVIEW",
 }
 
-export interface IUserNotification extends Document {
+// TypeScript Interface for Firestore Document
+export interface IUserNotification {
   _id: string;
   message: string;
   type: UserNotificationTypeEnum;
   entity: string;
   path: string;
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
 }
-
-const UserNotificationSchema: Schema = new Schema(
-  {
-    _id: {
-      type: String,
-      default: uuidv4,
-      required: true,
-    },
-    message: {
-      type: String,
-      required: true,
-    },
-    type: {
-      type: String,
-      enum: Object.values(UserNotificationTypeEnum),
-      required: true,
-    },
-    entity: {
-      type: String,
-      required: true,
-    },
-    path: {
-      type: String,
-      required: true,
-    },
-  },
-  {
-    timestamps: true,
-  },
-);
-
-export const UserNotificationModel: Model<IUserNotification> =
-  mongoose.model<IUserNotification>("UserNotification", UserNotificationSchema);
