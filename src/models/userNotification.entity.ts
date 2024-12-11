@@ -10,7 +10,7 @@ export enum UserNotificationTypeEnum {
 
 // TypeScript Interface for Firestore Document
 export interface IUserNotification {
-  _id: string;
+  id: string;
   message: string;
   type: UserNotificationTypeEnum;
   entity: string;
