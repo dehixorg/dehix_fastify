@@ -57,11 +57,19 @@ import {
 } from "../types/v1/ticket/updateTicket";
 import { deleteTicketSchema } from "../schema/v1/ticket/ticket.delete";
 import { DeleteTicketPathParams } from "../types/v1/ticket/deleteTicket";
+import { UserNotificationService } from "../services";
+import {
+  IUserNotification,
+  UserNotificationTypeEnum,
+} from "../models/userNotification.entity";
 
 @Controller({ route: TICKET_ENDPOINT })
 export default class TicketController extends AuthController {
   @Inject(TicketService)
   ticketService!: TicketService;
+
+  @Inject(UserNotificationService)
+  userNotificationService!: UserNotificationService;
 
   @POST(CREATE_TICKET, { schema: createTicketSchema })
   async createTicket(
@@ -71,6 +79,15 @@ export default class TicketController extends AuthController {
     try {
       this.logger.info(`TicketController  -> createTicket -> create Ticket}`);
       const data = await this.ticketService.create(request.body);
+
+      const Notification: IUserNotification = {
+        message: "Ticket has been created.",
+        type: UserNotificationTypeEnum.TICKET,
+        entity: "Freelaner",
+        path: "/settings/support",
+        userId: [request.body.customerID],
+      };
+      await this.userNotificationService.createNotification(Notification);
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
@@ -131,6 +148,14 @@ export default class TicketController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       }
+      const Notification: IUserNotification = {
+        message: "Ticket has been updated.",
+        type: UserNotificationTypeEnum.TICKET,
+        entity: "Freelaner",
+        path: "/settings/support",
+        userId: [request.params.ticket_id],
+      };
+      await this.userNotificationService.createNotification(Notification);
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
@@ -175,6 +200,15 @@ export default class TicketController extends AuthController {
         message: "Ticket Status updated",
         data,
       });
+
+      const Notification: IUserNotification = {
+        message: "Ticket status has been updated.",
+        type: UserNotificationTypeEnum.TICKET,
+        entity: "Freelaner",
+        path: "/settings/support",
+        userId: [request.params.ticket_id],
+      };
+      await this.userNotificationService.createNotification(Notification);
     } catch (error: any) {
       this.logger.error(`Error in updateTicketStatusById: ${error.message}`);
 
@@ -329,6 +363,15 @@ export default class TicketController extends AuthController {
         `TicketController -> deleteTicketById -> Deleting ticket using: ${request.params.ticket_id}`,
       );
       await this.ticketService.deleteTicketById(request.params.ticket_id);
+
+      const Notification: IUserNotification = {
+        message: "Ticket has been deleted.",
+        type: UserNotificationTypeEnum.TICKET,
+        entity: "Freelaner",
+        path: "/settings/support",
+        userId: [request.params.ticket_id],
+      };
+      await this.userNotificationService.createNotification(Notification);
 
       reply.status(STATUS_CODES.SUCCESS).send({ message: "Ticket deleted" });
     } catch (error: any) {

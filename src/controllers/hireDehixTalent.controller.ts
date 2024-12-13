@@ -43,11 +43,19 @@ import { BUSINESS_END_POINT } from "../constants/business.constant";
 import { GetBusinessPathParams } from "../types/v1/business/getBusiness";
 import { getHireDehixTalentSchema } from "../schema/v1/hireDehixTalent/hireDehixTalent.get";
 import { AddDehixTalentInLobbyBody } from "../types/v1/hireDehixTalent/addFreelancerIntoLobby";
+import { UserNotificationService } from "../services";
+import {
+  IUserNotification,
+  UserNotificationTypeEnum,
+} from "../models/userNotification.entity";
 
 @Controller({ route: BUSINESS_END_POINT })
 export default class HireController extends AuthController {
   @Inject(HireService)
   hireService!: HireService;
+
+  @Inject(UserNotificationService)
+  userNotificationService!: UserNotificationService;
 
   @POST(HIRE_CREATE_ENDPOINT, { schema: createhireDehixTalentSchema })
   async create(
@@ -204,6 +212,31 @@ export default class HireController extends AuthController {
         request.params.hireDehixTalent_id,
         request.body,
       );
+
+      const status = request.body.status;
+      if (status === "APPROVED") {
+        const FreelancerNotification: IUserNotification = {
+          message: "You are hired by business.",
+          type: UserNotificationTypeEnum.HIRE,
+          entity: "Freelaner",
+          path: "/freelancer/talent",
+          userId: [request.params.hireDehixTalent_id],
+        };
+        await this.userNotificationService.createNotification(
+          FreelancerNotification,
+        );
+
+        const BusinessNotification: IUserNotification = {
+          message: "Talent is hired successfully.",
+          type: UserNotificationTypeEnum.HIRE,
+          entity: "business",
+          path: "/business/talent",
+          userId: [request.params.business_id],
+        };
+        await this.userNotificationService.createNotification(
+          BusinessNotification,
+        );
+      }
       reply
         .status(STATUS_CODES.SUCCESS)
         .send({ message: "Hire Dehix Talent updated", data });

@@ -23,11 +23,19 @@ import {
   getAllInterviewSchema,
   getInterviewSchema,
 } from "../schema/v1/interview/interview.get";
+import { UserNotificationService } from "../services";
+import {
+  IUserNotification,
+  UserNotificationTypeEnum,
+} from "../models/userNotification.entity";
 
 @Controller({ route: INTERVIEW })
 export default class InterviewController extends AuthController {
   @Inject(InterviewService)
   private InterviewService!: InterviewService;
+
+  @Inject(UserNotificationService)
+  userNotificationService!: UserNotificationService;
 
   @POST(CREATE_INTERVIEW_END_POINT, { schema: createInterviewSchema })
   async createInterview(
@@ -43,6 +51,29 @@ export default class InterviewController extends AuthController {
         request.params.interviewee_id,
         request.body,
       );
+
+      const InterviewerNotification: IUserNotification = {
+        message: "Interview has been scheduled for interviewee on date.",
+        type: UserNotificationTypeEnum.INTERVIEW,
+        entity: "Freelaner",
+        path: "/freelancer/interview/profile",
+        userId: [request.params.interviewee_id],
+      };
+      await this.userNotificationService.createNotification(
+        InterviewerNotification,
+      );
+
+      const IntervieweeNotification: IUserNotification = {
+        message: "Interview has been scheduled on date.",
+        type: UserNotificationTypeEnum.INTERVIEW,
+        entity: "Freelaner",
+        path: "/freelancer/scheduleInterview",
+        userId: [request.params.interviewee_id],
+      };
+      await this.userNotificationService.createNotification(
+        IntervieweeNotification,
+      );
+
       reply.status(STATUS_CODES.CREATED).send({ data });
     } catch (error: any) {
       this.logger.error(`Error in create interview: ${error.message}`);
@@ -87,6 +118,15 @@ export default class InterviewController extends AuthController {
         request.params.interviewee_id,
         request.body,
       );
+
+      const Notification: IUserNotification = {
+        message: "Interview has been changed for interviewee on date.",
+        type: UserNotificationTypeEnum.INTERVIEW,
+        entity: "Business",
+        path: "/dashboard/business",
+        userId: [request.params.interviewee_id],
+      };
+      await this.userNotificationService.createNotification(Notification);
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
       this.logger.error(`error in interview  update: ${error.message}`);
