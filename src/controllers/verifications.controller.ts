@@ -112,9 +112,9 @@ export default class VerificationsController extends AuthController {
       );
       try {
         const { doc_type } = request.query;
-      
+
         let notification: IUserNotification;
-      
+
         switch (doc_type) {
           case "education":
             notification = {
