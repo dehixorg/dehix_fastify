@@ -24,7 +24,7 @@ export class AdsDAO extends BaseDAO {
     return this.model.findById(ads_id);
   }
 
-  async findAdsById(id: string) {
+  async findAdsById(id: string) { 
     return this.model.findById(id);
   }
 
