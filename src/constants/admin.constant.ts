@@ -7,6 +7,8 @@ export const ADMIN_ID_ENDPOINT = "";
 // Endpoint for fetching all admins
 export const ADMIN_ALL_ENDPOINT = "";
 
+//this is a comment
+
 // Endpoint for fetching a specific admin by their unique ID
 export const ADMIN_BY_ID_ENDPOINT = "/:admin_id";
 
