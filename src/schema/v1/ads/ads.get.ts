@@ -1,9 +1,9 @@
 import { FastifySchema } from "fastify";
 import { commonErrorResponses } from "../commonErrorCodes";
 
-export const getNotificationSchema: FastifySchema = {
-  description: "API to get a Notification by ID",
-  tags: ["Notification"],
+export const getAdsSchema: FastifySchema = {
+  description: "API to get a Ads by ID",
+  tags: ["Ads"],
   response: {
     // TODO: Add 200 response schema
     200: {
@@ -36,9 +36,9 @@ export const getNotificationSchema: FastifySchema = {
   },
 };
 
-export const getAllNotificationsSchema: FastifySchema = {
-  description: "API to get all Notifications",
-  tags: ["Notification"],
+export const getAllAdsSchema: FastifySchema = {
+  description: "API to get all Ads",
+  tags: ["Ads"],
   response: {
     200: {
       type: "object",
