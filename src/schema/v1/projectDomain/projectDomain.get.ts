@@ -20,6 +20,12 @@ export const getAllProjectDomainSchema: FastifySchema = {
               label: {
                 type: "string",
               },
+              description: {
+                type: "string",
+              },
+              status: {
+                type: "string",
+              }
             },
             required: ["_id", "label"],
           },
