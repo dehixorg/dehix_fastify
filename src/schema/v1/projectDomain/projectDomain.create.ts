@@ -2,7 +2,6 @@ import { FastifySchema } from "fastify";
 import { commonErrorResponses } from "../commonErrorCodes";
 import { ProjectDomainStatus } from "../../../models/projectDomain.entity"; // Assuming the SkillStatus enum is imported
 
-
 export const createProjectDomainSchema: FastifySchema = {
   description: "API for creating Project-Domain",
   tags: ["Project Domain"],
@@ -13,7 +12,7 @@ export const createProjectDomainSchema: FastifySchema = {
       description: { type: "string" },
       status: {
         type: "string",
-        enum: Object.values(ProjectDomainStatus), 
+        enum: Object.values(ProjectDomainStatus),
         description: "The status of the project domain. Defaults to 'active'.",
       },
     },

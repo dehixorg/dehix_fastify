@@ -40,7 +40,7 @@ const ProjectDomainSchema: Schema<IProjectDomain> = new Schema(
       type: String,
       enum: Object.values(ProjectDomainStatus),
       default: ProjectDomainStatus.ACTIVE,
-    }
+    },
   },
   {
     timestamps: true, // Add createdAt and updatedAt fields
