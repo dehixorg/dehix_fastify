@@ -47,11 +47,19 @@ import {
   getTransactionByReferenceIdSchema,
   getTransactionByToSchema,
 } from "../schema/v1/transaction/transaction.get";
+import { UserNotificationService } from "../services";
+import {
+  IUserNotification,
+  UserNotificationTypeEnum,
+} from "../models/userNotification.entity";
 
 @Controller({ route: TRANSACTION_ENDPOINT })
 export default class TransactionController extends AuthController {
   @Inject(TransactionService)
   transactionService!: TransactionService;
+
+  @Inject(UserNotificationService)
+  userNotificationService!: UserNotificationService;
 
   @POST(CREATE_TRANSACTION, { schema: createTransactionSchema })
   async createTransaction(
@@ -63,6 +71,15 @@ export default class TransactionController extends AuthController {
         `TransactionController  -> createTransaction -> create Transction}`,
       );
       const data = await this.transactionService.create(request.body);
+
+      const Notification: IUserNotification = {
+        message: "Transaction has been created.",
+        type: UserNotificationTypeEnum.TRANSACTION,
+        entity: "Freelaner",
+        path: "",
+        userId: [request.body.to],
+      };
+      await this.userNotificationService.createNotification(Notification);
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {
@@ -157,6 +174,15 @@ export default class TransactionController extends AuthController {
         request.params.transaction_id,
       );
 
+      const Notification: IUserNotification = {
+        message: "Transaction has been deleted.",
+        type: UserNotificationTypeEnum.TRANSACTION,
+        entity: "Freelaner",
+        path: "",
+        userId: [request.params.transaction_id],
+      };
+      await this.userNotificationService.createNotification(Notification);
+
       reply
         .status(STATUS_CODES.SUCCESS)
         .send({ message: "Transaction deleted" });
@@ -242,6 +268,15 @@ export default class TransactionController extends AuthController {
           code: ERROR_CODES.NOT_FOUND,
         });
       }
+
+      const Notification: IUserNotification = {
+        message: "Transaction has been updated.",
+        type: UserNotificationTypeEnum.TRANSACTION,
+        entity: "Freelaner",
+        path: "",
+        userId: [request.params.transaction_id],
+      };
+      await this.userNotificationService.createNotification(Notification);
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
     } catch (error: any) {

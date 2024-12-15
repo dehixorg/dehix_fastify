@@ -6,6 +6,12 @@ export enum UserNotificationTypeEnum {
   SKILL_INTERVIEW = "SKILL_INTERVIEW",
   DOMAIN_INTERVIEW = "DOMAIN_INTERVIEW",
   TALENT_INTERVIEW = "TALENT_INTERVIEW",
+  BID = "BID",
+  INTERVIEW = "INTERVIEW",
+  HIRE = "HIRE",
+  VERIFICATION = "VERIFICATION",
+  TICKET = "TICKET",
+  TRANSACTION = "TRANSACTION",
 }
 
 // TypeScript Interface for Firestore Document
@@ -17,5 +23,5 @@ export interface IUserNotification {
   path: string;
   createdAt?: Timestamp;
   updatedAt?: Timestamp;
-  userId: string;
+  userId: string[];
 }

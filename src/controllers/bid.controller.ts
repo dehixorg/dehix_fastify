@@ -43,11 +43,19 @@ import {
 } from "../types/v1/bid/getBid"; // Import types for getting bids by various parameters
 import { DeleteBidPathParams } from "../types/v1/bid/deleteBid"; // Import type for deleting a bid
 import { deleteBidSchema } from "../schema/v1/bid/bid.delete"; // Import schema for bid deletion validation
+import { UserNotificationService } from "../services/userNotification.service";
+import {
+  IUserNotification,
+  UserNotificationTypeEnum,
+} from "../models/userNotification.entity";
 
 @Controller({ route: BID_ENDPOINT }) // Controller for handling bid-related routes
 export default class BidController extends AuthController {
   @Inject(BidService) // Injecting BidService to use its methods
   bidService!: BidService; // Declare BidService instance
+
+  @Inject(UserNotificationService) // Injecting BidService to use its methods
+  userNotificationService!: UserNotificationService;
 
   // POST endpoint for applying to a bid
   @POST("", { schema: bidApplySchema })
@@ -58,6 +66,15 @@ export default class BidController extends AuthController {
     try {
       this.logger.info(`BidController -> getById -> Applying for bid}`);
       const data = await this.bidService.create(request.body);
+
+      const Notification: IUserNotification = {
+        message: "Bid has been recieved.",
+        type: UserNotificationTypeEnum.BID,
+        entity: "Business",
+        path: "/business/project/id",
+        userId: [request.body.bidder_id],
+      };
+      await this.userNotificationService.createNotification(Notification);
 
       reply.status(STATUS_CODES.SUCCESS).send({
         data,
@@ -166,6 +183,27 @@ export default class BidController extends AuthController {
         request.params.bid_id, // Pass the bid ID to the service
         request.body.bid_status, // Pass the new bid status
       );
+
+      const bidStatus = request.body.bid_status;
+      if (bidStatus === "ACCEPTED") {
+        const Notification: IUserNotification = {
+          message: "Your bid has been accepted.",
+          type: UserNotificationTypeEnum.BID,
+          entity: "Freelancer",
+          path: "/freelancer/project/completed",
+          userId: [request.params.bid_id],
+        };
+        await this.userNotificationService.createNotification(Notification);
+      } else if (bidStatus === "REJECTED") {
+        const Notification: IUserNotification = {
+          message: "Your bid has been rejected.",
+          type: UserNotificationTypeEnum.BID,
+          entity: "Freelancer",
+          path: "/freelancer/project/rejected",
+          userId: [request.params.bid_id],
+        };
+        await this.userNotificationService.createNotification(Notification);
+      }
       reply
         .status(STATUS_CODES.SUCCESS)
         .send({ message: "Status Update Successful" }); // Send successful response

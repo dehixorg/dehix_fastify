@@ -31,6 +31,11 @@ import {
   PutCommentBody,
 } from "../types/v1/verifications/updateVerificationBody";
 import { TransactionService } from "../services/transaction.service";
+import { UserNotificationService } from "../services";
+import {
+  IUserNotification,
+  UserNotificationTypeEnum,
+} from "../models/userNotification.entity";
 
 @Controller({ route: VERIFICATION_ENDPOINT })
 export default class VerificationsController extends AuthController {
@@ -39,6 +44,9 @@ export default class VerificationsController extends AuthController {
 
   @Inject(TransactionService)
   transactionService!: TransactionService;
+
+  @Inject(UserNotificationService)
+  userNotificationService!: UserNotificationService;
 
   @GET(ORACLE_ID_ENDPOINT, { schema: getVerificationDataSchema })
   async getVerificationData(
@@ -102,6 +110,67 @@ export default class VerificationsController extends AuthController {
         request.body.comments,
         request.query.doc_type,
       );
+      try {
+        const { doc_type } = request.query;
+
+        let notification: IUserNotification;
+
+        switch (doc_type) {
+          case "education":
+            notification = {
+              message: "Education has been verified.",
+              type: UserNotificationTypeEnum.VERIFICATION,
+              entity: "Freelaner as Oracle",
+              path: "/freelancer/oracleDashboard/educationVerification",
+              userId: [request.params.verification_id],
+            };
+            await this.userNotificationService.createNotification(notification);
+            break;
+          case "project":
+            notification = {
+              message: "Project has been verified.",
+              type: UserNotificationTypeEnum.VERIFICATION,
+              entity: "Freelaner as Oracle",
+              path: "/freelancer/oracleDashboard/projectVerification",
+              userId: [request.params.verification_id],
+            };
+            await this.userNotificationService.createNotification(notification);
+            break;
+          case "experience":
+            notification = {
+              message: "Work experience has been verified.",
+              type: UserNotificationTypeEnum.VERIFICATION,
+              entity: "Freelaner as Oracle",
+              path: "/freelancer/oracleDashboard/workExpVerification",
+              userId: [request.params.verification_id],
+            };
+            await this.userNotificationService.createNotification(notification);
+            break;
+          case "business":
+            notification = {
+              message: "Business has been verified.",
+              type: UserNotificationTypeEnum.VERIFICATION,
+              entity: "Freelaner as Oracle",
+              path: "/freelancer/oracleDashboard/businessVerification",
+              userId: [request.params.verification_id],
+            };
+            await this.userNotificationService.createNotification(notification);
+            break;
+          default:
+            this.logger.error(`Invalid document type: ${doc_type}`);
+            reply
+              .status(STATUS_CODES.BAD_REQUEST)
+              .send({ message: "Invalid document type provided" });
+            return;
+        }
+      } catch (error: any) {
+        this.logger.error(`Error processing document: ${error.message}`);
+        reply.status(STATUS_CODES.SERVER_ERROR).send({
+          message: RESPONSE_MESSAGE.SERVER_ERROR,
+          code: ERROR_CODES.SERVER_ERROR,
+        });
+      }
+
       reply.status(STATUS_CODES.SUCCESS).send({ message: "verification done" });
     } catch (error: any) {
       this.logger.error(`Error in updateVerificationData: ${error.message}`);
