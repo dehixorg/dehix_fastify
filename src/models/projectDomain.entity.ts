@@ -1,6 +1,11 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
+export enum ProjectDomainStatus {
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE",
+  ARCHIVED = "ARCHIVED",
+}
 export interface IProjectDomain extends Document {
   _id: string;
   label: string;
@@ -8,6 +13,7 @@ export interface IProjectDomain extends Document {
   createdBy?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  status?: ProjectDomainStatus;
 }
 
 // Define the project domain schema
@@ -29,6 +35,11 @@ const ProjectDomainSchema: Schema<IProjectDomain> = new Schema(
     createdBy: {
       type: String,
       required: false,
+    },
+    status: {
+      type: String,
+      enum: Object.values(ProjectDomainStatus),
+      default: ProjectDomainStatus.ACTIVE,
     },
   },
   {
