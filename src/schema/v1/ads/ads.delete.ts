@@ -1,18 +1,18 @@
 import { FastifySchema } from "fastify";
 import { commonErrorResponses } from "../commonErrorCodes";
 
-export const deleteNotificationSchema: FastifySchema = {
-  description: "API for deleting a Notification by ID",
-  tags: ["Notification"],
+export const deleteAdsSchema: FastifySchema = {
+  description: "API for deleting a Ads by ID",
+  tags: ["Ads"],
   params: {
     type: "object",
     properties: {
-      notification_id: {
+      ads_id: {
         type: "string",
-        description: "The ID of the notification",
+        description: "The ID of the ads",
       },
     },
-    required: ["notification_id"],
+    required: ["ads_id"],
   },
   response: {
     200: {

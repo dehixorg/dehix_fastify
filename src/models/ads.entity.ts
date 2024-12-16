@@ -3,23 +3,23 @@ import { v4 as uuidv4 } from "uuid";
 
 const { String } = Schema.Types;
 
-// Enum for Notification Type and Status
-export enum NotificationTypeEnum {
+// Enum for Ads Type and Status
+export enum AdsTypeEnum {
   BUSINESS = "BUSINESS",
   FREELANCER = "FREELANCER",
   BOTH = "BOTH",
 }
-export enum NotificationStatusEnum {
+export enum AdsStatusEnum {
   ACTIVE = "ACTIVE",
   IN_ACTIVE = "IN_ACTIVE",
 }
 
-export interface INotification extends Document {
+export interface IAds extends Document {
   _id: string;
   heading: string;
   description: string;
-  type: NotificationTypeEnum;
-  status: NotificationStatusEnum;
+  type: AdsTypeEnum;
+  status: AdsStatusEnum;
   background_img?: string;
   importantUrl?: {
     urlName?: string;
@@ -27,7 +27,7 @@ export interface INotification extends Document {
   }[];
 }
 
-const NotificationSchema: Schema = new Schema(
+const AdsSchema: Schema = new Schema(
   {
     _id: {
       type: String,
@@ -44,12 +44,12 @@ const NotificationSchema: Schema = new Schema(
     },
     type: {
       type: String,
-      enum: Object.values(NotificationTypeEnum),
+      enum: Object.values(AdsTypeEnum),
       required: true,
     },
     status: {
       type: String,
-      enum: Object.values(NotificationStatusEnum),
+      enum: Object.values(AdsStatusEnum),
       required: true,
     },
     background_img: {
@@ -68,5 +68,5 @@ const NotificationSchema: Schema = new Schema(
   },
 );
 
-export const NotificationModel: Model<INotification> =
-  mongoose.model<INotification>("Notification", NotificationSchema);
+export const AdsModel: Model<IAds> =
+  mongoose.model<IAds>("Ads", AdsSchema);

@@ -18,7 +18,7 @@ export class UserNotificationDAO {
 
       // Prepare the data to be stored with a dynamically generated timestamp
       const data = {
-        id: notificationId,
+        // id: notificationId,
         ...notificationData,
         timestamp: new Date().toISOString(),
       };

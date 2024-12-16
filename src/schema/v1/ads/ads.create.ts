@@ -1,20 +1,20 @@
+/**
+ * File: ads.create.ts
+ * Author: Uttam Gohil
+ * Date: 31-08-2024
+ * Description:schema for creating ads
+ */
+
 import { FastifySchema } from "fastify";
 import { commonErrorResponses } from "../commonErrorCodes";
 import {
-  NotificationStatusEnum,
-  NotificationTypeEnum,
-} from "../../../models/notification.entity";
+  AdsStatusEnum,
+  AdsTypeEnum,
+} from "../../../models/ads.entity";
 
-export const updateNotificationSchema: FastifySchema = {
-  description: "API for updating a Notification by ID",
-  tags: ["Notification"],
-  params: {
-    type: "object",
-    properties: {
-      notification_id: { type: "string" },
-    },
-    required: ["notification_id"],
-  },
+export const createAdsSchema: FastifySchema = {
+  description: "API for creating Ads",
+  tags: ["Ads"],
   body: {
     type: "object",
     properties: {
@@ -22,11 +22,11 @@ export const updateNotificationSchema: FastifySchema = {
       description: { type: "string" },
       type: {
         type: "string",
-        enum: Object.values(NotificationTypeEnum),
+        enum: Object.values(AdsTypeEnum),
       },
       status: {
         type: "string",
-        enum: Object.values(NotificationStatusEnum),
+        enum: Object.values(AdsStatusEnum),
       },
       background_img: { type: "string" },
       importantUrl: {
@@ -40,7 +40,14 @@ export const updateNotificationSchema: FastifySchema = {
         },
       },
     },
-    required: [],
+    required: [
+      "heading",
+      "description",
+      "type",
+      "status",
+      "background_img",
+      "importantUrl",
+    ],
   },
   response: {
     200: {
