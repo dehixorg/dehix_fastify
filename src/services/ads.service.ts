@@ -11,8 +11,7 @@ export class AdsService extends BaseService {
   private AdsDAO!: AdsDAO;
 
   async create(body: any) {
-    const ads: any =
-      await this.AdsDAO.createAds(body);
+    const ads: any = await this.AdsDAO.createAds(body);
     return ads;
   }
 
@@ -21,8 +20,7 @@ export class AdsService extends BaseService {
       `AdsService: getAdsById: Fetching Ads for Ads ID:${ads_id}`,
     );
 
-    const checkAds: any =
-      await this.AdsDAO.findAds(ads_id);
+    const checkAds: any = await this.AdsDAO.findAds(ads_id);
     if (!checkAds) {
       throw new NotFoundError(
         RESPONSE_MESSAGE.DATA_NOT_FOUND,
@@ -30,8 +28,7 @@ export class AdsService extends BaseService {
       );
     }
 
-    const getAds: any =
-      await this.AdsDAO.findAdsById(ads_id);
+    const getAds: any = await this.AdsDAO.findAdsById(ads_id);
 
     return getAds;
   }
@@ -41,8 +38,7 @@ export class AdsService extends BaseService {
       `AdsService: deleteAdsById: Deleting Ads for Ads ID:${ads_id}`,
     );
 
-    const checkAds: any =
-      await this.AdsDAO.findAds(ads_id);
+    const checkAds: any = await this.AdsDAO.findAds(ads_id);
 
     if (!checkAds) {
       throw new NotFoundError(
@@ -51,22 +47,17 @@ export class AdsService extends BaseService {
       );
     }
 
-    const deleteAds: any =
-      await this.AdsDAO.deleteAds(ads_id);
+    const deleteAds: any = await this.AdsDAO.deleteAds(ads_id);
 
     return deleteAds;
   }
 
-  async updateAds(
-    ads_id: string,
-    update: PutAdsBody,
-  ) {
+  async updateAds(ads_id: string, update: PutAdsBody) {
     this.logger.info(
       `AdsService: updateAds: Updating Ads for Ads ID:${ads_id}`,
     );
 
-    const checkAds: any =
-      await this.AdsDAO.findAdsById(ads_id);
+    const checkAds: any = await this.AdsDAO.findAdsById(ads_id);
 
     if (!checkAds) {
       throw new NotFoundError(
@@ -75,18 +66,13 @@ export class AdsService extends BaseService {
       );
     }
 
-    const data = await this.AdsDAO.updateAdsById(
-      ads_id,
-      update,
-    );
+    const data = await this.AdsDAO.updateAdsById(ads_id, update);
 
     return data;
   }
 
   async getAllAds() {
-    this.logger.info(
-      `AdsService: getAllAds: Fetching all Adss`,
-    );
+    this.logger.info(`AdsService: getAllAds: Fetching all Adss`);
 
     const data = await this.AdsDAO.getAllAds();
     return data;

@@ -1,9 +1,10 @@
 import { Service, Inject } from "fastify-decorators";
 
 import { BaseService } from "../common/base.service";
-import { NotFoundError } from "../common/errors";
+import { ConflictError, NotFoundError } from "../common/errors";
 import { ERROR_CODES, RESPONSE_MESSAGE } from "../common/constants";
 import { AdminDAO } from "../dao/admin.dao";
+import { firebaseClient } from "../common/services";
 
 @Service()
 export class AdminsService extends BaseService {
@@ -11,8 +12,38 @@ export class AdminsService extends BaseService {
   private AdminDAO!: AdminDAO;
 
   async create(body: any) {
-    const admin: any = await this.AdminDAO.createAdmin(body);
-    return admin;
+    try {
+      const admin_id = await firebaseClient.createFireBaseUserWithCustomClaims(
+        body.email,
+        body.password,
+        { type: "admin" },
+      );
+      body._id = admin_id;
+      const admin: any = await this.AdminDAO.createAdmin(body);
+      return admin;
+    } catch (error: any) {
+      if (body._id) {
+        try {
+          await firebaseClient.deleteFireBaseUser(body._id);
+          this.logger.info(
+            `Rolled back Firebase user creation for ID: ${body._id}`,
+          );
+        } catch (rollbackError) {
+          this.logger.error(
+            `Error rolling back Firebase user creation: ${rollbackError}`,
+          );
+        }
+      }
+      if (error.code === "USER_ALREADY_EXISTS") {
+        throw new ConflictError(
+          RESPONSE_MESSAGE.USER_EXISTS,
+          ERROR_CODES.USER_ALREADY_EXIST,
+        );
+      } else {
+        this.logger.error("Error in createFreelancer:", error);
+        throw error; // Pass the error to the parent for proper handling
+      }
+    }
   }
 
   async getAdminByEmail(email: string) {

@@ -32,6 +32,7 @@ export class AdminDAO extends BaseDAO {
 
   // Method to create a new admin
   async createAdmin(data: {
+    _id: string;
     firstName: string;
     lastName: string;
     userName: string;
