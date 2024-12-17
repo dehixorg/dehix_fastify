@@ -8,12 +8,19 @@ export enum DomainStatus {
   ARCHIVED = "ARCHIVED",
 }
 
+export enum CreatedByEnum {
+  ADMIN = "ADMIN",
+  BUSINESS = "BUSINESS",
+  FREELANCER = "FREELANCER",
+}
+
 // Define the Domain interface using the Enum
 export interface IDomain extends Document {
   _id: string;
   label: string;
   description?: string;
-  createdBy?: string;
+  createdBy?: CreatedByEnum;
+  createdById?: string;
   status: DomainStatus; // Use the DomainStatus Enum
   createdAt: Date; // Managed by Mongoose
   updatedAt: Date; // Managed by Mongoose
@@ -37,7 +44,12 @@ const DomainSchema: Schema<IDomain> = new Schema(
     },
     createdBy: {
       type: String,
-      required: false,
+      enum: Object.values(CreatedByEnum),
+      default: CreatedByEnum.ADMIN,
+    },
+    createdById: {
+      type: String,
+      required: true,
     },
     status: {
       type: String,

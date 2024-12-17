@@ -8,11 +8,18 @@ export enum SkillStatus {
   ARCHIVED = "ARCHIVED",
 }
 
+export enum CreatedByEnum {
+  ADMIN = "ADMIN",
+  BUSINESS = "BUSINESS",
+  FREELANCER = "FREELANCER",
+}
+
 export interface ISkill extends Document {
   _id: string;
   label: string;
   description?: string; // Optional field
-  createdBy?: string;
+  createdBy?: CreatedByEnum;
+  createdById?: string;
   createdAt?: Date;
   updatedAt?: Date;
   status: SkillStatus; // Use SkillStatus Enum
@@ -36,7 +43,12 @@ const SkillSchema: Schema<ISkill> = new Schema(
     },
     createdBy: {
       type: String,
-      required: false,
+      enum: Object.values(CreatedByEnum),
+      default: CreatedByEnum.ADMIN,
+    },
+    createdById: {
+      type: String,
+      required: true,
     },
     status: {
       type: String,
