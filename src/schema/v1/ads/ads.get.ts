@@ -3,6 +3,7 @@ import { commonErrorResponses } from "../commonErrorCodes";
 
 export const getAdsSchema: FastifySchema = {
   description: "API to get a Ads by ID",
+  summary: "API to get a Ads by ID",
   tags: ["Ads"],
   response: {
     // TODO: Add 200 response schema
@@ -39,6 +40,7 @@ export const getAdsSchema: FastifySchema = {
 export const getAllAdsSchema: FastifySchema = {
   description: "API to get all Ads",
   tags: ["Ads"],
+  summary: "API to get all Ads",
   response: {
     200: {
       type: "object",

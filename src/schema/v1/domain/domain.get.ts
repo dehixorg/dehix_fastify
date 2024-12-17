@@ -3,6 +3,7 @@ import { commonErrorResponses } from "../commonErrorCodes";
 
 export const getDomainByIdSchema: FastifySchema = {
   description: "API to get domain data",
+  summary: "API to get domain data",
   tags: ["Domain"],
   response: {
     200: {

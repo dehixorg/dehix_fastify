@@ -4,6 +4,7 @@ import { BusinessStatusEnum } from "../../../models/business.entity";
 
 export const updateBusinessSchema: FastifySchema = {
   description: "API to update business",
+  summary: "API to update business",
   tags: ["Business"],
   body: {
     type: "object",

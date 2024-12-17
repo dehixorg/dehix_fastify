@@ -4,6 +4,7 @@ import { commonErrorResponses } from "../commonErrorCodes";
 export const bidApplySchema: FastifySchema = {
   description: "API for creating a bid",
   tags: ["Bid"],
+  summary: "API for creating a bid",
   body: {
     type: "object",
     properties: {

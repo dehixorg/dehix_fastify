@@ -4,6 +4,7 @@ import { BusinessStatusEnum } from "../../../models/business.entity";
 
 export const getBusinessSchema: FastifySchema = {
   description: "API to get business data by business id",
+  summary: "API to get business data by business id",
   tags: ["Business"],
   response: {
     // TODO: Add 200 response schema
@@ -13,6 +14,7 @@ export const getBusinessSchema: FastifySchema = {
 
 export const getAllBusinessSchema: FastifySchema = {
   description: "API to get all business data",
+  summary: "API to get all business data",
   tags: ["Business"],
   response: {
     200: {
@@ -80,6 +82,7 @@ export const getAllBusinessSchema: FastifySchema = {
 
 export const getBusinessProjectSchema: FastifySchema = {
   description: "API to get business project data",
+  summary: "API to get business project data",
   tags: ["Project"],
   querystring: {
     type: "object",
@@ -99,6 +102,7 @@ export const getBusinessProjectSchema: FastifySchema = {
 
 export const getBusinessDetailsSchema: FastifySchema = {
   description: "API to get BUSINESS profile data",
+  summary: "API to get BUSINESS profile data",
   tags: ["Business"],
   response: {
     200: {
@@ -151,6 +155,7 @@ export const getBusinessDetailsSchema: FastifySchema = {
 
 export const getBusinessDetailsPublicSchema: FastifySchema = {
   description: "API to get BUSINESS profile data",
+  summary: "API to get BUSINESS profile data",
   tags: ["Public"],
   response: {
     200: {

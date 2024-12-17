@@ -3,6 +3,7 @@ import { commonErrorResponses } from "../commonErrorCodes";
 
 export const getBidForProjectIdSchema: FastifySchema = {
   description: "API to get Bid data using project id",
+  summary: "API to get Bid data using project id",
   tags: ["Bid"],
   params: {
     type: "object",
@@ -41,6 +42,7 @@ export const getBidForProjectIdSchema: FastifySchema = {
 
 export const getBidForBidderIdSchema: FastifySchema = {
   description: "API to get Bid data using bidder id",
+  summary: "API to get Bid data using bidder id",
   tags: ["Bid"],
   params: {
     type: "object",
@@ -77,6 +79,7 @@ export const getBidForBidderIdSchema: FastifySchema = {
 
 export const getAllBidsSchema: FastifySchema = {
   description: "API to get all bids",
+  summary: "API to get all bids",
   tags: ["Bid"],
   response: {
     200: {
@@ -106,6 +109,7 @@ export const getAllBidsSchema: FastifySchema = {
 
 export const getBidForProfileIdSchema: FastifySchema = {
   description: "API to get Bid data using profile id",
+  summary: "API to get Bid data using profile id",
   tags: ["Bid"],
   params: {
     type: "object",

@@ -3,7 +3,7 @@ import { commonErrorResponses } from "../commonErrorCodes";
 
 export const updateConsultantSchema: FastifySchema = {
   description: "API to update consultant data for a freelancer",
-
+  summary: "API to update consultant data for a freelancer",
   tags: ["Consultant"],
   params: {
     type: "object",

@@ -3,6 +3,7 @@ import { commonErrorResponses } from "../commonErrorCodes";
 
 export const createConsultantSchema: FastifySchema = {
   description: "API to create consultant data in freelancer",
+  summary: "API to create consultant data in freelancer",
   tags: ["Consultant"],
   body: {
     type: "object",

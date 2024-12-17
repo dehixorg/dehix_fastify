@@ -3,6 +3,7 @@ import { commonErrorResponses } from "../commonErrorCodes";
 
 export const getAllFaqSchema: FastifySchema = {
   description: "API to get all Faqs",
+  summary: "API to get all Faqs",
   tags: ["Faq"],
   response: {
     200: {

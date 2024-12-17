@@ -4,6 +4,7 @@ import { AdsStatusEnum, AdsTypeEnum } from "../../../models/ads.entity";
 
 export const updateAdsSchema: FastifySchema = {
   description: "API for updating a Ads by ID",
+  summary: "API for updating a Ads by ID",
   tags: ["Ads"],
   params: {
     type: "object",
