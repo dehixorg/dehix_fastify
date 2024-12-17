@@ -1,10 +1,7 @@
 import { Service } from "fastify-decorators";
 import { Model } from "mongoose";
 import { BaseDAO } from "../common/base.dao";
-import {
-  AdsModel,
-  IAds,
-} from "../models/ads.entity";
+import { AdsModel, IAds } from "../models/ads.entity";
 import { PutAdsBody } from "../types/v1/ads/updateAds";
 
 @Service()
@@ -24,7 +21,7 @@ export class AdsDAO extends BaseDAO {
     return this.model.findById(ads_id);
   }
 
-  async findAdsById(id: string) { 
+  async findAdsById(id: string) {
     return this.model.findById(id);
   }
 
@@ -32,10 +29,7 @@ export class AdsDAO extends BaseDAO {
     return this.model.findByIdAndDelete(id);
   }
 
-  async updateAdsById(
-    ads_id: string,
-    update: PutAdsBody,
-  ) {
+  async updateAdsById(ads_id: string, update: PutAdsBody) {
     return this.model.findOneAndUpdate({ _id: ads_id }, update, {
       new: true,
     });

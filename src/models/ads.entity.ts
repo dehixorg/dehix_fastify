@@ -68,5 +68,4 @@ const AdsSchema: Schema = new Schema(
   },
 );
 
-export const AdsModel: Model<IAds> =
-  mongoose.model<IAds>("Ads", AdsSchema);
+export const AdsModel: Model<IAds> = mongoose.model<IAds>("Ads", AdsSchema);

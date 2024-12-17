@@ -1,7 +1,4 @@
-import {
-  AdsStatusEnum,
-  AdsTypeEnum,
-} from "../../../models/ads.entity";
+import { AdsStatusEnum, AdsTypeEnum } from "../../../models/ads.entity";
 
 export interface PutAdsBody {
   heading: string;

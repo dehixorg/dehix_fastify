@@ -20,7 +20,7 @@ export const createProjectDomainSchema: FastifySchema = {
         description: "Type of the user who created the skill.",
       },
       createdById: {
-        type : "string",
+        type: "string",
         description: "ID of the user who created the skill.",
       },
     },

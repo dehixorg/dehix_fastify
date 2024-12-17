@@ -6,10 +6,7 @@ import {
   RESPONSE_MESSAGE,
 } from "../common/constants";
 import { AuthController } from "../common/auth.controller";
-import { 
-  ADS_ENDPOINT,
-  ADS_BY_ID_ENDPOINT,
-} from "../constants/ads.constant";
+import { ADS_ENDPOINT, ADS_BY_ID_ENDPOINT } from "../constants/ads.constant";
 import { AdsService } from "../services";
 import { createAdsSchema } from "../schema/v1/ads/ads.create";
 import { CreateAdsBody } from "../types/v1/ads/createAds";
@@ -32,9 +29,7 @@ export default class AdsController extends AuthController {
     reply: FastifyReply,
   ) {
     try {
-      this.logger.info(
-        `AdsController  -> createAds -> create Ads}`,
-      );
+      this.logger.info(`AdsController  -> createAds -> create Ads}`);
       const data = await this.adsService.create(request.body);
 
       reply.status(STATUS_CODES.SUCCESS).send({ data });
@@ -53,13 +48,9 @@ export default class AdsController extends AuthController {
     reply: FastifyReply,
   ) {
     try {
-      this.logger.info(
-        `AdsController  -> getAdsById -> get Ads}`,
-      );
+      this.logger.info(`AdsController  -> getAdsById -> get Ads}`);
 
-      const data = await this.adsService.getAdsById(
-        request.params.ads_id,
-      );
+      const data = await this.adsService.getAdsById(request.params.ads_id);
 
       if (!data) {
         return reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -96,17 +87,11 @@ export default class AdsController extends AuthController {
     reply: FastifyReply,
   ) {
     try {
-      this.logger.info(
-        `AdsController  -> deleteAdById -> delete Ads}`,
-      );
+      this.logger.info(`AdsController  -> deleteAdById -> delete Ads}`);
 
-      await this.adsService.deleteAdsById(
-        request.params.ads_id,
-      );
+      await this.adsService.deleteAdsById(request.params.ads_id);
 
-      reply
-        .status(STATUS_CODES.SUCCESS)
-        .send({ message: "Ads deleted" });
+      reply.status(STATUS_CODES.SUCCESS).send({ message: "Ads deleted" });
     } catch (error: any) {
       this.logger.error(`Error in deleteAdsById: ${error.message}`);
       if (
@@ -135,9 +120,7 @@ export default class AdsController extends AuthController {
     reply: FastifyReply,
   ) {
     try {
-      this.logger.info(
-        `AdsController  -> updateAdsById -> update Ads}`,
-      );
+      this.logger.info(`AdsController  -> updateAdsById -> update Ads}`);
 
       const data = await this.adsService.updateAds(
         request.params.ads_id,
@@ -167,9 +150,7 @@ export default class AdsController extends AuthController {
   @GET("", { schema: getAllAdsSchema })
   async getAllAds(request: FastifyRequest, reply: FastifyReply) {
     try {
-      this.logger.info(
-        `AdsController  -> getAllAds -> get all Ads}`,
-      );
+      this.logger.info(`AdsController  -> getAllAds -> get all Ads}`);
 
       const data = await this.adsService.getAllAds();
       reply.status(STATUS_CODES.SUCCESS).send({ data });

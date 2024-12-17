@@ -1,9 +1,6 @@
 import { FastifySchema } from "fastify";
 import { commonErrorResponses } from "../commonErrorCodes";
-import {
-  AdsStatusEnum,
-  AdsTypeEnum,
-} from "../../../models/ads.entity";
+import { AdsStatusEnum, AdsTypeEnum } from "../../../models/ads.entity";
 
 export const updateAdsSchema: FastifySchema = {
   description: "API for updating a Ads by ID",
