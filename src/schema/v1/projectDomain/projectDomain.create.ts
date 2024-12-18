@@ -17,11 +17,11 @@ export const createProjectDomainSchema: FastifySchema = {
       },
       createdBy: {
         type: "string",
-        description: "Type of the user who created the skill.",
+        description: "Type of the user who created the project domain.",
       },
       createdById: {
         type: "string",
-        description: "ID of the user who created the skill.",
+        description: "ID of the user who created the project domain.",
       },
     },
     required: ["label"],
@@ -43,11 +43,11 @@ export const createProjectDomainSchema: FastifySchema = {
             },
             createdBy: {
               type: "string",
-              description: "Type of the user who created the skill.",
+              description: "Type of the user who created the project domain.",
             },
             createdById: {
               type: "string",
-              description: "Id of the user who created the skill.",
+              description: "Id of the user who created the project domain.",
             },
           },
         },
