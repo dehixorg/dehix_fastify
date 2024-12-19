@@ -3,6 +3,7 @@ import { commonErrorResponses } from "../commonErrorCodes";
 
 export const deleteConsultantSchema: FastifySchema = {
   description: "API to delete consultant data freelance",
+  summary: "API to delete consultant data freelance",
   tags: ["Consultant"],
   params: {
     type: "object",

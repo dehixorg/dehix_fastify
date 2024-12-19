@@ -11,6 +11,7 @@ import { AdsStatusEnum, AdsTypeEnum } from "../../../models/ads.entity";
 
 export const createAdsSchema: FastifySchema = {
   description: "API for creating Ads",
+  summary: "API for creating Ads",
   tags: ["Ads"],
   body: {
     type: "object",

@@ -3,6 +3,7 @@ import { commonErrorResponses } from "../commonErrorCodes";
 
 export const deleteAdsSchema: FastifySchema = {
   description: "API for deleting a Ads by ID",
+  summary: "API for deleting a Ads by ID",
   tags: ["Ads"],
   params: {
     type: "object",

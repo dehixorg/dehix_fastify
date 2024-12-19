@@ -66,6 +66,10 @@ export const createMeetSchema = {
 
 // Schema for creating an authentication URL
 export const createAuthUrlSchema: FastifySchema = {
+  description:
+    "This API generates an authentication URL for Google OAuth. The URL includes a redirect URI to which the user will be redirected after successful authorization.",
+  summary:
+    "This API generates an authentication URL for Google OAuth. The URL includes a redirect URI to which the user will be redirected after successful authorization.",
   tags: ["Calendar"],
   querystring: {
     type: "object",
