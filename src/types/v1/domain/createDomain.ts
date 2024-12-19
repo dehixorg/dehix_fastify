@@ -3,4 +3,5 @@ export interface createDomainBody {
   description: string;
   status: string;
   createdBy: string;
+  createdById: string;
 }

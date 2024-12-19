@@ -6,11 +6,18 @@ export enum ProjectDomainStatus {
   INACTIVE = "INACTIVE",
   ARCHIVED = "ARCHIVED",
 }
+
+export enum CreatedByEnum {
+  ADMIN = "ADMIN",
+  BUSINESS = "BUSINESS",
+  FREELANCER = "FREELANCER",
+}
 export interface IProjectDomain extends Document {
   _id: string;
   label: string;
   description: string;
-  createdBy?: string;
+  createdBy?: CreatedByEnum;
+  createdById?: string;
   createdAt?: Date;
   updatedAt?: Date;
   status?: ProjectDomainStatus;
@@ -34,7 +41,12 @@ const ProjectDomainSchema: Schema<IProjectDomain> = new Schema(
     },
     createdBy: {
       type: String,
-      required: false,
+      enum: Object.values(CreatedByEnum),
+      default: CreatedByEnum.ADMIN,
+    },
+    createdById: {
+      type: String,
+      required: true,
     },
     status: {
       type: String,

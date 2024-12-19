@@ -16,6 +16,7 @@ export const getDomainByIdSchema: FastifySchema = {
             label: { type: "string" },
             description: { type: "string" },
             createdBy: { type: "string" },
+            createdById: { type: "string" },
             createdAt: {
               type: "string",
               format: "date-time",

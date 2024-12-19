@@ -13,6 +13,10 @@ export const createSkillSchema: FastifySchema = {
       description: { type: "string", description: "Description of the skill." },
       createdBy: {
         type: "string",
+        description: "Type of the user who created the skill.",
+      },
+      createdById: {
+        type: "string",
         description: "ID of the user who created the skill.",
       },
       status: {
@@ -50,7 +54,11 @@ export const createSkillSchema: FastifySchema = {
             },
             createdBy: {
               type: "string",
-              description: "ID of the user who created the skill.",
+              description: "Type of the user who created the skill.",
+            },
+            createdById: {
+              type: "string",
+              description: "Id of the user who created the skill.",
             },
             createdAt: {
               type: "string",
